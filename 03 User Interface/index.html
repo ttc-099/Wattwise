@@ -344,7 +344,7 @@
   .chart-card canvas { width:100%; display:block; }
   .plot-legend { display:flex; align-items:center; gap:18px; padding:0 0 8px; color:var(--muted); font-size:10px; }
   .plot-legend span { display:inline-flex; align-items:center; gap:6px; }
-  .legend-line { width:18px; height:0; border-top:2px solid #6b7280; display:inline-block; }
+  .legend-line { width:18px; height:0; border-top:2px solid #505C67; display:inline-block; }
   .legend-line.orange { border-color:var(--accent); }
   .legend-line.red { border-color:var(--bad); }
   .legend-line.grey { border-color:#8491a0; }
@@ -1028,12 +1028,12 @@
   /* Typography and spacing pass: one calm interface voice, with aligned readings. */
   :root {
     --ui-font: "Segoe UI", "Segoe UI Variable", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --bg: #F6F6F1;
-    --text: #202832;
-    --muted: #68737F;
-    --faint: #87919C;
-    --border: #D7DDE3;
-    --border2: #E7EBEF;
+    --bg: #FCFCFA;
+    --text: #151C23;
+    --muted: #505C67;
+    --faint: #5C6975;
+    --border: #D5DDE3;
+    --border2: #E4E9ED;
   }
   html, body { font-family:var(--ui-font); }
   body { font-size:14px; line-height:1.45; letter-spacing:0; }
@@ -1055,14 +1055,14 @@
   .portfolio-head p, .fc-intro, .sch-intro {
     font-size:13px;
     line-height:1.6;
-    color:#68737F;
+    color:#56626E;
   }
   .eyebrow { font-size:10px; font-weight:650; letter-spacing:.09em; }
-  .data-note { font-size:11px; line-height:1.4; }
+  .data-note { color:#56626E; font-size:11px; line-height:1.4; }
   .kpi-row { border-color:#D7DDE3; }
   .kpi { min-height:88px; border-color:#E3E7EB; }
   .kpi .lbl {
-    color:#6D7884;
+    color:#53606D;
     font-size:10px;
     font-weight:620;
     letter-spacing:.055em;
@@ -1077,13 +1077,13 @@
   .kpi .unit { font-family:var(--ui-font); font-size:12px; font-weight:500; }
   .kpi .dlt { font-size:11px; line-height:1.45; }
   .chart-card .ttl { font-size:15px; line-height:1.3; font-weight:640; letter-spacing:-.02em; }
-  .plot-subtitle { font-size:11px; line-height:1.45; }
+  .plot-subtitle { color:#56626E; font-size:11px; line-height:1.45; }
   .plot-head { min-height:54px; }
   .plot-controls { gap:4px; }
   .plot-toggle { font-family:var(--ui-font); font-size:11px; font-weight:540; }
-  .plot-toggle.on { font-weight:630; }
+  .plot-toggle.on { border-color:#F0B55F; background:#FFF1D8; color:#70400A; font-weight:630; }
   .plot-tool { font-family:var(--ui-font); font-size:15px; }
-  .plot-legend { font-size:11px; }
+  .plot-legend { color:#56626E; font-size:11px; }
   .action-strip::before { font-size:10px; letter-spacing:.065em; }
   .act { font-size:11px; }
   .ov-table { font-family:var(--ui-font); font-size:12px; }
@@ -1099,11 +1099,11 @@
   .st-clock { font-size:12px; }
   :focus-visible { outline-color:#D77B23; }
   .content {
-    background-color:#F6F6F1;
+    background-color:#FCFCFA;
     background-image:
-      radial-gradient(ellipse at 86% 3%, rgba(255,189,89,.13), transparent 34rem),
-      radial-gradient(ellipse at 4% 86%, rgba(46,125,107,.055), transparent 40rem),
-      linear-gradient(145deg, #FAFAF7 0%, #F5F7F4 58%, #F4F3ED 100%);
+      radial-gradient(ellipse at 86% 3%, rgba(255,189,89,.075), transparent 34rem),
+      radial-gradient(ellipse at 4% 86%, rgba(46,125,107,.035), transparent 40rem),
+      linear-gradient(145deg, #FFFFFF 0%, #FBFCFA 58%, #F8F9F6 100%);
     background-attachment:local;
   }
   @media(max-width:760px) {
@@ -1580,7 +1580,7 @@ function buildMap() {
   var mapH = MAP.top * 2 + rows * MAP.cellH + Math.max(0, rows - 1) * MAP.gapY;
   svg.setAttribute("viewBox", "0 0 " + mapW + " " + mapH);
   el("rect", { x: 0, y: 0, width: mapW, height: mapH, fill: "#fff" });
-  el("text", { x: MAP.left, y: 11, "font-size": 8, "font-weight": 700, "letter-spacing": 1.1, fill: "#77818c", "font-family": "Segoe UI, Arial, sans-serif" }).textContent = "BUILDING  /  CURRENT LOAD";
+  el("text", { x: MAP.left, y: 11, "font-size": 9, "font-weight": 700, "letter-spacing": 1.1, fill: "#4F5B66", "font-family": "Segoe UI, Arial, sans-serif" }).textContent = "BUILDING  /  CURRENT LOAD";
   ORDER.forEach(function (key, index) {
     var P = { x: MAP.left + (index % MAP.cols) * (MAP.cellW + MAP.gapX),
       y: MAP.top + Math.floor(index / MAP.cols) * (MAP.cellH + MAP.gapY),
@@ -1594,13 +1594,13 @@ function buildMap() {
     var iconX = P.x + 9, iconY = P.y + (phone ? 13 : 17);
     var textX = P.x + 38;
     el("path", { d: "M5 21V5l7-3 7 3v16M9 9h.01M15 9h.01M9 13h.01M15 13h.01M10 21v-4h4v4", transform: "translate(" + (iconX + 1) + " " + (iconY + 1) + ") scale(.86)", fill: "none", stroke: townColor, "stroke-width": 1.8, "stroke-linecap": "round", "stroke-linejoin": "round" }, g);
-    var nm = el("text", { x: textX, y: P.y + (phone ? 22 : 25), "text-anchor": "start", "font-size": phone ? 11 : 12, "font-weight": 650, fill: "#1f2937", "font-family": "Segoe UI, Arial, sans-serif" }, g);
+    var nm = el("text", { x: textX, y: P.y + (phone ? 22 : 25), "text-anchor": "start", "font-size": phone ? 12 : 13, "font-weight": 650, fill: "#151C23", "font-family": "Segoe UI, Arial, sans-serif" }, g);
     var kw = el("text", { x: P.x + P.w - 10, y: P.y + (phone ? 23 : 27), "text-anchor": "end", "font-size": phone ? 14 : 16, "font-weight": 700, fill: "#14171d", "font-family": "Segoe UI, Arial, sans-serif" }, g);
-    var badge = el("text", { x: textX, y: P.y + (phone ? 39 : 44), "text-anchor": "start", "font-size": phone ? 8 : 9, fill: "#6b7280", "font-family": "Segoe UI, Arial, sans-serif" }, g);
-    var meterY = P.y + MAP.cellH - 8;
+    var badge = el("text", { x: textX, y: P.y + (phone ? 39 : 44), "text-anchor": "start", "font-size": phone ? 9 : 10, fill: "#53606D", "font-family": "Segoe UI, Arial, sans-serif" }, g);
+    var meterY = P.y + MAP.cellH - 9;
     var meterW = MAP.cellW - 58;
-    loadTrackEls[key] = el("rect", { x: textX, y: meterY, width: meterW, height: 4, rx: 2, fill: "#E6EBE8" }, g);
-    loadEls[key] = el("rect", { x: textX, y: meterY, width: 1, height: 4, rx: 2, fill: townColor }, g);
+    loadTrackEls[key] = el("rect", { x: textX, y: meterY, width: meterW, height: 5, rx: 2.5, fill: "#E6EBE8" }, g);
+    loadEls[key] = el("rect", { x: textX, y: meterY, width: 1, height: 5, rx: 2.5, fill: townColor }, g);
     g.addEventListener("click", function () { select(key); showPage("page-buildings"); });
     g.addEventListener("keydown", function (event) {
       if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(key); showPage("page-buildings"); }
@@ -1610,7 +1610,7 @@ function buildMap() {
     nm.textContent = T.buildings[key].label.length > 28 ? T.buildings[key].label.slice(0, 26) + "…" : T.buildings[key].label;
   });
 }
-function heat(s) { return s >= 0.8 ? "#f6cdcb" : s >= 0.5 ? "#fdecc8" : "#d9efe0"; }
+function heat(s) { return s >= 0.8 ? "#E45757" : s >= 0.5 ? "#E99A20" : "#28A56A"; }
 function refreshMap() {
   ORDER.forEach(function (key) {
     var b = T.buildings[key];
@@ -1621,7 +1621,7 @@ function refreshMap() {
     kWTexts[key].textContent = Math.round(now) + " kW";
     loadTrackEls[key].setAttribute("width", MAP.cellW - 58);
     loadTrackEls[key].setAttribute("fill", heat(now / maxB));
-    loadTrackEls[key].setAttribute("fill-opacity", ".38");
+    loadTrackEls[key].setAttribute("fill-opacity", ".16");
     loadEls[key].setAttribute("width", Math.max(2, (MAP.cellW - 58) * Math.min(1, now / maxB)));
     loadEls[key].setAttribute("fill", heat(now / maxB));
   });
@@ -1645,15 +1645,15 @@ function mkChart(canvasId, drawFn) {
 function axes(x, W, H, maxV, unit, windowed) {
   var left = 64, right = W - 22, top = 26, bottom = H - 44;
   if (PLOT.grid) {
-    x.strokeStyle = "#e9edf2"; x.lineWidth = 1;
+    x.strokeStyle = "#DCE3E8"; x.lineWidth = 1;
     for (var g = 0; g <= 4; g++) {
       var gy = top + (bottom - top) * g / 4;
       x.beginPath(); x.moveTo(left, gy); x.lineTo(right, gy); x.stroke();
     }
   }
-  x.strokeStyle = "#aeb7c2"; x.lineWidth = 1.2;
+  x.strokeStyle = "#82909B"; x.lineWidth = 1.2;
   x.beginPath(); x.moveTo(left, top); x.lineTo(left, bottom); x.lineTo(right, bottom); x.stroke();
-  x.fillStyle = "#4b5563"; x.font = "12px Segoe UI"; x.textAlign = "right";
+  x.fillStyle = "#38434F"; x.font = "12px Segoe UI"; x.textAlign = "right";
   for (var yTick = 0; yTick <= 4; yTick++) {
     var yValue = maxV * (4 - yTick) / 4;
     var yText = Math.round(yValue).toLocaleString();
@@ -1666,11 +1666,11 @@ function axes(x, W, H, maxV, unit, windowed) {
   var first = Math.ceil(vStart / labelEvery) * labelEvery;
   for (var tick = first; tick <= Math.min(N - 1, vStart + vSpan); tick += labelEvery) x.fillText(TIMES[tick], px(tick), H - 18);
   if (vStart + vSpan >= N - 1 && labelEvery >= 6) x.fillText("24:00", right, H - 18);
-  x.textAlign = "left"; x.fillStyle = "#7b8590"; x.font = "10px Segoe UI"; x.fillText(unit, left, 15);
+  x.textAlign = "left"; x.fillStyle = "#586570"; x.font = "11px Segoe UI"; x.fillText(unit, left, 15);
   return px;
 }
 function drawTimeTicks(x, W, H, left, right, bottom) {
-  x.fillStyle = "#6b7280"; x.font = "12px Segoe UI"; x.textAlign = "center";
+  x.fillStyle = "#505C67"; x.font = "12px Segoe UI"; x.textAlign = "center";
   [0,12,24,36,47].forEach(function (i, n) {
     var px = left + (right - left) * i / (N - 1);
     x.fillText(["00:00","06:00","12:00","18:00","24:00"][n], px, bottom);
@@ -1729,7 +1729,7 @@ function zoneChart(key) {
     x.stroke();
     x.strokeStyle = "#e88b3388"; x.lineWidth = 1.5;
     x.beginPath(); x.moveTo(px(step), 26); x.lineTo(px(step), H - 40); x.stroke();
-    x.fillStyle = "#6b7280"; x.font = "600 13px Segoe UI"; x.textAlign = "right";
+    x.fillStyle = "#505C67"; x.font = "600 13px Segoe UI"; x.textAlign = "right";
     x.fillText("26\u00B0", 46, py(26) + 5); x.fillText("24\u00B0", 46, py(24) + 5);
     x.textAlign = "left";
     drawTimeTicks(x, W, H, 52, W - 20, H - 12);
@@ -1773,10 +1773,10 @@ function forecastChart(canvasId, fcArr, actArr, color, unit) {
     if (PLOT.legend) {
       x.font = "600 14px Segoe UI"; x.textAlign = "left";
       x.strokeStyle = "#6B7280"; x.lineWidth = 2; x.beginPath(); x.moveTo(64, 40); x.lineTo(92, 40); x.stroke();
-      x.fillStyle = "#6b7280"; x.fillText("Actual", 98, 45);
+      x.fillStyle = "#505C67"; x.fillText("Actual", 98, 45);
       x.strokeStyle = color; x.lineWidth = 3; x.setLineDash([8, 5]);
       x.beginPath(); x.moveTo(170, 40); x.lineTo(198, 40); x.stroke(); x.setLineDash([]);
-      x.fillStyle = "#6b7280"; x.fillText("WATTWISE-1 forecast (30 min ahead)", 204, 45);
+      x.fillStyle = "#505C67"; x.fillText("WATTWISE-1 forecast (30 min ahead)", 204, 45);
     }
   });
 }
@@ -2154,7 +2154,7 @@ function comfortChart() {
       x.setLineDash([]);
     }
     if (PLOT.grid) {
-      x.strokeStyle = "#edf0f4"; x.lineWidth = 1;
+      x.strokeStyle = "#DCE3E8"; x.lineWidth = 1;
       for (var gy = 0; gy <= 4; gy++) { var y = 28 + (H - 62) * gy / 4; x.beginPath(); x.moveTo(140, y); x.lineTo(W - 30, y); x.stroke(); }
     }
     var colors = ["#E88B33", "#2E7D6B", "#8491A0", "#D17A2D", "#437A70"];
@@ -2170,7 +2170,7 @@ function comfortChart() {
     });
     x.strokeStyle = "#e88b33"; x.lineWidth = 2;
     x.beginPath(); x.moveTo(px(step), 30); x.lineTo(px(step), H - 46); x.stroke();
-    x.fillStyle = "#6b7280"; x.font = "600 13px Segoe UI";
+    x.fillStyle = "#505C67"; x.font = "600 13px Segoe UI";
     x.fillText("24\u00B0", 100, py(24) + 5); x.fillText("26\u00B0", 100, py(26) + 5);
     drawTimeTicks(x, W, H, 140, W - 30, H - 12);
   });
@@ -2190,11 +2190,11 @@ function renderReports() {
     var bw = (right - left) / Math.max(ORDER.length, 1);
     var py = function (v) { return bottom - (bottom - top) * v / maxG; };
     if (PLOT.grid) {
-      x.strokeStyle = "#e7ebf0"; x.lineWidth = 1;
+      x.strokeStyle = "#DCE3E8"; x.lineWidth = 1;
       for (var g = 0; g <= 4; g++) {
         var value = maxG * (4 - g) / 4, y = top + (bottom - top) * g / 4;
         x.beginPath(); x.moveTo(left, y); x.lineTo(right, y); x.stroke();
-        x.fillStyle = "#6b7280"; x.font = "12px Segoe UI"; x.textAlign = "right";
+        x.fillStyle = "#505C67"; x.font = "12px Segoe UI"; x.textAlign = "right";
         x.fillText(Math.round(value).toLocaleString(), left - 8, y + 4);
       }
     }
