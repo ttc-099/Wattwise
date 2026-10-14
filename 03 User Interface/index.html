@@ -661,6 +661,7 @@
     height:76px;
     object-fit:contain;
   }
+  .nav-tabs { display:flex; align-items:stretch; flex:0 1 auto; min-width:0; }
   .rtab {
     padding:0 18px;
     color:#D7DCE2;
@@ -698,7 +699,7 @@
     padding:30px clamp(18px,4vw,54px) 38px;
   }
   .page {
-    max-width:1260px;
+    max-width:none;
   }
   .portfolio-head {
     margin-bottom:18px;
@@ -856,6 +857,95 @@
       justify-content:flex-start;
       max-width:100%;
     }
+    #ov-table,#sch-rules,#rep-md { width:100%; table-layout:fixed; }
+    #ov-table th,#ov-table td,#sch-rules th,#sch-rules td,#rep-md th,#rep-md td { white-space:normal; overflow-wrap:anywhere; }
+    .plan-table-wrap .ov-table { width:max-content; min-width:100%; table-layout:auto; }
+  }
+  /* Keep the complete navigation and the data workspace inside the viewport. */
+  @media(max-width:760px) {
+    .ribbon-tabs {
+      display:grid;
+      grid-template-columns:minmax(92px,1fr) auto;
+      grid-template-rows:58px auto;
+      gap:0 8px;
+      min-height:0;
+      height:auto;
+      padding:0 10px 8px;
+      overflow:visible;
+    }
+    .brand-mini { grid-column:1; grid-row:1; width:132px; height:58px; padding:0; }
+    .brand-lockup { width:124px; height:56px; }
+    .esp-top { grid-column:2; grid-row:1; justify-self:end; min-height:34px; padding:0 10px; white-space:nowrap; }
+    .ribbon-tabs > .spacer { display:none; }
+    .nav-tabs {
+      grid-column:1 / -1;
+      grid-row:2;
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      min-width:0;
+      border-top:1px solid #ffffff20;
+      flex:initial;
+    }
+    .rtab { min-width:0; min-height:40px; height:auto; padding:4px 2px; justify-content:center; text-align:center; font-size:clamp(10px,2.7vw,12px); white-space:normal; }
+    .ribbon-toolbar { overflow:visible; }
+    .content { padding:18px 14px 28px; }
+    .page { width:100%; max-width:none; }
+    .kpi-row { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .kpi:nth-child(2) { border-right:0; }
+    .kpi:nth-child(n+3) { border-top:1px solid #E4E8ED; }
+    .ov-table { width:100%; table-layout:fixed; }
+    .ov-table th,.ov-table td { padding:7px 5px; white-space:normal; overflow-wrap:anywhere; font-size:10px; }
+    .ov-table th { font-size:8px; letter-spacing:0; }
+    .ov-table td.num { font-family:inherit; }
+    .badge { white-space:normal; }
+    .chart-card,.trend-workspace,.comfort-workspace,.plan-chart { min-width:0; max-width:100%; }
+    canvas { max-width:100%; }
+    .ribbon-toolbar { max-width:100%; }
+    .rgroup { min-width:0; }
+    .plan-table-wrap { max-width:100%; overflow-x:auto; }
+  }
+  @media(max-width:380px) {
+    .ribbon-tabs { grid-template-columns:minmax(82px,1fr) auto; padding-inline:7px; }
+    .brand-mini { width:110px; }
+    .brand-lockup { width:106px; }
+    .esp-top { padding:0 7px; font-size:11px; }
+    .nav-tabs { grid-template-columns:repeat(6,minmax(0,1fr)); }
+    .rtab { font-size:10px; }
+    .nav-tabs .rtab:nth-child(1) { grid-column:1 / span 2; }
+    .nav-tabs .rtab:nth-child(2) { grid-column:3 / span 2; }
+    .nav-tabs .rtab:nth-child(3) { grid-column:5 / span 2; }
+    .nav-tabs .rtab:nth-child(4) { grid-column:2 / span 2; }
+    .nav-tabs .rtab:nth-child(5) { grid-column:4 / span 2; }
+    .content { padding-inline:10px; }
+    .ov-table th,.ov-table td { padding:6px 3px; font-size:9px; }
+    .ov-table th { font-size:7px; }
+  }
+  @media(max-width:430px) {
+    .solar-cols,.srow { grid-template-columns:44px minmax(0,1fr) 56px 56px; column-gap:4px; padding-inline:6px; }
+    .solar-cols { font-size:7px; letter-spacing:0; }
+    .srow .t { font-size:10px; }
+    .srow .v { font-size:9px; }
+    .solar-head { gap:10px; padding-inline:9px; }
+    .solar-head .big { font-size:20px; }
+    .plan-table-wrap { overflow-x:hidden; }
+    #plan-table { display:block; width:100%; table-layout:auto; }
+    #plan-table > tbody { display:block; }
+    #plan-table > tbody > tr:first-child { display:none; }
+    #plan-table tr:not(:first-child) { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 10px; padding:4px 2px; border-bottom:1px solid #E7EAEE; }
+    #plan-table tr:not(:first-child) td { display:flex; min-width:0; justify-content:space-between; align-items:baseline; gap:4px; padding:3px 2px; border:0; font-size:9px; white-space:normal; overflow-wrap:anywhere; }
+    #plan-table tr:not(:first-child) td::before { content:attr(data-label); color:#77818D; font:600 8px "Segoe UI",sans-serif; text-align:left; }
+    #plan-table tr:not(:first-child) td:first-child,#plan-table tr:not(:first-child) td:last-child { grid-column:1 / -1; }
+    #ov-table { display:block; }
+    #ov-table > tbody { display:block; }
+    #ov-table > tbody > tr:first-child { display:none; }
+    #ov-table tr.clickable { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 12px; padding:5px 2px; border-bottom:1px solid #E7EAEE; cursor:pointer; }
+    #ov-table tr.clickable td { display:flex; min-width:0; justify-content:space-between; align-items:baseline; gap:4px; padding:3px 2px; border:0; font-size:10px; white-space:normal; overflow-wrap:anywhere; text-align:right; }
+    #ov-table tr.clickable td::before { content:attr(data-label); color:#77818D; font:600 8px "Segoe UI",sans-serif; letter-spacing:0; text-align:left; }
+    #ov-table tr.clickable td:first-child { grid-column:1 / -1; justify-content:flex-start; font-size:12px; font-weight:650; }
+    #ov-table tr.clickable td:first-child::before { display:none; }
+    #ov-table tr.clickable td:last-child { grid-column:1 / -1; justify-content:flex-start; }
+    #ov-table tr.clickable td.num { font-family:inherit; }
+    #ov-table .badge { padding:2px 6px; font-size:9px; }
   }
 </style>
 </head>
@@ -865,11 +955,13 @@
 <header>
   <div class="ribbon-tabs" id="ribbon-tabs">
     <div class="brand-mini"><img class="brand-lockup" src="./assets/wattwise-logo.png" alt="WattWise"></div>
+    <div class="nav-tabs">
     <div class="rtab on" data-page="page-overview">Dashboard</div>
     <div class="rtab" data-page="page-buildings">Buildings</div>
     <div class="rtab" data-page="page-forecast">Forecast</div>
     <div class="rtab" data-page="page-scheduler">Schedule</div>
     <div class="rtab" data-page="page-reports">Reports</div>
+    </div>
     <div class="spacer"></div>
     <button class="esp-top" id="esp-connect" type="button"><span class="esp-dot" id="esp-dot"></span><span id="esp-connect-label">Connect ESP32</span></button>
   </div>
@@ -1214,6 +1306,10 @@ document.getElementById("ribbon-tabs").addEventListener("click", function (e) {
 });
 
 function updateCrumbs() {
+  if (!T) {
+    document.getElementById("crumbs").innerHTML = "<b>WattWise</b><span class=\"sep\">&rsaquo;</span>Loading township data";
+    return;
+  }
   var names = { "page-overview": "Dashboard", "page-buildings": "Buildings", "page-forecast": "Forecast", "page-scheduler": "Schedule", "page-reports": "Reports" };
   var scope = townScope === "all" ? "All townships" : T.towns[townScope].label;
   document.getElementById("crumbs").innerHTML = "<b>WattWise</b><span class=\"sep\">&rsaquo;</span>" + scope + "<span class=\"sep\">&rsaquo;</span>" + names[ribbonPage] +
@@ -1626,12 +1722,12 @@ function renderOverview() {
       : stress > 0.5 ? '<span class="badge warn">MODERATE</span>'
       : '<span class="badge ok">OK</span>';
     rows += '<tr class="clickable' + (selected === k ? " sel" : "") + '" data-k="' + k + '">' +
-      '<td>' + b.label + '</td>' +
-      '<td class="num">' + Math.round(now) + '</td>' +
-      '<td class="num">' + Math.round(mode === "dumb" ? b.peak_dumb_kw : b.peak_wattwise_kw) + '</td>' +
-      '<td class="num">' + (b.shave_pct > 0 ? "\u2212" + b.shave_pct + "%" : "\u2014") + '</td>' +
-      '<td class="num">RM ' + Math.round(mode === "dumb" ? b.bill_dumb_rm : b.bill_wattwise_rm).toLocaleString() + '</td>' +
-      '<td>' + badge + '</td></tr>';
+      '<td data-label="Building">' + b.label + '</td>' +
+      '<td class="num" data-label="Now kW">' + Math.round(now) + '</td>' +
+      '<td class="num" data-label="Peak kW">' + Math.round(mode === "dumb" ? b.peak_dumb_kw : b.peak_wattwise_kw) + '</td>' +
+      '<td class="num" data-label="Shave">' + (b.shave_pct > 0 ? "\u2212" + b.shave_pct + "%" : "\u2014") + '</td>' +
+      '<td class="num" data-label="MD / mo">RM ' + Math.round(mode === "dumb" ? b.bill_dumb_rm : b.bill_wattwise_rm).toLocaleString() + '</td>' +
+      '<td data-label="Status">' + badge + '</td></tr>';
   });
   document.getElementById("ov-table").innerHTML =
     '<tr><th>Building</th><th class="num">Now kW</th><th class="num">Peak kW</th>' +
@@ -1773,7 +1869,7 @@ function renderPlanner() {
     var actions = [];
     records.forEach(function (r) { if (actions.indexOf(r.action[j]) < 0) actions.push(r.action[j]); });
     var zone = Math.max.apply(null, records.map(function (r) { return r.zone_c[j]; }));
-    table += '<tr' + (j >= 17 && j < 21 ? ' class="peak-row"' : '') + '><td>' + TIMES[j] + '</td><td class="num">' + cooling[j].toFixed(1) + '</td><td class="num">' + grid[j].toFixed(1) + '</td><td class="num">' + solar[j].toFixed(1) + '</td><td>' + (actions.length === 1 ? actions[0].replace(/-/g, " ") : "Mixed") + '</td><td class="num">' + zone.toFixed(1) + '</td></tr>';
+    table += '<tr' + (j >= 17 && j < 21 ? ' class="peak-row"' : '') + '><td data-label="Time">' + TIMES[j] + '</td><td class="num" data-label="Cooling">' + cooling[j].toFixed(1) + '</td><td class="num" data-label="Grid">' + grid[j].toFixed(1) + '</td><td class="num" data-label="Solar">' + solar[j].toFixed(1) + '</td><td data-label="Rule">' + (actions.length === 1 ? actions[0].replace(/-/g, " ") : "Mixed") + '</td><td class="num" data-label="Max zone">' + zone.toFixed(1) + '</td></tr>';
   }
   document.getElementById("plan-table").innerHTML = table;
   var c = document.getElementById("plan-chart");
@@ -2111,6 +2207,7 @@ function refresh() {
   updateCrumbs();
 }
 function redrawVisible() {
+  if (!T) return;
   if (selected) { dayChart(selected); zoneChart(selected); }
   renderForecastKpis();
   renderSolarTable();
