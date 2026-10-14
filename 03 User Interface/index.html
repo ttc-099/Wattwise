@@ -1028,6 +1028,7 @@
   /* Typography and spacing pass: one calm interface voice, with aligned readings. */
   :root {
     --ui-font: "Segoe UI", "Segoe UI Variable", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --bg: #F6F6F1;
     --text: #202832;
     --muted: #68737F;
     --faint: #87919C;
@@ -1097,6 +1098,14 @@
   footer b { color:#303A45; }
   .st-clock { font-size:12px; }
   :focus-visible { outline-color:#D77B23; }
+  .content {
+    background-color:#F6F6F1;
+    background-image:
+      radial-gradient(ellipse at 86% 3%, rgba(255,189,89,.13), transparent 34rem),
+      radial-gradient(ellipse at 4% 86%, rgba(46,125,107,.055), transparent 40rem),
+      linear-gradient(145deg, #FAFAF7 0%, #F5F7F4 58%, #F4F3ED 100%);
+    background-attachment:local;
+  }
   @media(max-width:760px) {
     .portfolio-head h1, .bld-title h1 { font-size:24px; }
     .portfolio-head p, .fc-intro, .sch-intro { font-size:12px; }
@@ -1563,7 +1572,7 @@ function el(tag, attrs, parent) {
   (parent || svg).appendChild(e);
   return e;
 }
-var rectEls = {}, kWTexts = {}, loadEls = {};
+var rectEls = {}, kWTexts = {}, loadEls = {}, loadTrackEls = {};
 function buildMap() {
   configureMap();
   var rows = Math.ceil(ORDER.length / MAP.cols);
@@ -1588,7 +1597,10 @@ function buildMap() {
     var nm = el("text", { x: textX, y: P.y + (phone ? 22 : 25), "text-anchor": "start", "font-size": phone ? 11 : 12, "font-weight": 650, fill: "#1f2937", "font-family": "Segoe UI, Arial, sans-serif" }, g);
     var kw = el("text", { x: P.x + P.w - 10, y: P.y + (phone ? 23 : 27), "text-anchor": "end", "font-size": phone ? 14 : 16, "font-weight": 700, fill: "#14171d", "font-family": "Segoe UI, Arial, sans-serif" }, g);
     var badge = el("text", { x: textX, y: P.y + (phone ? 39 : 44), "text-anchor": "start", "font-size": phone ? 8 : 9, fill: "#6b7280", "font-family": "Segoe UI, Arial, sans-serif" }, g);
-    loadEls[key] = el("rect", { x: textX, y: P.y + MAP.cellH - 8, width: 1, height: 2, rx: 1, fill: townColor }, g);
+    var meterY = P.y + MAP.cellH - 8;
+    var meterW = MAP.cellW - 58;
+    loadTrackEls[key] = el("rect", { x: textX, y: meterY, width: meterW, height: 4, rx: 2, fill: "#E6EBE8" }, g);
+    loadEls[key] = el("rect", { x: textX, y: meterY, width: 1, height: 4, rx: 2, fill: townColor }, g);
     g.addEventListener("click", function () { select(key); showPage("page-buildings"); });
     g.addEventListener("keydown", function (event) {
       if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(key); showPage("page-buildings"); }
@@ -1607,6 +1619,9 @@ function refreshMap() {
     var r = rectEls[key];
     r.setAttribute("fill", selected === key ? "rgba(232,139,51,.08)" : "transparent");
     kWTexts[key].textContent = Math.round(now) + " kW";
+    loadTrackEls[key].setAttribute("width", MAP.cellW - 58);
+    loadTrackEls[key].setAttribute("fill", heat(now / maxB));
+    loadTrackEls[key].setAttribute("fill-opacity", ".38");
     loadEls[key].setAttribute("width", Math.max(2, (MAP.cellW - 58) * Math.min(1, now / maxB)));
     loadEls[key].setAttribute("fill", heat(now / maxB));
   });
