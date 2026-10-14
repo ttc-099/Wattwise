@@ -346,7 +346,7 @@
   .plot-legend span { display:inline-flex; align-items:center; gap:6px; }
   .legend-line { width:18px; height:0; border-top:2px solid #505C67; display:inline-block; }
   .legend-line.orange { border-color:var(--accent); }
-  .legend-line.red { border-color:var(--bad); }
+  .legend-line.red { border-color:#D95D50; }
   .legend-line.grey { border-color:#8491a0; }
   .legend-line.dashed { border-top-style:dashed; }
   .legend-area { width:14px; height:8px; border-radius:2px; background:#ffbd59; display:inline-block; }
@@ -532,24 +532,32 @@
   .kpi .unit { font-size:12px; }
   .kpi .dlt { padding:2px 14px 10px; color:#697381; font-size:11px; }
   .chart-card { margin-top:22px; background:transparent; border:0; border-radius:0; }
-  .trend-workspace { margin-top:23px; padding:0 17px 10px; background:#fff; border:1px solid #DDE2E7; border-radius:11px; box-shadow:0 2px 7px #14171d08; }
+  .trend-workspace { margin-top:23px; padding:0 17px 10px; background:transparent; border:0; border-top:1px solid #DDE2E7; border-bottom:1px solid #DDE2E7; border-radius:0; box-shadow:none; }
   .comfort-workspace { margin-top:26px; padding-top:5px; border-top:1px solid #DDE2E7; }
   .plot-head { min-height:58px; padding:7px 0; gap:14px; border-bottom:1px solid #E8EBEF; }
   .chart-card .ttl { padding:0; color:#26313D; font-size:14px; font-weight:620; letter-spacing:-.1px; }
   .plot-subtitle { margin-top:4px; color:#78828E; font-size:10.5px; }
-  .plot-controls { gap:3px; flex-wrap:nowrap; }
-  .plot-toggle { border:1px solid transparent; border-radius:5px; padding:5px 8px; color:#65707D; font-size:10px; }
-  .plot-toggle:hover { border-color:#D5DBE1; background:#FAFBFC; }
-  .plot-toggle.on { border-color:#EDD1AE; background:#FFF5EA; color:#925115; }
+  .plot-controls { gap:3px; flex-wrap:wrap; justify-content:flex-end; max-width:720px; padding:0; background:transparent; border:0; border-radius:0; }
+  .plot-toggle { min-height:27px; border:1px solid transparent; border-bottom:2px solid transparent; border-radius:3px 3px 0 0; padding:5px 8px 4px; color:#505C67; font-size:10px; }
+  .plot-toggle:hover { border-color:transparent; border-bottom-color:#C5CDD5; background:#F5F7F8; }
+  .plot-toggle.on { border-color:transparent; border-bottom-color:#E88B33; background:transparent; color:#824706; }
   .tool-divider { height:20px; margin:0 4px; border-left:1px solid #E1E5E9; }
-  .plot-tool { width:25px; height:25px; padding:0; border:1px solid #E0E4E8; border-radius:5px; background:#fff; color:#586472; font:500 16px/1 "Segoe UI",sans-serif; cursor:pointer; }
+  .plot-tool { width:27px; height:27px; padding:0; border:1px solid #D7DEE3; border-radius:4px; background:#fff; color:#45515D; font:500 16px/1 "Segoe UI",sans-serif; cursor:pointer; }
   .plot-tool:hover { border-color:#C5CDD5; background:#F7F8FA; }
   .plot-tool.fit { width:auto; padding:0 8px; font-size:10px; }
   .chart-card canvas { width:100%; display:block; }
   #chart-day { height:270px; }
-  #chart-zone { height:185px; }
+  #chart-zone { height:205px; }
+  #chart-demand-fc { height:245px; }
+  #plan-chart { height:260px; }
+  #sch-comfort { height:210px; }
+  #rep-eeca { height:235px; }
   .plot-legend { gap:17px; padding:3px 2px 2px; color:#707B87; font-size:10px; }
   .legend-line { border-width:2px; }
+  .legend-area.orange { background:#E88B33; }
+  .legend-area.red { background:#D95D50; }
+  .legend-area.green { background:#35A77A; }
+  .legend-area.amber { background:#F0B74F; }
   .action-strip { display:flex; align-items:center; gap:7px; padding-top:12px; border-top:1px solid #E2E6EA; }
   .action-strip::before { content:"SEQUENCE"; margin-right:5px; color:#77818D; font-size:9px; font-weight:650; letter-spacing:.75px; }
   .act { border-radius:5px; padding:5px 9px; font-size:10px; }
@@ -586,7 +594,7 @@
   .plan-summary span { font-size:10px; }
   .plan-summary b { font-size:16px; }
   .plan-chart { margin-top:4px!important; }
-  .plan-chart canvas { height:250px; }
+  .plan-chart canvas { height:260px; }
   .gauges { padding:15px 2px; }
   .gauge { width:min(175px,30%); }
   .gauge .g-tube { border-radius:5px; }
@@ -755,25 +763,6 @@
   .plot-head {
     min-height:64px;
     align-items:flex-start;
-  }
-  .plot-controls {
-    flex-wrap:wrap;
-    justify-content:flex-end;
-    max-width:540px;
-    gap:5px;
-    padding:5px;
-    background:#F7F8FA;
-    border:1px solid #E5E9EE;
-    border-radius:8px;
-  }
-  .plot-controls::before {
-    content:"Controls";
-    align-self:center;
-    color:#7A8490;
-    font-size:10px;
-    font-weight:650;
-    letter-spacing:.4px;
-    margin:0 5px 0 2px;
   }
   .plot-toggle,
   .plot-tool {
@@ -981,6 +970,7 @@
   .kpi:last-child { border-right:0; }
   .kpi .lbl { background:transparent; border:0; padding-top:13px; }
   .chart-card { background:transparent; border:0; border-radius:0; box-shadow:none; }
+  #page-forecast>.chart-card { border-top:1px solid #DDE2E7; border-bottom:1px solid #DDE2E7; padding-bottom:10px; }
   .trend-workspace {
     padding:0 10px 8px; background:transparent; border:0;
     border-top:1px solid #DDE2E7; border-bottom:1px solid #DDE2E7;
@@ -1081,7 +1071,7 @@
   .plot-head { min-height:54px; }
   .plot-controls { gap:4px; }
   .plot-toggle { font-family:var(--ui-font); font-size:11px; font-weight:540; }
-  .plot-toggle.on { border-color:#F0B55F; background:#FFF1D8; color:#70400A; font-weight:630; }
+  .plot-toggle.on { border-color:transparent; border-bottom-color:#E88B33; background:transparent; color:#824706; font-weight:630; }
   .plot-tool { font-family:var(--ui-font); font-size:15px; }
   .plot-legend { color:#56626E; font-size:11px; }
   .action-strip::before { font-size:10px; letter-spacing:.065em; }
@@ -1115,6 +1105,10 @@
     .chart-card .ttl { font-size:14px; }
     .plot-subtitle { font-size:10px; }
     .plot-toggle { font-size:10px; }
+    .plot-head { align-items:flex-start; flex-direction:column; padding:9px 0; }
+    .plot-controls { width:100%; max-width:none; justify-content:flex-start; }
+    .tool-divider { flex-basis:100%; height:0; margin:0; border:0; }
+    #chart-demand-fc,#plan-chart,#rep-eeca { height:225px; }
   }
 </style>
 </head>
@@ -1234,8 +1228,9 @@
         <div class="plot-legend"><span><i class="legend-line orange"></i>Current scenario</span><span><i class="legend-line grey"></i>Other scenario</span><span><i class="legend-area amber"></i>Solar generation</span><span><i class="legend-line red"></i>Billed window</span></div>
       </div>
       <div class="chart-card comfort-workspace">
-        <div class="plot-head"><div><div class="ttl">Thermal comfort</div><div class="plot-subtitle">Zone temperature · target 24–26 °C</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-band-control>Comfort band</button></div></div>
-        <canvas id="chart-zone" height="185" aria-label="Building zone temperature chart in degrees Celsius"></canvas>
+        <div class="plot-head"><div><div class="ttl">Thermal comfort</div><div class="plot-subtitle">30-minute intervals · °C · comfort range 24–26 °C</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-band-control>Comfort band</button><span class="tool-divider"></span><button class="plot-tool" data-view-action="out" title="Zoom out" aria-label="Zoom out">−</button><button class="plot-tool" data-view-action="in" title="Zoom in" aria-label="Zoom in">+</button><button class="plot-tool" data-view-action="left" title="Pan earlier" aria-label="Pan earlier">‹</button><button class="plot-tool" data-view-action="right" title="Pan later" aria-label="Pan later">›</button><button class="plot-tool fit" data-view-action="fit">24 h</button></div></div>
+        <canvas id="chart-zone" height="205" aria-label="Building zone temperature chart in degrees Celsius"></canvas>
+        <div class="plot-legend"><span><i class="legend-area green"></i>Comfort range</span><span><i class="legend-line orange"></i>Selected building</span></div>
       </div>
       <div class="action-strip" id="actions"></div>
     </div>
@@ -1257,8 +1252,8 @@
         <div class="solar-rows" id="solar-rows"></div>
       </details>
       <div class="chart-card">
-        <div class="plot-head"><div class="ttl">Demand &mdash; actual and 30-minute forecast</div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-series-control="actual">Actual</button><button class="plot-toggle on" data-series-control="forecast">Forecast</button></div></div>
-        <canvas id="chart-demand-fc" height="210" aria-label="Demand forecast chart in kilowatts"></canvas>
+        <div class="plot-head"><div><div class="ttl">Demand &mdash; actual and 30-minute forecast</div><div class="plot-subtitle">30-minute intervals · kW · vertical marker shows current time</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-series-control="actual">Actual</button><button class="plot-toggle on" data-series-control="forecast">Forecast</button><span class="tool-divider"></span><button class="plot-tool" data-view-action="out" title="Zoom out" aria-label="Zoom out">−</button><button class="plot-tool" data-view-action="in" title="Zoom in" aria-label="Zoom in">+</button><button class="plot-tool" data-view-action="left" title="Pan earlier" aria-label="Pan earlier">‹</button><button class="plot-tool" data-view-action="right" title="Pan later" aria-label="Pan later">›</button><button class="plot-tool fit" data-view-action="fit">24 h</button></div></div>
+        <canvas id="chart-demand-fc" height="245" aria-label="Demand forecast chart in kilowatts"></canvas>
         <div class="plot-legend"><span><i class="legend-line grey"></i>Actual</span><span><i class="legend-line orange dashed"></i>WATTWISE-1 forecast</span></div>
       </div>
       <div class="fc-note">
@@ -1288,9 +1283,9 @@
         </div>
         <div class="plan-summary" id="plan-summary"></div>
         <div class="chart-card plan-chart">
-          <div class="plot-head"><div class="ttl">Scheduled cooling dispatch &mdash; kW per 30-minute interval</div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-plan-series="chiller">Cooling</button><button class="plot-toggle on" data-plan-series="grid">Grid draw</button><button class="plot-toggle on" data-plan-series="solar">Solar</button></div></div>
-          <canvas id="plan-chart" height="250" aria-label="Planned cooling, grid draw and solar output by half-hour"></canvas>
-          <div class="plot-legend"><span><i class="legend-line orange"></i>Cooling dispatch</span><span><i class="legend-line grey"></i>Grid draw</span><span><i class="legend-line green"></i>Solar generation</span></div>
+          <div class="plot-head"><div><div class="ttl">Scheduled cooling dispatch</div><div class="plot-subtitle">30-minute intervals · kW · billed window 08:30–10:30</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-flag-control="peak">Billed window</button><button class="plot-toggle on" data-plan-series="chiller">Cooling</button><button class="plot-toggle on" data-plan-series="grid">Grid draw</button><button class="plot-toggle on" data-plan-series="solar">Solar</button><span class="tool-divider"></span><button class="plot-tool" data-view-action="out" title="Zoom out" aria-label="Zoom out">−</button><button class="plot-tool" data-view-action="in" title="Zoom in" aria-label="Zoom in">+</button><button class="plot-tool" data-view-action="left" title="Pan earlier" aria-label="Pan earlier">‹</button><button class="plot-tool" data-view-action="right" title="Pan later" aria-label="Pan later">›</button><button class="plot-tool fit" data-view-action="fit">24 h</button></div></div>
+          <canvas id="plan-chart" height="260" aria-label="Planned cooling, grid draw and solar output by half-hour"></canvas>
+          <div class="plot-legend"><span><i class="legend-area red"></i>Billed window</span><span><i class="legend-line orange"></i>Cooling dispatch</span><span><i class="legend-line grey"></i>Grid draw</span><span><i class="legend-line green"></i>Solar generation</span></div>
         </div>
         <details class="plan-details"><summary>Half-hour schedule values</summary><div class="plan-table-wrap"><table class="ov-table" id="plan-table"></table></div></details>
       </section>
@@ -1303,9 +1298,9 @@
         <div class="gauges" id="sch-gauges"></div>
       </div></details>
       <details class="secondary-detail"><summary>Comfort and intervention history</summary><div class="chart-card">
-        <div class="plot-head"><div class="ttl">Comfort monitor &mdash; 24&ndash;26&deg;C setpoint band</div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-band-control>Comfort band</button></div></div>
-        <canvas id="sch-comfort" height="190" aria-label="Comfort monitor chart in degrees Celsius"></canvas>
-        <div class="plot-legend"><span><i class="legend-area green"></i>Comfort band</span><span><i class="legend-line orange"></i>Selected building</span></div>
+        <div class="plot-head"><div><div class="ttl">Comfort monitor</div><div class="plot-subtitle">30-minute intervals · °C · setpoint band 24–26 °C</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-band-control>Comfort band</button><span class="tool-divider"></span><button class="plot-tool" data-view-action="out" title="Zoom out" aria-label="Zoom out">−</button><button class="plot-tool" data-view-action="in" title="Zoom in" aria-label="Zoom in">+</button><button class="plot-tool" data-view-action="left" title="Pan earlier" aria-label="Pan earlier">‹</button><button class="plot-tool" data-view-action="right" title="Pan later" aria-label="Pan later">›</button><button class="plot-tool fit" data-view-action="fit">24 h</button></div></div>
+        <canvas id="sch-comfort" height="210" aria-label="Comfort monitor chart in degrees Celsius"></canvas>
+        <div class="plot-legend" id="sch-comfort-legend"><span><i class="legend-area green"></i>Comfort band</span></div>
         <div class="ttl">Intervention log</div>
         <div class="alarms" id="sch-log"></div>
       </div></details>
@@ -1316,8 +1311,9 @@
         <b>Reports</b> &mdash; modelled energy use, the EECA threshold, and demand-charge detail for the selected scope.
       </div>
       <div class="chart-card">
-        <div class="plot-head"><div class="ttl">Annualised consumption &mdash; EECA threshold 21,600 GJ/year</div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button></div></div>
-        <canvas id="rep-eeca" height="180" aria-label="Annualised building consumption against the EECA threshold"></canvas>
+        <div class="plot-head"><div><div class="ttl">Annualised consumption</div><div class="plot-subtitle">GJ/year · modelled from one simulated day × 365</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-report-threshold>EECA threshold</button></div></div>
+        <canvas id="rep-eeca" height="235" aria-label="Annualised building consumption against the EECA threshold"></canvas>
+        <div class="plot-legend"><span><i class="legend-area orange"></i>Within threshold</span><span><i class="legend-area red"></i>Above threshold</span><span><i class="legend-line red dashed"></i>EECA limit · 21,600 GJ/year</span></div>
         <div class="rep-note" id="rep-eeca-note"></div>
       </div>
       <div class="chart-card">
@@ -1355,7 +1351,7 @@ var T = null, TIMES = null, N = 48;
 var mode = "dumb", step = 0, playing = false, selected = null, townScope = "all";
 var speed = 0.6;
 var FLAGS = { peak: true, solar: true, other: true, band: true, actual: true, forecast: true };
-var PLOT = { grid: true }, PLAN_FLAGS = { chiller: true, grid: true, solar: true };
+var PLOT = { grid: true }, PLAN_FLAGS = { chiller: true, grid: true, solar: true }, REPORT_FLAGS = { threshold: true };
 var planWeekIdx = 1, planDay = null;
 var ALL_ORDER = [], ORDER = [];
 var TARIFF = null, WINDOWS = null;
@@ -1534,6 +1530,7 @@ function syncPlotControls() {
   document.querySelectorAll("[data-series-control]").forEach(function (b) { b.classList.toggle("on", !!FLAGS[b.dataset.seriesControl]); b.setAttribute("aria-pressed", !!FLAGS[b.dataset.seriesControl]); });
   document.querySelectorAll("[data-band-control]").forEach(function (b) { b.classList.toggle("on", FLAGS.band); b.setAttribute("aria-pressed", FLAGS.band); });
   document.querySelectorAll("[data-plan-series]").forEach(function (b) { b.classList.toggle("on", !!PLAN_FLAGS[b.dataset.planSeries]); b.setAttribute("aria-pressed", !!PLAN_FLAGS[b.dataset.planSeries]); });
+  document.querySelectorAll("[data-report-threshold]").forEach(function (b) { b.classList.toggle("on", REPORT_FLAGS.threshold); b.setAttribute("aria-pressed", REPORT_FLAGS.threshold); });
 }
 document.addEventListener("click", function (e) {
   var viewControl = e.target.closest("[data-view-action]");
@@ -1544,7 +1541,7 @@ document.addEventListener("click", function (e) {
     else if (act === "out") { VIEW.span = Math.min(N - 1, Math.ceil(VIEW.span / 0.75)); VIEW.start = Math.max(0, Math.min(N - 1 - VIEW.span, VIEW.start - Math.floor((VIEW.span - VIEW.span * 0.75) / 2))); }
     else if (act === "left") VIEW.start = Math.max(0, VIEW.start - Math.max(2, Math.floor(VIEW.span / 4)));
     else if (act === "right") VIEW.start = Math.min(N - 1 - VIEW.span, VIEW.start + Math.max(2, Math.floor(VIEW.span / 4)));
-    if (selected) dayChart(selected);
+    redrawVisible();
     return;
   }
   var grid = e.target.closest("[data-plot-grid]");
@@ -1552,12 +1549,14 @@ document.addEventListener("click", function (e) {
   var series = e.target.closest("[data-series-control]");
   var band = e.target.closest("[data-band-control]");
   var planSeries = e.target.closest("[data-plan-series]");
-  if (!grid && !flag && !series && !band && !planSeries) return;
+  var reportThreshold = e.target.closest("[data-report-threshold]");
+  if (!grid && !flag && !series && !band && !planSeries && !reportThreshold) return;
   if (grid) PLOT.grid = !PLOT.grid;
   if (flag) FLAGS[flag.dataset.flagControl] = !FLAGS[flag.dataset.flagControl];
   if (series) FLAGS[series.dataset.seriesControl] = !FLAGS[series.dataset.seriesControl];
   if (band) FLAGS.band = !FLAGS.band;
   if (planSeries) PLAN_FLAGS[planSeries.dataset.planSeries] = !PLAN_FLAGS[planSeries.dataset.planSeries];
+  if (reportThreshold) REPORT_FLAGS.threshold = !REPORT_FLAGS.threshold;
   syncPlotControls(); redrawVisible();
 });
 var townControl = document.getElementById("town-select");
@@ -1642,142 +1641,126 @@ function mkChart(canvasId, drawFn) {
   x.fillStyle = "#fff"; x.fillRect(0, 0, W, H);
   drawFn(x, W, H);
 }
-function axes(x, W, H, maxV, unit, windowed) {
-  var left = 64, right = W - 22, top = 26, bottom = H - 44;
+function axes(x, W, H, maxV, unit, windowed, minV) {
+  minV = minV == null ? 0 : minV;
+  maxV = Math.max(maxV, minV + 0.001);
+  var left = 68, right = W - 22, top = 31, bottom = H - 42;
+  var vStart = windowed ? VIEW.start : 0, vSpan = windowed ? VIEW.span : N - 1;
+  vSpan = Math.max(1, vSpan);
+  var px = function (i) { return left + (right - left) * (i - vStart) / vSpan; };
+  var py = function (v) { return bottom - (bottom - top) * (v - minV) / (maxV - minV); };
+  var area = { left:left, right:right, top:top, bottom:bottom };
+  x.fillStyle = "#FFFFFF"; x.fillRect(left, top, right - left, bottom - top);
   if (PLOT.grid) {
-    x.strokeStyle = "#DCE3E8"; x.lineWidth = 1;
+    x.strokeStyle = "#E0E5E9"; x.lineWidth = 1;
     for (var g = 0; g <= 4; g++) {
       var gy = top + (bottom - top) * g / 4;
       x.beginPath(); x.moveTo(left, gy); x.lineTo(right, gy); x.stroke();
     }
   }
-  x.strokeStyle = "#82909B"; x.lineWidth = 1.2;
+  x.strokeStyle = "#788590"; x.lineWidth = 1.1;
   x.beginPath(); x.moveTo(left, top); x.lineTo(left, bottom); x.lineTo(right, bottom); x.stroke();
-  x.fillStyle = "#38434F"; x.font = "12px Segoe UI"; x.textAlign = "right";
+  x.fillStyle = "#37434D"; x.font = "12px Segoe UI, sans-serif"; x.textAlign = "right";
   for (var yTick = 0; yTick <= 4; yTick++) {
-    var yValue = maxV * (4 - yTick) / 4;
-    var yText = Math.round(yValue).toLocaleString();
+    var value = maxV - (maxV - minV) * yTick / 4;
+    var yText = unit === "°C" ? value.toFixed(0) : Math.round(value).toLocaleString();
     x.fillText(yText, left - 10, top + (bottom - top) * yTick / 4 + 4);
   }
   x.textAlign = "center";
-  var vStart = windowed ? VIEW.start : 0, vSpan = windowed ? VIEW.span : N - 1;
-  var px = function (i) { return left + (right - left) * (i - vStart) / vSpan; };
-  var labelEvery = vSpan > 36 ? 12 : vSpan > 18 ? 6 : vSpan > 10 ? 4 : 2;
+  var labelEvery = vSpan > 36 ? 12 : vSpan > 18 ? 6 : vSpan > 10 ? 4 : vSpan > 4 ? 2 : 1;
   var first = Math.ceil(vStart / labelEvery) * labelEvery;
-  for (var tick = first; tick <= Math.min(N - 1, vStart + vSpan); tick += labelEvery) x.fillText(TIMES[tick], px(tick), H - 18);
-  if (vStart + vSpan >= N - 1 && labelEvery >= 6) x.fillText("24:00", right, H - 18);
-  x.textAlign = "left"; x.fillStyle = "#586570"; x.font = "11px Segoe UI"; x.fillText(unit, left, 15);
+  var lastIndex = Math.min(N - 2, Math.floor(vStart + vSpan - 0.5));
+  for (var tick = first; tick <= lastIndex; tick += labelEvery) {
+    var tickX = px(tick);
+    if (PLOT.grid && tick % 12 === 0 && tickX > left + 1 && tickX < right - 1) {
+      x.strokeStyle = "#F0F2F4"; x.lineWidth = 1;
+      x.beginPath(); x.moveTo(tickX, top); x.lineTo(tickX, bottom); x.stroke();
+    }
+    x.fillStyle = "#46525D"; x.fillText(TIMES[tick], tickX, H - 14);
+  }
+  x.textAlign = "left"; x.fillStyle = "#53616C"; x.font = "11px Segoe UI, sans-serif"; x.fillText(unit, left, 17);
+  var endIndex = vStart + vSpan;
+  x.textAlign = "right"; x.fillStyle = "#46525D"; x.font = "12px Segoe UI, sans-serif";
+  if (endIndex >= N - 1 - 0.01) x.fillText("24:00", right, H - 14);
+  else x.fillText(TIMES[Math.max(0, Math.min(N - 1, Math.round(endIndex)))], right, H - 14);
+  px.py = py; px.area = area;
   return px;
 }
-function drawTimeTicks(x, W, H, left, right, bottom) {
-  x.fillStyle = "#505C67"; x.font = "12px Segoe UI"; x.textAlign = "center";
-  [0,12,24,36,47].forEach(function (i, n) {
-    var px = left + (right - left) * i / (N - 1);
-    x.fillText(["00:00","06:00","12:00","18:00","24:00"][n], px, bottom);
+function clipPlot(x, px, draw) {
+  var a = px.area;
+  x.save(); x.beginPath(); x.rect(a.left, a.top, a.right - a.left, a.bottom - a.top); x.clip();
+  draw(a); x.restore();
+}
+function plotLine(x, values, px, color, width, dash) {
+  x.strokeStyle = color; x.lineWidth = width || 2.5; x.lineCap = "round"; x.lineJoin = "round";
+  x.setLineDash(dash || []); x.beginPath(); var started = false;
+  values.forEach(function (v, i) {
+    if (v == null || !isFinite(v)) { started = false; return; }
+    if (started) x.lineTo(px(i), px.py(v)); else x.moveTo(px(i), px.py(v));
+    started = true;
   });
+  x.stroke(); x.setLineDash([]);
+}
+function plotCursor(x, px, color, value) {
+  var a = px.area, xNow = px(step);
+  x.strokeStyle = color || "#D9781E"; x.lineWidth = 1.4; x.setLineDash([4, 4]);
+  x.beginPath(); x.moveTo(xNow, a.top); x.lineTo(xNow, a.bottom); x.stroke(); x.setLineDash([]);
+  if (value != null) {
+    x.fillStyle = color || "#D9781E"; x.beginPath(); x.arc(xNow, px.py(value), 3.5, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = "#FFFFFF"; x.lineWidth = 1.2; x.stroke();
+  }
+}
+function plotBand(x, px, low, high, fill) {
+  var a = px.area;
+  x.fillStyle = fill || "rgba(53,167,122,.12)";
+  x.fillRect(a.left, px.py(high), a.right - a.left, px.py(low) - px.py(high));
+  x.strokeStyle = "#2E8B65"; x.lineWidth = 1.3; x.setLineDash([5, 4]);
+  [low, high].forEach(function (v) { x.beginPath(); x.moveTo(a.left, px.py(v)); x.lineTo(a.right, px.py(v)); x.stroke(); });
+  x.setLineDash([]);
 }
 function dayChart(key) {
   mkChart("chart-day", function (x, W, H) {
     var b = T.buildings[key];
     var maxKw = Math.max.apply(null, b.dumb.net_kw.concat(b.wattwise.net_kw)) * 1.06;
     var px = axes(x, W, H, maxKw, "kW", true);
-    function py(v) { return H - 46 - (H - 76) * v / maxKw; }
-    x.save(); x.beginPath(); x.rect(64, 26, W - 86, H - 70); x.clip();
-    if (FLAGS.peak) {
-      var t0 = TIMES.indexOf("08:30"), t1 = TIMES.indexOf("10:30");
-      x.fillStyle = "rgba(209,52,56,.09)"; x.fillRect(px(t0), 26, px(t1) - px(t0), H - 72);
-    }
-    if (FLAGS.solar) {
-      x.fillStyle = "rgba(233,168,32,.22)";
-      x.beginPath(); x.moveTo(px(0), py(0));
-      b.wattwise.solar_kw.forEach(function (v, i) { x.lineTo(px(i), py(v)); });
-      x.lineTo(px(N - 1), py(0)); x.closePath(); x.fill();
-    }
-    if (FLAGS.other) {
-      x.strokeStyle = "#c3cbd6"; x.lineWidth = 2.5; x.beginPath();
-      (mode === "dumb" ? b.wattwise : b.dumb).net_kw.forEach(function (v, i) {
-        i ? x.lineTo(px(i), py(v)) : x.moveTo(px(i), py(v));
-      }); x.stroke();
-    }
-    x.strokeStyle = "#E88B33"; x.lineWidth = 3.5; x.beginPath();
-    (mode === "dumb" ? b.dumb : b.wattwise).net_kw.forEach(function (v, i) {
-      i ? x.lineTo(px(i), py(v)) : x.moveTo(px(i), py(v));
-    }); x.stroke();
-    x.strokeStyle = "#E88B33"; x.lineWidth = 2;
-    x.beginPath(); x.moveTo(px(step), 26); x.lineTo(px(step), H - 46); x.stroke();
-    x.restore();
+    clipPlot(x, px, function (a) {
+      if (FLAGS.peak) {
+        var t0 = TIMES.indexOf("08:30"), t1 = TIMES.indexOf("10:30");
+        x.fillStyle = "rgba(217,93,80,.10)"; x.fillRect(px(t0), a.top, px(t1) - px(t0), a.bottom - a.top);
+      }
+      if (FLAGS.solar) {
+        x.fillStyle = "rgba(240,183,79,.24)";
+        x.beginPath(); x.moveTo(px(0), px.py(0));
+        b.wattwise.solar_kw.forEach(function (v, i) { x.lineTo(px(i), px.py(v)); });
+        x.lineTo(px(N - 1), px.py(0)); x.closePath(); x.fill();
+      }
+      if (FLAGS.other) plotLine(x, (mode === "dumb" ? b.wattwise : b.dumb).net_kw, px, "#71808C", 2.1);
+      var current = mode === "dumb" ? b.dumb.net_kw : b.wattwise.net_kw;
+      plotLine(x, current, px, "#E88B33", 2.8);
+      plotCursor(x, px, "#D9781E", current[step]);
+    });
   });
 }
 function zoneChart(key) {
   mkChart("chart-zone", function (x, W, H) {
     var b = T.buildings[key];
-    var lo = 23.4, hi = 26.6;
-    var px = function (i) { return 52 + (W - 72) * i / (N - 1); };
-    var py = function (v) { return H - 40 - (H - 64) * (v - lo) / (hi - lo); };
-    if (FLAGS.band) {
-      x.fillStyle = "rgba(46,125,107,.10)"; x.fillRect(52, py(26), W - 72, py(24) - py(26));
-      x.strokeStyle = "#2E7D6B"; x.setLineDash([7, 6]); x.lineWidth = 1.4;
-      [24, 26].forEach(function (t) { x.beginPath(); x.moveTo(52, py(t)); x.lineTo(W - 20, py(t)); x.stroke(); });
-      x.setLineDash([]);
-    }
-    if (PLOT.grid) {
-      x.strokeStyle = "#edf0f4"; x.lineWidth = 1;
-      for (var gy = 0; gy <= 4; gy++) { var y = 24 + (H - 56) * gy / 4; x.beginPath(); x.moveTo(52, y); x.lineTo(W - 20, y); x.stroke(); }
-    }
-    x.strokeStyle = "#E88B33"; x.lineWidth = 3; x.beginPath();
-    b.wattwise.zone_c.forEach(function (v, i) { i ? x.lineTo(px(i), py(v)) : x.moveTo(px(i), py(v)); });
-    x.stroke();
-    x.strokeStyle = "#e88b3388"; x.lineWidth = 1.5;
-    x.beginPath(); x.moveTo(px(step), 26); x.lineTo(px(step), H - 40); x.stroke();
-    x.fillStyle = "#505C67"; x.font = "600 13px Segoe UI"; x.textAlign = "right";
-    x.fillText("26\u00B0", 46, py(26) + 5); x.fillText("24\u00B0", 46, py(24) + 5);
-    x.textAlign = "left";
-    drawTimeTicks(x, W, H, 52, W - 20, H - 12);
-    // caption reflects the data, not a promise
-    var violations = b.wattwise.zone_c.filter(function (z) { return z > 26.01; }).length;
-    x.fillStyle = violations ? "#9c2226" : "#5a6472";
-    x.fillText(violations
-      ? violations + " steps above 26\u00B0C today \u2014 comfort is never traded away lightly"
-      : "zone stays inside the band \u2014 comfort is never traded away", 60, 24);
+    var px = axes(x, W, H, 27, "°C", true, 23);
+    clipPlot(x, px, function () {
+      if (FLAGS.band) plotBand(x, px, 24, 26, "rgba(53,167,122,.12)");
+      plotLine(x, b.wattwise.zone_c, px, "#E88B33", 2.7);
+      plotCursor(x, px, "#D9781E", b.wattwise.zone_c[step]);
+    });
   });
 }
 function forecastChart(canvasId, fcArr, actArr, color, unit) {
   mkChart(canvasId, function (x, W, H) {
     var maxV = Math.max.apply(null, actArr.concat(fcArr)) * 1.06;
-    var px = axes(x, W, H, maxV, unit, false);
-    function py(v) { return H - 46 - (H - 76) * v / maxV; }
-    if (FLAGS.actual) {
-      x.fillStyle = "rgba(107,114,128,.10)";
-      x.beginPath(); x.moveTo(px(0), py(0));
-      actArr.forEach(function (v, i) { x.lineTo(px(i), py(v)); });
-      x.lineTo(px(N - 1), py(0)); x.closePath(); x.fill();
-      x.strokeStyle = "#6B7280"; x.lineWidth = 2; x.beginPath();
-      actArr.forEach(function (v, i) { i ? x.lineTo(px(i), py(v)) : x.moveTo(px(i), py(v)); });
-      x.stroke();
-    }
-    if (FLAGS.forecast) {
-      x.strokeStyle = color; x.lineWidth = 3; x.setLineDash([8, 5]); x.beginPath();
-      var started = false;
-      fcArr.forEach(function (v, i) {
-        if (v == null) { started = false; return; }
-        started ? x.lineTo(px(i), py(v)) : x.moveTo(px(i), py(v));
-        started = true;
-      });
-      x.stroke(); x.setLineDash([]);
-    }
-    if (step < N - 1) {
-      // "now" line only while the day is still running
-      x.strokeStyle = "#e88b33"; x.lineWidth = 2;
-      x.beginPath(); x.moveTo(px(step), 26); x.lineTo(px(step), H - 46); x.stroke();
-    }
-    if (PLOT.legend) {
-      x.font = "600 14px Segoe UI"; x.textAlign = "left";
-      x.strokeStyle = "#6B7280"; x.lineWidth = 2; x.beginPath(); x.moveTo(64, 40); x.lineTo(92, 40); x.stroke();
-      x.fillStyle = "#505C67"; x.fillText("Actual", 98, 45);
-      x.strokeStyle = color; x.lineWidth = 3; x.setLineDash([8, 5]);
-      x.beginPath(); x.moveTo(170, 40); x.lineTo(198, 40); x.stroke(); x.setLineDash([]);
-      x.fillStyle = "#505C67"; x.fillText("WATTWISE-1 forecast (30 min ahead)", 204, 45);
-    }
+    var px = axes(x, W, H, maxV, unit, true);
+    clipPlot(x, px, function () {
+      if (FLAGS.actual) plotLine(x, actArr, px, "#71808C", 2.4);
+      if (FLAGS.forecast) plotLine(x, fcArr, px, color, 2.7, [7, 4]);
+      if (step < N - 1) plotCursor(x, px, "#D9781E", FLAGS.actual ? actArr[step] : null);
+    });
   });
 }
 
@@ -2075,20 +2058,16 @@ function renderPlanner() {
   if (!c || !c.clientWidth) return;
   mkChart("plan-chart", function (x, W, H) {
     var maxV = Math.max.apply(null, cooling.concat(grid, solar)) * 1.08 || 1;
-    var px = axes(x, W, H, maxV, "kW", false);
-    var py = function (v) { return H - 46 - (H - 76) * v / maxV; };
-    if (FLAGS.peak) {
-      var p0 = TIMES.indexOf("08:30"), p1 = TIMES.indexOf("10:30");
-      x.fillStyle = "rgba(232,139,51,.09)"; x.fillRect(px(p0), 26, px(p1) - px(p0), H - 72);
-    }
-    function line(values, color, dash) {
-      x.strokeStyle = color; x.lineWidth = 3; x.setLineDash(dash || []); x.beginPath();
-      values.forEach(function (v, i) { i ? x.lineTo(px(i), py(v)) : x.moveTo(px(i), py(v)); });
-      x.stroke(); x.setLineDash([]);
-    }
-    if (PLAN_FLAGS.chiller) line(cooling, "#E88B33");
-    if (PLAN_FLAGS.grid) line(grid, "#8491A0");
-    if (PLAN_FLAGS.solar) line(solar, "#2E7D6B", [7, 5]);
+    var px = axes(x, W, H, maxV, "kW", true);
+    clipPlot(x, px, function (a) {
+      if (FLAGS.peak) {
+        var p0 = TIMES.indexOf("08:30"), p1 = TIMES.indexOf("10:30");
+        x.fillStyle = "rgba(217,93,80,.10)"; x.fillRect(px(p0), a.top, px(p1) - px(p0), a.bottom - a.top);
+      }
+      if (PLAN_FLAGS.chiller) plotLine(x, cooling, px, "#E88B33", 2.6);
+      if (PLAN_FLAGS.grid) plotLine(x, grid, px, "#71808C", 2.3);
+      if (PLAN_FLAGS.solar) plotLine(x, solar, px, "#2E7D6B", 2.5, [7, 4]);
+    });
   });
 }
 function renderScheduler() {
@@ -2144,35 +2123,24 @@ function renderScheduler() {
 
 function comfortChart() {
   mkChart("sch-comfort", function (x, W, H) {
-    var lo = 23.4, hi = 26.8;
-    var px = function (i) { return 140 + (W - 170) * i / (N - 1); };
-    var py = function (v) { return H - 46 - (H - 80) * (v - lo) / (hi - lo); };
-    if (FLAGS.band) {
-      x.fillStyle = "rgba(46,125,107,.10)"; x.fillRect(140, py(26), W - 170, py(24) - py(26));
-      x.strokeStyle = "#2E7D6B"; x.setLineDash([7, 6]); x.lineWidth = 1.4;
-      [24, 26].forEach(function (t) { x.beginPath(); x.moveTo(140, py(t)); x.lineTo(W - 30, py(t)); x.stroke(); });
-      x.setLineDash([]);
-    }
-    if (PLOT.grid) {
-      x.strokeStyle = "#DCE3E8"; x.lineWidth = 1;
-      for (var gy = 0; gy <= 4; gy++) { var y = 28 + (H - 62) * gy / 4; x.beginPath(); x.moveTo(140, y); x.lineTo(W - 30, y); x.stroke(); }
-    }
-    var colors = ["#E88B33", "#2E7D6B", "#8491A0", "#D17A2D", "#437A70"];
+    var px = axes(x, W, H, 27, "°C", true, 23);
+    var colors = ["#E88B33", "#71808C", "#2E7D6B", "#3A78A1", "#B55245"];
+    var dashes = [[], [6, 3], [2, 3], [9, 3, 2, 3], [4, 3]];
     var comfortKeys = selected ? [selected] : ORDER.slice(0, 4);
-    comfortKeys.forEach(function (k, ki) {
-      x.strokeStyle = colors[ki % colors.length]; x.lineWidth = 3; x.beginPath();
-      T.buildings[k].wattwise.zone_c.forEach(function (v, i) {
-        i ? x.lineTo(px(i), py(v)) : x.moveTo(px(i), py(v));
+    clipPlot(x, px, function () {
+      if (FLAGS.band) plotBand(x, px, 24, 26, "rgba(53,167,122,.12)");
+      comfortKeys.forEach(function (k, ki) {
+        plotLine(x, T.buildings[k].wattwise.zone_c, px, colors[ki % colors.length], 2.35, dashes[ki % dashes.length]);
       });
-      x.stroke();
-      x.fillStyle = colors[ki % colors.length]; x.font = "600 14px Segoe UI";
-      x.fillText(T.buildings[k].label.replace("Elmina ", "").replace("SDP ", ""), 12, 40 + ki * 24);
+      plotCursor(x, px, "#D9781E", selected ? T.buildings[selected].wattwise.zone_c[step] : null);
     });
-    x.strokeStyle = "#e88b33"; x.lineWidth = 2;
-    x.beginPath(); x.moveTo(px(step), 30); x.lineTo(px(step), H - 46); x.stroke();
-    x.fillStyle = "#505C67"; x.font = "600 13px Segoe UI";
-    x.fillText("24\u00B0", 100, py(24) + 5); x.fillText("26\u00B0", 100, py(26) + 5);
-    drawTimeTicks(x, W, H, 140, W - 30, H - 12);
+    var legend = document.getElementById("sch-comfort-legend");
+    if (legend) {
+      legend.innerHTML = '<span><i class="legend-area green"></i>Comfort band</span>' + comfortKeys.map(function (k, ki) {
+        var label = T.buildings[k].label.replace("Elmina ", "").replace("SDP ", "");
+        return '<span><i class="legend-line" style="border-color:' + colors[ki % colors.length] + ';border-top-style:' + (dashes[ki % dashes.length].length ? 'dashed' : 'solid') + '"></i>' + label + '</span>';
+      }).join("");
+    }
   });
 }
 
@@ -2185,38 +2153,44 @@ function renderReports() {
       // kWh -> GJ: 1 kWh = 3.6 MJ = 0.0036 GJ, annualised x365
       return kwh * 3.6 / 1000 * 365;
     });
-    var maxG = Math.max(24000, Math.max.apply(null, gj) * 1.12);
-    var left = 112, right = W - 28, top = 30, bottom = H - 60;
+    var maxG = Math.max(25000, Math.ceil(Math.max.apply(null, gj) * 1.08 / 5000) * 5000);
+    var left = 78, right = W - 20, top = 32, bottom = H - 56;
     var bw = (right - left) / Math.max(ORDER.length, 1);
     var py = function (v) { return bottom - (bottom - top) * v / maxG; };
-    if (PLOT.grid) {
-      x.strokeStyle = "#DCE3E8"; x.lineWidth = 1;
-      for (var g = 0; g <= 4; g++) {
-        var value = maxG * (4 - g) / 4, y = top + (bottom - top) * g / 4;
+    x.fillStyle = "#FFFFFF"; x.fillRect(left, top, right - left, bottom - top);
+    x.font = "12px Segoe UI, sans-serif"; x.textAlign = "right";
+    for (var g = 0; g <= 4; g++) {
+      var value = maxG * (4 - g) / 4, y = top + (bottom - top) * g / 4;
+      if (PLOT.grid) {
+        x.strokeStyle = "#E0E5E9"; x.lineWidth = 1;
         x.beginPath(); x.moveTo(left, y); x.lineTo(right, y); x.stroke();
-        x.fillStyle = "#505C67"; x.font = "12px Segoe UI"; x.textAlign = "right";
-        x.fillText(Math.round(value).toLocaleString(), left - 8, y + 4);
       }
+      x.fillStyle = "#37434D"; x.fillText(Math.round(value).toLocaleString(), left - 9, y + 4);
     }
-    x.strokeStyle = "#EF4444"; x.lineWidth = 2; x.setLineDash([8, 5]);
-    x.beginPath(); x.moveTo(left, py(21600)); x.lineTo(right, py(21600)); x.stroke();
-    x.setLineDash([]);
-    x.fillStyle = "#b44942"; x.font = "600 12px Segoe UI"; x.textAlign = "left";
-    x.fillText("EECA threshold · 21,600 GJ/year", left + 4, py(21600) - 7);
+    x.strokeStyle = "#788590"; x.lineWidth = 1.1;
+    x.beginPath(); x.moveTo(left, top); x.lineTo(left, bottom); x.lineTo(right, bottom); x.stroke();
+    if (REPORT_FLAGS.threshold) {
+      x.strokeStyle = "#D95D50"; x.lineWidth = 1.8; x.setLineDash([6, 4]);
+      x.beginPath(); x.moveTo(left, py(21600)); x.lineTo(right, py(21600)); x.stroke(); x.setLineDash([]);
+    }
     ORDER.forEach(function (k, i) {
-      var X = left + i * bw + bw * 0.2, barW = Math.max(8, bw * 0.55);
-      var barTop = py(gj[i]), barH = bottom - barTop;
-      x.fillStyle = gj[i] > 21600 ? "#efb8ae" : "#a9d0c4";
-      x.fillRect(X, barTop, barW, barH);
-      x.strokeStyle = gj[i] > 21600 ? "#EF4444" : "#2E7D6B"; x.lineWidth = 1.3;
-      x.strokeRect(X, barTop, barW, barH);
-      x.fillStyle = "#1f2937"; x.font = "600 11px Segoe UI"; x.textAlign = "center";
-      var label = T.buildings[k].label.replace("Elmina ", "").replace("SDP ", "");
-      if (label.length > 13) label = label.slice(0, 12) + "…";
-      x.save(); x.translate(X + barW / 2, bottom + 28); x.rotate(-0.38);
-      x.fillText(label, 0, 0); x.restore();
-      x.fillStyle = "#1f2937"; x.font = "600 11px Consolas,monospace"; x.textAlign = "center";
-      x.fillText(Math.round(gj[i]).toLocaleString(), X + barW / 2, Math.max(top + 12, barTop - 5));
+      var center = left + (i + 0.5) * bw, barW = Math.min(42, Math.max(10, bw * 0.56));
+      var barTop = py(gj[i]), barH = bottom - barTop, above = gj[i] > 21600;
+      x.fillStyle = above ? "#D95D50" : "#E88B33";
+      x.fillRect(center - barW / 2, barTop, barW, barH);
+      x.strokeStyle = above ? "#B8443B" : "#C76D1E"; x.lineWidth = 1;
+      x.strokeRect(center - barW / 2, barTop, barW, barH);
+      x.fillStyle = "#26323D"; x.font = "600 11px Segoe UI, sans-serif"; x.textAlign = "center";
+      x.fillText(Math.round(gj[i]).toLocaleString(), center, Math.max(top + 14, barTop - 11));
+      var words = T.buildings[k].label.replace("Elmina ", "").replace("SDP ", "").split(/\s+/), lines = [], line = "";
+      words.forEach(function (word) {
+        var candidate = line ? line + " " + word : word;
+        if (line && x.measureText(candidate).width > Math.max(42, bw - 8)) { lines.push(line); line = word; }
+        else line = candidate;
+      });
+      if (line) lines.push(line);
+      x.fillStyle = "#46525D"; x.font = "11px Segoe UI, sans-serif";
+      lines.slice(0, 2).forEach(function (labelLine, lineIdx) { x.fillText(labelLine, center, bottom + 17 + lineIdx * 14); });
     });
     var over = gj.filter(function (v) { return v > 21600; }).length;
     document.getElementById("rep-eeca-note").textContent =
