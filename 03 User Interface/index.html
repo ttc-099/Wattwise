@@ -1024,6 +1024,89 @@
     body.panel-layers .side,body.panel-analytics .side,body.panel-settings .side { width:min(300px,26vw); }
     body.panel-map .side-body { flex:1 1 auto; min-height:0; overflow:auto; }
   }
+
+  /* Typography and spacing pass: one calm interface voice, with aligned readings. */
+  :root {
+    --ui-font: "Segoe UI", "Segoe UI Variable", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --text: #202832;
+    --muted: #68737F;
+    --faint: #87919C;
+    --border: #D7DDE3;
+    --border2: #E7EBEF;
+  }
+  html, body { font-family:var(--ui-font); }
+  body { font-size:14px; line-height:1.45; letter-spacing:0; }
+  button, select, input, textarea { font:inherit; }
+  button { letter-spacing:inherit; }
+  .brand-mini { letter-spacing:0; }
+  .rtab { font-size:14px; font-weight:560; letter-spacing:0; }
+  .ribbon-toolbar { font-size:12px; }
+  .rgroup-label { font-size:10px; letter-spacing:.45px; }
+  nav, .crumbs, .cmd-wrap, #cmd { font-family:var(--ui-font); }
+  #cmd { font-size:12px; letter-spacing:.01em; }
+  .content { line-height:1.5; }
+  .portfolio-head h1, .bld-title h1 {
+    font-size:clamp(25px,2vw,31px);
+    line-height:1.15;
+    font-weight:640;
+    letter-spacing:-.045em;
+  }
+  .portfolio-head p, .fc-intro, .sch-intro {
+    font-size:13px;
+    line-height:1.6;
+    color:#68737F;
+  }
+  .eyebrow { font-size:10px; font-weight:650; letter-spacing:.09em; }
+  .data-note { font-size:11px; line-height:1.4; }
+  .kpi-row { border-color:#D7DDE3; }
+  .kpi { min-height:88px; border-color:#E3E7EB; }
+  .kpi .lbl {
+    color:#6D7884;
+    font-size:10px;
+    font-weight:620;
+    letter-spacing:.055em;
+  }
+  .kpi .val, .solar-head .big, .solar-summary .big, .srow .v,
+  .ov-table td.num, .gauge .g-val, footer b, .st-clock, .side-kpi b {
+    font-family:var(--ui-font);
+    font-variant-numeric:tabular-nums lining-nums;
+    font-feature-settings:"tnum" 1, "lnum" 1;
+  }
+  .kpi .val { font-size:clamp(19px,1.55vw,24px); font-weight:650; letter-spacing:-.035em; }
+  .kpi .unit { font-family:var(--ui-font); font-size:12px; font-weight:500; }
+  .kpi .dlt { font-size:11px; line-height:1.45; }
+  .chart-card .ttl { font-size:15px; line-height:1.3; font-weight:640; letter-spacing:-.02em; }
+  .plot-subtitle { font-size:11px; line-height:1.45; }
+  .plot-head { min-height:54px; }
+  .plot-controls { gap:4px; }
+  .plot-toggle { font-family:var(--ui-font); font-size:11px; font-weight:540; }
+  .plot-toggle.on { font-weight:630; }
+  .plot-tool { font-family:var(--ui-font); font-size:15px; }
+  .plot-legend { font-size:11px; }
+  .action-strip::before { font-size:10px; letter-spacing:.065em; }
+  .act { font-size:11px; }
+  .ov-table { font-family:var(--ui-font); font-size:12px; }
+  .ov-table th { font-size:10px; letter-spacing:.035em; }
+  .ov-table td.num { text-align:right; }
+  .badge { font-size:10px; }
+  .secondary-detail>summary { font-size:13px; font-weight:600; }
+  .planner-head h2 { font-weight:640; letter-spacing:-.025em; }
+  .plan-summary span { font-size:10px; }
+  .plan-summary b { font-size:16px; font-weight:650; }
+  footer { font-size:11px; line-height:1.35; }
+  footer b { color:#303A45; }
+  .st-clock { font-size:12px; }
+  :focus-visible { outline-color:#D77B23; }
+  @media(max-width:760px) {
+    .portfolio-head h1, .bld-title h1 { font-size:24px; }
+    .portfolio-head p, .fc-intro, .sch-intro { font-size:12px; }
+    .kpi { min-height:76px; }
+    .kpi .lbl { font-size:9px; }
+    .kpi .val { font-size:clamp(16px,4.8vw,20px); }
+    .chart-card .ttl { font-size:14px; }
+    .plot-subtitle { font-size:10px; }
+    .plot-toggle { font-size:10px; }
+  }
 </style>
 </head>
 <body>
@@ -2067,7 +2150,7 @@ function comfortChart() {
         i ? x.lineTo(px(i), py(v)) : x.moveTo(px(i), py(v));
       });
       x.stroke();
-      x.fillStyle = colors[ki % colors.length]; x.font = "600 14px Calibri";
+      x.fillStyle = colors[ki % colors.length]; x.font = "600 14px Segoe UI";
       x.fillText(T.buildings[k].label.replace("Elmina ", "").replace("SDP ", ""), 12, 40 + ki * 24);
     });
     x.strokeStyle = "#e88b33"; x.lineWidth = 2;
