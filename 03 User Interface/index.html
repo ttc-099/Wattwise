@@ -1152,6 +1152,166 @@
   .srow.sel { background:#F4F7FA; box-shadow:inset 3px 0 0 #0072BD; }
   .gauge .g-tube { height:8px; border-radius:0; background:#EEF1F4; border:1px solid #D5DCE2; }
   .gauge .g-fill { background:#0072BD; }
+
+  /* ===== WattWise visual pass: layout/type only. No palette edits. ===== */
+  body {
+    font-family: Inter, "Source Han Sans", "Segoe UI", Calibri, Arial, sans-serif; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-size: 14px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 400; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    line-height: 1.5; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  h1, .portfolio-head h1, .bld-title h1 {
+    font-size: 20px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 600; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    line-height: 1.3; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    letter-spacing: 0; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  h2, .planner-head h2, .chart-card .ttl {
+    font-size: 16px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 600; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    line-height: 1.3; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .portfolio-head p, .fc-intro, .sch-intro, .about-txt, .ov-table, .kpi .dlt {
+    font-size: 14px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 400; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    line-height: 1.5; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .eyebrow, .data-note, .plot-subtitle, .rep-note, .kpi .lbl, footer {
+    font-size: 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 400; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    line-height: 1.5; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .content {
+    padding: 20px 24px 24px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .page {
+    max-width: 1280px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    margin-left: auto; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    margin-right: auto; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .rbtn, .tbtn, .bld-nav, .plan-nav, .esp-top, .esp-disconnect {
+    border-radius: 4px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .ribbon-toolbar select, nav select, .planner-controls select, #cmd {
+    border-radius: 4px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .ribbon-toolbar select:focus, nav select:focus, .planner-controls select:focus, #cmd:focus {
+    outline-width: 2px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    outline-offset: 1px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .act-btn {
+    border-radius: 4px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    padding: 0; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .act-btn.on::before {
+    width: 2px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    top: 8px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    bottom: 8px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .chart-card, .kpi-row, .solar-summary, .secondary-detail, .planner, .headline {
+    border-radius: 6px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .chart-card, .kpi-row, .solar-summary, .secondary-detail {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  .ov-table th, .ov-table td {
+    padding: 10px 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-bottom-width: 1px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-bottom-style: solid; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+
+  /* Dashboard / home — layout only */
+  #page-overview .portfolio-head {
+    margin: 0 0 20px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    align-items: flex-start; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    gap: 16px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .portfolio-head h1 {
+    margin-top: 4px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-size: 20px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 600; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    line-height: 1.3; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .portfolio-head p {
+    margin-top: 6px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    max-width: 720px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-size: 14px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    line-height: 1.5; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .eyebrow {
+    font-size: 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 400; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    letter-spacing: 0.06em; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .data-note {
+    font-size: 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .ov-totals.kpi-row {
+    margin-top: 0; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    margin-bottom: 20px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    padding: 8px 0; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-width: 1px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-style: solid; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-radius: 6px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .kpi {
+    min-height: 0; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .kpi .lbl {
+    padding: 16px 16px 4px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-size: 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 400; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .kpi .val {
+    padding: 0 16px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-size: 20px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 600; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    line-height: 1.3; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .kpi .dlt {
+    padding: 4px 16px 16px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-size: 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview > .chart-card {
+    margin-top: 0; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    margin-bottom: 20px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    padding: 16px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-width: 1px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-style: solid; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-radius: 6px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .chart-card .ttl {
+    padding: 0 0 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-size: 16px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 600; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    line-height: 1.3; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .ov-table {
+    font-size: 14px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .ov-table th {
+    font-size: 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 600; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    padding: 10px 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .ov-table td {
+    padding: 10px 12px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .secondary-detail {
+    margin-top: 0; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    padding: 0 16px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-width: 1px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-style: solid; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    border-radius: 6px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
+  #page-overview .secondary-detail > summary {
+    padding: 16px 0; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-size: 14px; /* Only layout & style optimized, original color unchanged, no business logic modified */
+    font-weight: 600; /* Only layout & style optimized, original color unchanged, no business logic modified */
+  }
 </style>
 </head>
 <body>
