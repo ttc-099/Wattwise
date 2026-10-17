@@ -730,7 +730,7 @@
     gap:0;
     background:#FFFFFF;
     border:1px solid #DDE2E7;
-    border-radius:10px;
+    border-radius:0;
     overflow:hidden;
   }
   .kpi {
@@ -758,7 +758,7 @@
     border-color:#DDE2E7;
   }
   .trend-workspace {
-    box-shadow:0 10px 26px #14171d0a;
+    box-shadow:none;
   }
   .plot-head {
     min-height:64px;
@@ -769,9 +769,10 @@
     min-height:27px;
   }
   .plot-toggle.on {
-    border-color:#F0D2AA;
-    background:#FFF2E2;
-    color:#8F4F12;
+    border-color:transparent;
+    border-bottom-color:#0072BD;
+    background:transparent;
+    color:#1F4E79;
   }
   .planner-head {
     align-items:flex-start;
@@ -789,7 +790,7 @@
     grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
     background:#FFFFFF;
     border:1px solid #DDE2E7;
-    border-radius:10px;
+    border-radius:0;
     overflow:hidden;
   }
   .solar-summary>div {
@@ -800,7 +801,7 @@
   .secondary-detail {
     background:#FFFFFF;
     border:1px solid #DDE2E7;
-    border-radius:10px;
+    border-radius:0;
     padding:0 14px;
   }
   .ov-table th,
@@ -1071,7 +1072,7 @@
   .plot-head { min-height:54px; }
   .plot-controls { gap:4px; }
   .plot-toggle { font-family:var(--ui-font); font-size:11px; font-weight:540; }
-  .plot-toggle.on { border-color:transparent; border-bottom-color:#E88B33; background:transparent; color:#824706; font-weight:630; }
+  .plot-toggle.on { border-color:transparent; border-bottom-color:#0072BD; background:transparent; color:#1F4E79; font-weight:630; }
   .plot-tool { font-family:var(--ui-font); font-size:15px; }
   .plot-legend { color:#56626E; font-size:11px; }
   .action-strip::before { font-size:10px; letter-spacing:.065em; }
@@ -1110,6 +1111,47 @@
     .tool-divider { flex-basis:100%; height:0; margin:0; border:0; }
     #chart-demand-fc,#plan-chart,#rep-eeca { height:225px; }
   }
+
+  /* Analytical plot chrome: MATLAB/Excel grammar on every chart surface. */
+  .trend-workspace,
+  .comfort-workspace,
+  .plan-chart,
+  #page-forecast>.chart-card,
+  #page-reports>.chart-card {
+    background:#fff;
+    border-top:1px solid #D5DCE2;
+    border-bottom:1px solid #D5DCE2;
+  }
+  .plot-toggle.on {
+    border-color:transparent;
+    border-bottom-color:#0072BD;
+    background:transparent;
+    color:#1F4E79;
+  }
+  .plot-legend { color:#5C6772; font-size:11px; gap:16px; padding:6px 0 8px; }
+  .legend-line {
+    width:22px; height:0; border-top:1.5px solid #0072BD; border-radius:0; display:inline-block;
+  }
+  .legend-line.series-primary { border-color:#0072BD; }
+  .legend-line.series-grey { border-color:#A2A9B0; }
+  .legend-line.series-tertiary { border-color:#D95319; }
+  .legend-line.series-solar { border-color:#B8860B; }
+  .legend-line.series-over { border-color:#A2142F; }
+  .legend-line.dashed { border-top-style:dashed; }
+  .legend-area {
+    width:12px; height:8px; border-radius:0; display:inline-block; background:#0072BD;
+  }
+  .legend-area.amber { background:rgba(196,160,53,.45); }
+  .legend-area.green { background:rgba(0,114,189,.18); }
+  .legend-area.peak { background:rgba(90,98,108,.28); }
+  .legend-area.series-primary { background:#0072BD; }
+  .legend-area.series-over { background:#A2142F; }
+  .bar-fcst { border-radius:0; height:10px; background:#0072BD; }
+  .bar-act { border-radius:0; height:4px; margin-top:2px; background:#77AC30; }
+  .bar-act.under { background:#A2142F; }
+  .srow.sel { background:#F4F7FA; box-shadow:inset 3px 0 0 #0072BD; }
+  .gauge .g-tube { height:8px; border-radius:0; background:#EEF1F4; border:1px solid #D5DCE2; }
+  .gauge .g-fill { background:#0072BD; }
 </style>
 </head>
 <body>
@@ -1225,12 +1267,12 @@
       <div class="chart-card trend-workspace">
         <div class="plot-head"><div><div class="ttl">Electrical demand</div><div class="plot-subtitle">30-minute intervals · kW · billed window 08:30–10:30</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-flag-control="peak">Billed window</button><button class="plot-toggle on" data-flag-control="solar">Solar area</button><button class="plot-toggle on" data-flag-control="other">Compare</button><span class="tool-divider"></span><button class="plot-tool" data-view-action="out" title="Zoom out" aria-label="Zoom out">−</button><button class="plot-tool" data-view-action="in" title="Zoom in" aria-label="Zoom in">+</button><button class="plot-tool" data-view-action="left" title="Pan earlier" aria-label="Pan earlier">‹</button><button class="plot-tool" data-view-action="right" title="Pan later" aria-label="Pan later">›</button><button class="plot-tool fit" data-view-action="fit">24 h</button></div></div>
         <canvas id="chart-day" height="270" aria-label="Building grid demand chart in kilowatts"></canvas>
-        <div class="plot-legend"><span><i class="legend-line orange"></i>Current scenario</span><span><i class="legend-line grey"></i>Other scenario</span><span><i class="legend-area amber"></i>Solar generation</span><span><i class="legend-line red"></i>Billed window</span></div>
+        <div class="plot-legend"><span><i class="legend-line series-primary"></i>Current scenario</span><span><i class="legend-line series-grey dashed"></i>Other scenario</span><span><i class="legend-area amber"></i>Solar generation</span><span><i class="legend-area peak"></i>Billed window</span></div>
       </div>
       <div class="chart-card comfort-workspace">
         <div class="plot-head"><div><div class="ttl">Thermal comfort</div><div class="plot-subtitle">30-minute intervals · °C · comfort range 24–26 °C</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-band-control>Comfort band</button><span class="tool-divider"></span><button class="plot-tool" data-view-action="out" title="Zoom out" aria-label="Zoom out">−</button><button class="plot-tool" data-view-action="in" title="Zoom in" aria-label="Zoom in">+</button><button class="plot-tool" data-view-action="left" title="Pan earlier" aria-label="Pan earlier">‹</button><button class="plot-tool" data-view-action="right" title="Pan later" aria-label="Pan later">›</button><button class="plot-tool fit" data-view-action="fit">24 h</button></div></div>
         <canvas id="chart-zone" height="205" aria-label="Building zone temperature chart in degrees Celsius"></canvas>
-        <div class="plot-legend"><span><i class="legend-area green"></i>Comfort range</span><span><i class="legend-line orange"></i>Selected building</span></div>
+        <div class="plot-legend"><span><i class="legend-area green"></i>Comfort range</span><span><i class="legend-line series-primary"></i>Selected building</span></div>
       </div>
       <div class="action-strip" id="actions"></div>
     </div>
@@ -1251,10 +1293,10 @@
         <div class="solar-cols"><span>Time</span><span>Power</span><span class="r">Fcst kW</span><span class="r">Act. kW</span></div>
         <div class="solar-rows" id="solar-rows"></div>
       </details>
-      <div class="chart-card">
+      <div class="chart-card trend-workspace">
         <div class="plot-head"><div><div class="ttl">Demand &mdash; actual and 30-minute forecast</div><div class="plot-subtitle">30-minute intervals · kW · vertical marker shows current time</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-series-control="actual">Actual</button><button class="plot-toggle on" data-series-control="forecast">Forecast</button><span class="tool-divider"></span><button class="plot-tool" data-view-action="out" title="Zoom out" aria-label="Zoom out">−</button><button class="plot-tool" data-view-action="in" title="Zoom in" aria-label="Zoom in">+</button><button class="plot-tool" data-view-action="left" title="Pan earlier" aria-label="Pan earlier">‹</button><button class="plot-tool" data-view-action="right" title="Pan later" aria-label="Pan later">›</button><button class="plot-tool fit" data-view-action="fit">24 h</button></div></div>
         <canvas id="chart-demand-fc" height="245" aria-label="Demand forecast chart in kilowatts"></canvas>
-        <div class="plot-legend"><span><i class="legend-line grey"></i>Actual</span><span><i class="legend-line orange dashed"></i>WATTWISE-1 forecast</span></div>
+        <div class="plot-legend"><span><i class="legend-line series-primary"></i>Actual</span><span><i class="legend-line series-grey dashed"></i>WATTWISE-1 forecast</span></div>
       </div>
       <div class="fc-note">
         Model walk-forward test metrics (held-out final 60 days, never shuffled):
@@ -1282,10 +1324,10 @@
           </div>
         </div>
         <div class="plan-summary" id="plan-summary"></div>
-        <div class="chart-card plan-chart">
+        <div class="chart-card plan-chart trend-workspace">
           <div class="plot-head"><div><div class="ttl">Scheduled cooling dispatch</div><div class="plot-subtitle">30-minute intervals · kW · billed window 08:30–10:30</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-flag-control="peak">Billed window</button><button class="plot-toggle on" data-plan-series="chiller">Cooling</button><button class="plot-toggle on" data-plan-series="grid">Grid draw</button><button class="plot-toggle on" data-plan-series="solar">Solar</button><span class="tool-divider"></span><button class="plot-tool" data-view-action="out" title="Zoom out" aria-label="Zoom out">−</button><button class="plot-tool" data-view-action="in" title="Zoom in" aria-label="Zoom in">+</button><button class="plot-tool" data-view-action="left" title="Pan earlier" aria-label="Pan earlier">‹</button><button class="plot-tool" data-view-action="right" title="Pan later" aria-label="Pan later">›</button><button class="plot-tool fit" data-view-action="fit">24 h</button></div></div>
           <canvas id="plan-chart" height="260" aria-label="Planned cooling, grid draw and solar output by half-hour"></canvas>
-          <div class="plot-legend"><span><i class="legend-area red"></i>Billed window</span><span><i class="legend-line orange"></i>Cooling dispatch</span><span><i class="legend-line grey"></i>Grid draw</span><span><i class="legend-line green"></i>Solar generation</span></div>
+          <div class="plot-legend"><span><i class="legend-area peak"></i>Billed window</span><span><i class="legend-line series-primary"></i>Cooling dispatch</span><span><i class="legend-line series-grey"></i>Grid draw</span><span><i class="legend-line series-solar"></i>Solar generation</span></div>
         </div>
         <details class="plan-details"><summary>Half-hour schedule values</summary><div class="plan-table-wrap"><table class="ov-table" id="plan-table"></table></div></details>
       </section>
@@ -1297,7 +1339,7 @@
         <div class="ttl">Cold bank &mdash; stored thermal energy (per-building capacity)</div>
         <div class="gauges" id="sch-gauges"></div>
       </div></details>
-      <details class="secondary-detail"><summary>Comfort and intervention history</summary><div class="chart-card">
+      <details class="secondary-detail"><summary>Comfort and intervention history</summary><div class="chart-card trend-workspace">
         <div class="plot-head"><div><div class="ttl">Comfort monitor</div><div class="plot-subtitle">30-minute intervals · °C · setpoint band 24–26 °C</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-band-control>Comfort band</button><span class="tool-divider"></span><button class="plot-tool" data-view-action="out" title="Zoom out" aria-label="Zoom out">−</button><button class="plot-tool" data-view-action="in" title="Zoom in" aria-label="Zoom in">+</button><button class="plot-tool" data-view-action="left" title="Pan earlier" aria-label="Pan earlier">‹</button><button class="plot-tool" data-view-action="right" title="Pan later" aria-label="Pan later">›</button><button class="plot-tool fit" data-view-action="fit">24 h</button></div></div>
         <canvas id="sch-comfort" height="210" aria-label="Comfort monitor chart in degrees Celsius"></canvas>
         <div class="plot-legend" id="sch-comfort-legend"><span><i class="legend-area green"></i>Comfort band</span></div>
@@ -1310,10 +1352,10 @@
       <div class="sch-intro">
         <b>Reports</b> &mdash; modelled energy use, the EECA threshold, and demand-charge detail for the selected scope.
       </div>
-      <div class="chart-card">
+      <div class="chart-card trend-workspace">
         <div class="plot-head"><div><div class="ttl">Annualised consumption</div><div class="plot-subtitle">GJ/year · modelled from one simulated day × 365</div></div><div class="plot-controls"><button class="plot-toggle on" data-plot-grid>Grid</button><button class="plot-toggle on" data-report-threshold>EECA threshold</button></div></div>
         <canvas id="rep-eeca" height="235" aria-label="Annualised building consumption against the EECA threshold"></canvas>
-        <div class="plot-legend"><span><i class="legend-area orange"></i>Within threshold</span><span><i class="legend-area red"></i>Above threshold</span><span><i class="legend-line red dashed"></i>EECA limit · 21,600 GJ/year</span></div>
+        <div class="plot-legend"><span><i class="legend-area series-primary"></i>Within threshold</span><span><i class="legend-area series-over"></i>Above threshold</span><span><i class="legend-line series-over dashed"></i>EECA limit · 21,600 GJ/year</span></div>
         <div class="rep-note" id="rep-eeca-note"></div>
       </div>
       <div class="chart-card">
@@ -1627,18 +1669,44 @@ function refreshMap() {
 }
 
 /* ================= charts ================= */
+/* Shared MATLAB / Excel plot grammar used on every page. */
+var CHART = {
+  bg: "#FFFFFF",
+  plot: "#FFFFFF",
+  grid: "#D9D9D9",
+  axis: "#404040",
+  label: "#404040",
+  muted: "#595959",
+  font: "11px Calibri, Segoe UI, sans-serif",
+  fontSm: "10px Calibri, Segoe UI, sans-serif",
+  primary: "#0072BD",
+  secondary: "#7F7F7F",
+  tertiary: "#D95319",
+  solar: "#B8860B",
+  solarFill: "rgba(184,134,11,.14)",
+  cooling: "#0072BD",
+  gridDraw: "#7F7F7F",
+  solarLine: "#B8860B",
+  peakFill: "rgba(89,89,89,.10)",
+  bandFill: "rgba(0,114,189,.07)",
+  bandLine: "#9AA5B1",
+  cursor: "#404040",
+  over: "#A2142F",
+  under: "#0072BD",
+  matlab: ["#003D73", "#0072BD", "#4F81BD", "#7F8C8D", "#2C3E50"],
+  line: 1.5,
+  lineThin: 1.15
+};
 function mkChart(canvasId, drawFn) {
   var c = document.getElementById(canvasId);
   if (!c || !c.clientWidth) return;
-  // Canvas height is a backing-store attribute and changes when c.height is set.
-  // Keep the original display height so repeated redraws never grow the plot.
   if (!c.dataset.chartHeight) c.dataset.chartHeight = c.getAttribute("height") || "180";
   var W = c.clientWidth;
   var H = parseInt(c.dataset.chartHeight, 10);
   c.width = W * 2; c.height = H * 2;
   var x = c.getContext("2d");
   x.setTransform(2, 0, 0, 2, 0, 0);
-  x.fillStyle = "#fff"; x.fillRect(0, 0, W, H);
+  x.fillStyle = CHART.bg; x.fillRect(0, 0, W, H);
   drawFn(x, W, H);
 }
 function niceStep(range, targetIntervals) {
@@ -1648,52 +1716,79 @@ function niceStep(range, targetIntervals) {
   var niceFraction = fraction < 1.5 ? 1 : fraction < 2.25 ? 2 : fraction < 3.5 ? 2.5 : fraction < 7.5 ? 5 : 10;
   return niceFraction * power;
 }
-function axes(x, W, H, maxV, unit, windowed, minV) {
+function formatY(value, unit) {
+  if (unit === "°C") return value.toFixed(1).replace(/\.0$/, "");
+  if (Math.abs(value) >= 1000) return Math.round(value).toLocaleString();
+  return String(Math.round(value));
+}
+function drawYLabel(x, left, top, bottom, unit) {
+  x.save();
+  x.fillStyle = CHART.muted;
+  x.font = CHART.fontSm;
+  x.textAlign = "center";
+  x.textBaseline = "middle";
+  x.translate(12, (top + bottom) / 2);
+  x.rotate(-Math.PI / 2);
+  x.fillText(unit, 0, 0);
+  x.restore();
+}
+function scaleY(minV, maxV) {
   minV = minV == null ? 0 : minV;
   maxV = Math.max(maxV, minV + 0.001);
   var yStep = niceStep(maxV - minV, 5);
   maxV = minV + yStep * Math.ceil((maxV - minV) / yStep);
-  var yTicks = Math.max(1, Math.round((maxV - minV) / yStep));
-  var left = 68, right = W - 22, top = 31, bottom = H - 42;
+  return { minV: minV, maxV: maxV, yStep: yStep, yTicks: Math.max(1, Math.round((maxV - minV) / yStep)) };
+}
+function paintFrame(x, left, top, right, bottom, scale, unit) {
+  x.fillStyle = CHART.plot;
+  x.fillRect(left, top, right - left, bottom - top);
+  var yTick;
+  for (yTick = 0; yTick <= scale.yTicks; yTick++) {
+    var value = scale.maxV - scale.yStep * yTick;
+    var gy = top + (bottom - top) * yTick / scale.yTicks;
+    if (PLOT.grid && yTick < scale.yTicks) {
+      x.strokeStyle = CHART.grid; x.lineWidth = 0.75; x.lineCap = "butt";
+      x.beginPath(); x.moveTo(left, gy); x.lineTo(right, gy); x.stroke();
+    }
+    x.strokeStyle = CHART.axis; x.lineWidth = 1;
+    x.beginPath(); x.moveTo(left, gy); x.lineTo(left - 4, gy); x.stroke();
+    x.fillStyle = CHART.label; x.font = CHART.font; x.textAlign = "right"; x.textBaseline = "middle";
+    x.fillText(formatY(value, unit), left - 8, gy);
+  }
+  x.strokeStyle = CHART.axis; x.lineWidth = 1; x.lineCap = "butt";
+  x.strokeRect(left + 0.5, top + 0.5, right - left - 1, bottom - top - 1);
+  drawYLabel(x, left, top, bottom, unit);
+}
+function axes(x, W, H, maxV, unit, windowed, minV) {
+  var scale = scaleY(minV, maxV);
+  var left = 58, right = W - 16, top = 14, bottom = H - 38;
   var vStart = windowed ? VIEW.start : 0, vSpan = windowed ? VIEW.span : N - 1;
   vSpan = Math.max(1, vSpan);
   var px = function (i) { return left + (right - left) * (i - vStart) / vSpan; };
-  var py = function (v) { return bottom - (bottom - top) * (v - minV) / (maxV - minV); };
-  var area = { left:left, right:right, top:top, bottom:bottom };
-  x.fillStyle = "#FFFFFF"; x.fillRect(left, top, right - left, bottom - top);
-  if (PLOT.grid) {
-    x.strokeStyle = "#E0E5E9"; x.lineWidth = 1;
-    for (var g = 0; g <= yTicks; g++) {
-      var gy = top + (bottom - top) * g / yTicks;
-      x.beginPath(); x.moveTo(left, gy); x.lineTo(right, gy); x.stroke();
-    }
-  }
-  x.strokeStyle = "#788590"; x.lineWidth = 1.1;
-  x.beginPath(); x.moveTo(left, top); x.lineTo(left, bottom); x.lineTo(right, bottom); x.stroke();
-  x.fillStyle = "#37434D"; x.font = "12px Segoe UI, sans-serif"; x.textAlign = "right";
-  for (var yTick = 0; yTick <= yTicks; yTick++) {
-    var value = maxV - yStep * yTick;
-    var yText = unit === "°C" ? value.toFixed(0) : Math.round(value).toLocaleString();
-    x.fillText(yText, left - 10, top + (bottom - top) * yTick / yTicks + 4);
-  }
+  var py = function (v) { return bottom - (bottom - top) * (v - scale.minV) / (scale.maxV - scale.minV); };
+  var area = { left: left, right: right, top: top, bottom: bottom };
+  paintFrame(x, left, top, right, bottom, scale, unit);
+  x.textBaseline = "alphabetic";
   x.textAlign = "center";
   var labelEvery = vSpan > 36 ? 12 : vSpan > 18 ? 6 : vSpan > 10 ? 4 : vSpan > 4 ? 2 : 1;
   var first = Math.ceil(vStart / labelEvery) * labelEvery;
   var lastIndex = Math.min(N - 2, Math.floor(vStart + vSpan - 0.5));
-  for (var tick = first; tick <= lastIndex; tick += labelEvery) {
+  var tick;
+  for (tick = first; tick <= lastIndex; tick += labelEvery) {
     var tickX = px(tick);
-    if (PLOT.grid && tick % 12 === 0 && tickX > left + 1 && tickX < right - 1) {
-      x.strokeStyle = "#F0F2F4"; x.lineWidth = 1;
-      x.beginPath(); x.moveTo(tickX, top); x.lineTo(tickX, bottom); x.stroke();
-    }
-    x.fillStyle = "#46525D"; x.fillText(TIMES[tick], tickX, H - 14);
+    x.strokeStyle = CHART.axis; x.lineWidth = 1;
+    x.beginPath(); x.moveTo(tickX, bottom); x.lineTo(tickX, bottom + 4); x.stroke();
+    x.fillStyle = CHART.label; x.font = CHART.font; x.fillText(TIMES[tick], tickX, bottom + 16);
   }
-  x.textAlign = "left"; x.fillStyle = "#53616C"; x.font = "11px Segoe UI, sans-serif"; x.fillText(unit, left, 17);
   var endIndex = vStart + vSpan;
-  x.textAlign = "right"; x.fillStyle = "#46525D"; x.font = "12px Segoe UI, sans-serif";
-  if (endIndex >= N - 1 - 0.01) x.fillText("24:00", right, H - 14);
-  else x.fillText(TIMES[Math.max(0, Math.min(N - 1, Math.round(endIndex)))], right, H - 14);
-  px.py = py; px.area = area;
+  x.textAlign = "right"; x.fillStyle = CHART.label; x.font = CHART.font;
+  if (endIndex >= N - 1 - 0.01) x.fillText("24:00", right, bottom + 16);
+  else x.fillText(TIMES[Math.max(0, Math.min(N - 1, Math.round(endIndex)))], right, bottom + 16);
+  x.textAlign = "center"; x.fillStyle = CHART.muted; x.font = CHART.fontSm;
+  x.fillText("Time of day", (left + right) / 2, H - 6);
+  px.py = py; px.area = area; px.stepX = function (i) {
+    return i + 1 <= vStart + vSpan ? Math.min(right, px(i + 1)) : right;
+  };
   return px;
 }
 function clipPlot(x, px, draw) {
@@ -1701,9 +1796,12 @@ function clipPlot(x, px, draw) {
   x.save(); x.beginPath(); x.rect(a.left, a.top, a.right - a.left, a.bottom - a.top); x.clip();
   draw(a); x.restore();
 }
+function plotStroke(x, color, width, dash) {
+  x.strokeStyle = color; x.lineWidth = width || CHART.line; x.lineCap = "butt"; x.lineJoin = "miter";
+  x.setLineDash(dash || []);
+}
 function plotLine(x, values, px, color, width, dash) {
-  x.strokeStyle = color; x.lineWidth = width || 2.5; x.lineCap = "round"; x.lineJoin = "round";
-  x.setLineDash(dash || []); x.beginPath(); var started = false;
+  plotStroke(x, color, width, dash); x.beginPath(); var started = false;
   values.forEach(function (v, i) {
     if (v == null || !isFinite(v)) { started = false; return; }
     if (started) x.lineTo(px(i), px.py(v)); else x.moveTo(px(i), px.py(v));
@@ -1711,21 +1809,64 @@ function plotLine(x, values, px, color, width, dash) {
   });
   x.stroke(); x.setLineDash([]);
 }
+function plotStep(x, values, px, color, width, dash) {
+  plotStroke(x, color, width, dash); x.beginPath();
+  var started = false, lastY = 0, lastI = 0;
+  values.forEach(function (v, i) {
+    if (v == null || !isFinite(v)) {
+      if (started) { x.lineTo(px.stepX(lastI), lastY); started = false; }
+      return;
+    }
+    var xi = px(i), yi = px.py(v);
+    if (!started) { x.moveTo(xi, yi); started = true; }
+    else { x.lineTo(xi, lastY); x.lineTo(xi, yi); }
+    lastY = yi; lastI = i;
+  });
+  if (started) x.lineTo(px.stepX(lastI), lastY);
+  x.stroke(); x.setLineDash([]);
+}
+function plotStepArea(x, values, px, fill) {
+  var a = px.area, started = false, lastI = 0, lastY = a.bottom, startX = a.left;
+  x.fillStyle = fill; x.beginPath();
+  values.forEach(function (v, i) {
+    if (v == null || !isFinite(v)) return;
+    var xi = px(i), yi = px.py(v);
+    if (!started) { startX = xi; x.moveTo(xi, a.bottom); x.lineTo(xi, yi); started = true; }
+    else { x.lineTo(xi, lastY); x.lineTo(xi, yi); }
+    lastI = i; lastY = yi;
+  });
+  if (!started) return;
+  x.lineTo(px.stepX(lastI), lastY);
+  x.lineTo(px.stepX(lastI), a.bottom);
+  x.lineTo(startX, a.bottom);
+  x.closePath(); x.fill();
+}
+function plotPeakWindow(x, px) {
+  var a = px.area, t0 = TIMES.indexOf("08:30"), t1 = TIMES.indexOf("10:30");
+  if (t0 < 0 || t1 < 0) return;
+  x.fillStyle = CHART.peakFill;
+  x.fillRect(px(t0), a.top, px(t1) - px(t0), a.bottom - a.top);
+}
 function plotCursor(x, px, color, value) {
   var a = px.area, xNow = px(step);
-  x.strokeStyle = color || "#D9781E"; x.lineWidth = 1.4; x.setLineDash([4, 4]);
-  x.beginPath(); x.moveTo(xNow, a.top); x.lineTo(xNow, a.bottom); x.stroke(); x.setLineDash([]);
-  if (value != null) {
-    x.fillStyle = color || "#D9781E"; x.beginPath(); x.arc(xNow, px.py(value), 3.5, 0, Math.PI * 2); x.fill();
-    x.strokeStyle = "#FFFFFF"; x.lineWidth = 1.2; x.stroke();
+  x.strokeStyle = color || CHART.cursor; x.lineWidth = 1; x.setLineDash([2, 3]);
+  x.beginPath(); x.moveTo(xNow, a.top); x.lineTo(xNow, a.bottom); x.stroke();
+  x.setLineDash([]);
+  if (value != null && isFinite(value)) {
+    var y = px.py(value);
+    x.fillStyle = color || CHART.cursor;
+    x.beginPath(); x.arc(xNow, y, 2.6, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = "#FFFFFF"; x.lineWidth = 1; x.stroke();
   }
 }
 function plotBand(x, px, low, high, fill) {
   var a = px.area;
-  x.fillStyle = fill || "rgba(53,167,122,.12)";
+  x.fillStyle = fill || CHART.bandFill;
   x.fillRect(a.left, px.py(high), a.right - a.left, px.py(low) - px.py(high));
-  x.strokeStyle = "#2E8B65"; x.lineWidth = 1.3; x.setLineDash([5, 4]);
-  [low, high].forEach(function (v) { x.beginPath(); x.moveTo(a.left, px.py(v)); x.lineTo(a.right, px.py(v)); x.stroke(); });
+  plotStroke(x, CHART.bandLine, 1, [3, 3]);
+  [low, high].forEach(function (v) {
+    x.beginPath(); x.moveTo(a.left, px.py(v)); x.lineTo(a.right, px.py(v)); x.stroke();
+  });
   x.setLineDash([]);
 }
 function dayChart(key) {
@@ -1733,21 +1874,16 @@ function dayChart(key) {
     var b = T.buildings[key];
     var maxKw = Math.max.apply(null, b.dumb.net_kw.concat(b.wattwise.net_kw)) * 1.06;
     var px = axes(x, W, H, maxKw, "kW", true);
-    clipPlot(x, px, function (a) {
-      if (FLAGS.peak) {
-        var t0 = TIMES.indexOf("08:30"), t1 = TIMES.indexOf("10:30");
-        x.fillStyle = "rgba(217,93,80,.10)"; x.fillRect(px(t0), a.top, px(t1) - px(t0), a.bottom - a.top);
-      }
+    clipPlot(x, px, function () {
+      if (FLAGS.peak) plotPeakWindow(x, px);
       if (FLAGS.solar) {
-        x.fillStyle = "rgba(240,183,79,.24)";
-        x.beginPath(); x.moveTo(px(0), px.py(0));
-        b.wattwise.solar_kw.forEach(function (v, i) { x.lineTo(px(i), px.py(v)); });
-        x.lineTo(px(N - 1), px.py(0)); x.closePath(); x.fill();
+        plotStepArea(x, b.wattwise.solar_kw, px, CHART.solarFill);
+        plotStep(x, b.wattwise.solar_kw, px, CHART.solar, CHART.lineThin);
       }
-      if (FLAGS.other) plotLine(x, (mode === "dumb" ? b.wattwise : b.dumb).net_kw, px, "#71808C", 2.1);
+      if (FLAGS.other) plotStep(x, (mode === "dumb" ? b.wattwise : b.dumb).net_kw, px, CHART.secondary, CHART.lineThin, [4, 3]);
       var current = mode === "dumb" ? b.dumb.net_kw : b.wattwise.net_kw;
-      plotLine(x, current, px, "#E88B33", 2.8);
-      plotCursor(x, px, "#D9781E", current[step]);
+      plotStep(x, current, px, CHART.primary, CHART.line);
+      plotCursor(x, px, CHART.cursor, current[step]);
     });
   });
 }
@@ -1756,9 +1892,9 @@ function zoneChart(key) {
     var b = T.buildings[key];
     var px = axes(x, W, H, 27, "°C", true, 23);
     clipPlot(x, px, function () {
-      if (FLAGS.band) plotBand(x, px, 24, 26, "rgba(53,167,122,.12)");
-      plotLine(x, b.wattwise.zone_c, px, "#E88B33", 2.7);
-      plotCursor(x, px, "#D9781E", b.wattwise.zone_c[step]);
+      if (FLAGS.band) plotBand(x, px, 24, 26, CHART.bandFill);
+      plotLine(x, b.wattwise.zone_c, px, CHART.primary, CHART.line);
+      plotCursor(x, px, CHART.cursor, b.wattwise.zone_c[step]);
     });
   });
 }
@@ -1767,9 +1903,9 @@ function forecastChart(canvasId, fcArr, actArr, color, unit) {
     var maxV = Math.max.apply(null, actArr.concat(fcArr)) * 1.06;
     var px = axes(x, W, H, maxV, unit, true);
     clipPlot(x, px, function () {
-      if (FLAGS.actual) plotLine(x, actArr, px, "#71808C", 2.4);
-      if (FLAGS.forecast) plotLine(x, fcArr, px, color, 2.7, [7, 4]);
-      if (step < N - 1) plotCursor(x, px, "#D9781E", FLAGS.actual ? actArr[step] : null);
+      if (FLAGS.actual) plotStep(x, actArr, px, CHART.primary, CHART.line);
+      if (FLAGS.forecast) plotStep(x, fcArr, px, color || CHART.secondary, CHART.lineThin, [5, 3]);
+      if (step < N - 1) plotCursor(x, px, CHART.cursor, FLAGS.actual ? actArr[step] : null);
     });
   });
 }
@@ -2069,14 +2205,14 @@ function renderPlanner() {
   mkChart("plan-chart", function (x, W, H) {
     var maxV = Math.max.apply(null, cooling.concat(grid, solar)) * 1.08 || 1;
     var px = axes(x, W, H, maxV, "kW", true);
-    clipPlot(x, px, function (a) {
-      if (FLAGS.peak) {
-        var p0 = TIMES.indexOf("08:30"), p1 = TIMES.indexOf("10:30");
-        x.fillStyle = "rgba(217,93,80,.10)"; x.fillRect(px(p0), a.top, px(p1) - px(p0), a.bottom - a.top);
+    clipPlot(x, px, function () {
+      if (FLAGS.peak) plotPeakWindow(x, px);
+      if (PLAN_FLAGS.solar) {
+        plotStepArea(x, solar, px, CHART.solarFill);
+        plotStep(x, solar, px, CHART.solar, CHART.lineThin);
       }
-      if (PLAN_FLAGS.chiller) plotLine(x, cooling, px, "#E88B33", 2.6);
-      if (PLAN_FLAGS.grid) plotLine(x, grid, px, "#71808C", 2.3);
-      if (PLAN_FLAGS.solar) plotLine(x, solar, px, "#2E7D6B", 2.5, [7, 4]);
+      if (PLAN_FLAGS.grid) plotStep(x, grid, px, CHART.secondary, CHART.lineThin);
+      if (PLAN_FLAGS.chiller) plotStep(x, cooling, px, CHART.primary, CHART.line);
     });
   });
 }
@@ -2134,21 +2270,21 @@ function renderScheduler() {
 function comfortChart() {
   mkChart("sch-comfort", function (x, W, H) {
     var px = axes(x, W, H, 27, "°C", true, 23);
-    var colors = ["#E88B33", "#71808C", "#2E7D6B", "#3A78A1", "#B55245"];
-    var dashes = [[], [6, 3], [2, 3], [9, 3, 2, 3], [4, 3]];
-    var comfortKeys = selected ? [selected] : ORDER.slice(0, 4);
+    var colors = CHART.matlab;
+    var comfortKeys = ORDER.slice();
     clipPlot(x, px, function () {
-      if (FLAGS.band) plotBand(x, px, 24, 26, "rgba(53,167,122,.12)");
+      if (FLAGS.band) plotBand(x, px, 24, 26, CHART.bandFill);
       comfortKeys.forEach(function (k, ki) {
-        plotLine(x, T.buildings[k].wattwise.zone_c, px, colors[ki % colors.length], 2.35, dashes[ki % dashes.length]);
+        var weight = k === selected ? CHART.line : CHART.lineThin;
+        plotLine(x, T.buildings[k].wattwise.zone_c, px, colors[ki % colors.length], weight);
       });
-      plotCursor(x, px, "#D9781E", selected ? T.buildings[selected].wattwise.zone_c[step] : null);
+      plotCursor(x, px, CHART.cursor, selected ? T.buildings[selected].wattwise.zone_c[step] : null);
     });
     var legend = document.getElementById("sch-comfort-legend");
     if (legend) {
       legend.innerHTML = '<span><i class="legend-area green"></i>Comfort band</span>' + comfortKeys.map(function (k, ki) {
         var label = T.buildings[k].label.replace("Elmina ", "").replace("SDP ", "");
-        return '<span><i class="legend-line" style="border-color:' + colors[ki % colors.length] + ';border-top-style:' + (dashes[ki % dashes.length].length ? 'dashed' : 'solid') + '"></i>' + label + '</span>';
+        return '<span><i class="legend-line" style="border-color:' + colors[ki % colors.length] + '"></i>' + label + '</span>';
       }).join("");
     }
   });
@@ -2163,48 +2299,35 @@ function renderReports() {
       // kWh -> GJ: 1 kWh = 3.6 MJ = 0.0036 GJ, annualised x365
       return kwh * 3.6 / 1000 * 365;
     });
-    var maxG = Math.max(25000, Math.max.apply(null, gj) * 1.08);
-    var yStep = niceStep(maxG, 5);
-    maxG = yStep * Math.ceil(maxG / yStep);
-    var yTicks = Math.max(1, Math.round(maxG / yStep));
-    var left = 78, right = W - 20, top = 32, bottom = H - 56;
+    var scale = scaleY(0, Math.max(25000, Math.max.apply(null, gj) * 1.08));
+    var left = 58, right = W - 16, top = 14, bottom = H - 44;
     var bw = (right - left) / Math.max(ORDER.length, 1);
-    var py = function (v) { return bottom - (bottom - top) * v / maxG; };
-    x.fillStyle = "#FFFFFF"; x.fillRect(left, top, right - left, bottom - top);
-    x.font = "12px Segoe UI, sans-serif"; x.textAlign = "right";
-    for (var g = 0; g <= yTicks; g++) {
-      var value = maxG - yStep * g, y = top + (bottom - top) * g / yTicks;
-      if (PLOT.grid) {
-        x.strokeStyle = "#E0E5E9"; x.lineWidth = 1;
-        x.beginPath(); x.moveTo(left, y); x.lineTo(right, y); x.stroke();
-      }
-      x.fillStyle = "#37434D"; x.fillText(Math.round(value).toLocaleString(), left - 9, y + 4);
-    }
-    x.strokeStyle = "#788590"; x.lineWidth = 1.1;
-    x.beginPath(); x.moveTo(left, top); x.lineTo(left, bottom); x.lineTo(right, bottom); x.stroke();
-    if (REPORT_FLAGS.threshold) {
-      x.strokeStyle = "#D95D50"; x.lineWidth = 1.8; x.setLineDash([6, 4]);
-      x.beginPath(); x.moveTo(left, py(21600)); x.lineTo(right, py(21600)); x.stroke(); x.setLineDash([]);
-    }
+    var py = function (v) { return bottom - (bottom - top) * (v - scale.minV) / (scale.maxV - scale.minV); };
+    paintFrame(x, left, top, right, bottom, scale, "GJ/year");
     ORDER.forEach(function (k, i) {
-      var center = left + (i + 0.5) * bw, barW = Math.min(42, Math.max(10, bw * 0.56));
+      var center = left + (i + 0.5) * bw, barW = Math.min(34, Math.max(14, bw * 0.42));
       var barTop = py(gj[i]), barH = bottom - barTop, above = gj[i] > 21600;
-      x.fillStyle = above ? "#D95D50" : "#E88B33";
+      x.fillStyle = above ? CHART.over : CHART.primary;
       x.fillRect(center - barW / 2, barTop, barW, barH);
-      x.strokeStyle = above ? "#B8443B" : "#C76D1E"; x.lineWidth = 1;
+      x.strokeStyle = CHART.axis; x.lineWidth = 0.75;
       x.strokeRect(center - barW / 2, barTop, barW, barH);
-      x.fillStyle = "#26323D"; x.font = "600 11px Segoe UI, sans-serif"; x.textAlign = "center";
-      x.fillText(Math.round(gj[i]).toLocaleString(), center, Math.max(top + 14, barTop - 11));
       var words = T.buildings[k].label.replace("Elmina ", "").replace("SDP ", "").split(/\s+/), lines = [], line = "";
+      x.font = CHART.fontSm;
       words.forEach(function (word) {
         var candidate = line ? line + " " + word : word;
         if (line && x.measureText(candidate).width > Math.max(42, bw - 8)) { lines.push(line); line = word; }
         else line = candidate;
       });
       if (line) lines.push(line);
-      x.fillStyle = "#46525D"; x.font = "11px Segoe UI, sans-serif";
-      lines.slice(0, 2).forEach(function (labelLine, lineIdx) { x.fillText(labelLine, center, bottom + 17 + lineIdx * 14); });
+      x.fillStyle = CHART.label; x.textAlign = "center"; x.textBaseline = "alphabetic";
+      lines.slice(0, 2).forEach(function (labelLine, lineIdx) { x.fillText(labelLine, center, bottom + 14 + lineIdx * 12); });
     });
+    if (REPORT_FLAGS.threshold) {
+      x.strokeStyle = CHART.over; x.lineWidth = 1.15; x.setLineDash([5, 3]);
+      x.beginPath(); x.moveTo(left, py(21600)); x.lineTo(right, py(21600)); x.stroke(); x.setLineDash([]);
+    }
+    x.textAlign = "center"; x.fillStyle = CHART.muted; x.font = CHART.fontSm;
+    x.fillText("Building", (left + right) / 2, H - 6);
     var over = gj.filter(function (v) { return v > 21600; }).length;
     document.getElementById("rep-eeca-note").textContent =
       "Illustrative annualisation of one simulated day x365. " + over + " of " + ORDER.length +
@@ -2383,7 +2506,7 @@ function refresh() {
   if (selected) { renderKpis(selected); dayChart(selected); zoneChart(selected); }
   renderForecastKpis();
   renderSolarTable();
-  forecastChart("chart-demand-fc", T.forecast.demand_fc_kw, T.forecast.demand_actual_kw, "#E88B33", "kW");
+  forecastChart("chart-demand-fc", T.forecast.demand_fc_kw, T.forecast.demand_actual_kw, CHART.secondary, "kW");
   renderOverview();
   renderScheduler();
   comfortChart();
@@ -2397,7 +2520,7 @@ function redrawVisible() {
   if (selected) { dayChart(selected); zoneChart(selected); }
   renderForecastKpis();
   renderSolarTable();
-  forecastChart("chart-demand-fc", T.forecast.demand_fc_kw, T.forecast.demand_actual_kw, "#E88B33", "kW");
+  forecastChart("chart-demand-fc", T.forecast.demand_fc_kw, T.forecast.demand_actual_kw, CHART.secondary, "kW");
   renderOverview();
   renderScheduler();
   comfortChart();
