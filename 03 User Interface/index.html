@@ -1581,6 +1581,17 @@
   .ribbon-tabs { padding-bottom: 8px; }
   .chart-card { padding-left: 12px; padding-right: 12px; }
   .chart-card .ttl { padding-left: 0; padding-right: 0; }
+
+  /* ============ plan pages ============ */
+  .plan-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; padding: 4px 0 8px; }
+  .pstep { display: flex; flex-direction: column; gap: 5px; border: 1px solid var(--border2); border-radius: 5px; padding: 12px 14px; background: transparent; text-align: left; font: inherit; color: var(--text); }
+  .pstep b { font-size: 12px; letter-spacing: .5px; color: var(--muted); }
+  .pstep span { font-size: 12.5px; line-height: 1.45; color: var(--text); }
+  .pstep-btn { cursor: pointer; }
+  .pstep-btn:hover { border-color: var(--accent); background: #fff8ef; }
+  .shift-nav { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .parked-card { border: 1px dashed var(--border); }
+  body.plan-mode .scope-control, body.plan-mode .activity, body.plan-mode .side, body.plan-mode .esp-top, body.plan-mode footer, body.plan-mode .command-drawer, body.plan-mode .ribbon-toolbar { display: none !important; }
 </style>
 </head>
 <body>
@@ -1590,11 +1601,10 @@
   <div class="ribbon-tabs" id="ribbon-tabs">
     <div class="brand-mini"><img class="brand-lockup" src="./assets/wattwise-logo.png" alt="WattWise"></div>
     <div class="nav-tabs" role="navigation" aria-label="Main sections">
-    <button type="button" class="rtab on" aria-current="page" data-page="page-overview">Dashboard</button>
-    <button type="button" class="rtab" data-page="page-buildings">Buildings</button>
-    <button type="button" class="rtab" data-page="page-forecast">Forecast</button>
-    <button type="button" class="rtab" data-page="page-scheduler">Schedule</button>
-    <button type="button" class="rtab" data-page="page-reports">Reports</button>
+    <button type="button" class="rtab on" aria-current="page" data-page="page-plan">Plan</button>
+    <button type="button" class="rtab" data-page="page-estimate">Estimate</button>
+    <button type="button" class="rtab" data-page="page-allocate">Allocate</button>
+    <button type="button" class="rtab" data-page="page-settle">Settle</button>
     </div>
     <div class="spacer"></div>
     <button class="esp-top" id="esp-connect" type="button"><span class="esp-dot" id="esp-dot"></span><span id="esp-connect-label">Connect ESP32</span></button>
@@ -1675,7 +1685,7 @@
 
   <!-- central canvas -->
   <section class="content">
-    <div class="page on" id="page-overview">
+    <div class="page" id="page-overview">
       <div class="portfolio-head"><div><h1>Dashboard overview</h1><p>Monitor demand, dispatch, and comfort across the selected sites.</p></div><span class="data-note">Synthetic demo data</span></div>
       <div class="ov-totals kpi-row" id="ov-totals"></div>
       <div class="chart-card">
@@ -1688,7 +1698,62 @@
       </div></details>
     </div>
 
-    <div class="page" id="page-buildings">
+    <!-- ================= PLAN (front door) ================= -->
+<div class="page on" id="page-plan">
+  <div class="portfolio-head"><div><h1>CREAM allocation, planned</h1><p>Each month&rsquo;s solar split, allocated four months ahead from the buyers&rsquo; own meter history.</p></div><span class="data-note">Modelled settlement &middot; real SDP sites</span></div>
+  <div class="kpi-row" id="plan-kpis"></div>
+  <div class="chart-card"><div class="plot-head"><div><div class="ttl">Given away by month: fixed split vs WattWise Plan</div><div class="plot-subtitle">Energy sold at the NEDA floor because the allocated share exceeded buyer demand &middot; MWh &middot; modelled</div></div></div>
+    <canvas id="chart-plan-replay" height="240" aria-label="Monthly giveaway, fixed split versus WattWise Plan"></canvas>
+    <div class="plot-legend"><span><i class="legend-line" style="background:#7F7F7F"></i>Fixed annual split</span><span><i class="legend-line" style="background:#2E7D6B"></i>WattWise Plan</span><span class="lab">Oracle arm (perfect foresight): 0.0% given away</span></div>
+  </div>
+  <div class="chart-card"><div class="plot-head"><div><div class="ttl">Where the solar goes</div><div class="plot-subtitle">Scheme year at the matching size &middot; MWh</div></div></div>
+    <div class="solar-summary" id="plan-flows"></div>
+  </div>
+  <div class="chart-card"><div class="plot-head"><div><div class="ttl">Scheme register &middot; next buyer in, plan keeps working</div><div class="plot-subtitle">Buyer-mix replay &middot; modelled loads, CREAM price assumed 15&ndash;30 sen</div></div></div>
+    <table class="ov-table" id="plan-register"></table>
+  </div>
+</div>
+
+<!-- ================= ESTIMATE ================= -->
+<div class="page" id="page-estimate">
+  <div class="portfolio-head"><div><h1>Estimate</h1><p>Each buyer&rsquo;s use, four months ahead, from its own history. Only data that existed before the notice date.</p></div><span class="data-note">CREAM 9.10(e)</span></div>
+  <div class="chart-card"><div class="plot-head"><div><div class="ttl">The rule</div><div class="plot-subtitle">No weather, no calendar features &middot; the same month last year, adjusted by trend</div></div></div>
+    <div class="plan-steps">
+      <div class="pstep"><b>1 &middot; READ</b><span>Three files: buyers&rsquo; monthly readings, the splits already allocated, the scheme&rsquo;s solar output. Nothing else.</span></div>
+      <div class="pstep"><b>2 &middot; ESTIMATE</b><span>Same month last year &times; (1 + buyer trend). Worst-month forecast error, median: 24.3% single-buyer, 32.1% two-buyer &mdash; and the plan still cuts the giveaway.</span></div>
+      <div class="pstep"><b>3 &middot; ALLOCATE</b><span>Shares matched to estimates; a slice deliberately held back to sell at the NEDA floor rather than risk giving it away.</span></div>
+      <div class="pstep"><b>4 &middot; SETTLE</b><span>Every allocation is replayed against actual consumption. The estimate re-bases from fresh data each month.</span></div>
+    </div>
+  </div>
+  <div class="chart-card"><div class="plot-head"><div><div class="ttl">Allocation runway</div><div class="plot-subtitle">The 120-day rule, applied to the months ahead</div></div></div>
+    <table class="ov-table" id="plan-runway"></table>
+  </div>
+</div>
+
+<!-- ================= ALLOCATE ================= -->
+<div class="page" id="page-allocate">
+  <div class="portfolio-head"><div><h1>Allocate</h1><p>Over-allocating costs the scheme the contract-price difference; under-allocating costs far less. Plan holds a slice back.</p></div><span class="data-note">Modelled</span></div>
+  <div class="kpi-row" id="alloc-kpis"></div>
+  <div class="chart-card"><div class="plot-head"><div><div class="ttl">Annual flows at the matching size</div><div class="plot-subtitle">Scheme generation 9,409 MWh/yr &middot; delivered, given away, held back for NEDA sale</div></div></div>
+    <canvas id="chart-plan-flows" height="230" aria-label="Annual solar flows, fixed split versus WattWise Plan"></canvas>
+    <div class="plot-legend"><span><i class="legend-line" style="background:#2E7D6B"></i>Delivered to buyers</span><span><i class="legend-line" style="background:#7F7F7F"></i>Given away at floor price</span><span><i class="legend-line" style="background:#B8860B"></i>Held back, sold via NEDA</span></div>
+  </div>
+</div>
+
+<!-- ================= SETTLE ================= -->
+<div class="page" id="page-settle">
+  <div class="portfolio-head"><div><h1>Settle &amp; learn</h1><p>The plan, replayed against real consumption: 590 real buildings&rsquo; meters, paired into schemes.</p></div><span class="data-note">BDG2 2016&rarr;2017</span></div>
+  <div class="kpi-row" id="settle-kpis"></div>
+  <div class="chart-card"><div class="plot-head"><div><div class="ttl">Median solar given away, by arm</div><div class="plot-subtitle">Fixed annual split vs copy-last-year persistence vs WattWise Plan &middot; % of scheme generation</div></div></div>
+    <canvas id="chart-plan-bench" height="230" aria-label="Benchmark giveaway percentages by arm"></canvas>
+    <div class="plot-legend"><span><i class="legend-line" style="background:#7F7F7F"></i>Fixed annual split</span><span><i class="legend-line" style="background:#0072BD"></i>Copy-last-year persistence</span><span><i class="legend-line" style="background:#2E7D6B"></i>WattWise Plan</span></div>
+  </div>
+  <div class="chart-card"><div class="plot-head"><div><div class="ttl">Bench detail</div><div class="plot-subtitle">Win rates and income gain vs the free persistence baseline</div></div></div>
+    <table class="ov-table" id="plan-bench"></table>
+  </div>
+</div>
+
+<div class="page" id="page-buildings">
       <div class="bld-head">
         <button class="bld-nav" id="bld-prev">&#8249;</button>
         <div class="bld-title">
@@ -1947,6 +2012,7 @@ document.getElementById("ribbon-toolbar").addEventListener("click", function (e)
 
 /* ================= tabs / pages ================= */
 function showPage(id) {
+  window.showPage = showPage;  // export for plan.js
   ribbonPage = id;
   document.querySelectorAll(".rtab").forEach(function (t) {
     var current = t.dataset.page === id;
@@ -1969,7 +2035,7 @@ function updateCrumbs() {
     document.getElementById("crumbs").innerHTML = "<b>WattWise</b><span class=\"sep\">&rsaquo;</span>Loading township data";
     return;
   }
-  var names = { "page-overview": "Dashboard", "page-buildings": "Buildings", "page-forecast": "Forecast", "page-scheduler": "Schedule", "page-reports": "Reports" };
+  var names = { "page-plan": "Plan", "page-estimate": "Estimate", "page-allocate": "Allocate", "page-settle": "Settle", "page-shift": "Shift (parked)", "page-overview": "Dashboard", "page-buildings": "Buildings", "page-forecast": "Forecast", "page-scheduler": "Schedule", "page-reports": "Reports" };
   var scope = townScope === "all" ? "All townships" : T.towns[townScope].label;
   document.getElementById("crumbs").innerHTML = "<b>WattWise</b><span class=\"sep\">&rsaquo;</span>" + scope + "<span class=\"sep\">&rsaquo;</span>" + names[ribbonPage] +
     (selected ? "<span class=\"sep\">&rsaquo;</span><b id=\"crumb-bld\">" + T.buildings[selected].label + "</b>" : "");
@@ -3148,7 +3214,7 @@ fetch("./data/township.json").then(function (r) { return r.json(); }).then(funct
   renderRibbon();
   select(ALL_ORDER[0]);
   initializePlanner();
-  showPage("page-overview");
+  showPage("page-plan");
   refresh();
   updateStatusWord();
   requestAnimationFrame(loop);
@@ -3159,5 +3225,6 @@ fetch("./data/township.json").then(function (r) { return r.json(); }).then(funct
 
 })();
 </script>
+<script src="plan.js"></script>
 </body>
 </html>

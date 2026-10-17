@@ -1,0 +1,209 @@
+{
+ "basis": [
+  "Elmina Innovation Park",
+  "Elmina Lakeside Mall"
+ ],
+ "headline": {
+  "scheme_solar_mwh": 9409.0,
+  "kwp_match": 7384.0,
+  "homes_illustrative": 1476,
+  "feeders": 4,
+  "lead_months": 4
+ },
+ "settlement": {
+  "months": [
+   "Jan",
+   "Feb",
+   "Mar",
+   "Apr",
+   "May",
+   "Jun",
+   "Jul",
+   "Aug",
+   "Sep",
+   "Oct",
+   "Nov",
+   "Dec"
+  ],
+  "generation": [
+   840.9,
+   824.1,
+   849.4,
+   857.2,
+   810.0,
+   812.8,
+   839.6,
+   843.7,
+   598.4,
+   687.4,
+   622.0,
+   823.6
+  ],
+  "fixed": [
+   42.3,
+   101.0,
+   48.0,
+   87.0,
+   5.6,
+   41.2,
+   41.9,
+   40.1,
+   0.0,
+   0.0,
+   0.0,
+   27.0
+  ],
+  "plan": [
+   0.0,
+   59.3,
+   26.2,
+   13.9,
+   0.0,
+   0.0,
+   1.1,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   14.8
+  ],
+  "totals": {
+   "fixed": {
+    "given_away_mwh": 434.2,
+    "pct": 4.61,
+    "delivered": 8975.0,
+    "neda": -0.0
+   },
+   "plan": {
+    "given_away_mwh": 115.3,
+    "pct": 1.23,
+    "delivered": 8905.8,
+    "neda": 388.0
+   },
+   "oracle_given_away_pct": 0.0
+  },
+  "kept_mwh": 319.0,
+  "income_gain_rm": [
+   45209,
+   55589
+  ]
+ },
+ "buyer_mix": [
+  {
+   "key": "core",
+   "buyers": [
+    "Elmina Innovation Park",
+    "Elmina Lakeside Mall"
+   ],
+   "scheme_kwp": 7355.0,
+   "homes_illustrative": 1470,
+   "given_away_pct_fixed": 5.32,
+   "given_away_pct_plan": 2.66,
+   "kept_for_residents_mwh": 250.0,
+   "plan_income_gain_rm": [
+    16861,
+    46378
+   ]
+  },
+  {
+   "key": "core+school",
+   "buyers": [
+    "Elmina Innovation Park",
+    "Elmina Lakeside Mall",
+    "Chong Hwa school (illustrative load)"
+   ],
+   "scheme_kwp": 7825.0,
+   "homes_illustrative": 1564,
+   "given_away_pct_fixed": 5.52,
+   "given_away_pct_plan": 2.69,
+   "kept_for_residents_mwh": 283.0,
+   "plan_income_gain_rm": [
+    23096,
+    51863
+   ]
+  },
+  {
+   "key": "core+elmina_podium",
+   "buyers": [
+    "Elmina Innovation Park",
+    "Elmina Lakeside Mall",
+    "Elmina office podium (modelled)"
+   ],
+   "scheme_kwp": 11066.0,
+   "homes_illustrative": 2213,
+   "given_away_pct_fixed": 5.22,
+   "given_away_pct_plan": 2.72,
+   "kept_for_residents_mwh": 353.0,
+   "plan_income_gain_rm": [
+    21010,
+    65938
+   ]
+  },
+  {
+   "key": "core+elmina_wh",
+   "buyers": [
+    "Elmina Innovation Park",
+    "Elmina Lakeside Mall",
+    "Elmina business-park unit (modelled)"
+   ],
+   "scheme_kwp": 8684.0,
+   "homes_illustrative": 1736,
+   "given_away_pct_fixed": 5.27,
+   "given_away_pct_plan": 2.73,
+   "kept_for_residents_mwh": 282.0,
+   "plan_income_gain_rm": [
+    17415,
+    52644
+   ]
+  }
+ ],
+ "bench": [
+  {
+   "label": "Single-buyer schemes",
+   "n": 590,
+   "fixed": 8.34,
+   "persistence": 5.74,
+   "plan": 2.47,
+   "win_vs_fixed_pct": 98.1,
+   "win_vs_persistence_pct": 91.0,
+   "gain_vs_persistence_rm_mwh": [
+    2.97,
+    5.88
+   ]
+  },
+  {
+   "label": "Two-buyer schemes",
+   "n": 443,
+   "fixed": 8.66,
+   "persistence": 5.69,
+   "plan": 3.4,
+   "win_vs_fixed_pct": 98.0,
+   "win_vs_persistence_pct": 87.8,
+   "gain_vs_persistence_rm_mwh": [
+    2.58,
+    5.28
+   ]
+  },
+  {
+   "label": "Hot-humid two-buyer",
+   "n": 55,
+   "fixed": 10.05,
+   "persistence": 5.62,
+   "plan": 4.19,
+   "win_vs_fixed_pct": 100.0,
+   "win_vs_persistence_pct": 85.5,
+   "gain_vs_persistence_rm_mwh": [
+    1.7,
+    4.25
+   ]
+  }
+ ],
+ "sources": {
+  "settlement": "Simulated. Residents' rooftop solar under CREAM, shared across Elmina Innovation Park and Elmina Lakeside Mall (real SDP buildings, modelled loads, run by WattWise Shift), each month's split filed 4 months ahead (CREAM 9.10(e)), against a fixed annual split. Carbon at 0.740 tCO2e/MWh (ST 2024). Homes at an illustrative 5 kWp per roof.",
+  "bench": "Building Data Genome Project 2 (Miller et al., Sci Data 7, 368, 2020), real 2016 -> 2017 monthly kWh; Malaysian yield shape for the residents' solar",
+  "buyer_mix": "Simulated; real buyers' loads modelled, the school's illustrative (calendar-shaped); 5% monthly noise, 5 seeds; CREAM price 15-30 sen assumed, CAC included",
+  "prices": "assumed 15-30 sen/kWh; not public (CREAM 6.16)",
+  "neda": "energy sold via NEDA hands its green attributes to the Single Buyer (12.3)",
+  "homes": "illustrative 5 kWp per landed roof"
+ }
+}

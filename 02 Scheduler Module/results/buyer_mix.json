@@ -1,0 +1,178 @@
+{
+  "basis": "Simulated; real buyers' loads modelled, the school's illustrative (calendar-shaped); 5% monthly noise, 5 seeds; CREAM price 15-30 sen assumed, CAC included",
+  "results": {
+    "core": {
+      "buyers": [
+        "Elmina Innovation Park",
+        "Elmina Lakeside Mall"
+      ],
+      "scheme_kwp": 7355.0,
+      "homes_illustrative": 1470,
+      "given_away_pct_fixed": 5.32,
+      "given_away_pct_plan": 2.66,
+      "kept_for_residents_mwh": 250.0,
+      "plan_income_gain_rm": [
+        16861,
+        46378
+      ]
+    },
+    "core+school": {
+      "buyers": [
+        "Elmina Innovation Park",
+        "Elmina Lakeside Mall",
+        "Chong Hwa school (illustrative load)"
+      ],
+      "scheme_kwp": 7825.0,
+      "homes_illustrative": 1564,
+      "given_away_pct_fixed": 5.52,
+      "given_away_pct_plan": 2.69,
+      "kept_for_residents_mwh": 283.0,
+      "plan_income_gain_rm": [
+        23096,
+        51863
+      ]
+    },
+    "core+elmina_podium": {
+      "buyers": [
+        "Elmina Innovation Park",
+        "Elmina Lakeside Mall",
+        "Elmina office podium (modelled)"
+      ],
+      "scheme_kwp": 11066.0,
+      "homes_illustrative": 2213,
+      "given_away_pct_fixed": 5.22,
+      "given_away_pct_plan": 2.72,
+      "kept_for_residents_mwh": 353.0,
+      "plan_income_gain_rm": [
+        21010,
+        65938
+      ]
+    },
+    "core+elmina_wh": {
+      "buyers": [
+        "Elmina Innovation Park",
+        "Elmina Lakeside Mall",
+        "Elmina business-park unit (modelled)"
+      ],
+      "scheme_kwp": 8684.0,
+      "homes_illustrative": 1736,
+      "given_away_pct_fixed": 5.27,
+      "given_away_pct_plan": 2.73,
+      "kept_for_residents_mwh": 282.0,
+      "plan_income_gain_rm": [
+        17415,
+        52644
+      ]
+    }
+  },
+  "ranking_by_extra_homes": [
+    {
+      "buyer": "Elmina office podium (modelled)",
+      "extra_homes_illustrative": 743,
+      "given_away_pct_fixed": 5.22,
+      "given_away_pct_plan": 2.72,
+      "plan_income_gain_rm": [
+        21010,
+        65938
+      ]
+    },
+    {
+      "buyer": "Elmina business-park unit (modelled)",
+      "extra_homes_illustrative": 266,
+      "given_away_pct_fixed": 5.27,
+      "given_away_pct_plan": 2.73,
+      "plan_income_gain_rm": [
+        17415,
+        52644
+      ]
+    },
+    {
+      "buyer": "Chong Hwa school (illustrative load)",
+      "extra_homes_illustrative": 94,
+      "given_away_pct_fixed": 5.52,
+      "given_away_pct_plan": 2.69,
+      "plan_income_gain_rm": [
+        23096,
+        51863
+      ]
+    }
+  ],
+  "school_alone": {
+    "buyers": [
+      "Chong Hwa school (illustrative load)"
+    ],
+    "scheme_kwp": 469.0,
+    "homes_illustrative": 93,
+    "given_away_pct_fixed": 8.95,
+    "given_away_pct_plan": 1.3,
+    "kept_for_residents_mwh": 46.0,
+    "plan_income_gain_rm": [
+      6853,
+      7918
+    ]
+  },
+  "school_size_sensitivity": {
+    "300_mwh": {
+      "buyers": [
+        "Elmina Innovation Park",
+        "Elmina Lakeside Mall",
+        "Chong Hwa school (illustrative load)"
+      ],
+      "scheme_kwp": 7590.0,
+      "homes_illustrative": 1517,
+      "given_away_pct_fixed": 5.43,
+      "given_away_pct_plan": 2.67,
+      "kept_for_residents_mwh": 266.0,
+      "plan_income_gain_rm": [
+        20096,
+        49166
+      ]
+    },
+    "600_mwh": {
+      "buyers": [
+        "Elmina Innovation Park",
+        "Elmina Lakeside Mall",
+        "Chong Hwa school (illustrative load)"
+      ],
+      "scheme_kwp": 7825.0,
+      "homes_illustrative": 1564,
+      "given_away_pct_fixed": 5.52,
+      "given_away_pct_plan": 2.69,
+      "kept_for_residents_mwh": 283.0,
+      "plan_income_gain_rm": [
+        23096,
+        51863
+      ]
+    },
+    "1200_mwh": {
+      "buyers": [
+        "Elmina Innovation Park",
+        "Elmina Lakeside Mall",
+        "Chong Hwa school (illustrative load)"
+      ],
+      "scheme_kwp": 8294.0,
+      "homes_illustrative": 1658,
+      "given_away_pct_fixed": 5.71,
+      "given_away_pct_plan": 2.72,
+      "kept_for_residents_mwh": 315.0,
+      "plan_income_gain_rm": [
+        29068,
+        57319
+      ]
+    }
+  },
+  "school_monthly_shape": {
+    "1": 0.0773,
+    "2": 0.0743,
+    "3": 0.0773,
+    "4": 0.0977,
+    "5": 0.0804,
+    "6": 0.0824,
+    "7": 0.1017,
+    "8": 0.0926,
+    "9": 0.0855,
+    "10": 0.0987,
+    "11": 0.0885,
+    "12": 0.0437
+  }
+}

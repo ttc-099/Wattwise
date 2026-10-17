@@ -1,0 +1,782 @@
+{
+  "headline": {
+    "basis": "Simulated. Residents' rooftop solar under CREAM, shared across Elmina Innovation Park and Elmina Lakeside Mall (real SDP buildings, modelled loads, run by WattWise Shift), each month's split filed 4 months ahead (CREAM 9.10(e)), against a fixed annual split. Carbon at 0.740 tCO2e/MWh (ST 2024). Homes at an illustrative 5 kWp per roof.",
+    "lead_months": 4,
+    "lgc_use_mwh": 9409.0,
+    "kwp_matching_annual_use": 7384.0,
+    "homes_matching_annual_use_illustrative": 1476,
+    "given_away_pct_at_match": {
+      "plan": 1.23,
+      "allocate_all": 4.61
+    },
+    "plan_income_gain_at_match_rm": [
+      45209,
+      55589
+    ],
+    "kept_from_giveaway_mwh_per_year": 319.0,
+    "scheme_solar_mwh_per_year": 9409.0,
+    "scheme_tco2e_per_year": 6963.0,
+    "single_building_scheme_kwp": 2061.0,
+    "single_building_homes_illustrative": 412,
+    "given_away_pct_next_month_rule": 1.01
+  },
+  "single_innovation_park": {
+    "lgcs": [
+      "elmina_park"
+    ],
+    "lgc_labels": [
+      "Elmina Innovation Park"
+    ],
+    "lgc_use_mwh": 2626.0,
+    "kwp_matching_annual_use": 2061.0,
+    "feeders_needed_at_2mwp": 2,
+    "homes_matching_annual_use_illustrative": 412,
+    "given_away_pct_at_match": {
+      "fixed_annual": 4.65,
+      "plan": 1.24,
+      "oracle": 0.0
+    },
+    "given_away_mwh_at_match": {
+      "fixed_annual": 122.1,
+      "plan": 32.5,
+      "oracle": 0.0
+    },
+    "plan_income_gain_at_match_rm": [
+      12788,
+      15608
+    ],
+    "safe_generation_over_use": {
+      "fixed_annual": 0.94,
+      "plan": 0.95
+    },
+    "safe_kwp": {
+      "fixed_annual": 1937.0,
+      "plan": 1958.0
+    },
+    "extra_kwp_with_plan": 21.0,
+    "extra_homes_with_plan_illustrative": 4,
+    "extra_solar_mwh_per_year": 27.0,
+    "extra_tco2e_per_year": 20.0,
+    "scheme_tco2e_per_year_at_plan_safe_size": 1846.0,
+    "monthly_forecast_error_worst_pct": 1.2,
+    "kept_from_giveaway_mwh_per_year": 90.0,
+    "scheme_solar_mwh_per_year": 2626.0,
+    "scheme_tco2e_per_year": 1943.0,
+    "by_generation_over_use": [
+      {
+        "ratio": 0.8,
+        "given_away_pct_fixed_annual": 0.0,
+        "given_away_pct_plan": 0.0,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 0.9,
+        "given_away_pct_fixed_annual": 0.23,
+        "given_away_pct_plan": 0.23,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.0,
+        "given_away_pct_fixed_annual": 4.65,
+        "given_away_pct_plan": 1.24,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.1,
+        "given_away_pct_fixed_annual": 5.39,
+        "given_away_pct_plan": 1.12,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.2,
+        "given_away_pct_fixed_annual": 4.94,
+        "given_away_pct_plan": 1.26,
+        "given_away_pct_oracle": 0.0
+      }
+    ],
+    "settlement_at_match": {
+      "fixed_annual": {
+        "monthly_given_away_mwh": {
+          "1": 11.4,
+          "2": 27.8,
+          "3": 13.7,
+          "4": 24.6,
+          "5": 1.9,
+          "6": 11.6,
+          "7": 12.2,
+          "8": 11.5,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 7.4
+        },
+        "monthly_generation_mwh": {
+          "1": 234.7,
+          "2": 230.0,
+          "3": 237.1,
+          "4": 239.3,
+          "5": 226.1,
+          "6": 226.9,
+          "7": 234.3,
+          "8": 235.5,
+          "9": 167.0,
+          "10": 191.9,
+          "11": 173.6,
+          "12": 229.9
+        },
+        "generation_mwh": 2626.3,
+        "delivered_mwh": 2504.3,
+        "given_away_mwh": 122.1,
+        "neda_mwh": 0.0,
+        "given_away_pct": 4.65,
+        "months_with_spill": 9
+      },
+      "plan": {
+        "monthly_given_away_mwh": {
+          "1": 0.0,
+          "2": 16.1,
+          "3": 7.6,
+          "4": 4.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 1.1,
+          "8": 0.0,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 3.6
+        },
+        "monthly_generation_mwh": {
+          "1": 234.7,
+          "2": 230.0,
+          "3": 237.1,
+          "4": 239.3,
+          "5": 226.1,
+          "6": 226.9,
+          "7": 234.3,
+          "8": 235.5,
+          "9": 167.0,
+          "10": 191.9,
+          "11": 173.6,
+          "12": 229.9
+        },
+        "generation_mwh": 2626.3,
+        "delivered_mwh": 2485.5,
+        "given_away_mwh": 32.5,
+        "neda_mwh": 108.4,
+        "given_away_pct": 1.24,
+        "months_with_spill": 5
+      },
+      "oracle": {
+        "monthly_given_away_mwh": {
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 0.0
+        },
+        "monthly_generation_mwh": {
+          "1": 234.7,
+          "2": 230.0,
+          "3": 237.1,
+          "4": 239.3,
+          "5": 226.1,
+          "6": 226.9,
+          "7": 234.3,
+          "8": 235.5,
+          "9": 167.0,
+          "10": 191.9,
+          "11": 173.6,
+          "12": 229.9
+        },
+        "generation_mwh": 2626.3,
+        "delivered_mwh": 2504.3,
+        "given_away_mwh": 0.0,
+        "neda_mwh": 122.1,
+        "given_away_pct": 0.0,
+        "months_with_spill": 0
+      }
+    }
+  },
+  "township_core": {
+    "lgcs": [
+      "elmina_park",
+      "elmina_mall"
+    ],
+    "lgc_labels": [
+      "Elmina Innovation Park",
+      "Elmina Lakeside Mall"
+    ],
+    "lgc_use_mwh": 9409.0,
+    "kwp_matching_annual_use": 7384.0,
+    "feeders_needed_at_2mwp": 4,
+    "homes_matching_annual_use_illustrative": 1476,
+    "given_away_pct_at_match": {
+      "fixed_annual": 4.61,
+      "plan": 1.23,
+      "oracle": 0.0
+    },
+    "given_away_mwh_at_match": {
+      "fixed_annual": 434.2,
+      "plan": 115.3,
+      "oracle": 0.0
+    },
+    "plan_income_gain_at_match_rm": [
+      45209,
+      55589
+    ],
+    "safe_generation_over_use": {
+      "fixed_annual": 0.94,
+      "plan": 0.96
+    },
+    "safe_kwp": {
+      "fixed_annual": 6941.0,
+      "plan": 7089.0
+    },
+    "extra_kwp_with_plan": 148.0,
+    "extra_homes_with_plan_illustrative": 29,
+    "extra_solar_mwh_per_year": 189.0,
+    "extra_tco2e_per_year": 140.0,
+    "scheme_tco2e_per_year_at_plan_safe_size": 6684.0,
+    "monthly_forecast_error_worst_pct": 1.2,
+    "kept_from_giveaway_mwh_per_year": 319.0,
+    "scheme_solar_mwh_per_year": 9409.0,
+    "scheme_tco2e_per_year": 6963.0,
+    "by_generation_over_use": [
+      {
+        "ratio": 0.8,
+        "given_away_pct_fixed_annual": 0.0,
+        "given_away_pct_plan": 0.0,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 0.9,
+        "given_away_pct_fixed_annual": 0.24,
+        "given_away_pct_plan": 0.24,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.0,
+        "given_away_pct_fixed_annual": 4.61,
+        "given_away_pct_plan": 1.23,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.1,
+        "given_away_pct_fixed_annual": 5.32,
+        "given_away_pct_plan": 1.11,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.2,
+        "given_away_pct_fixed_annual": 4.87,
+        "given_away_pct_plan": 1.25,
+        "given_away_pct_oracle": 0.0
+      }
+    ],
+    "settlement_at_match": {
+      "fixed_annual": {
+        "monthly_given_away_mwh": {
+          "1": 42.3,
+          "2": 101.0,
+          "3": 48.0,
+          "4": 87.0,
+          "5": 5.6,
+          "6": 41.2,
+          "7": 41.9,
+          "8": 40.1,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 27.0
+        },
+        "monthly_generation_mwh": {
+          "1": 840.9,
+          "2": 824.1,
+          "3": 849.4,
+          "4": 857.2,
+          "5": 810.0,
+          "6": 812.8,
+          "7": 839.6,
+          "8": 843.7,
+          "9": 598.4,
+          "10": 687.4,
+          "11": 622.0,
+          "12": 823.6
+        },
+        "generation_mwh": 9409.2,
+        "delivered_mwh": 8975.0,
+        "given_away_mwh": 434.2,
+        "neda_mwh": -0.0,
+        "given_away_pct": 4.61,
+        "months_with_spill": 9
+      },
+      "plan": {
+        "monthly_given_away_mwh": {
+          "1": 0.0,
+          "2": 59.3,
+          "3": 26.2,
+          "4": 13.9,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 1.1,
+          "8": 0.0,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 14.8
+        },
+        "monthly_generation_mwh": {
+          "1": 840.9,
+          "2": 824.1,
+          "3": 849.4,
+          "4": 857.2,
+          "5": 810.0,
+          "6": 812.8,
+          "7": 839.6,
+          "8": 843.7,
+          "9": 598.4,
+          "10": 687.4,
+          "11": 622.0,
+          "12": 823.6
+        },
+        "generation_mwh": 9409.2,
+        "delivered_mwh": 8905.8,
+        "given_away_mwh": 115.3,
+        "neda_mwh": 388.0,
+        "given_away_pct": 1.23,
+        "months_with_spill": 5
+      },
+      "oracle": {
+        "monthly_given_away_mwh": {
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 0.0
+        },
+        "monthly_generation_mwh": {
+          "1": 840.9,
+          "2": 824.1,
+          "3": 849.4,
+          "4": 857.2,
+          "5": 810.0,
+          "6": 812.8,
+          "7": 839.6,
+          "8": 843.7,
+          "9": 598.4,
+          "10": 687.4,
+          "11": 622.0,
+          "12": 823.6
+        },
+        "generation_mwh": 9409.2,
+        "delivered_mwh": 8975.0,
+        "given_away_mwh": 0.0,
+        "neda_mwh": 434.2,
+        "given_away_pct": 0.0,
+        "months_with_spill": 0
+      }
+    }
+  },
+  "township_wider": {
+    "lgcs": [
+      "elmina_park",
+      "elmina_mall",
+      "elmina_podium",
+      "elmina_wh"
+    ],
+    "lgc_labels": [
+      "Elmina Innovation Park",
+      "Elmina Lakeside Mall",
+      "Elmina office podium (modelled)",
+      "Elmina business-park unit (modelled)"
+    ],
+    "lgc_use_mwh": 15808.0,
+    "kwp_matching_annual_use": 12406.0,
+    "feeders_needed_at_2mwp": 7,
+    "homes_matching_annual_use_illustrative": 2481,
+    "given_away_pct_at_match": {
+      "fixed_annual": 4.64,
+      "plan": 1.21,
+      "oracle": 0.0
+    },
+    "given_away_mwh_at_match": {
+      "fixed_annual": 733.3,
+      "plan": 190.5,
+      "oracle": 0.0
+    },
+    "plan_income_gain_at_match_rm": [
+      77339,
+      94574
+    ],
+    "safe_generation_over_use": {
+      "fixed_annual": 0.94,
+      "plan": 0.96
+    },
+    "safe_kwp": {
+      "fixed_annual": 11661.0,
+      "plan": 11910.0
+    },
+    "extra_kwp_with_plan": 249.0,
+    "extra_homes_with_plan_illustrative": 49,
+    "extra_solar_mwh_per_year": 317.0,
+    "extra_tco2e_per_year": 235.0,
+    "scheme_tco2e_per_year_at_plan_safe_size": 11230.0,
+    "monthly_forecast_error_worst_pct": 1.3,
+    "kept_from_giveaway_mwh_per_year": 543.0,
+    "scheme_solar_mwh_per_year": 15808.0,
+    "scheme_tco2e_per_year": 11698.0,
+    "by_generation_over_use": [
+      {
+        "ratio": 0.8,
+        "given_away_pct_fixed_annual": 0.0,
+        "given_away_pct_plan": 0.0,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 0.9,
+        "given_away_pct_fixed_annual": 0.23,
+        "given_away_pct_plan": 0.24,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.0,
+        "given_away_pct_fixed_annual": 4.64,
+        "given_away_pct_plan": 1.21,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.1,
+        "given_away_pct_fixed_annual": 5.32,
+        "given_away_pct_plan": 1.1,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.2,
+        "given_away_pct_fixed_annual": 4.88,
+        "given_away_pct_plan": 1.23,
+        "given_away_pct_oracle": 0.0
+      }
+    ],
+    "settlement_at_match": {
+      "fixed_annual": {
+        "monthly_given_away_mwh": {
+          "1": 70.9,
+          "2": 169.8,
+          "3": 80.8,
+          "4": 145.8,
+          "5": 10.2,
+          "6": 69.1,
+          "7": 71.4,
+          "8": 70.0,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 45.4
+        },
+        "monthly_generation_mwh": {
+          "1": 1412.8,
+          "2": 1384.5,
+          "3": 1427.0,
+          "4": 1440.2,
+          "5": 1360.9,
+          "6": 1365.6,
+          "7": 1410.5,
+          "8": 1417.6,
+          "9": 1005.4,
+          "10": 1154.9,
+          "11": 1045.0,
+          "12": 1383.7
+        },
+        "generation_mwh": 15808.0,
+        "delivered_mwh": 15074.7,
+        "given_away_mwh": 733.3,
+        "neda_mwh": -0.0,
+        "given_away_pct": 4.64,
+        "months_with_spill": 9
+      },
+      "plan": {
+        "monthly_given_away_mwh": {
+          "1": 0.0,
+          "2": 98.6,
+          "3": 43.4,
+          "4": 21.6,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 2.5,
+          "8": 0.0,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 24.3
+        },
+        "monthly_generation_mwh": {
+          "1": 1412.8,
+          "2": 1384.5,
+          "3": 1427.0,
+          "4": 1440.2,
+          "5": 1360.9,
+          "6": 1365.6,
+          "7": 1410.5,
+          "8": 1417.6,
+          "9": 1005.4,
+          "10": 1154.9,
+          "11": 1045.0,
+          "12": 1383.7
+        },
+        "generation_mwh": 15808.0,
+        "delivered_mwh": 14959.8,
+        "given_away_mwh": 190.5,
+        "neda_mwh": 657.7,
+        "given_away_pct": 1.21,
+        "months_with_spill": 5
+      },
+      "oracle": {
+        "monthly_given_away_mwh": {
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 0.0
+        },
+        "monthly_generation_mwh": {
+          "1": 1412.8,
+          "2": 1384.5,
+          "3": 1427.0,
+          "4": 1440.2,
+          "5": 1360.9,
+          "6": 1365.6,
+          "7": 1410.5,
+          "8": 1417.6,
+          "9": 1005.4,
+          "10": 1154.9,
+          "11": 1045.0,
+          "12": 1383.7
+        },
+        "generation_mwh": 15808.0,
+        "delivered_mwh": 15074.7,
+        "given_away_mwh": 0.0,
+        "neda_mwh": 733.3,
+        "given_away_pct": 0.0,
+        "months_with_spill": 0
+      }
+    }
+  },
+  "township_core_if_next_month": {
+    "lgcs": [
+      "elmina_park",
+      "elmina_mall"
+    ],
+    "lgc_labels": [
+      "Elmina Innovation Park",
+      "Elmina Lakeside Mall"
+    ],
+    "lgc_use_mwh": 9409.0,
+    "kwp_matching_annual_use": 7384.0,
+    "feeders_needed_at_2mwp": 4,
+    "homes_matching_annual_use_illustrative": 1476,
+    "given_away_pct_at_match": {
+      "fixed_annual": 4.61,
+      "plan": 1.01,
+      "oracle": 0.0
+    },
+    "given_away_mwh_at_match": {
+      "fixed_annual": 434.2,
+      "plan": 94.7,
+      "oracle": 0.0
+    },
+    "plan_income_gain_at_match_rm": [
+      48087,
+      59187
+    ],
+    "safe_generation_over_use": {
+      "fixed_annual": 0.94,
+      "plan": 1.18
+    },
+    "safe_kwp": {
+      "fixed_annual": 6941.0,
+      "plan": 7384.0
+    },
+    "extra_kwp_with_plan": 443.0,
+    "extra_homes_with_plan_illustrative": 88,
+    "extra_solar_mwh_per_year": 564.0,
+    "extra_tco2e_per_year": 418.0,
+    "scheme_tco2e_per_year_at_plan_safe_size": 6963.0,
+    "monthly_forecast_error_worst_pct": 1.0,
+    "kept_from_giveaway_mwh_per_year": 340.0,
+    "scheme_solar_mwh_per_year": 9409.0,
+    "scheme_tco2e_per_year": 6963.0,
+    "by_generation_over_use": [
+      {
+        "ratio": 0.8,
+        "given_away_pct_fixed_annual": 0.0,
+        "given_away_pct_plan": 0.0,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 0.9,
+        "given_away_pct_fixed_annual": 0.24,
+        "given_away_pct_plan": 0.24,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.0,
+        "given_away_pct_fixed_annual": 4.61,
+        "given_away_pct_plan": 1.01,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.1,
+        "given_away_pct_fixed_annual": 5.32,
+        "given_away_pct_plan": 0.91,
+        "given_away_pct_oracle": 0.0
+      },
+      {
+        "ratio": 1.2,
+        "given_away_pct_fixed_annual": 4.87,
+        "given_away_pct_plan": 1.07,
+        "given_away_pct_oracle": 0.0
+      }
+    ],
+    "settlement_at_match": {
+      "fixed_annual": {
+        "monthly_given_away_mwh": {
+          "1": 42.3,
+          "2": 101.0,
+          "3": 48.0,
+          "4": 87.0,
+          "5": 5.6,
+          "6": 41.2,
+          "7": 41.9,
+          "8": 40.1,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 27.0
+        },
+        "monthly_generation_mwh": {
+          "1": 840.9,
+          "2": 824.1,
+          "3": 849.4,
+          "4": 857.2,
+          "5": 810.0,
+          "6": 812.8,
+          "7": 839.6,
+          "8": 843.7,
+          "9": 598.4,
+          "10": 687.4,
+          "11": 622.0,
+          "12": 823.6
+        },
+        "generation_mwh": 9409.2,
+        "delivered_mwh": 8975.0,
+        "given_away_mwh": 434.2,
+        "neda_mwh": -0.0,
+        "given_away_pct": 4.61,
+        "months_with_spill": 9
+      },
+      "plan": {
+        "monthly_given_away_mwh": {
+          "1": 0.0,
+          "2": 55.1,
+          "3": 20.1,
+          "4": 5.9,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 13.6
+        },
+        "monthly_generation_mwh": {
+          "1": 840.9,
+          "2": 824.1,
+          "3": 849.4,
+          "4": 857.2,
+          "5": 810.0,
+          "6": 812.8,
+          "7": 839.6,
+          "8": 843.7,
+          "9": 598.4,
+          "10": 687.4,
+          "11": 622.0,
+          "12": 823.6
+        },
+        "generation_mwh": 9409.2,
+        "delivered_mwh": 8901.0,
+        "given_away_mwh": 94.7,
+        "neda_mwh": 413.4,
+        "given_away_pct": 1.01,
+        "months_with_spill": 4
+      },
+      "oracle": {
+        "monthly_given_away_mwh": {
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0,
+          "10": 0.0,
+          "11": 0.0,
+          "12": 0.0
+        },
+        "monthly_generation_mwh": {
+          "1": 840.9,
+          "2": 824.1,
+          "3": 849.4,
+          "4": 857.2,
+          "5": 810.0,
+          "6": 812.8,
+          "7": 839.6,
+          "8": 843.7,
+          "9": 598.4,
+          "10": 687.4,
+          "11": 622.0,
+          "12": 823.6
+        },
+        "generation_mwh": 9409.2,
+        "delivered_mwh": 8975.0,
+        "given_away_mwh": 0.0,
+        "neda_mwh": 434.2,
+        "given_away_pct": 0.0,
+        "months_with_spill": 0
+      }
+    }
+  },
+  "assumptions": {
+    "cream_price": "assumed 15-30 sen/kWh; not public (CREAM 6.16)",
+    "homes": "illustrative 5 kWp per landed roof",
+    "loads": "modelled by scaling the committed mall, not metered",
+    "carbon": "scheme_tco2e is the CREAM scheme's (SDP's), not WattWise's; keeping energy from being given away is income, not carbon",
+    "safe_size": "safe_* sizing is tolerance-sensitive (1% here) - diagnostic only",
+    "neda": "energy sold via NEDA hands its green attributes to the Single Buyer (12.3)",
+    "feeders": "2 MWp per 11 kV feeder (9.10(a)): a larger scheme spans several feeders"
+  }
+}
