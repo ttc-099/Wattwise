@@ -146,6 +146,7 @@
   }
   .side-body { flex: 1; min-height: 0; overflow-y: auto; }
   #sitemap { width: 100%; height: 100%; display: block; min-height: 0; }
+  #sitemap g[role="button"]:hover .map-foot { stroke-width: 1.8; }
   .side-pad { padding: 10px 12px; }
   .side-pad h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--faint); margin: 10px 0 5px; }
   .side-pad h4:first-child { margin-top: 0; }
@@ -1392,9 +1393,9 @@
       </div>
     </div>
     <div class="map-legend" id="map-legend">
-      <span><span class="sw" style="background:#d9efe0"></span>light</span>
-      <span><span class="sw" style="background:#fdecc8"></span>moderate</span>
-      <span><span class="sw" style="background:#f6cdcb"></span>near peak</span>
+      <span><span class="sw" style="background:#28A56A"></span>normal</span>
+      <span><span class="sw" style="background:#E99A20"></span>moderate</span>
+      <span><span class="sw" style="background:#E45757"></span>near peak</span>
     </div>
   </section>
 
@@ -1559,7 +1560,7 @@ var ALL_ORDER = [], ORDER = [];
 var TARIFF = null, WINDOWS = null;
 var espPort = null, espWriter = null, espLastLine = "", espBusy = false;
 
-var MAP = { cols: 3, left: 18, top: 22, cellW: 200, cellH: 94, gapX: 10, gapY: 12 };
+var MAP = { pageW: 356, campusH: 188, pad: 12, header: 22 };
 var mapLayoutMode = null;
 function viewportMapMode() {
   if (window.innerWidth <= 380) return "phone";
@@ -1568,11 +1569,10 @@ function viewportMapMode() {
 }
 function configureMap() {
   var next = viewportMapMode();
-  if (next === mapLayoutMode) return;
   mapLayoutMode = next;
-  if (next === "phone") MAP = { cols: 1, left: 8, top: 16, cellW: 264, cellH: 58, gapX: 0, gapY: 0, phone: true };
-  else if (next === "compact") MAP = { cols: 1, left: 10, top: 16, cellW: 300, cellH: 64, gapX: 0, gapY: 0 };
-  else MAP = { cols: 1, left: 10, top: 16, cellW: 340, cellH: 70, gapX: 0, gapY: 0 };
+  if (next === "phone") MAP = { pageW: 280, campusH: 168, pad: 10, header: 20, phone: true };
+  else if (next === "compact") MAP = { pageW: 300, campusH: 178, pad: 12, header: 22 };
+  else MAP = { pageW: 356, campusH: 188, pad: 12, header: 22 };
 }
 var VIEW = { start: 0, span: N - 1 };
 
@@ -1774,57 +1774,94 @@ function el(tag, attrs, parent) {
   return e;
 }
 var rectEls = {}, kWTexts = {}, loadEls = {}, loadTrackEls = {};
+function townStroke(town) {
+  return town === "elmina" ? "#E88B33" : town === "bbr" ? "#2E7D6B" : "#8491A0";
+}
+function mapShortName(label) {
+  var name = label.replace(/^Elmina\s+/, "").replace(/^SDP\s+/, "");
+  return name.length > 18 ? name.slice(0, 16) + "…" : name;
+}
+function mapSlots(n) {
+  if (n <= 1) return [{ x: 0.18, y: 0.16, w: 0.64, h: 0.68 }];
+  if (n === 2) return [{ x: 0, y: 0, w: 0.48, h: 1 }, { x: 0.52, y: 0, w: 0.48, h: 1 }];
+  if (n === 3) return [{ x: 0, y: 0, w: 0.62, h: 0.56 }, { x: 0.66, y: 0, w: 0.34, h: 0.56 }, { x: 0, y: 0.62, w: 1, h: 0.38 }];
+  if (n === 4) return [
+    { x: 0, y: 0, w: 0.58, h: 0.46 }, { x: 0.62, y: 0, w: 0.38, h: 0.46 },
+    { x: 0, y: 0.54, w: 0.48, h: 0.46 }, { x: 0.52, y: 0.54, w: 0.48, h: 0.46 }
+  ];
+  return [
+    { x: 0, y: 0, w: 0.62, h: 0.34 }, { x: 0.66, y: 0, w: 0.34, h: 0.34 },
+    { x: 0, y: 0.40, w: 0.48, h: 0.28 }, { x: 0.52, y: 0.40, w: 0.48, h: 0.28 },
+    { x: 0, y: 0.74, w: 1, h: 0.26 }
+  ];
+}
 function buildMap() {
   configureMap();
-  var rows = Math.ceil(ORDER.length / MAP.cols);
-  var mapW = MAP.left * 2 + MAP.cols * MAP.cellW + (MAP.cols - 1) * MAP.gapX;
-  var mapH = MAP.top * 2 + rows * MAP.cellH + Math.max(0, rows - 1) * MAP.gapY;
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  rectEls = {}; kWTexts = {}; loadEls = {}; loadTrackEls = {};
+  var townIds = townScope === "all" ? Object.keys(T.towns) : [townScope];
+  var single = townIds.length === 1;
+  var campusH = MAP.campusH * (single ? 1.38 : 1);
+  var gap = 10;
+  var mapW = MAP.pageW;
+  var mapH = 18 + townIds.length * campusH + Math.max(0, townIds.length - 1) * gap + 8;
+  var phone = !!MAP.phone;
+  var font = "Inter, Segoe UI, Arial, sans-serif";
   svg.setAttribute("viewBox", "0 0 " + mapW + " " + mapH);
   el("rect", { x: 0, y: 0, width: mapW, height: mapH, fill: "#fff" });
-  el("text", { x: MAP.left, y: 11, "font-size": 9, "font-weight": 700, "letter-spacing": 1.1, fill: "#4F5B66", "font-family": "Segoe UI, Arial, sans-serif" }).textContent = "BUILDING  /  CURRENT LOAD";
-  ORDER.forEach(function (key, index) {
-    var P = { x: MAP.left + (index % MAP.cols) * (MAP.cellW + MAP.gapX),
-      y: MAP.top + Math.floor(index / MAP.cols) * (MAP.cellH + MAP.gapY),
-      w: MAP.cellW, h: MAP.cellH };
-    var g = el("g", { cursor: "pointer", role: "button", tabindex: "0", "aria-label": "Open " + T.buildings[key].label });
-    var townColor = T.buildings[key].town === "elmina" ? "#E88B33" : T.buildings[key].town === "bbr" ? "#2E7D6B" : "#8491A0";
-    var r = el("rect", { x: P.x, y: P.y, width: P.w, height: P.h, fill: "transparent", stroke: "none" }, g);
-    el("rect", { x: P.x, y: P.y, width: 2, height: P.h, fill: townColor }, g);
-    el("line", { x1: P.x, y1: P.y + P.h - 1, x2: P.x + P.w, y2: P.y + P.h - 1, stroke: "#DDE2E7", "stroke-width": 1 }, g);
-    var phone = !!MAP.phone;
-    var iconX = P.x + 9, iconY = P.y + (phone ? 13 : 17);
-    var textX = P.x + 38;
-    el("path", { d: "M5 21V5l7-3 7 3v16M9 9h.01M15 9h.01M9 13h.01M15 13h.01M10 21v-4h4v4", transform: "translate(" + (iconX + 1) + " " + (iconY + 1) + ") scale(.86)", fill: "none", stroke: townColor, "stroke-width": 1.8, "stroke-linecap": "round", "stroke-linejoin": "round" }, g);
-    var nm = el("text", { x: textX, y: P.y + (phone ? 22 : 25), "text-anchor": "start", "font-size": phone ? 12 : 13, "font-weight": 650, fill: "#151C23", "font-family": "Segoe UI, Arial, sans-serif" }, g);
-    var kw = el("text", { x: P.x + P.w - 10, y: P.y + (phone ? 23 : 27), "text-anchor": "end", "font-size": phone ? 14 : 16, "font-weight": 700, fill: "#14171d", "font-family": "Segoe UI, Arial, sans-serif" }, g);
-    var badge = el("text", { x: textX, y: P.y + (phone ? 39 : 44), "text-anchor": "start", "font-size": phone ? 9 : 10, fill: "#53606D", "font-family": "Segoe UI, Arial, sans-serif" }, g);
-    var meterY = P.y + MAP.cellH - 9;
-    var meterW = MAP.cellW - 58;
-    loadTrackEls[key] = el("rect", { x: textX, y: meterY, width: meterW, height: 5, rx: 2.5, fill: "#E6EBE8" }, g);
-    loadEls[key] = el("rect", { x: textX, y: meterY, width: 1, height: 5, rx: 2.5, fill: townColor }, g);
-    g.addEventListener("click", function () { select(key); showPage("page-buildings"); });
-    g.addEventListener("keydown", function (event) {
-      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(key); showPage("page-buildings"); }
+  el("text", { x: MAP.pad, y: 13, "font-size": 9, "font-weight": 600, "letter-spacing": 1, fill: "#4F5B66", "font-family": font }).textContent = "SITE PLAN  ·  LIVE LOAD";
+  townIds.forEach(function (townId, ti) {
+    var keys = T.towns[townId].buildings.filter(function (key) { return ORDER.indexOf(key) >= 0; });
+    if (!keys.length) return;
+    var y0 = 18 + ti * (campusH + gap);
+    var x0 = MAP.pad;
+    var w = mapW - MAP.pad * 2;
+    el("rect", { x: x0, y: y0, width: w, height: campusH, rx: 6, fill: "#F5F7FA", stroke: "#DDE2E7", "stroke-width": 1 });
+    el("rect", { x: x0, y: y0, width: 3, height: campusH, rx: 1.5, fill: townStroke(townId) });
+    el("text", { x: x0 + 12, y: y0 + 16, "font-size": 10, "font-weight": 600, fill: "#3C4652", "font-family": font }).textContent = T.towns[townId].label.toUpperCase();
+    el("text", { x: x0 + w - 8, y: y0 + 16, "text-anchor": "end", "font-size": 9, fill: "#87909D", "font-family": font }).textContent = keys.length + " buildings";
+    var innerX = x0 + 10, innerY = y0 + MAP.header + 4;
+    var innerW = w - 20, innerH = campusH - MAP.header - 14;
+    el("line", { x1: innerX + innerW * 0.38, y1: innerY, x2: innerX + innerW * 0.38, y2: innerY + innerH, stroke: "#E9EDF2", "stroke-width": 6 });
+    el("line", { x1: innerX, y1: innerY + innerH * 0.42, x2: innerX + innerW, y2: innerY + innerH * 0.42, stroke: "#E9EDF2", "stroke-width": 6 });
+    var slots = mapSlots(keys.length);
+    keys.forEach(function (key, i) {
+      var slot = slots[i] || slots[slots.length - 1];
+      var px = innerX + slot.x * innerW;
+      var py = innerY + slot.y * innerH;
+      var pw = Math.max(54, slot.w * innerW - 4);
+      var ph = Math.max(36, slot.h * innerH - 4);
+      var g = el("g", { cursor: "pointer", role: "button", tabindex: "0", "aria-label": "Open " + T.buildings[key].label });
+      el("rect", { x: px, y: py, width: pw, height: ph, rx: 3, fill: "#fff", stroke: "none" }, g);
+      var r = el("rect", { class: "map-foot", x: px, y: py, width: pw, height: ph, rx: 3, fill: "#28A56A", "fill-opacity": 0.22, stroke: "#C5CDD5", "stroke-width": 1.15 }, g);
+      el("title", {}, g).textContent = T.buildings[key].label;
+      el("text", { x: px + 7, y: py + (phone ? 13 : 15), "font-size": phone ? 9 : 10, "font-weight": 600, fill: "#151C23", "font-family": font }, g).textContent = mapShortName(T.buildings[key].label);
+      if (T.buildings[key].has_solar) {
+        el("text", { x: px + 7, y: py + (phone ? 24 : 27), "font-size": 8, "font-weight": 600, fill: townStroke(townId), "font-family": font }, g).textContent = "PV";
+      }
+      var kw = el("text", { x: px + pw - 7, y: py + ph - 7, "text-anchor": "end", "font-size": phone ? 10 : 11, "font-weight": 600, fill: "#14171d", "font-family": font }, g);
+      g.addEventListener("click", function () { select(key); showPage("page-buildings"); });
+      g.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(key); showPage("page-buildings"); }
+      });
+      rectEls[key] = r; kWTexts[key] = kw; loadEls[key] = r; loadTrackEls[key] = r;
     });
-    rectEls[key] = r; kWTexts[key] = kw;
-    badge.textContent = T.buildings[key].town_label + (T.buildings[key].has_solar ? "  ·  PV" : "");
-    nm.textContent = T.buildings[key].label.length > 28 ? T.buildings[key].label.slice(0, 26) + "…" : T.buildings[key].label;
   });
 }
 function heat(s) { return s >= 0.8 ? "#E45757" : s >= 0.5 ? "#E99A20" : "#28A56A"; }
 function refreshMap() {
   ORDER.forEach(function (key) {
     var b = T.buildings[key];
+    if (!rectEls[key]) return;
     var maxB = Math.max.apply(null, b.dumb.net_kw.concat(b.wattwise.net_kw));
     var now = b[mode].net_kw[step];
     var r = rectEls[key];
-    r.setAttribute("fill", selected === key ? "rgba(232,139,51,.08)" : "transparent");
+    var on = selected === key;
+    r.setAttribute("fill", heat(now / maxB));
+    r.setAttribute("fill-opacity", on ? "0.38" : "0.22");
+    r.setAttribute("stroke", on ? "#14171D" : "#C5CDD5");
+    r.setAttribute("stroke-width", on ? "2" : "1.15");
     kWTexts[key].textContent = Math.round(now) + " kW";
-    loadTrackEls[key].setAttribute("width", MAP.cellW - 58);
-    loadTrackEls[key].setAttribute("fill", heat(now / maxB));
-    loadTrackEls[key].setAttribute("fill-opacity", ".16");
-    loadEls[key].setAttribute("width", Math.max(2, (MAP.cellW - 58) * Math.min(1, now / maxB)));
-    loadEls[key].setAttribute("fill", heat(now / maxB));
   });
 }
 
