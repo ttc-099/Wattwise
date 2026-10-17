@@ -1479,6 +1479,110 @@
     font-size: 10px;
     color: #87909D;
   }
+
+  #panel-settings { padding: 14px 14px 18px; }
+  #panel-settings h4 {
+    margin: 0 0 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: #586372;
+  }
+  #panel-settings .set-block {
+    margin: 0 0 12px;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #DDE2E7;
+    border-radius: 6px;
+  }
+  #panel-settings .set-block:last-child { margin-bottom: 0; }
+  #panel-settings .chk {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #E9EDF2;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #151C23;
+  }
+  #panel-settings .chk:last-of-type { border-bottom: 0; padding-bottom: 0; }
+  #panel-settings .chk input { margin: 0; }
+  #panel-settings .about-txt {
+    margin: 0 0 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #586372;
+  }
+  #panel-settings .esp-readout {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 6px;
+    padding: 8px 10px;
+    background: #F7F8FA;
+    border: 1px solid #E9EDF2;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #586372;
+  }
+  #panel-settings .esp-readout b {
+    text-align: right;
+    font-weight: 600;
+    color: #14171D;
+  }
+  #panel-settings .esp-disconnect {
+    width: 100%;
+    margin: 4px 0 10px;
+    padding: 8px 10px;
+    border: 1px solid #DDE2E7;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  #panel-settings .esp-note {
+    margin: 0;
+    padding: 8px 10px;
+    border-left: 2px solid var(--amber);
+    background: #F7F8FA;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  #panel-settings .command-drawer {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #E9EDF2;
+  }
+  #panel-settings .command-drawer summary {
+    font-size: 12px;
+    font-weight: 600;
+    color: #3C4652;
+    cursor: pointer;
+  }
+  #panel-settings .command-drawer p {
+    margin: 8px 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #586372;
+  }
+  #panel-settings .command-drawer .cmd-wrap {
+    max-width: none;
+    width: 100%;
+    margin-top: 8px;
+    padding: 6px 8px;
+    border: 1px solid #DDE2E7;
+    border-radius: 4px;
+    background: #F7F8FA;
+  }
+  #panel-settings .command-drawer #cmd {
+    min-width: 0;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    font-size: 12px;
+  }
 </style>
 </head>
 <body>
@@ -1543,19 +1647,25 @@
         <div id="analytics-body"></div>
       </div>
       <div class="side-pad" id="panel-settings" style="display:none">
+        <div class="set-block">
         <h4>Playback speed</h4>
         <label class="chk"><input type="radio" name="spd" value="0.6" checked> Normal (0.6 s / step)</label>
         <label class="chk"><input type="radio" name="spd" value="0.25"> Fast (0.25 s / step)</label>
         <label class="chk"><input type="radio" name="spd" value="1.2"> Slow (1.2 s / step)</label>
+        </div>
+        <div class="set-block">
         <h4>ESP32 command link</h4>
         <div class="about-txt">USB serial at 115200 baud. The browser sends the selected building's time, mode, scheduler state and commanded chiller kW.</div>
         <div class="esp-readout"><span>Link</span><b id="esp-link-state">Not connected</b></div>
         <div class="esp-readout"><span>Last command</span><b id="esp-last-command">—</b></div>
         <button class="esp-disconnect" id="esp-disconnect" type="button" disabled>Disconnect device</button>
         <div class="about-txt esp-note">The demo firmware receives commands but does not return sensor measurements. Dashboard values remain labelled as simulated or commanded.</div>
+        </div>
+        <div class="set-block">
         <h4>Data source</h4>
         <div class="about-txt">Calibrated synthetic township data. WATTWISE-1 forecasts and WATTWISE-2 rule scheduler. See <b>01 Prediction Module</b> / <b>02 Scheduler Module</b>.</div>
         <details class="command-drawer"><summary>Engineering command line</summary><p>Optional keyboard shortcuts for operators familiar with the demo commands.</p><div class="cmd-wrap"><span class="cmd-prompt">&gt;</span><input type="text" id="cmd" placeholder="Type a command · help" spellcheck="false"><span class="cmd-out" id="cmd-out"></span></div></details>
+        </div>
       </div>
     </div>
     <div class="map-legend" id="map-legend">
