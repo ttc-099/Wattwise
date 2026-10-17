@@ -1313,6 +1313,73 @@
     font-size: 14px; /* Only layout & style optimized, original color unchanged, no business logic modified */
     font-weight: 600; /* Only layout & style optimized, original color unchanged, no business logic modified */
   }
+
+  #panel-layers { padding: 14px 14px 18px; }
+  #panel-layers h4 {
+    margin: 18px 0 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: #586372;
+  }
+  #panel-layers h4:first-child { margin-top: 0; }
+  #panel-layers .chk {
+    display: grid;
+    grid-template-columns: 16px 14px minmax(0,1fr) auto;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+    padding: 9px 10px;
+    background: #fff;
+    border: 1px solid #DDE2E7;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+  #panel-layers .chk:hover { background: #F7F8FA; }
+  #panel-layers .chk input { margin: 0; }
+  #panel-layers .layer-swatch {
+    width: 14px; height: 10px; border-radius: 2px; display: inline-block;
+  }
+  #panel-layers .layer-swatch.peak { background: rgba(89,89,89,.28); border: 1px solid #C5CDD5; }
+  #panel-layers .layer-swatch.solar { background: rgba(184,134,11,.35); border: 1px solid #B8860B; }
+  #panel-layers .layer-swatch.ghost {
+    height: 0; border: 0; border-top: 2px dashed #7F7F7F; background: transparent; align-self: center;
+  }
+  #panel-layers .layer-copy { min-width: 0; color: #151C23; font-weight: 600; }
+  #panel-layers .layer-copy small {
+    display: block; margin-top: 2px; color: #87909D; font-size: 11px; font-weight: 400;
+  }
+  #panel-layers .layer-bldg {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) 72px 58px;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin: 0 0 6px;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid #DDE2E7;
+    border-radius: 6px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+  }
+  #panel-layers .layer-bldg:hover { background: #F7F8FA; }
+  #panel-layers .layer-bldg.on { border-color: #C5CDD5; box-shadow: inset 3px 0 0 #14171D; }
+  #panel-layers .layer-bldg-name {
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-size: 12px; font-weight: 600; color: #151C23;
+  }
+  #panel-layers .layer-bar {
+    height: 5px; border-radius: 2px; background: #E9EDF2; overflow: hidden;
+  }
+  #panel-layers .layer-bar > span { display: block; height: 100%; border-radius: 2px; }
+  #panel-layers .layer-bldg b {
+    font-size: 11px; font-weight: 600; text-align: right; color: #14171D;
+    font-variant-numeric: tabular-nums;
+  }
 </style>
 </head>
 <body>
@@ -1366,9 +1433,9 @@
       <svg id="sitemap" viewBox="0 0 660 620" preserveAspectRatio="xMidYMin meet"></svg>
       <div class="side-pad" id="panel-layers" style="display:none">
         <h4>Chart overlays</h4>
-        <label class="chk"><input type="checkbox" checked data-flag="peak"> Billed window 8:30–10:30</label>
-        <label class="chk"><input type="checkbox" checked data-flag="solar"> Solar generation area</label>
-        <label class="chk"><input type="checkbox" checked data-flag="other"> Other-mode ghost line</label>
+        <label class="chk"><input type="checkbox" checked data-flag="peak"><i class="layer-swatch peak"></i><span class="layer-copy">Billed window<small>08:30–10:30</small></span></label>
+        <label class="chk"><input type="checkbox" checked data-flag="solar"><i class="layer-swatch solar"></i><span class="layer-copy">Solar generation<small>Area fill on demand plots</small></span></label>
+        <label class="chk"><input type="checkbox" checked data-flag="other"><i class="layer-swatch ghost"></i><span class="layer-copy">Compare scenario<small>Other-mode ghost line</small></span></label>
         <h4>Building register</h4>
         <div id="layers-blds"></div>
       </div>
@@ -2277,11 +2344,23 @@ function renderOverview() {
   // layers panel register
   var lb = "";
   ORDER.forEach(function (k) {
-    lb += '<div class="side-kpi"><span>' + T.buildings[k].label.replace("Elmina ", "") + '</span><b>' +
-      Math.round(T.buildings[k][mode].net_kw[step]) + ' kW</b></div>';
+    var bld = T.buildings[k];
+    var nowKw = bld[mode].net_kw[step];
+    var maxB = Math.max.apply(null, bld.dumb.net_kw.concat(bld.wattwise.net_kw)) || 1;
+    var pct = Math.max(4, Math.round(100 * Math.min(1, nowKw / maxB)));
+    var name = bld.label.replace("Elmina ", "").replace("SDP ", "");
+    lb += '<button type="button" class="layer-bldg' + (selected === k ? " on" : "") + '" data-k="' + k + '">' +
+      '<span class="layer-bldg-name">' + name + '</span>' +
+      '<span class="layer-bar"><span style="width:' + pct + '%;background:' + heat(nowKw / maxB) + '"></span></span>' +
+      '<b>' + Math.round(nowKw) + ' kW</b></button>';
   });
   var lbEl = document.getElementById("layers-blds");
-  if (lbEl) lbEl.innerHTML = lb;
+  if (lbEl) {
+    lbEl.innerHTML = lb;
+    lbEl.querySelectorAll(".layer-bldg").forEach(function (btn) {
+      btn.addEventListener("click", function () { select(btn.dataset.k); showPage("page-buildings"); });
+    });
+  }
 
   // analytics panel
   var an = "";
