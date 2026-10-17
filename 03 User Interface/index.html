@@ -1380,6 +1380,105 @@
     font-size: 11px; font-weight: 600; text-align: right; color: #14171D;
     font-variant-numeric: tabular-nums;
   }
+
+  #panel-analytics { padding: 14px 14px 18px; }
+  #panel-analytics h4 {
+    margin: 0 0 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: #586372;
+  }
+  #panel-analytics .an-hero {
+    margin: 0 0 8px;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #DDE2E7;
+    border-radius: 6px;
+  }
+  #panel-analytics .an-hero span {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #586372;
+    letter-spacing: .04em;
+  }
+  #panel-analytics .an-hero b {
+    display: block;
+    margin-top: 4px;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #14171D;
+    font-variant-numeric: tabular-nums;
+  }
+  #panel-analytics .an-hero b i {
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 500;
+    color: #87909D;
+  }
+  #panel-analytics .an-hero small {
+    display: block;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #87909D;
+  }
+  #panel-analytics .an-mix {
+    margin: 0 0 8px;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid #DDE2E7;
+    border-radius: 6px;
+  }
+  #panel-analytics .an-mix-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #0072BD;
+  }
+  #panel-analytics .an-mix-bar .solar { display: block; height: 100%; background: #B8860B; }
+  #panel-analytics .an-mix-legend {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #586372;
+  }
+  #panel-analytics .an-mix-legend b { color: #14171D; font-weight: 600; font-variant-numeric: tabular-nums; }
+  #panel-analytics .an-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  #panel-analytics .an-metric {
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid #DDE2E7;
+    border-radius: 6px;
+  }
+  #panel-analytics .an-metric span {
+    display: block;
+    font-size: 11px;
+    color: #586372;
+  }
+  #panel-analytics .an-metric b {
+    display: block;
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #14171D;
+    font-variant-numeric: tabular-nums;
+  }
+  #panel-analytics .an-metric b.good { color: #10B981; }
+  #panel-analytics .an-metric small {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    color: #87909D;
+  }
 </style>
 </head>
 <body>
@@ -2363,13 +2462,18 @@ function renderOverview() {
   }
 
   // analytics panel
+  var mix = draw + totSolar;
+  var solarPct = mix > 0 ? Math.round(100 * totSolar / mix) : 0;
   var an = "";
-  an += '<div class="side-kpi"><span>Draw now</span><b>' + Math.round(draw) + ' kW</b></div>';
-  an += '<div class="side-kpi"><span>Solar now</span><b>' + Math.round(totSolar) + ' kW</b></div>';
-  an += '<div class="side-kpi"><span>Coincident pk</span><b>' + Math.round(townPk) + ' kW</b></div>';
-  an += '<div class="side-kpi"><span>MD bill</span><b>RM ' + Math.round(totBill).toLocaleString() + '</b></div>';
-  an += '<div class="side-kpi"><span>Saving</span><b>RM ' + Math.round(totSave).toLocaleString() + '</b></div>';
-  an += '<div class="side-kpi"><span>Mode</span><b>' + (mode === "dumb" ? "BASELINE" : "WATTWISE") + '</b></div>';
+  an += '<div class="an-hero"><span>Grid draw now</span><b>' + Math.round(draw).toLocaleString() + ' <i>kW</i></b><small>' + scopeName + ' · ' + TIMES[step] + '</small></div>';
+  an += '<div class="an-mix"><div class="an-mix-bar"><span class="solar" style="width:' + solarPct + '%"></span></div>';
+  an += '<div class="an-mix-legend"><span>Solar now <b>' + Math.round(totSolar).toLocaleString() + ' kW</b></span><span>' + solarPct + '% of on-site mix</span></div></div>';
+  an += '<div class="an-grid">';
+  an += '<div class="an-metric"><span>Coincident peak</span><b>' + Math.round(townPk).toLocaleString() + ' kW</b><small>@ ' + TIMES[townPkT] + '</small></div>';
+  an += '<div class="an-metric"><span>MD bill / mo</span><b>RM ' + Math.round(totBill).toLocaleString() + '</b><small>selected scope</small></div>';
+  an += '<div class="an-metric"><span>Modeled saving</span><b class="good">RM ' + Math.round(totSave).toLocaleString() + '</b><small>vs baseline</small></div>';
+  an += '<div class="an-metric"><span>Mode</span><b>' + (mode === "dumb" ? "BASELINE" : "WATTWISE") + '</b><small>active scenario</small></div>';
+  an += '</div>';
   var anEl = document.getElementById("analytics-body");
   if (anEl) anEl.innerHTML = an;
 }
