@@ -1020,7 +1020,7 @@
   /* Typography and spacing pass: one calm interface voice, with aligned readings. */
   :root {
     --ui-font: "Segoe UI", "Segoe UI Variable", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --bg: #FCFCFA;
+    --bg: #F5F7FA;
     --text: #151C23;
     --muted: #505C67;
     --faint: #5C6975;
@@ -1091,12 +1091,11 @@
   .st-clock { font-size:12px; }
   :focus-visible { outline-color:#D77B23; }
   .content {
-    background-color:#FCFCFA;
-    background-image:
-      radial-gradient(ellipse at 86% 3%, rgba(255,189,89,.075), transparent 34rem),
-      radial-gradient(ellipse at 4% 86%, rgba(46,125,107,.035), transparent 40rem),
-      linear-gradient(145deg, #FFFFFF 0%, #FBFCFA 58%, #F8F9F6 100%);
-    background-attachment:local;
+    background: #fff;
+    background-image: none;
+  }
+  main {
+    background: #fff;
   }
   @media(max-width:760px) {
     .portfolio-head h1, .bld-title h1 { font-size:24px; }
