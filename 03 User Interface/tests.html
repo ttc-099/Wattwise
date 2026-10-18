@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WattWise · Testing suite</title>
+<style>
+  :root {
+    --bg: #F4F6F8; --panel: #FFFFFF; --border: #E4E8EE; --border2: #D8DEE6;
+    --text: #14171D; --muted: #626B77;
+    --green: #2E7D6B; --green-ink: #1D5C4E; --green-bg: #E4EFEA;
+    --amber: #B8860B; --accent: #E88B33;
+    --blue-bg: #E3EDF8; --blue-ink: #23507E;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font: 14px/1.55 "Segoe UI", system-ui, -apple-system, Arial, sans-serif; background: var(--bg); color: var(--text); }
+  .topbar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; background: #fff; border-bottom: 1px solid var(--border); padding: 10px 14px; }
+  .topbar .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 15px; }
+  .topbar .spacer { flex: 1; }
+  .mod { color: #66707F; }
+.chip { font-size: 12px; border: 1px solid var(--border2); border-radius: 999px; padding: 3px 10px; color: var(--muted); background: #fff; white-space: nowrap; }
+  main { max-width: 980px; margin: 0 auto; padding: 26px 18px 60px; }
+  h1 { font-size: 24px; letter-spacing: -.01em; }
+  h2 { font-size: 16px; margin: 22px 0 8px; }
+  .sub { color: var(--muted); font-size: 13.5px; margin: 6px 0 18px; max-width: 640px; }
+  .btn { display: inline-block; font: 600 13.5px/1 inherit; color: var(--text); background: #fff; border: 1.5px solid var(--border2); border-radius: 9px; padding: 10px 16px; cursor: pointer; }
+  .btn:hover { border-color: var(--green); color: var(--green-ink); }
+  .btn.primary { background: var(--green); border-color: var(--green); color: #fff; }
+  .btn.primary:hover { background: var(--green-ink); }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) { .topbar .chip:nth-of-type(3) { display: none; } }
+  .apx { text-align: left; padding: 18px; cursor: pointer; transition: border-color .12s; }
+  .apx:hover { border-color: var(--green); }
+  .apx .tag { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .08em; color: var(--green-ink); background: var(--green-bg); border-radius: 6px; padding: 2px 8px; margin-bottom: 8px; }
+  .apx .q { font-size: 15.5px; font-weight: 750; margin-bottom: 5px; }
+  .apx .d { font-size: 12.5px; color: var(--muted); }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 14px 0; }
+  .kpi { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .kpi .k { font-size: 12px; letter-spacing: .06em; color: var(--muted); font-weight: 700; }
+  .kpi .v { font-size: 21px; font-weight: 800; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .kpi .s { font-size: 12px; color: var(--muted); }
+  .verdict { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; color: var(--green-ink); background: var(--green-bg); border: 1px solid #BCDCD2; border-radius: 10px; padding: 9px 14px; margin: 12px 0; }
+  .verdict .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+  .mchart { display: flex; gap: 5px; align-items: flex-end; height: 150px; margin-top: 12px; }
+  .mcol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; height: 100%; }
+  .mbar { border-radius: 3px 3px 0 0; min-height: 1px; }
+  .mbar.f { background: #A8B0BA; } .mbar.p { background: #2E7D6B; }
+  .mlabels { display: flex; gap: 5px; margin-top: 6px; }
+  .mlab { flex: 1; text-align: center; font-size: 12px; color: var(--muted); }
+  .lgnd { display: flex; gap: 16px; margin-top: 10px; font-size: 12px; color: var(--muted); }
+  .lgnd .dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; }
+  th { text-align: left; font-size: 12px; letter-spacing: .05em; color: var(--muted); border-bottom: 1.5px solid var(--border2); padding: 8px 10px; }
+  td { border-bottom: 1px solid var(--border); padding: 8px 10px; font-variant-numeric: tabular-nums; }
+  .num { text-align: right; } th.num { text-align: right; }
+  .good { color: var(--green-ink); font-weight: 700; }
+  .note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+  .ctr { margin: 6px 0 16px; max-width: 680px; }
+  .ctr .row { display: flex; gap: 10px; font-size: 13.5px; padding: 3px 0; }
+  .ctr .row b { flex: 0 0 74px; color: var(--muted); font-size: 11.5px; letter-spacing: .05em; padding-top: 1px; }
+  .page { display: none; } .page.on { display: block; }
+  .back { margin-bottom: 16px; }
+  .drawer:not(.on) { display: none; }
+  .drawer { overflow: hidden; position: fixed; top: 0; right: 0; bottom: 0; width: min(600px, 96vw); background: #fff; border-left: 1px solid var(--border2); box-shadow: -12px 0 32px rgba(20,23,29,.10); z-index: 15; transform: translateX(102%); transition: transform .22s ease; display: flex; flex-direction: column; }
+  .drawer.on { transform: translateX(0); }
+  .drawer .dhead { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .drawer .dpath { font-family: Consolas, monospace; font-size: 12px; background: #F1F4F7; border: 1px solid var(--border2); border-radius: 6px; padding: 3px 8px; }
+  .drawer .ddesc { font-size: 12px; color: var(--muted); }
+  .drawer .dcap { padding: 10px 16px; background: #FBFCFD; border-bottom: 1px solid var(--border); font-size: 13px; min-height: 56px; display: flex; align-items: center; }
+  .drawer .dcap b { color: var(--green-ink); margin-right: 6px; white-space: nowrap; }
+  .drawer .dcap .plain { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; }
+  .drawer .dcap .plain .pl-tag { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .07em; color: #8A4B12; background: #FBE9D2; border-radius: 5px; padding: 1px 6px; margin-right: 7px; vertical-align: 1px; }
+  .drawer .dcode { flex: 1; overflow: auto; margin: 0; padding: 12px 0; background: #fff; }
+  .dcal { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; padding: 10px 16px; border-bottom: 1px solid var(--border); background: #FBFCFD; }
+  .dcal .mo { position: relative; font-size: 12px; font-weight: 650; text-align: center; border: 1px solid var(--border2); border-radius: 7px; padding: 6px 0 4px; background: #fff; color: var(--muted); }
+  .dcal .mo .bar { display: block; height: 3px; border-radius: 2px; background: #2E7D6B; margin: 3px 6px 0; }
+  .dcal .mo.cur { background: var(--green-bg); border-color: var(--green); color: var(--green-ink); font-weight: 800; }
+  .mchart .mcol.cur { outline: 2.5px solid var(--green); outline-offset: 2px; border-radius: 3px; }
+  .drawer .ln { display: flex; font-family: Consolas, monospace; font-size: 12px; line-height: 1.55; white-space: pre; }
+  .drawer .ln .no { flex: 0 0 34px; text-align: right; padding-right: 10px; color: #A6AFBA; user-select: none; }
+  .drawer .ln .tx { padding-right: 16px; }
+  .drawer .ln.on { background: var(--green-bg); }
+  .drawer .ln.on .no { color: var(--green-ink); font-weight: 700; }
+  .drawer .dfoot { border-top: 1px solid var(--border); padding: 10px 16px; display: flex; gap: 8px; align-items: center; }
+  .drawer .dfoot .cnt { font-size: 12px; color: var(--muted); margin-left: auto; }
+  body.codemode main { width: 100%; max-width: none; padding-right: min(620px, 97vw); }
+  body.codemode main > * { max-width: 760px; }
+  @media (max-width: 900px) { body.codemode main { padding-right: 0; } .drawer { width: 100vw; } }
+  .modal { position: fixed; inset: 0; background: rgba(20,23,29,.45); display: none; align-items: center; justify-content: center; padding: 18px; z-index: 20; }
+  .modal.on { display: flex; }
+  .modal .box { background: #fff; border-radius: 14px; max-width: 860px; width: 100%; max-height: 84vh; overflow: auto; padding: 20px; }
+  .mono { font-family: Consolas, monospace; font-size: 12px; }
+  .bars { display: flex; align-items: flex-end; gap: 26px; height: 170px; padding: 0 8px; margin-top: 8px; }
+  .bcol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; height: 100%; }
+  .bbar { width: 60%; max-width: 92px; border-radius: 6px 6px 0 0; }
+  .bval { font-size: 13px; font-weight: 750; font-variant-numeric: tabular-nums; }
+  .blab { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">WattWise <span class="chip">Testing suite</span></div>
+  <span class="chip">City of Elmina <span class="mod">(modelled)</span></span>
+  <div class="spacer"></div>
+  <button class="btn" id="show-code">Show code</button>
+  <button class="btn" id="view-data">View data</button>
+</div>
+
+<main>
+  <!-- launch -->
+  <div class="page on" id="page-home">
+    <h1>Testing suite</h1>
+    <div class="ctr">
+      <div class="row"><b>WHAT THIS IS</b><span>Self-service verification for judges. Every pitch claim, tested against replayed scheme data.</span></div>
+      <div class="row"><b>HOW TO USE</b><span>Pick a question. Each page shows the claim, the test, and the result, with the raw numbers one tap away.</span></div>
+      <div class="row"><b>DATA</b><span>Modelled City of Elmina scheme, 12-month replay, 1,033 bench schemes. All figures trace to plan.json.</span></div>
+    </div>
+    <div class="grid2">
+      <button class="card apx" data-go="a">
+        <span class="tag">APPENDIX A</span>
+        <div class="q">Does it really reduce solar giveaway?</div>
+        <div class="d">Fixed split vs WattWise plan, replayed over a settled year and 443 real schemes.</div>
+      </button>
+      <button class="card apx" data-go="b">
+        <span class="tag">APPENDIX B</span>
+        <div class="q">Do homeowners really earn that much?</div>
+        <div class="d">Kept energy, floor-price value, and what flows back per roof.</div>
+      </button>
+      <button class="card apx" data-go="c">
+        <span class="tag">APPENDIX C</span>
+        <div class="q">Is there really space for 20% more CREAM contributors?</div>
+        <div class="d">Buyer demand vs scheme solar: the headroom arithmetic.</div>
+      </button>
+      <button class="card apx" data-go="d">
+        <span class="tag">APPENDIX D</span>
+        <div class="q">Does dynamic splitting beat fixed ones?</div>
+        <div class="d">Win rates vs fixed and vs copy-last-year, across 1,033 replayed schemes.</div>
+      </button>
+    </div>
+    <p class="note">Sources: Energy Commission (2025) CREAM Guidelines GP/ST/No.55/2025 · scheme data modelled from 02 Scheduler Module results.</p>
+  </div>
+
+  <!-- A: giveaway -->
+  <div class="page" id="page-a">
+    <button class="btn back" data-go="home">&larr; Back</button>
+    <h1>Appendix A · Does it really reduce solar giveaway?</h1>
+    <div class="ctr">
+      <div class="row"><b>CLAIM</b><span>WattWise gives away less solar than a fixed split.</span></div>
+      <div class="row"><b>TEST</b><span>Replay one modelled year twice: fixed percentage split vs plan sized to estimated use. Same buyers, same solar.</span></div>
+      <div class="row"><b>RESULT</b><span>Giveaway drops from 434 to 115 MWh. 319 MWh kept: RM12,800&ndash;15,600/yr on Innovation Park alone (floor case); RM45k&ndash;56k only with the modelled Mall.</span></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="k">FIXED GIVES AWAY</div><div class="v">434 MWh</div><div class="s">4.61% of generation</div></div>
+      <div class="kpi"><div class="k">PLAN GIVES AWAY</div><div class="v">115 MWh</div><div class="s">1.23% of generation</div></div>
+      <div class="kpi"><div class="k">KEPT</div><div class="v" style="color:var(--green-ink)">319 MWh</div><div class="s">+RM45,209&ndash;55,589/yr <span class="mod">at modelled floor band, with Mall</span></div></div>
+      <div class="kpi"><div class="k">HELD FOR NEDA</div><div class="v">388 MWh</div><div class="s">sold at floor, not given</div></div>
+    </div>
+    <div class="card">
+      <div class="lgnd"><span><span class="dot" style="background:#A8B0BA"></span>Given away &middot; fixed</span><span><span class="dot" style="background:#2E7D6B"></span>Given away &middot; plan</span></div>
+      <div class="mchart" id="chart-a"></div>
+      <div class="mlabels" id="labels-a"></div>
+    </div>
+    <div class="card"><h2 style="margin-top:0">Own the worst month</h2><p class="note" style="margin-top:0">Typical month estimate error 6.6%; worst months 24&ndash;32%. Wins are aggregate: in the worst months the plan can lose to fixed, and the hold-back is the shock absorber.</p><div style="display:flex;gap:4px;margin-top:10px"><span style="flex:1;height:14px;border-radius:3px;background:#2E7D6B" title="Jan: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#2E7D6B" title="Feb: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#2E7D6B" title="Mar: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#2E7D6B" title="Apr: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#2E7D6B" title="May: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#2E7D6B" title="Jun: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#2E7D6B" title="Jul: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#2E7D6B" title="Aug: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#DFE4EA" title="Sep: tie"></span><span style="flex:1;height:14px;border-radius:3px;background:#DFE4EA" title="Oct: tie"></span><span style="flex:1;height:14px;border-radius:3px;background:#DFE4EA" title="Nov: tie"></span><span style="flex:1;height:14px;border-radius:3px;background:#2E7D6B" title="Dec: win"></span></div><div style="display:flex;gap:12px;margin-top:8px;font-size:12px" class="note"><span><span class="dot" style="background:#2E7D6B"></span> 9 months the plan won</span><span><span class="dot" style="background:#DFE4EA"></span> 3 ties</span><span>0 losses in the modelled year &middot; across 1,033 replayed schemes the plan lost in 2%</span></div></div>
+    <div class="verdict"><span class="dot"></span>PASS &middot; 74% less energy given away: 434 &rarr; 115 MWh, same year, same buyers.</div>
+    <p class="note">Modelled replay of the Elmina core scheme, 12 months. Giveaway = allocated beyond buyer use, settled at the NEDA floor price.</p>
+  </div>
+
+  <!-- B: homeowner earnings -->
+  <div class="page" id="page-b">
+    <button class="btn back" data-go="home">&larr; Back</button>
+    <h1>Appendix B &middot; Do homeowners really earn that much?</h1>
+    <p class="note">CREAM price is private &middot; all RM figures at the modelled floor band RM0.142&ndash;0.174/kWh, net of the 9 sen/kWh access charge &middot; floor case first, Mall scenario labelled.</p>
+    <div class="ctr">
+      <div class="row"><b>CLAIM</b><span>Homeowners earn from leasing their roofs.</span></div>
+      <div class="row"><b>TEST</b><span>Walk the money: kept energy, floor-price value, divided across 1,470 roofs. Every step shown, no promises.</span></div>
+      <div class="row"><b>RESULT</b><span>RM31 to RM38 per roof per year at the floor price. Real, but modest. Leases are negotiated on top.</span></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="k">FLOOR CASE &middot; 1 BUYER</div><div class="v">RM12.8k&ndash;15.6k/yr</div><div class="s">Innovation Park alone <span class="mod">(modelled)</span></div></div>
+      <div class="kpi"><div class="k">WITH MODELLED MALL</div><div class="v">RM45k&ndash;56k/yr</div><div class="s">Lakeside Mall <span class="mod">modelled only</span> &middot; at RM0.142&ndash;0.174/kWh</div></div>
+      <div class="kpi"><div class="k">ROOFS IN SCHEME</div><div class="v">1,470</div><div class="s">5 kWp each &middot; 7,355 kWp</div></div>
+      <div class="kpi"><div class="k">SHARE PER ROOF</div><div class="v">RM31&ndash;38</div><div class="s">energy value only, per year</div></div>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">The honest ladder</h2>
+      <table>
+        <tr><th>Step</th><th class="num">Value</th><th>Basis</th></tr>
+        <tr><td>Kept energy</td><td class="num">319 MWh/yr</td><td>replay: fixed giveaway &minus; plan giveaway</td></tr>
+        <tr><td>Floor price band</td><td class="num">RM0.142&ndash;0.174/kWh</td><td>NEDA floor <span class="mod">(modelled, CREAM price private)</span></td></tr>
+        <tr><td>Kept value</td><td class="num">RM45,209&ndash;55,589/yr</td><td>319 MWh &times; price band <span class="mod">(with modelled Mall)</span></td></tr>
+        <tr><td>Per roof (1,470)</td><td class="num">RM31&ndash;38/yr</td><td>equal split of kept value</td></tr>
+        <tr><td>Floor case: 1 buyer</td><td class="num">RM12,800&ndash;15,600/yr</td><td><b>Innovation Park alone</b>, 90 MWh kept &middot; the announced buyer</td></tr>
+      </table>
+    </div>
+    <div class="verdict"><span class="dot"></span>PASS, WITH CAVEATS &middot; earnings are real but modest per roof. The CREAM tariff is private, so lease terms are negotiated, not guaranteed by this tool.</div>
+    <p class="note">Lakeside Mall is a second buyer in our model only. The CREAM price is private; all RM figures are modelled at the floor-price band, not a tariff claim.</p>
+  </div>
+
+  <!-- C: headroom -->
+  <div class="page" id="page-c">
+    <button class="btn back" data-go="home">&larr; Back</button>
+    <h1>Appendix C · Space for 20% more CREAM contributors?</h1>
+    <div class="ctr">
+      <div class="row"><b>CLAIM</b><span>The scheme can absorb 20% more CREAM contributors.</span></div>
+      <div class="row"><b>TEST</b><span>Compare registered buyer demand against scheme solar, then add 20% more generation.</span></div>
+      <div class="row"><b>RESULT</b><span>Demand 19,654 MWh vs solar 9,409 MWh. Even at +20%, buyers stay under-served by 8,363 MWh.</span></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="k">SCHEME SOLAR</div><div class="v">9,409 MWh</div><div class="s">1,470 roofs &middot; 7,355 kWp</div></div>
+      <div class="kpi"><div class="k">BUYER DEMAND</div><div class="v">19,654 MWh</div><div class="s">sum of registered buyer annuals</div></div>
+      <div class="kpi"><div class="k">UNSERVED DEMAND</div><div class="v" style="color:var(--green-ink)">10,245 MWh</div><div class="s">52% headroom</div></div>
+      <div class="kpi"><div class="k">+20% SOLAR WOULD ADD</div><div class="v">1,882 MWh</div><div class="s">still only 9.6% of demand</div></div>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">Demand vs supply</h2>
+      <div class="bars">
+        <div class="bcol"><div class="bval">19,654</div><div class="bbar" style="height:100%;background:#5C6772"></div><div class="blab">Buyer demand</div></div>
+        <div class="bcol"><div class="bval">9,409</div><div class="bbar" style="height:48%;background:#2E7D6B"></div><div class="blab">Scheme solar today</div></div>
+        <div class="bcol"><div class="bval">11,291</div><div class="bbar" style="height:57%;background:#BFE3D4"></div><div class="blab">Solar at +20%</div></div>
+      </div>
+    </div>
+    <div class="verdict"><span class="dot"></span>PASS &middot; even at +20% generation, buyers stay under-served by 8,363 MWh. No giveaway risk from new contributors.</div>
+    <p class="note">Demand = registered buyers' annual meter basis (7 with history, 4 manual). Even if every estimate overshot 10%, headroom remains above 40%.</p>
+  </div>
+
+  <!-- D: dynamic vs fixed -->
+  <div class="page" id="page-d">
+    <button class="btn back" data-go="home">&larr; Back</button>
+    <h1>Appendix D · Dynamic splitting works better than fixed?</h1>
+    <div class="ctr">
+      <div class="row"><b>CLAIM</b><span>Dynamic splitting beats a fixed split.</span></div>
+      <div class="row"><b>TEST</b><span>Replay 1,033 real schemes under three policies: fixed, copy-last-year, and the WattWise plan.</span></div>
+      <div class="row"><b>RESULT</b><span>The plan wins against fixed in 98% of schemes, and against copy-last-year in 88 to 91%.</span></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="k">SCHEMES REPLAYED</div><div class="v">1,033</div><div class="s">590 single-buyer + 443 two-buyer</div></div>
+      <div class="kpi"><div class="k">WIN VS FIXED</div><div class="v" style="color:var(--green-ink)">98%</div><div class="s">plan gave away less</div></div>
+      <div class="kpi"><div class="k">WIN VS COPY-LAST-YEAR</div><div class="v" style="color:var(--green-ink)">88&ndash;91%</div><div class="s">two-buyer / single-buyer</div></div>
+      <div class="kpi"><div class="k">GAIN VS PERSISTENCE</div><div class="v">RM2.6&ndash;5.9</div><div class="s">per MWh, median band</div></div>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">Median giveaway by arm (% of generation)</h2>
+      <table>
+        <tr><th>Scheme class</th><th class="num">Fixed</th><th class="num">Persistence</th><th class="num">WattWise plan</th><th class="num">Win vs fixed</th><th class="num">Win vs persistence</th></tr>
+        <tr><td>Single-buyer (590)</td><td class="num">8.34%</td><td class="num">5.74%</td><td class="num good">2.47%</td><td class="num">98.1%</td><td class="num">91.0%</td></tr>
+        <tr><td>Two-buyer (443)</td><td class="num">8.66%</td><td class="num">5.69%</td><td class="num good">3.40%</td><td class="num">98.0%</td><td class="num">87.8%</td></tr>
+      </table>
+    </div>
+    <div class="card"><h2 style="margin-top:0">Compliance</h2><p class="note" style="margin-top:0">Filing cadence: one allocation per buyer per month, each stamped with its 120-day notice date. WattWise suggests, the scheme admin approves, SDP files with the Energy Commission. Source: Energy Commission (2025), CREAM Guidelines GP/ST/No.55/2025 <span class="mod">(verbatim clause quote pending)</span>.</p></div>
+    <div class="verdict"><span class="dot"></span>PASS &middot; dynamic splitting beat fixed in 98% of 1,033 schemes, and copy-last-year in 88 to 91%.</div>
+    <p class="note">Estimate accuracy behind the wins: typical month's error 6.6%, worst month 24&ndash;32%. Bench replays real building meter data from the 01 Prediction Module dataset.</p>
+  </div>
+</main>
+
+<!-- code drawer -->
+<aside class="drawer" id="code-drawer">
+  <div class="dhead">
+    <div class="dpath" id="cd-path"></div>
+    <div class="ddesc" id="cd-desc"></div>
+    <button class="btn" id="cd-close" style="margin-left:auto">Close</button>
+  </div>
+  <div class="dcap" id="cd-cap"></div>
+  <div class="dcal" id="cd-cal" style="display:none"></div>
+  <pre class="dcode" id="cd-code"></pre>
+  <div class="dfoot">
+    <button class="btn primary" id="cd-play">Start walkthrough</button>
+    <button class="btn" id="cd-prev">&larr;</button>
+    <button class="btn" id="cd-next">&rarr;</button>
+    <span class="cnt" id="cd-cnt"></span>
+  </div>
+</aside>
+
+<!-- data modal -->
+<div class="modal" id="data-modal">
+  <div class="box">
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <h2 style="margin:0">The data behind the suite</h2>
+      <button class="btn" id="data-close" style="margin-left:auto">Close</button>
+    </div>
+    <h2 style="margin-top:0">Settled year &middot; monthly replay (MWh)</h2>
+    <table id="tbl-year"></table>
+    <h2>Bench arms</h2>
+    <table id="tbl-bench"></table>
+    <p class="note"><b>Price assumption:</b> RM0.142&ndash;0.174/kWh NEDA floor band, modelled <span class="mod">(CREAM price private)</span> &middot; all RM figures multiply this constant.</p>
+    <p class="note">Same numbers the admin app and pitch deck use, from <span class="mono">data/plan.json</span> (02 Scheduler Module results).</p>
+  </div>
+</div>
+
+<script>
+// ---------- data (mirrors data/plan.json) ----------
+var S = {
+  months: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+  fixed: [42.3,101.0,48.0,87.0,5.6,41.2,41.9,40.1,0.0,0.0,0.0,27.0],
+  plan:  [0.0,59.3,26.2,13.9,0.0,0.0,1.1,0.0,0.0,0.0,0.0,14.8],
+  gen:   [841,824,849,857,810,813,840,844,598,687,622,824]
+};
+var BENCH = [
+  { label: "Single-buyer schemes", n: 590, fixed: 8.34, persistence: 5.74, plan: 2.47, wf: 98.1, wp: 91.0, gain: "2.97-5.88" },
+  { label: "Two-buyer schemes", n: 443, fixed: 8.66, persistence: 5.69, plan: 3.40, wf: 98.0, wp: 87.8, gain: "2.58-5.28" }
+];
+
+// ---------- nav ----------
+document.querySelectorAll("[data-go]").forEach(function (el) {
+  el.addEventListener("click", function () {
+    document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("on"); });
+    document.getElementById("page-" + el.dataset.go).classList.add("on");
+    window.scrollTo(0, 0);
+  });
+});
+
+// ---------- appendix A chart ----------
+(function () {
+  var maxV = Math.max.apply(null, S.fixed.concat(S.plan)) || 1;
+  var cols = "", labs = "";
+  S.months.forEach(function (mo, i) {
+    var hf = Math.max((S.fixed[i] / maxV) * 100, S.fixed[i] > 0 ? 2 : 0);
+    var hp = Math.max((S.plan[i] / maxV) * 100, S.plan[i] > 0 ? 2 : 0);
+    cols += '<div class="mcol" title="' + mo + " · fixed " + S.fixed[i].toFixed(1) + " · plan " + S.plan[i].toFixed(1) + ' MWh">' +
+      '<div class="mbar f" style="height:' + hf + '%"></div><div class="mbar p" style="height:' + hp + '%"></div></div>';
+    labs += '<div class="mlab">' + mo.charAt(0) + "</div>";
+  });
+  document.getElementById("chart-a").innerHTML = cols;
+  document.getElementById("labels-a").innerHTML = labs;
+})();
+
+// ---------- code drawer ----------
+var CODE = {"files": {"engine": {"path": "03 User Interface/admin.html", "desc": "The estimation engine (runs live in the demo)", "code": "// 03 User Interface/admin.html  (estimation engine, verbatim excerpts)\n\nfunction parseReadings(text) {\n  var byMonth = {};\n  for (var i = 0; i < lines.length; i++) {\n    var p = lines[i].split(\",\");\n    var who = p[0].trim(), mo = p[1].trim(), kwh = parseFloat(p[2]);\n    byMonth[mo] = byMonth[mo] || {};\n    byMonth[mo][key] = kwh;\n  }\n  return { byMonth: byMonth, rows: rows };\n}\n\nfunction renderEngine() {\n  var r0 = RUNWAY[+sel.value || 0];\n  var keyMonth = (r0.y - 1) + \"-\" + String(r0.m + 1).padStart(2, \"0\");\n  var fromFile = READINGS && READINGS.byMonth[keyMonth] &&\n                 READINGS.byMonth[keyMonth][b.name] != null;\n  var basisVal = fromFile ? READINGS.byMonth[keyMonth][b.name]\n                          : (b.annual ? (b.annual / 12).toFixed(0) : \"\");\n}\n\nfunction computeEngine() {\n  var hb = (+document.getElementById(\"engine-holdback\").value || 0) / 100;\n  var ests = [], total = 0;\n  BUYERS.forEach(function (b, i) {\n    var basis = parseFloat(document.getElementById(\"eng-b-\" + i).value) || 0;\n    var trend = parseFloat(document.getElementById(\"eng-t-\" + i).value) || 0;\n    ests[i] = basis * (1 + trend / 100);\n    total += ests[i];\n  });\n  parts.push({ name: b.name,\n    pct: total ? (ests[i] / total) * (1 - hb) * 100 : 0 });\n}"}, "train": {"path": "01 Prediction Module/train_forecast.py", "desc": "The learned models behind the trends", "code": "def load_frame():\n    df = pd.read_csv(DATA, parse_dates=[\"timestamp\"])\n    df = df.sort_values(\"timestamp\").reset_index(drop=True)\n    return df\n\n\ndef make_features(df, target):\n    \"\"\"Everything the forecaster may know at time t (no future leakage).\"\"\"\n    t = df[\"timestamp\"]\n    f = pd.DataFrame(index=df.index)\n    f[\"hour\"] = t.dt.hour + t.dt.minute / 60.0\n    f[\"dow\"] = t.dt.dayofweek\n    f[\"month\"] = t.dt.month\n    for c in [\"ghi_wm2\", \"cloud_pct\", \"ambient_c\", \"humidity_pct\"]:\n        f[c] = df[c]\n    for lag in [0, 1, 2, 3, 48]:\n        f[f\"{target}_lag{lag}\"] = df[target].shift(lag)\n    f[f\"{target}_delta\"] = df[target].diff()\n    return f\n\n\ndef make_targets(df, target):\n    out = pd.DataFrame(index=df.index)\n    for h in HORIZONS:\n        out[f\"h{h}\"] = df[target].shift(-h)\n    return out\n\n\ndef train_target(df, target, label):\n    X = make_features(df, target)\n    Y = make_targets(df, target)\n    for h in HORIZONS:\n        m = HistGradientBoostingRegressor(\n            max_iter=300, learning_rate=0.08,\n            l2_regularization=1.0, random_state=0)\n        m.fit(Xtr, ytr)\n        yhat = np.clip(m.predict(Xte), 0, None)\n    return results, models, test_idx, Y"}, "plan": {"path": "03 User Interface/data/plan.json", "desc": "The replayed year produced by this engine", "code": "{\n  \"settlement\": {\n    \"months\": [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",\n               \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"],\n    \"fixed\":  [42.3, 101.0, 48.0, 87.0, 5.6, 41.2,\n               41.9, 40.1, 0.0, 0.0, 0.0, 27.0],\n    \"plan\":   [0.0, 59.3, 26.2, 13.9, 0.0, 0.0,\n               1.1, 0.0, 0.0, 0.0, 0.0, 14.8],\n    \"totals\": {\n      \"fixed\": { \"given_away_mwh\": 434.2, \"pct\": 4.61 },\n      \"plan\":  { \"given_away_mwh\": 115.3, \"pct\": 1.23,\n                 \"neda\": 388.0 }\n    }\n  }\n}"}, "buyers": {"path": "03 User Interface/admin.html", "desc": "The buyer register the engine estimates for", "code": "var BUYERS = [\n  { name: \"Elmina Innovation Park\", type: \"Industrial park\",\n    annual: 2626, basis: \"history\" },\n  { name: \"Elmina Lakeside Mall\", type: \"Retail\",\n    annual: 6783, basis: \"history\" },\n  { name: \"Elmina Sports Complex\", type: \"Recreation\",\n    annual: 1782, basis: \"history\" },\n  { name: \"Elmina Medical Centre\", type: \"Healthcare\",\n    annual: 2211, basis: \"history\" },\n  { name: \"Elmina Logistics Hub\", type: \"Logistics\",\n    annual: 2948, basis: \"history\" },\n  // ... 6 more registered buyers\n];\n\n// buyer demand = sum of annual use across the register\n// 2626 + 6783 + 1782 + 2211 + 2948 + ... = 19,654 MWh/yr"}}, "sets": {"home": {"monthly": false, "steps": [["engine", 3, 11, "Meter readings arrive: one row per buyer per month, filed by month and buyer.", "Every month each buyer's electricity meter is read and stored. A year of history builds up."], ["engine", 13, 20, "For the settlement month, the engine looks up the SAME MONTH one year earlier.", "To estimate February 2027 it starts from what the buyer actually used in February 2026. Usage follows the seasons, so last February is the honest starting point."], ["engine", 22, 24, "The basis is that reading, straight from the meter file.", "No adjustment yet: the raw number from twelve months ago."], ["engine", 26, 31, "estimate = basis x (1 + trend). The trend is a small yearly nudge per buyer.", "One multiplication: last year's figure nudged up or down a few percent. That is the whole estimate. No black box."], ["engine", 32, 34, "Each buyer's share = their estimate / all estimates, minus the hold-back.", "Solar is split in proportion to expected use, and a slice is deliberately held back to sell at the floor price."], ["train", 11, 19, "Where the rhythm knowledge comes from: models trained on half-hourly history.", "Separate machine-learning models studied a year of half-hourly readings and weather. They learned each building's daily and weekly rhythm, which is what makes the trends sensible."], ["train", 32, 38, "One model per horizon, scored on data it never trained on.", "Each model is graded on locked-away data, so when it says plus two percent, that number has been checked."], ["plan", 2, 15, "Run this engine across a whole modelled year and you get these replayed months.", "The same simple rule, replayed month after month, produced the bars and tables in this suite."]]}, "a": {"monthly": true, "steps": "monthly_a"}, "b": {"monthly": true, "steps": "monthly_b"}, "c": {"monthly": false, "steps": [["buyers", 1, 11, "The register: every buyer with a year of metered use.", "The engine estimates for real buyers with real meter histories."], ["engine", 14, 20, "Each buyer's estimate: same month last year x (1 + trend).", "Every buyer gets the same honest treatment: last year's meter reading, nudged by their trend."], ["buyers", 13, 15, "Demand = the sum of the register: 19,654 MWh/yr vs 9,409 MWh of solar.", "Add up what all buyers want and it is roughly double what the panels make. That gap is the headroom this page tests."]]}, "d": {"monthly": false, "steps": [["engine", 23, 34, "The split being tested: proportional estimates with a hold-back.", "The policy under test in this appendix is exactly this engine: estimate each buyer, split proportionally, hold a slice back."], ["train", 1, 4, "Trained on half-hourly meters plus weather.", "The models learn from thousands of half-hour readings, so the estimates reflect real building behaviour."], ["train", 32, 38, "Graded on locked-away data before being trusted.", "Each model proves itself on data it never saw during training."], ["plan", 9, 13, "Replayed across 1,033 schemes, the plan won 98% vs fixed.", "Run the same engine over a thousand real schemes: it beat the fixed split 98 times out of 100."]]}}};
+var CD = { page: "home", step: -1, file: null, timer: null, playing: false };
+function cdCurrentPage() {
+  var on = document.querySelector(".page.on");
+  return on ? on.id.replace("page-", "") : "home";
+}
+function cdSteps() {
+  var s = CODE.sets[CD.page];
+  if (s.steps === "monthly_a") return cdMonthlySteps("a");
+  if (s.steps === "monthly_b") return cdMonthlySteps("b");
+  return s.steps;
+}
+function cdRenderFile(key) {
+  CD.file = key;
+  var f = CODE.files[key];
+  document.getElementById("cd-path").textContent = f.path;
+  document.getElementById("cd-desc").textContent = f.desc;
+  var html = "";
+  f.code.split("\n").forEach(function (l, i) {
+    var esc = l.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    html += '<div class="ln" data-l="' + (i + 1) + '"><span class="no">' + (i + 1) + '</span><span class="tx">' + esc + "</span></div>";
+  });
+  document.getElementById("cd-code").innerHTML = html;
+}
+function cdMonthlySteps(kind) {
+  var notes = {
+    1: "February is the worst month of the year for waste.",
+    8: "September: the fixed split happened to fit, nothing wasted either way.",
+    9: "October: both policies agree again, nothing wasted.",
+    10: "November: quiet month, both give away nothing.",
+    0: "January: the estimate was almost perfect."
+  };
+  var steps = S.months.map(function (mo, i) {
+    var f = S.fixed[i], p = S.plan[i], k = f - p;
+    var tech, plain;
+    if (kind === "a") {
+      tech = mo + " \u00b7 the engine sized this month from last year's " + mo + " meters \u00d7 (1 + trend) \u00b7 fixed gave away " + f.toFixed(1) + " MWh \u00b7 plan " + p.toFixed(1) + " \u00b7 kept " + k.toFixed(1);
+      plain = (notes[i] ? notes[i] + " " : "") +
+        "The plan looked at what buyers used last " + mo + ", nudged it by their trend, and split only that much solar. The fixed split ignored it and handed over " + f.toFixed(0) + " MWh; the plan " + p.toFixed(0) + ". " + k.toFixed(0) + " MWh stayed in the scheme.";
+      return ["engine", 14, 20, tech, plain];
+    } else {
+      tech = mo + " \u00b7 estimate = basis \u00d7 (1 + trend) \u00b7 kept " + k.toFixed(1) + " MWh \u00b7 value at floor price";
+      plain = (k > 0
+        ? "This month's saving was " + k.toFixed(0) + " MWh, worth money at the modelled floor price. The monthly savings add up to the 319 MWh a year that funds homeowner earnings."
+        : "Nothing was wasted this month (" + f.toFixed(0) + " MWh both ways), so nothing was saved. The earnings come from the other months.");
+      return ["engine", 26, 31, tech, plain];
+    }
+  });
+  if (kind === "a") {
+    steps.push(["plan", 9, 13, "Year verdict \u00b7 fixed 434.2 MWh given away vs plan 115.3 \u00b7 kept 319",
+      "Add the twelve months up: the old way wasted 434 MWh, the plan 115. That difference, 319 MWh, is the whole point of WattWise."]);
+  } else {
+    steps.push(["plan", 9, 13, "Year total \u00b7 319 MWh kept \u00b7 388 MWh held back and sold, not given",
+      "Across the year the scheme kept 319 MWh of value and sold another 388 at the floor price instead of giving it away. That is where homeowner money comes from."]);
+  }
+  return steps;
+}
+function cdRenderCal(activeIdx) {
+  var cal = document.getElementById("cd-cal");
+  var html = "";
+  var maxK = Math.max.apply(null, S.fixed.map(function (f, i) { return f - S.plan[i]; })) || 1;
+  S.months.forEach(function (mo, i) {
+    var k = S.fixed[i] - S.plan[i];
+    var w = Math.max(8, Math.round((k / maxK) * 100));
+    html += '<div class="mo' + (i === activeIdx ? " cur" : "") + '">' + mo +
+      '<span class="bar" style="width:' + w + '%;opacity:' + (k > 0 ? 1 : 0.15) + '"></span></div>';
+  });
+  cal.innerHTML = html;
+}
+function cdSyncChart(idx) {
+  document.querySelectorAll(".mchart .mcol").forEach(function (el, i) {
+    el.classList.toggle("cur", i === idx);
+  });
+}
+function cdLoad(page) {
+  CD.page = page in CODE.sets ? page : "home";
+  CD.step = -1;
+  CD.file = null;
+  var set = CODE.sets[CD.page];
+  var steps = cdSteps();
+  var cal = document.getElementById("cd-cal");
+  if (set.monthly) { cal.style.display = "grid"; cdRenderCal(-1); cdSyncChart(-1); }
+  else { cal.style.display = "none"; cdSyncChart(-1); }
+  cdRenderFile(steps[0][0]);
+  document.getElementById("cd-cap").innerHTML = "<b>Ready.</b><span>Press Start walkthrough, then step with the arrows or the button. It never advances on its own.</span>";
+  document.getElementById("cd-cnt").textContent = "0 / " + steps.length;
+  document.getElementById("cd-play").textContent = "Start walkthrough";
+}
+function cdShow(n) {
+  var steps = cdSteps();
+  if (n < 0) n = 0;
+  if (n >= steps.length) n = steps.length - 1;
+  CD.step = n;
+  var st = steps[n];
+  if (st[0] !== CD.file) cdRenderFile(st[0]);
+  document.querySelectorAll("#cd-code .ln").forEach(function (el) {
+    var l = +el.dataset.l;
+    el.classList.toggle("on", l >= st[1] && l <= st[2]);
+  });
+  document.getElementById("cd-cap").innerHTML = "<b>Running:</b><span>" + st[3] + "</span>" +
+    '<span class="plain"><span class="pl-tag">IN PLAIN TERMS</span>' + st[4] + "</span>";
+  var set = CODE.sets[CD.page];
+  if (set.monthly && n < steps.length - 1) {
+    cdRenderCal(n);
+    cdSyncChart(n);
+    document.getElementById("cd-cnt").textContent = S.months[n] + " \u00b7 " + (n + 1) + " / " + steps.length;
+  } else if (set.monthly) {
+    cdRenderCal(-1);
+    cdSyncChart(-1);
+    document.getElementById("cd-cnt").textContent = steps.length + " / " + steps.length;
+  } else {
+    document.getElementById("cd-cnt").textContent = (n + 1) + " / " + steps.length;
+  }
+  document.getElementById("cd-play").textContent = n >= steps.length - 1 ? "Restart walkthrough" : "Next step";
+  var active = document.querySelector("#cd-code .ln.on");
+  if (active) active.scrollIntoView({ block: "nearest" });
+}
+function cdStop() {
+  CD.playing = false;
+  clearInterval(CD.timer);
+}
+function cdPlay() {
+  // manual stepping only, no autoplay
+  var steps = cdSteps();
+  if (CD.step >= steps.length - 1) cdShow(0); else cdShow(CD.step + 1);
+}
+document.getElementById("show-code").addEventListener("click", function () {
+  var d = document.getElementById("code-drawer");
+  if (d.classList.contains("on")) { cdStop(); d.classList.remove("on"); document.body.classList.remove("codemode"); }
+  else { document.body.classList.add("codemode"); d.classList.add("on"); cdLoad(cdCurrentPage()); }
+});
+document.getElementById("cd-close").addEventListener("click", function () {
+  cdStop();
+  cdSyncChart(-1);
+  document.getElementById("code-drawer").classList.remove("on");
+  document.body.classList.remove("codemode");
+});
+document.getElementById("cd-play").addEventListener("click", cdPlay);
+document.getElementById("cd-prev").addEventListener("click", function () { cdShow(CD.step - 1); });
+document.getElementById("cd-next").addEventListener("click", function () { cdShow(CD.step + 1); });
+document.querySelectorAll("[data-go]").forEach(function (el) {
+  el.addEventListener("click", function () {
+    if (document.getElementById("code-drawer").classList.contains("on")) cdLoad(cdCurrentPage());
+  });
+});
+
+// ---------- data modal ----------
+document.getElementById("view-data").addEventListener("click", function () {
+  document.getElementById("data-modal").classList.add("on");
+});
+document.getElementById("data-close").addEventListener("click", function () {
+  document.getElementById("data-modal").classList.remove("on");
+});
+document.getElementById("data-modal").addEventListener("click", function (e) {
+  if (e.target === this) this.classList.remove("on");
+});
+(function () {
+  var rows = "<tr><th>Month</th><th class='num'>Generation</th><th class='num'>Given · fixed</th><th class='num'>Given · plan</th><th class='num'>Kept</th></tr>";
+  S.months.forEach(function (m, i) {
+    rows += "<tr><td><b>" + m + "</b></td><td class='num'>" + S.gen[i] + "</td><td class='num'>" + S.fixed[i].toFixed(1) +
+      "</td><td class='num'>" + S.plan[i].toFixed(1) + "</td><td class='num good'>" + (S.fixed[i] - S.plan[i]).toFixed(1) + "</td></tr>";
+  });
+  document.getElementById("tbl-year").innerHTML = rows;
+  var b = "<tr><th>Class</th><th class='num'>Schemes</th><th class='num'>Fixed %</th><th class='num'>Persistence %</th><th class='num'>Plan %</th><th class='num'>Win vs fixed</th><th class='num'>Win vs persist.</th><th class='num'>Gain RM/MWh</th></tr>";
+  BENCH.forEach(function (r) {
+    b += "<tr><td>" + r.label + "</td><td class='num'>" + r.n + "</td><td class='num'>" + r.fixed + "</td><td class='num'>" + r.persistence +
+      "</td><td class='num good'>" + r.plan + "</td><td class='num'>" + r.wf + "%</td><td class='num'>" + r.wp + "%</td><td class='num'>" + r.gain + "</td></tr>";
+  });
+  document.getElementById("tbl-bench").innerHTML = b;
+})();
+</script>
+</body>
+</html>

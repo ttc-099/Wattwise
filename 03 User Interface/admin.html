@@ -24,10 +24,18 @@
   }
   .topbar .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 15px; }
   .topbar .brand img { height: 26px; display: block; }
-  .chip { font-size: 12px; padding: 3px 10px; border-radius: 10px; background: #232932; color: #C7CDD6; border: 1px solid #333A45; white-space: nowrap; }
+  .mod { color: #66707F; font-weight: 400; }
+  .chip .mod { color: #8D97A5; }
+.chip { font-size: 12px; padding: 3px 10px; border-radius: 10px; background: #232932; color: #C7CDD6; border: 1px solid #333A45; white-space: nowrap; }
   .chip.alert { color: #FFC98A; border-color: #5A4526; background: #2E2418; }
   .topbar .spacer { flex: 1; }
-  .burger { display: none; background: none; border: 1px solid #333A45; color: #E7EAEE; border-radius: 5px; padding: 4px 9px; font-size: 15px; cursor: pointer; }
+  .topbar .profile { display: flex; align-items: center; gap: 9px; margin-left: 14px; }
+  .topbar .avatar { width: 30px; height: 30px; border-radius: 50%; background: #2E7D6B; color: #fff; font-size: 11.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; letter-spacing: .5px; }
+  .topbar .pmeta { line-height: 1.25; }
+  .topbar .pmeta b { display: block; font-size: 12.5px; }
+  .topbar .pmeta span { font-size: 11px; color: var(--muted); }
+  @media (max-width: 620px) { .topbar .pmeta { display: none; } }
+  .burger { display: none; background: none; border: 1px solid #333A45; color: #E7EAEE; border-radius: 5px; padding: 9px 13px; font-size: 17px; cursor: pointer; min-width: 44px; min-height: 44px; }
 
   .side {
     position: fixed; top: 52px; left: 0; bottom: 0; width: var(--side-w);
@@ -107,7 +115,7 @@
   .filecard.loaded { border-color: var(--green); }
   .filecard.loaded .fstat { color: var(--green-ink); font-weight: 600; }
   .preview { margin-top: 10px; background: #14171D; color: #C9F2DD; border-radius: 8px; padding: 12px 14px; font-family: Consolas, "Courier New", monospace; font-size: 12px; line-height: 1.6; overflow-x: auto; white-space: pre; }
-  .locked { opacity: .45; pointer-events: none; }
+  .locked { filter: grayscale(1) brightness(.92); pointer-events: none; }
   .mchart { display: flex; gap: 5px; align-items: flex-end; height: 150px; margin-top: 12px; }
   .mcol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; height: 100%; }
   .mbar { border-radius: 3px 3px 0 0; min-height: 1px; }
@@ -123,10 +131,37 @@
   .mc-nav:hover:enabled { color: var(--text); border-color: var(--green); }
   .mc-nav:disabled { opacity: .3; cursor: default; }
   .mc-main { flex: 1; min-width: 0; }
+  .smwrap { display: flex; gap: 10px; align-items: stretch; }
+  .sm-main { flex: 1; min-width: 0; }
+  .sm-side { width: 252px; padding: 14px; flex: 0 0 auto; }
+  #hood-map { width: 100%; height: auto; display: block; background: #FBFCFD; border: 1px solid var(--border2); border-radius: 8px; }
+  #buyers-map { width: 100%; height: auto; display: block; background: #FBFCFD; border: 1px solid var(--border2); border-radius: 8px; }
+  #buyers-map .bpin { cursor: pointer; }
+  #buyers-map .bpin:hover circle { stroke: #14171D; stroke-width: 2.5; }
+  #hood-map .cream rect { cursor: pointer; }
+  #hood-map .cream:hover rect { stroke: #1D5C4E; stroke-width: 2.2; }
+  #hood-map .cream.on rect { fill: #2E7D6B; }
+  .sm-side .hno { font-size: 17px; font-weight: 800; }
+  .sm-side .row { display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .sm-side .row .k2 { color: var(--muted); }
+  @media (max-width: 800px) { .smwrap { flex-wrap: wrap; } .sm-side { width: 100%; } }
+  .smcol { flex-direction: column; }
+  .smcol .sm-side { width: 100%; }
+  .gmap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+  .gmap { position: relative; padding-bottom: 60%; border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; background: #EEF1F5; }
+  .gmap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .gmap .gcap { position: absolute; left: 0; right: 0; bottom: 0; background: linear-gradient(transparent, rgba(20,23,29,.82)); color: #fff; font-size: 12px; padding: 16px 10px 6px; }
+  .pbar-cols { display: flex; gap: 28px; align-items: flex-end; height: 170px; padding: 0 8px; }
+  .pb-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; height: 100%; }
+  .pb-bar { width: 62%; max-width: 92px; border-radius: 6px 6px 0 0; }
+  .pb-val { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .pb-lab { font-size: 12px; color: var(--muted); }
   .mchips { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; font-size: 12px; color: var(--muted); }
   .mchips .dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
   .mchips b { color: var(--text); }
   @keyframes rowflash { 0% { background: #E4EFEA; } 100% { background: transparent; } }
+  .badge.noticed { background: #E3EDF8; color: #23507E; border-color: #B7D0EA; }
+  .badge.pending { background: #FBF3DC; color: #7A4A12; }
   .badge.urgent { background: #FBE9D2; color: #8A4B12; border-color: #E8C39A; }
   .alloc-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
   .alloc-head .ttl2 { font-size: 15px; font-weight: 700; }
@@ -198,9 +233,13 @@
 <div class="topbar">
   <button class="burger" id="burger" aria-label="Open navigation">&#9776;</button>
   <span class="brand"><img src="assets/wattwise-logo.png" alt="WattWise"><span>WattWise</span></span>
-  <span class="chip" id="scheme-chip">Elmina core &middot; modelled</span>
+  <span class="chip" id="scheme-chip">City of Elmina <span class="mod">(modelled)</span></span>
   <span class="spacer"></span>
   <span class="chip alert" id="notice-chip"></span>
+  <div class="profile" title="Signed in">
+    <div class="avatar">EO</div>
+    <div class="pmeta"><b>Energy Officer</b><span>SDP &middot; Elmina operations</span></div>
+  </div>
 </div>
 <div class="backdrop" id="backdrop"></div>
 
@@ -209,11 +248,12 @@
   <button class="nav-item on" data-sec="homeowners"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Homeowners</button>
   <button class="nav-item" data-sec="buyers"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Buyers</button>
   <button class="nav-item nav-sub" data-sec="engine"><svg viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/><circle cx="12" cy="12" r="4"/></svg>Energy estimation</button>
-  <div class="nav-group">Scheme</div>
-  <button class="nav-item" data-sec="overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Overview</button>
-  <button class="nav-item" data-sec="allocations"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Allocations</button>
-  <div class="nav-group">Proof</div>
-  <button class="nav-item" data-sec="evidence"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>Evidence</button>
+  <div class="nav-group">Site maps</div>
+  <button class="nav-item" data-sec="sitemap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Homeowners</button>
+  <button class="nav-item" data-sec="sitemap-buyers"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Buyers</button>
+  <div class="nav-group">Allocations</div>
+  <button class="nav-item" data-sec="upcoming"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Upcoming</button>
+  <button class="nav-item" data-sec="settlements"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>Settlements</button>
 </nav>
 
 <main class="main">
@@ -263,7 +303,7 @@
   </section>
 
   <section class="sec" id="sec-engine">
-    <h1>Estimation engine</h1>
+    <h1 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">Estimation engine <span class="chip alert" id="engine-month-chip" style="font-size:13px;padding:4px 12px"></span></h1>
     <div class="steps">
       <span class="step on" id="st1"><b>1</b> Inputs</span>
       <span class="step" id="st2"><b>2</b> Estimate</span>
@@ -299,8 +339,11 @@
     </div>
     <div class="preview" id="readings-preview" style="display:none"></div>
 
+    <p class="muted" style="margin:10px 0 0;font-size:12.5px" id="locked-hint">Steps 2 and 3 stay greyed out until meter readings are loaded above.</p>
     <div id="engine-body" class="locked">
-      <h2>Estimates</h2>
+      <div class="card" id="engine-context" style="padding:14px;margin:0 0 14px;border-left:4px solid var(--green-ink);background:#F2F8F5"></div>
+      <h2>Estimates &middot; <span id="est-month-h2" style="text-transform:none"></span></h2>
+      <p class="muted" style="margin:2px 0 10px;font-size:12px">Same month last year &times; trend &middot; backtest error: &plusmn;6.6% typical month, 24&ndash;32% worst &middot; <span class="mod">the hold-back covers forecast misses first</span></p>
       <div class="engine-controls">
         <label for="engine-month">Settlement month</label>
         <select id="engine-month"></select>
@@ -309,25 +352,62 @@
       </div>
       <div class="table-wrap"><table id="engine-table"></table></div>
       <h2>Resulting allocation</h2>
+      <p class="muted" id="engine-out-cap" style="margin:2px 0 10px;font-size:12px"></p>
       <div class="card" id="engine-out" style="padding:16px"></div>
+      <div class="card" id="est-panel" style="padding:16px;margin-top:12px;display:none"></div>
       <div class="actions" style="margin-top:14px">
         <button class="btn primary" id="prepare-row">Prepare allocation row</button>
       </div>
     </div>
   </section>
 
-  <section class="sec" id="sec-allocations">
-    <h1>Allocations</h1>
-    <div class="card" id="master-chart" style="padding:16px"></div>
-    <div class="grid kpis" id="alloc-kpis"></div>
-    <h2>Register &middot; upcoming allocation decisions</h2>
-    <div class="table-wrap"><table id="runway-table"></table></div>
-    <h2>What a settled year looks like &middot; simulated (evidence)</h2>
-    <div class="card" style="padding:16px">
-      <div class="mchart" id="year-chart"></div>
-      <div class="mlabels" id="year-labels"></div>
-      <div class="lgnd"><span><span class="dot" style="background:#A8B0BA"></span>Given away &middot; fixed</span><span><span class="dot" style="background:#2E7D6B"></span>Given away &middot; WattWise plan</span></div>
+  <section class="sec" id="sec-sitemap">
+    <h1>Homeowners &middot; site map</h1>
+    <h2>Neighborhoods &middot; Google Maps</h2>
+    <div class="gmap-grid">
+      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20East%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina East</b> &middot; 8 homes listed</div></div>
+      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20West%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina West</b> &middot; 8 homes listed</div></div>
+      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20Gardens%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina Gardens</b> &middot; 8 homes listed</div></div>
+      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20Hills%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina Hills</b> &middot; 8 homes listed</div></div>
+      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20Valley%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina Valley</b> &middot; 8 homes listed</div></div>
     </div>
+    <h2>Neighborhood plots &middot; CREAM homes in green</h2>
+    <div class="smwrap">
+      <button class="mc-nav" id="sm2-prev">&#8249;</button>
+      <div class="sm-main">
+        <div class="alloc-head" style="margin-bottom:8px"><span class="ttl2" id="hood-name"></span><span class="muted" id="hood-sub"></span></div>
+        <svg id="hood-map" viewBox="0 0 660 430"></svg>
+      </div>
+      <button class="mc-nav" id="sm2-next">&#8250;</button>
+      <aside class="sm-side card" id="home-panel" style="display:none"></aside>
+    </div>
+  </section>
+
+  <section class="sec" id="sec-sitemap-buyers">
+    <h1>Buyers &middot; site map</h1>
+    <div class="smwrap smcol">
+      <div class="sm-main" style="flex:1 1 100%">
+        <div class="alloc-head" style="margin-bottom:8px"><span class="ttl2">Commercial sites in the scheme</span><span class="muted">marker size = annual use \u00b7 click a site</span></div>
+        <svg id="buyers-map" viewBox="0 0 660 430"></svg>
+      </div>
+      <aside class="sm-side card" id="buyer-panel" style="display:none"></aside>
+    </div>
+  </section>
+
+  <section class="sec" id="sec-upcoming">
+    <h1>Upcoming</h1>
+    <div class="card" id="master-chart" style="padding:16px"></div>
+    <h2>Register &middot; upcoming allocation decisions</h2>
+    <p class="muted" style="margin:2px 0 10px">WattWise <b>suggests</b> the split &middot; the scheme admin <b>approves</b> it &middot; SDP <b>files</b> it with the Energy Commission &middot; <b>120-day</b> notice per buyer. The tool never files on its own.</p>
+    <div class="table-wrap"><table id="runway-table"></table></div>
+  </section>
+
+  <section class="sec" id="sec-settlements">
+    <h1>Settlements</h1>
+    <div class="grid kpis" id="alloc-kpis"></div>
+    <h2>Predicted vs actual usage</h2>
+    <div class="card" id="settle-box" style="padding:16px"></div>
+    <h2>Monthly log</h2>
     <div class="table-wrap" style="margin-top:12px"><table id="months-table"></table></div>
     <div class="detail" id="month-detail"></div>
   </section>
@@ -399,23 +479,64 @@ document.getElementById("prepare-row").addEventListener("click", function () {
   var key = LAST_ALLOC.r.y + "-" + String(LAST_ALLOC.r.m + 1).padStart(2, "0");
   PREPARED[key] = { total: LAST_ALLOC.total, hb: LAST_ALLOC.hb, parts: LAST_ALLOC.parts, when: Date.now() };
   try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {}
-  goto("allocations");
-  renderAllocations();
+  updateEngineContext();
+  goto("upcoming");
+  renderUpcoming();
+  renderSettlements();
+  updateEngineContext();
   var tr = document.getElementById("reg-" + key);
   if (tr) { tr.classList.add("flash"); tr.scrollIntoView({ behavior: "smooth", block: "center" }); }
 });
 
+/* ---------- engine context: what month, what the register expects ---------- */
+function updateEngineContext() {
+  var box = document.getElementById("engine-context");
+  if (!box) return;
+  var sel = document.getElementById("engine-month");
+  var r = RUNWAY[+sel.value || 0];
+  var key = r.y + "-" + String(r.m + 1).padStart(2, "0");
+  var p = PREPARED[key];
+  var st = !p ? "Unchecked" : (!p.approved ? "Estimate" : (!p.noticed ? "Ready" : "Sent"));
+  var now = new Date(); now.setHours(0, 0, 0, 0);
+  var days = Math.round((r.notice - now) / 86400000);
+  var nd = r.notice.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  var waiting = RUNWAY.filter(function (x) { return x.notice >= now && !PREPARED[x.y + "-" + String(x.m + 1).padStart(2, "0")]; })[0];
+  var waitLine;
+  if (!waiting) waitLine = "Every upcoming month already has a prepared row.";
+  else if (waiting.y === r.y && waiting.m === r.m) waitLine = "This is the next month the Upcoming register is waiting on.";
+  else waitLine = "The Upcoming register is next waiting on <b>" + MONTHS[waiting.m] + " " + waiting.y + "</b>.";
+  var chip = document.getElementById("engine-month-chip");
+  if (chip) chip.textContent = "Estimate sheet \u00b7 " + MONTHS[r.m] + " " + r.y;
+  var h2m = document.getElementById("est-month-h2");
+  if (h2m) h2m.textContent = MONTHS[r.m] + " " + r.y;
+  var th = document.querySelector("#engine-table th:nth-child(2)");
+  if (th) th.textContent = "Last year (" + MONTHS[r.m] + " " + (r.y - 1) + ") MWh";
+  box.innerHTML =
+    '<div class="dt" style="font-size:19px">Estimate sheet for <span style="color:var(--green-ink)">' + MONTHS[r.m] + " " + r.y + "</span> settlement</div>" +
+    '<div class="muted" style="font-size:12px;margin:2px 0 8px">Notice deadline <b>' + nd + "</b>" +
+    (days >= 0 ? " &middot; in " + days + " days" : " &middot; deadline passed") + " &middot; 120 days before settlement</div>" +
+    '<div class="row"><span class="k2">Upcoming register says</span><span><b>' + st + "</b> for this month</span></div>" +
+    '<div class="muted" style="font-size:12px;margin:6px 0 0">' + waitLine + " Preparing here adds this month to the register as an Estimate.</div>";
+  var cap = document.getElementById("engine-out-cap");
+  if (cap) cap.innerHTML = "For " + MONTHS[r.m] + " " + r.y + " settlement &middot; notice by " + nd;
+  var pb = document.getElementById("prepare-row");
+  if (pb) pb.textContent = "Prepare allocation row \u00b7 " + MONTHS[r.m] + " " + r.y;
+}
+
 /* ---------- runway ---------- */
 function buildRunway() {
   var now = new Date(); now.setHours(0,0,0,0);
-  var d = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  while (RUNWAY.length < 4) {
-    var notice = new Date(d.getFullYear(), d.getMonth(), d.getDate() - 120);
-    if (notice >= now) RUNWAY.push({ m: d.getMonth(), y: d.getFullYear(), notice: notice });
+  var d = new Date(now.getFullYear(), now.getMonth(), 1);
+  var end = new Date(now.getFullYear(), now.getMonth() + 8, 1);
+  while (d <= end) {
+    var notice = new Date(d.getFullYear(), d.getMonth(), 1 - 120);
+    RUNWAY.push({ m: d.getMonth(), y: d.getFullYear(), notice: notice });
     d = new Date(d.getFullYear(), d.getMonth() + 1, 1);
   }
   var days = Math.round((RUNWAY[0].notice - now) / 86400000);
-  document.getElementById("notice-chip").textContent = "Notice in " + days + "d \u00b7 " + MONTHS[RUNWAY[0].m] + " " + RUNWAY[0].y;
+  var rn = RUNWAY.filter(function (x) { return x.notice >= now; })[0] || RUNWAY[RUNWAY.length - 1];
+  var dn = Math.round((rn.notice - now) / 86400000);
+  document.getElementById("notice-chip").textContent = "Notice in " + dn + "d \u00b7 " + MONTHS[rn.m] + " " + rn.y;
 }
 
 /* ---------- charts ---------- */
@@ -624,13 +745,13 @@ function renderBuyersTbl() {
 }
 function showBuyer(i) {
   var b = BUYERS[i];
-  var share = b.annual ? (100 * b.annual / 9409).toFixed(1) + "%" : "&ndash;";
+  var share = buyerDemandShare(b);
   var annualTxt = b.annual == null ? "no meter history yet" : fmt(b.annual) + " MWh";
   document.getElementById("buyer-detail").innerHTML =
     '<div class="dt">' + esc(b.name) + " &middot; meter report</div>" +
     '<div class="dstats">' +
     '<div><div class="k">Annual use</div><div class="v">' + (b.annual == null ? "&ndash;" : fmt(b.annual) + " MWh") + "</div></div>" +
-    '<div><div class="k">Share of scheme use</div><div class="v">' + share + "</div></div>" +
+    '<div><div class="k">Share of demand</div><div class="v">' + share + "</div></div>" +
     '<div><div class="k">Scheme</div><div class="v" style="font-size:13px">Elmina core</div></div>' +
     '<div><div class="k">Estimate basis</div><div class="v" style="font-size:13px">' + (b.basis === "history" ? "Meter history" : "No history: manual entry") + "</div></div>" +
     "</div>" +
@@ -655,7 +776,7 @@ function showBuyer(i) {
     "--------------------------------\n" +
     "  Buyer               " + b.name + "\n" +
     "  Annual use          " + annualTxt + "\n" +
-    "  Share of scheme     " + share + "\n" +
+    "  Share of demand     " + share + "\n" +
     "  Scheme              Elmina core\n" +
     "  Estimate basis      " + (b.basis === "history" ? "meter history" : "manual entry (no history yet)") + "\n" +
     "--------------------------------\n\n" +
@@ -679,7 +800,7 @@ function showBuyer(i) {
     var fields = [
       ["Contact", b.email],
       ["Annual use", b.annual == null ? "no meter history yet" : fmt(b.annual) + " MWh"],
-      ["Share of scheme use", share],
+      ["Share of demand", share],
       ["Scheme", "Elmina core"],
       ["Estimate basis", b.basis === "history" ? "Meter history" : "No history: manual entry"]
     ];
@@ -784,15 +905,18 @@ function demoReadings() {
   return out.join("\n");
 }
 
-function loadReadings(r) {
+function loadReadings(r, auto) {
+  if (auto) r.auto = true;
   READINGS = r;
   var card = document.getElementById("fc-readings");
   card.classList.add("loaded");
-  document.getElementById("fs-readings").textContent = readingsSummary(r);
+  document.getElementById("fs-readings").textContent = (r.auto ? "demo data \u00b7 auto-loaded \u00b7 " : "") + readingsSummary(r);
   var pv = document.getElementById("readings-preview");
   pv.style.display = "block";
   pv.textContent = r.sample.join("\n") + (r.rows > 5 ? "\n..." : "");
   document.getElementById("engine-body").classList.remove("locked");
+  updateEngineContext();
+  var lh = document.getElementById("locked-hint"); if (lh) lh.style.display = "none";
   document.getElementById("st2").classList.add("on");
   document.getElementById("st3").classList.add("on");
   renderEngine();
@@ -832,6 +956,12 @@ function renderEngine() {
     return '<option value="' + i + '">' + MONTHS[r.m] + " " + r.y + "</option>";
   }).join("");
   if (cur) sel.value = cur;
+  else {
+    var now0 = new Date(); now0.setHours(0, 0, 0, 0);
+    var open0 = RUNWAY.findIndex(function (x) { return x.notice >= now0; });
+    if (open0 >= 0) sel.value = open0;
+  }
+  updateEngineContext();
 
   // estimates table: basis pulled from the readings file when that month exists
   var r0 = RUNWAY[+sel.value || 0];
@@ -841,14 +971,18 @@ function renderEngine() {
     var fromFile = READINGS && READINGS.byMonth[keyMonth] && READINGS.byMonth[keyMonth][b.name] != null;
     var basisVal = fromFile ? READINGS.byMonth[keyMonth][b.name] : (b.annual ? (b.annual / 12).toFixed(0) : "");
     var tag = b.basis !== "history" ? ' <span class="badge next">no history &middot; manual</span>' : (fromFile ? ' <span class="badge ok">from file</span>' : "");
-    html += "<tr><td><b>" + esc(b.name) + "</b>" + tag + "</td>" +
+    html += "<tr><td><b class=\"eng-buyer\" data-eb=\"" + i + "\" style=\"cursor:pointer;border-bottom:1px dotted #9AA4AE\">" + esc(b.name) + "</b>" + tag + "</td>" +
       '<td class="num"><input class="cell" type="number" id="eng-b-' + i + '" value="' + basisVal + '" step="10"></td>' +
       '<td class="num"><input class="cell" type="number" id="eng-t-' + i + '" value="' + TRENDS[i % TRENDS.length] + '" step="0.5"></td>' +
       '<td class="num" id="eng-e-' + i + '"></td><td class="num" id="eng-s-' + i + '"></td></tr>';
   });
   document.getElementById("engine-table").innerHTML = html;
+  updateEngineContext();
 
-  sel.addEventListener("change", function () { renderEngine(); computeEngine(); });
+  document.querySelectorAll("#engine-table .eng-buyer").forEach(function (el) {
+    el.addEventListener("click", function () { showEstBuyer(+el.dataset.eb); });
+  });
+  sel.addEventListener("change", function () { renderEngine(); computeEngine(); updateEngineContext(); });
   document.getElementById("engine-holdback").addEventListener("input", computeEngine);
   BUYERS.forEach(function (b, i) {
     document.getElementById("eng-b-" + i).addEventListener("input", computeEngine);
@@ -897,35 +1031,268 @@ function computeEngine() {
     '<span class="s"><b>' + (hb * 100).toFixed(1) + "%</b>held back</span></div>";
 }
 
+/* ---------- site map: neighborhood plot carousel ---------- */
+var HOUSES = [];
+var HOOD_SVG = null;
+fetch("data/hood-layouts.json").then(function (r) { return r.json(); }).then(function (j) { HOOD_SVG = j; renderSitemap(); }).catch(function () {});
+var SM2_I = 0;
+function buildHouses() {
+  var hoods = ["Elmina East", "Elmina West", "Elmina Gardens", "Elmina Hills", "Elmina Valley"];
+  var codes = ["E", "W", "G", "H", "V"];
+  for (var i = 0; i < 40; i++) {
+    var h = i % 5;
+    HOUSES.push({
+      no: codes[h] + "-" + (101 + Math.floor(i * 7.3)),
+      hood: hoods[h],
+      owner: OWNERS[i % OWNERS.length],
+      phone: ownerPhone(i),
+      email: ownerEmail(OWNERS[i % OWNERS.length]),
+      kwp: 5.0,
+      status: "Leased",
+      year: 2024 + (i % 2),
+      month: MONTHS[(i * 3) % 12]
+    });
+  }
+}
+function renderSitemap() {
+  var hoods = ["Elmina East", "Elmina West", "Elmina Gardens", "Elmina Hills", "Elmina Valley"];
+  var keys = ["east", "west", "gardens", "hills", "valley"];
+  var hood = hoods[SM2_I];
+  var mine = HOUSES.filter(function (hh) { return hh.hood === hood; });
+  var svg = document.getElementById("hood-map");
+  document.getElementById("hood-name").textContent = hood;
+  document.getElementById("hood-sub").textContent = mine.length + " CREAM homes \u00b7 " + mine.length * 5 + " kWp \u00b7 " + (SM2_I + 1) + " of " + hoods.length;
+  document.getElementById("sm2-prev").disabled = SM2_I <= 0;
+  document.getElementById("sm2-next").disabled = SM2_I >= hoods.length - 1;
+  if (!HOOD_SVG) {
+    svg.innerHTML = '<text x="330" y="215" text-anchor="middle" font-size="13" fill="#C7CDD6">loading neighborhood layouts\u2026</text>';
+    return;
+  }
+  // traced layout per neighborhood (see data/hood-layouts.json)
+  svg.innerHTML = HOOD_SVG[keys[SM2_I]];
+  svg.querySelectorAll(".cream").forEach(function (g) {
+    var house = mine[+g.dataset.cream];
+    if (!house) return;
+    g.dataset.no = house.no;
+    g.insertAdjacentHTML("beforeend", "<title>" + house.no + " \u00b7 " + house.owner + "</title>");
+    g.addEventListener("click", function () {
+      svg.querySelectorAll(".cream.on").forEach(function (o) { o.classList.remove("on"); });
+      g.classList.add("on");
+      showHome(g.dataset.no);
+    });
+  });
+}
+function showHome(no) {
+  var h = HOUSES.filter(function (x) { return x.no === no; })[0];
+  if (!h) return;
+  var p = document.getElementById("home-panel");
+  p.style.display = "block";
+  p.innerHTML = '<div class="hno">Home \u00b7 ' + h.no + "</div>" +
+    '<div style="font-size:12px;color:var(--muted);margin:2px 0 10px">' + h.hood + "</div>" +
+    '<div class="row"><span class="k2">Owner</span><span>' + h.owner + "</span></div>" +
+    '<div class="row"><span class="k2">Contact</span><span>' + h.phone + "</span></div>" +
+    '<div class="row"><span class="k2">Email</span><span style="text-align:right">' + h.email + "</span></div>" +
+    '<div class="row"><span class="k2">Capacity</span><span>' + h.kwp.toFixed(1) + " kWp</span></div>" +
+    '<div class="row"><span class="k2">Lease</span><span style="color:var(--green-ink)">' + h.status + "</span></div>" +
+    '<div class="row"><span class="k2">Connected</span><span>' + h.month + " " + h.year + "</span></div>" +
+    '<div style="font-size:11.5px;color:var(--green-ink);margin-top:10px">Roof leases solar to the CREAM scheme</div>';
+}
+
+/* ---------- estimate justification panel ---------- */
+function showEstBuyer(i) {
+  var b = BUYERS[i];
+  var series = [];
+  if (READINGS) {
+    Object.keys(READINGS.byMonth).sort().forEach(function (mo) {
+      var v = READINGS.byMonth[mo][b.name];
+      if (v != null) series.push([mo, v]);
+    });
+  }
+  var basis = parseFloat(document.getElementById("eng-b-" + i).value) || 0;
+  var trend = parseFloat(document.getElementById("eng-t-" + i).value) || 0;
+  var est = document.getElementById("eng-e-" + i).textContent || "\u2013";
+  var share = document.getElementById("eng-s-" + i).textContent || "\u2013";
+  var r = RUNWAY[+document.getElementById("engine-month").value || 0];
+  var lastKey = (r.y - 1) + "-" + String(r.m + 1).padStart(2, "0");
+  var fromFile = READINGS && READINGS.byMonth[lastKey] && READINGS.byMonth[lastKey][b.name] != null;
+
+  // meter behavior: 24-month sparkline + stats
+  var stats = "";
+  var spark = "";
+  if (series.length) {
+    var vals = series.map(function (s) { return s[1]; });
+    var mx = Math.max.apply(null, vals), mn = Math.min.apply(null, vals), av = vals.reduce(function (a, v) { return a + v; }, 0) / vals.length;
+    var hi = series[vals.indexOf(mx)], lo = series[vals.indexOf(mn)], last = series[series.length - 1];
+    var bars = series.map(function (s, k) {
+      var h = Math.max(2, (s[1] / (mx || 1)) * 44);
+      var fill = s[0] === lastKey ? "#2E7D6B" : "#BFD8CF";
+      return '<rect x="' + (k * 8 + 2) + '" y="' + (48 - h) + '" width="5" height="' + h + '" rx="1.5" fill="' + fill + '"><title>' + s[0] + " \u00b7 " + s[1] + " MWh</title></rect>";
+    }).join("");
+    spark = '<svg width="' + (series.length * 8 + 4) + '" height="50" style="max-width:100%">' + bars + '</svg>' +
+      '<div style="font-size:11px;color:var(--muted)">24-month meter history \u00b7 dark bar = same month last year</div>';
+    stats = '<div class="row"><span class="k2">History</span><span>' + series.length + " months</span></div>" +
+      '<div class="row"><span class="k2">Average</span><span>' + av.toFixed(0) + " MWh/mo</span></div>" +
+      '<div class="row"><span class="k2">Peak</span><span>' + hi[1] + " MWh (" + hi[0] + ")</span></div>" +
+      '<div class="row"><span class="k2">Low</span><span>' + lo[1] + " MWh (" + lo[0] + ")</span></div>" +
+      '<div class="row"><span class="k2">Latest read</span><span>' + last[1] + " MWh (" + last[0] + ")</span></div>";
+  } else {
+    stats = '<div class="row"><span class="k2">History</span><span>none on file</span></div>';
+    spark = '<div style="font-size:12.5px;color:var(--muted);padding:6px 0">No meter history for this buyer \u2014 estimate basis is manual entry.</div>';
+  }
+
+  var why = fromFile
+    ? '<div class="row"><span class="k2">Basis</span><span>' + READINGS.byMonth[lastKey][b.name] + " MWh \u00b7 " + lastKey + " (from file)</span></div>"
+    : '<div class="row"><span class="k2">Basis</span><span>manual entry</span></div>';
+  why += '<div class="row"><span class="k2">Trend</span><span>' + (trend >= 0 ? "+" : "") + trend + "%</span></div>" +
+    '<div class="row"><span class="k2">Estimate</span><span><b>' + est + " MWh</b> = basis \u00d7 (1 + trend)</span></div>" +
+    '<div class="row"><span class="k2">Share of split</span><span>' + share + "</span></div>";
+
+  var hb = (+document.getElementById("engine-holdback").value || 0);
+  var p = document.getElementById("est-panel");
+  p.style.display = "block";
+  p.innerHTML = '<div class="alloc-head"><span class="ttl2">' + esc(b.name) + " \u00b7 estimate basis</span>" +
+    '<button class="btn sm" id="est-close" style="margin-left:auto">Close</button></div>' +
+    '<div style="font-size:12px;color:var(--muted);margin:2px 0 10px">' + b.type + " \u00b7 " + MONTHS[r.m] + " " + r.y + " settlement</div>" +
+    '<div class="hno" style="font-size:14px;margin-bottom:6px">Meter behavior</div>' + spark + stats +
+    '<div class="hno" style="font-size:14px;margin:12px 0 6px">How the estimate was formed</div>' + why +
+    '<div style="font-size:11.5px;color:var(--muted);margin-top:10px">Buyer shares sum to ' + (100 - hb) + "%; the remaining " + hb + "% is held back: it covers forecast misses first, and the rest is sold at the NEDA floor (assumed band RM0.142&ndash;0.174/kWh, <span class='mod'>modelled</span>).</div>";
+  document.getElementById("est-close").addEventListener("click", function () { p.style.display = "none"; });
+  p.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+/* ---------- buyers site map ---------- */
+function buyerDemandShare(b) {
+  var tot = 0;
+  BUYERS.forEach(function (x) { tot += x.annual || 0; });
+  return b.annual ? (100 * b.annual / (tot || 1)).toFixed(1) + "%" : "\u2013";
+}
+var BUYER_POS = {
+  "Elmina Lakeside Mall": [120, 300], "Elmina Innovation Park": [250, 120], "Elmina office podium": [280, 172],
+  "Elmina business-park unit": [334, 146], "Elmina Sports Complex": [420, 108], "Elmina Medical Centre": [472, 162],
+  "Elmina Business Hotel": [520, 222], "Elmina Logistics Hub": [560, 300], "Elmina Community College": [382, 252],
+  "Chong Hwa school": [198, 352], "Elmina International School": [302, 332]
+};
+var TYPE_COLOR = { "Industrial": "#5C6772", "Industrial park": "#5C6772", "Retail": "#0072BD", "Office": "#7F7F7F",
+  "Recreation": "#8F6A50", "Healthcare": "#2E7D6B", "Hospitality": "#B8860B", "Logistics": "#4E7A9B", "Education": "#23507E" };
+function renderBuyersMap() {
+  var svg = document.getElementById("buyers-map");
+  var maxA = Math.max.apply(null, BUYERS.map(function (b) { return b.annual || 0; })) || 1;
+  var base = '<path d="M24 34 L636 22 L644 216 L628 412 L36 404 Z" fill="none" stroke="#D8DEE6" stroke-width="2" stroke-linejoin="round"/>' +
+    '<path d="M60 250 Q300 236 630 244" stroke="#E9E3D8" stroke-width="18" fill="none" stroke-linecap="round"/>' +
+    '<path d="M60 250 Q300 236 630 244" stroke="#fff" stroke-width="2" stroke-dasharray="10 8" fill="none"/>' +
+    '<path d="M420 26 Q450 210 470 410" stroke="#D9CDBB" stroke-width="20" fill="none" stroke-linecap="round"/>' +
+    '<path d="M420 26 Q450 210 470 410" stroke="#fff" stroke-width="2" stroke-dasharray="10 8" fill="none"/>' +
+    '<ellipse cx="86" cy="352" rx="42" ry="30" fill="#BBD5E8"/>' +
+    '<ellipse cx="86" cy="352" rx="58" ry="44" fill="#DDEBDD"/>' +
+    '<ellipse cx="560" cy="90" rx="40" ry="28" fill="#DDEBDD"/>';
+  var marks = "";
+  BUYERS.forEach(function (b, i) {
+    var p = BUYER_POS[b.name] || [330, 215];
+    var r = b.annual ? 9 + 13 * (b.annual / maxA) : 7;
+    var col = TYPE_COLOR[b.type] || "#5C6772";
+    var short = b.name.replace("Elmina ", "").replace(" business-park unit", " WH unit").replace(" International School", " Intl School");
+    marks += '<g class="bpin" data-bi="' + i + '">' +
+      '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + r.toFixed(1) + '" fill="' + col + '" fill-opacity=".85" stroke="#fff" stroke-width="2"/>' +
+      '<text x="' + (p[0] + r + 6) + '" y="' + (p[1] + 4) + '" font-size="11.5" font-weight="600" fill="#14171D">' + short + "</text></g>";
+  });
+  svg.innerHTML = base + marks;
+  svg.querySelectorAll(".bpin").forEach(function (g) {
+    g.addEventListener("click", function () { showBuyer(+g.dataset.bi); });
+  });
+  if (!window.__bpTouched && document.getElementById("buyer-panel").style.display === "none") {
+    var bi = 0, best = -1;
+    BUYERS.forEach(function (bb, i) { if ((bb.annual || 0) > best) { best = bb.annual || 0; bi = i; } });
+    showBuyer(bi);
+  }
+}
+function showBuyer(i) {
+  var b = BUYERS[i];
+  var share = buyerDemandShare(b);
+  var p = document.getElementById("buyer-panel");
+  p.style.display = "block";
+  p.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+  var hist = "";
+  if (typeof READINGS !== "undefined" && READINGS && READINGS.byMonth) {
+    var keys = Object.keys(READINGS.byMonth).sort().filter(function (k) { return READINGS.byMonth[k][b.name] != null; });
+    if (keys.length) {
+      var vals = keys.map(function (k) { return READINGS.byMonth[k][b.name]; });
+      var vmax = Math.max.apply(null, vals);
+      var MONH = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      var bars = keys.map(function (k, ki) {
+        var v = vals[ki];
+        var h = Math.max(2, (v / vmax) * 52);
+        var kk = k.split("-");
+        return '<rect x="' + (ki * 9 + 1) + '" y="' + (56 - h).toFixed(1) + '" width="7" height="' + h.toFixed(1) + '" rx="1.5" fill="' + (ki === keys.length - 1 ? "#2E7D6B" : "#B9C6D2") + '"><title>' + MONH[+kk[1] - 1] + " " + kk[0] + " \u00b7 " + v + " MWh</title></rect>";
+      }).join("");
+      var rowsH = keys.slice(-6).reverse().map(function (k) {
+        var kk = k.split("-");
+        return '<div class="row"><span class="k2">' + MONH[+kk[1] - 1] + " " + kk[0] + '</span><span>' + READINGS.byMonth[k][b.name] + " MWh</span></div>";
+      }).join("");
+      hist = '<div class="hno" style="font-size:14px;margin:14px 0 6px">Meter readings \u00b7 monthly history</div>' +
+        '<div><svg viewBox="0 0 ' + (keys.length * 9 + 2) + ' 60" style="width:100%;height:64px;display:block">' + bars + '</svg></div>' +
+        '<div class="muted" style="font-size:11px;margin:2px 0 6px">' + keys.length + " months on file \u00b7 newest bar in green</div>" +
+        rowsH;
+    } else {
+      hist = '<div class="muted" style="font-size:12.5px;padding:8px 0">No meter history on file for this buyer yet.</div>';
+    }
+  }
+  p.innerHTML = '<div class="hno" style="display:flex;align-items:center;justify-content:space-between;gap:8px">' + b.name +
+    '<button class="btn sm" id="bp-close">Close</button></div>' +
+    '<div style="font-size:12px;color:var(--muted);margin:2px 0 10px">' + b.type + " \u00b7 City of Elmina</div>" +
+    '<div class="row"><span class="k2">Contact</span><span style="text-align:right">' + b.email + "</span></div>" +
+    '<div class="row"><span class="k2">Annual use</span><span>' + (b.annual ? fmt(b.annual) + " MWh" : "\u2013") + "</span></div>" +
+    '<div class="row"><span class="k2">Share of demand</span><span>' + share + '</span></div>' +
+    '<div class="row"><span class="k2">Scheme</span><span>Elmina core</span></div>' +
+    '<div class="row"><span class="k2">Basis</span><span>' + (b.basis === "history" ? "meter history" : "manual entry") + "</span></div>" +
+    hist +
+    '<div class="actions" style="margin-top:12px"><button class="btn" id="bp-open">Open in Buyers table</button></div>';
+  document.getElementById("bp-open").addEventListener("click", function () { goto("buyers"); });
+  document.getElementById("bp-close").addEventListener("click", function () { window.__bpTouched = true; p.style.display = "none"; });
+}
+
 /* ---------- allocations ---------- */
-function renderAllocations() {
+function renderUpcoming() {
   var now = new Date(); now.setHours(0, 0, 0, 0);
-  var s = PLAN.settlement;
-  var totFixed = s.fixed.reduce(function (a, b) { return a + b; }, 0);
-  var totPlan = s.plan.reduce(function (a, b) { return a + b; }, 0);
-
-  // kpis
-  var r0 = RUNWAY[0];
+  var r0 = RUNWAY.filter(function (x) { return x.notice >= now; })[0] || RUNWAY[RUNWAY.length - 1];
   var days0 = Math.round((r0.notice - now) / 86400000);
-  document.getElementById("alloc-kpis").innerHTML =
-    card("Given away \u00b7 fixed", '<div class="big">' + fmt(totFixed, 0) + " MWh</div>", "simulated year") +
-    card("Given away \u00b7 plan", '<div class="big">' + fmt(totPlan, 0) + " MWh</div>", "same year, simulated");
-
   // runway with urgency + prepare action
   var rows = '<tr><th>Allocation month</th><th>Notice deadline</th><th class="num">Days left</th><th>Status</th><th class="num">Estimate</th><th></th></tr>';
   RUNWAY.forEach(function (r, ri) {
     var days = Math.round((r.notice - now) / 86400000);
-    var urg = days < 30 ? " urgent" : "";
+    var closed = days < 0;
+    var urg = !closed && days < 30 ? " urgent" : "";
     var key = r.y + "-" + String(r.m + 1).padStart(2, "0");
     var p = PREPARED[key];
-    var status = p ? '<span class="badge ok">estimate ready</span>' : '<span class="badge" style="color:var(--muted)">not prepared</span>';
+    var status = p
+      ? (p.noticed ? '<span class="badge noticed">Sent</span>'
+        : p.approved ? '<span class="badge ok">Ready</span>'
+        : '<span class="badge pending">Estimate</span>')
+      : '<span class="badge" style="color:var(--muted)">Unchecked</span>'; 
     var est = p ? "<b>" + fmt(p.total, 0) + " MWh</b> \u00b7 hold " + (p.hb * 100).toFixed(0) + "%" : "&ndash;";
     rows += '<tr id="reg-' + key + '"><td><span class="badge next">' + MONTHS[r.m] + " " + r.y + "</span></td><td>" +
       r.notice.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) +
-      '</td><td class="num"><span class="badge' + urg + '">' + days + "</span></td><td>" + status +
-      '</td><td class="num">' + est + '</td><td class="num"><button class="btn sm" data-prep="' + ri + '">' + (p ? "Open" : "Prepare &rarr;") + "</button></td></tr>";
+      '</td><td class="num"><span class="badge' + urg + '">' + (closed ? "window closed" : days) + "</span></td><td>" + status +
+      '</td><td class="num">' + est + '</td><td class="num">' +
+      (p && !p.approved ? '<button class="btn sm" data-approve="' + key + '">Approve</button> ' : "") +
+      (p && p.approved && !p.noticed ? '<button class="btn sm" data-notice="' + key + '">Mark sent</button> ' : "") +
+      (closed && !p ? "" : '<button class="btn sm" data-prep="' + ri + '">' + (p ? "Open" : "Check &rarr;") + "</button>") + "</td></tr>";
   });
   document.getElementById("runway-table").innerHTML = rows;
+  document.querySelectorAll("#runway-table [data-approve]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      PREPARED[btn.dataset.approve].approved = true;
+      try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {}
+      renderUpcoming();
+    });
+  });
+  document.querySelectorAll("#runway-table [data-notice]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      PREPARED[btn.dataset.notice].noticed = true;
+      try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {}
+      renderUpcoming();
+    });
+  });
   document.querySelectorAll("#runway-table [data-prep]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       goto("engine");
@@ -940,7 +1307,7 @@ function renderAllocations() {
   PLAN.settlement.months.forEach(function (mo, i) { TIMELINE.push({ kind: "settled", i: i, label: mo, sub: "settled \u00b7 simulated" }); });
   RUNWAY.forEach(function (r, ri) {
     var key = r.y + "-" + String(r.m + 1).padStart(2, "0");
-    TIMELINE.push({ kind: "runway", ri: ri, label: MONTHS[r.m] + " " + r.y, sub: PREPARED[key] ? "estimate ready" : "notice window open", key: key });
+    TIMELINE.push({ kind: "runway", ri: ri, label: MONTHS[r.m] + " " + r.y, sub: PREPARED[key] ? (PREPARED[key].noticed ? "Sent" : PREPARED[key].approved ? "Ready" : "Estimate") : (r.notice < now ? "window closed" : "notice window open"), key: key });
   });
   if (MC_IDX >= TIMELINE.length) MC_IDX = TIMELINE.length - 1;
   if (!TIMELINE.some(function (t) { return t.kind === "runway" && PREPARED[t.key]; })) {
@@ -950,6 +1317,61 @@ function renderAllocations() {
     MC_IDX = Math.max.apply(null, TIMELINE.map(function (t, ix) { return t.kind === "runway" && PREPARED[t.key] ? ix : -1; }));
   }
   renderMasterChart(r0, days0);
+
+}
+
+var SET_M = 1, SET_YRS = ["2025", "2026"], SET_Y = 1;
+var SET_F = { 2025: 0.91, 2026: 1 };
+function settlePred(i) {
+  return Math.round(PLAN.settlement.plan[i] * SET_F[SET_YRS[SET_Y]] * 10) / 10;
+}
+function settleActual(i) {
+  // simulated metered usage: predicted with a deterministic wiggle, different per year
+  var seed = i + SET_Y * 31;
+  return Math.round(settlePred(i) * (0.94 + ((seed * 37) % 13) / 100) * 10) / 10;
+}
+function renderSettleChart() {
+  var s = PLAN.settlement;
+  var pred = settlePred(SET_M);
+  var act = settleActual(SET_M);
+  var maxV = Math.max(pred, act, 1);
+  var pct = pred ? Math.round((act - pred) / pred * 100) : 0;
+  var delta = Math.abs(pct) <= 5
+    ? '<span class="badge ok">' + (pct >= 0 ? "+" : "") + pct + "% \u00b7 on target</span>"
+    : '<span class="badge urgent">' + (pct >= 0 ? "+" : "") + pct + "% \u00b7 " + (pct > 0 ? "over" : "under") + " predicted</span>";
+  document.getElementById("settle-box").innerHTML =
+    '<div class="alloc-head"><span class="ttl2" style="display:flex;align-items:center;gap:8px">' +
+    '<button class="mc-nav" id="sy-prev" style="width:28px;font-size:15px" ' + (SET_Y <= 0 ? "disabled" : "") + ">&#8249;</button>" + SET_YRS[SET_Y] +
+    '<button class="mc-nav" id="sy-next" style="width:28px;font-size:15px" ' + (SET_Y >= SET_YRS.length - 1 ? "disabled" : "") + ">&#8250;</button></span>" +
+    '<span class="muted">simulated</span></div>' +
+    '<div class="mc-navrow" style="margin-top:8px">' +
+    '<button class="mc-nav" id="sm-prev" ' + (SET_M <= 0 ? "disabled" : "") + ">&#8249;</button>" +
+    '<div class="mc-main">' +
+    '<div class="alloc-head" style="margin:0 0 8px"><span class="ttl2" style="font-size:13.5px">' + s.months[SET_M] + " " + SET_YRS[SET_Y] + "</span>" + delta + "</div>" +
+    '<div class="pbar-cols">' +
+    '<div class="pb-col"><div class="pb-val">' + pred.toFixed(1) + ' MWh</div><div class="pb-bar" style="height:' + Math.max(pred / maxV * 100, 2) + '%;background:#7F9BB5"></div><div class="pb-lab">Predicted</div></div>' +
+    '<div class="pb-col"><div class="pb-val">' + act.toFixed(1) + ' MWh</div><div class="pb-bar" style="height:' + Math.max(act / maxV * 100, 2) + '%;background:#2E7D6B"></div><div class="pb-lab">Actual</div></div>' +
+    "</div></div>" +
+    '<button class="mc-nav" id="sm-next" ' + (SET_M >= s.months.length - 1 ? "disabled" : "") + ">&#8250;</button></div>";
+  document.getElementById("sm-prev").addEventListener("click", function () { if (SET_M > 0) { SET_M--; renderSettleChart(); } });
+  document.getElementById("sm-next").addEventListener("click", function () { if (SET_M < PLAN.settlement.months.length - 1) { SET_M++; renderSettleChart(); } });
+  document.getElementById("sy-prev").addEventListener("click", function () { if (SET_Y > 0) { SET_Y--; renderSettleChart(); } });
+  document.getElementById("sy-next").addEventListener("click", function () { if (SET_Y < SET_YRS.length - 1) { SET_Y++; renderSettleChart(); } });
+}
+
+function renderSettlements() {
+  var now = new Date(); now.setHours(0, 0, 0, 0);
+  var s = PLAN.settlement;
+  var totFixed = s.fixed.reduce(function (a, b) { return a + b; }, 0);
+  var totPlan = s.plan.reduce(function (a, b) { return a + b; }, 0);
+  var kept = s.fixed.map(function (f, i) { return f - s.plan[i]; });
+  var bestKept = Math.max.apply(null, kept);
+  document.getElementById("alloc-kpis").innerHTML =
+    card("Kept vs fixed", '<div class="big" style="color:var(--green-ink)">' + fmt(Math.max(totFixed - totPlan, 0), 0) + " MWh</div>", "simulated year") +
+    card("Months settled", '<div class="big">' + s.months.length + "</div>", "simulated stand-in") +
+    card("Best month kept", '<div class="big">' + fmt(bestKept, 0) + " MWh</div>", s.months[kept.indexOf(bestKept)] + " \u00b7 fixed minus plan");
+  // month-by-month predicted vs actual, arrows + year toggle
+  renderSettleChart();
 
   // detail table, kept column replaces the all-green settled badge
   rows = '<tr><th>Month</th><th class="num">Generation MWh</th><th class="num">Given away \u00b7 fixed</th><th class="num">Given away \u00b7 Plan</th><th class="num">Kept</th></tr>';
@@ -961,9 +1383,10 @@ function renderAllocations() {
   });
   document.getElementById("months-table").innerHTML = rows;
   document.querySelectorAll("#months-table tr.rowbtn").forEach(function (tr) {
-    tr.addEventListener("click", function () { showMonth(+tr.dataset.m); });
+    tr.addEventListener("click", function () { SET_M = +tr.dataset.m; renderSettleChart(); showMonth(+tr.dataset.m); });
   });
 }
+
 function renderMasterChart(r0, days0) {
   var t = TIMELINE[MC_IDX];
   var mc = document.getElementById("master-chart");
@@ -1027,7 +1450,10 @@ function showMonth(i) {
       '<td class="num"><button class="btn sm" data-apdf="' + i + ":" + p.bi + '">PDF</button> <button class="btn sm" data-amail="' + i + ":" + p.bi + '">Email</button></td></tr>';
   }).join("");
   document.getElementById("month-detail").innerHTML =
-    '<div class="dt">Allocation round \u00b7 ' + s.months[i] + '</div>' +
+    '<div class="dt" style="display:flex;align-items:center;justify-content:space-between">Settlement \u00b7 ' + s.months[i] +'<button class="btn sm" id="md-close">Close</button></div>' +
+    '<div class="muted" style="font-size:11.5px;margin:-4px 0 8px">Notice by ' +
+    (function (mm) { var d = new Date(mm.y, mm.m, 1 - 120); return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); })({ m: i % 12, y: 2025 + Math.floor(i / 12) }) +
+    ' \u00b7 120 days before settlement</div>' +
     '<div class="dstats">' +
     '<div><div class="k">Generation</div><div class="v">' + fmt(s.generation[i], 0) + " MWh</div></div>" +
     '<div><div class="k">Given away \u00b7 fixed</div><div class="v">' + fmt(s.fixed[i], 1) + " MWh</div></div>" +
@@ -1035,7 +1461,7 @@ function showMonth(i) {
     '<div><div class="k">Kept</div><div class="v" style="color:var(--green-ink)">' + fmt(Math.max(saved, 0), 1) + " MWh</div></div>" +
     "</div>" +
     '<div class="card" style="padding:14px;margin-top:12px">' +
-    '<div class="alloc-head"><span class="ttl2">Notified split \u00b7 plan arm</span><span class="muted">modelled from annual shares</span></div>' +
+    '<div class="alloc-head"><span class="ttl2">Notified split \u00b7 plan arm</span><span class="muted mod">modelled from annual shares</span></div>' +
     '<div class="alloc-bar">' + segs + "</div>" +
     '<div class="table-wrap" style="margin-top:10px"><table><tr><th>Buyer</th><th class="num">Allocated</th><th class="num">Share</th><th></th></tr>' + rows + "</table></div>" +
     "</div>" +
@@ -1051,6 +1477,7 @@ function showMonth(i) {
     "</div>";
   document.getElementById("month-detail").classList.add("on");
 
+  document.getElementById("md-close").addEventListener("click", function () { document.getElementById("month-detail").classList.remove("on"); document.getElementById("month-detail").innerHTML = ""; });
   document.querySelectorAll("#month-detail [data-apdf]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var q = btn.dataset.apdf.split(":");
@@ -1071,7 +1498,7 @@ function allocPdf(i, bi, parts) {
   var b = BUYERS[bi];
   var doc = new window.jspdf.jsPDF();
   var fields = [
-    ["Allocation month", s.months[i] + " (settled \u00b7 simulated)"],
+    ["Settlement month", s.months[i] + " (settled \u00b7 simulated)"],
     ["Buyer", b.name],
     ["Allocated", p.mwh.toFixed(1) + " MWh"],
     ["Share of month", (p.share * 100).toFixed(1) + "%"],
@@ -1079,7 +1506,7 @@ function allocPdf(i, bi, parts) {
     ["Basis", "modelled from annual shares"],
     ["Source", "WattWise simulation \u00b7 plan arm"]
   ];
-  doc.setFontSize(16); doc.text("WattWise \u00b7 allocation notice", 14, 20);
+  doc.setFontSize(16); doc.text("WattWise \u00b7 settlement statement", 14, 20);
   doc.setFontSize(10); doc.setTextColor(110);
   doc.text("CREAM scheme \u00b7 City of Elmina", 14, 27);
   doc.setTextColor(30);
@@ -1087,7 +1514,7 @@ function allocPdf(i, bi, parts) {
   fields.forEach(function (f) { doc.text(f[0], 14, y); doc.text(String(f[1]), 80, y); y += 9; });
   doc.setFontSize(9); doc.setTextColor(130);
   doc.text("Prepared automatically by WattWise \u00b7 figures are simulated, not billed values.", 14, y + 6);
-  var fname = "wattwise-allocation-" + b.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + s.months[i].toLowerCase() + ".pdf";
+  var fname = "wattwise-settlement-" + b.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + s.months[i].toLowerCase() + ".pdf";
   var url = URL.createObjectURL(doc.output("blob"));
   var box = document.getElementById("alloc-pdf-box");
   box.style.display = "block";
@@ -1105,10 +1532,10 @@ function allocMail(i, bi, parts) {
   var box = document.getElementById("alloc-compose");
   box.style.display = "block";
   document.getElementById("alloc-mail-to").value = b.email;
-  document.getElementById("alloc-mail-subject").value = "Allocation notice \u00b7 " + s.months[i] + " \u00b7 " + b.name;
+  document.getElementById("alloc-mail-subject").value = "Settlement statement \u00b7 " + s.months[i] + " \u00b7 " + b.name;
   document.getElementById("alloc-mail-body").value =
     "Hi " + b.type + " team,\n\n" +
-    "This is your solar allocation notice for " + s.months[i] + ".\n\n" +
+    "This is your solar settlement statement for " + s.months[i] + ".\n\n" +
     "--------------------------------\n" +
     "  Buyer               " + b.name + "\n" +
     "  Allocated           " + p.mwh.toFixed(1) + " MWh\n" +
@@ -1116,7 +1543,7 @@ function allocMail(i, bi, parts) {
     "  Scheme              Elmina core\n" +
     "  Basis               modelled from annual shares\n" +
     "--------------------------------\n\n" +
-    "The formal notice is attached as a PDF. Contact WattWise operations if this split needs correction before settlement.\n\n" +
+    "The formal statement is attached as a PDF. Contact WattWise operations if any figure needs correction.\n\n" +
     "Regards,\nWattWise operations\nSime Darby Property \u00b7 City of Elmina";
   document.getElementById("alloc-mail-open").onclick = function () {
     var to = document.getElementById("alloc-mail-to").value;
@@ -1149,14 +1576,19 @@ function renderEvidence() {
   });
   document.getElementById("schemes-table").innerHTML = srows;
   document.getElementById("sources").innerHTML =
-    "Consumption: BDG2 (Miller et al., 2020), 590 buildings, 2016 to 2017. Settlement: modelled, CREAM 9.10(e). Prices: assumed 15 to 30 sen. Buyer mix: modelled loads.";
+    "Consumption: BDG2 (Miller et al., 2020), 590 buildings, 2016 to 2017. Settlement: modelled, CREAM 9.10(e). Prices: assumed NEDA floor band 14.2 to 17.4 sen/kWh (CREAM price private). Buyer mix: modelled loads.";
 }
 
 /* ---------- boot ---------- */
 buildRunway();
 fetch("data/plan.json").then(function (r) { return r.json(); }).then(function (d) {
   PLAN = d;
-  renderHomeowners(); renderBuyersTbl(); renderOverview(); renderEngine(); renderAllocations(); renderEvidence();
+  document.getElementById("sm2-prev").addEventListener("click", function () { if (SM2_I > 0) { SM2_I--; document.getElementById("home-panel").style.display = "none"; renderSitemap(); } });
+document.getElementById("sm2-next").addEventListener("click", function () { if (SM2_I < 4) { SM2_I++; document.getElementById("home-panel").style.display = "none"; renderSitemap(); } });
+if (!READINGS) loadReadings(parseReadings(demoReadings()), true); // demo dataset auto-loads; upload stays available for real CSVs
+document.getElementById("demo-splits").click();
+document.getElementById("demo-solar").click();
+buildHouses(); renderHomeowners(); renderBuyersTbl(); renderOverview(); renderEngine(); renderUpcoming(); renderSettlements(); renderSitemap(); renderBuyersMap(); renderEvidence();
   drawCharts();
 }).catch(function (e) {
   document.getElementById("house-kpis").innerHTML = card("Data", "unavailable", String(e.message || e));
