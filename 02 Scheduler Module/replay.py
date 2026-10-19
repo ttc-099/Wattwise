@@ -390,6 +390,9 @@ def main():
     files = {os.path.join(RESULTS, "replay.json"): dump(r), os.path.normpath(UI_PLAN): dump(ui_plan(r)),
              os.path.join(RESULTS, "elmina_example_year.csv"): monthly_csv(r["elmina"]["example_year"]),
              os.path.normpath(UI_PLAN[:-2]): "// written by 02 Scheduler Module/replay.py, do not edit\nwindow.PLAN_DATA = " + dump(ui_plan(r)).rstrip() + ";\n"}
+    # the testing suite re-runs the replay in the browser (03 User Interface/replay.js) on the same inputs
+    for name in ("bdg2_buildings.csv", "bdg2_monthly_kwh.csv", "pvgis_elmina.json"):
+        files[os.path.normpath(os.path.join(os.path.dirname(UI_PLAN), "replay", name))] = open(os.path.join(DATA, name), encoding="utf-8").read()
     # the web pages quote numbers in <span data-v="key">value</span>; keep the written values current too
     facts_now = facts(r)
     for page in ("tests.html", "index.html"):
@@ -404,6 +407,7 @@ def main():
         sys.exit(1 if bad else 0)
     os.makedirs(RESULTS, exist_ok=True)
     for p, txt in files.items():
+        os.makedirs(os.path.dirname(p), exist_ok=True)
         with open(p, "w", encoding="utf-8", newline="\n") as f:
             f.write(txt)
     b, c = r["benchmark"], r["elmina"]["core"]

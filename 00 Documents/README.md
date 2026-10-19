@@ -28,7 +28,7 @@ Replayed on real meter readings from 821 buildings, a fixed yearly split gives a
 
 ## Results
 
-One command rebuilds every number below, on the deck and on both web pages: `python replay.py` in `02 Scheduler Module` (standard Python, about a second; `--check` confirms the committed results match). Inputs are public and committed: real monthly electricity from the Building Data Genome Project 2 and rooftop solar at Elmina from PVGIS. How each figure is derived: [docs/evidence-provenance.md](../docs/evidence-provenance.md).
+One command rebuilds every number below, on the deck and on both web pages: `python replay.py` in `02 Scheduler Module` (standard Python, about a second; `--check` confirms the committed results match). Judges without Python can press **Re-run the replay** in Appendix A of the testing suite: the same rules, ported line for line to `03 User Interface/replay.js`, run in the browser on the same inputs and check every quoted figure. Inputs are public and committed: real monthly electricity from the Building Data Genome Project 2 and rooftop solar at Elmina from PVGIS. How each figure is derived: [docs/evidence-provenance.md](../docs/evidence-provenance.md).
 
 | Result | Figure | Basis |
 |---|---|---|

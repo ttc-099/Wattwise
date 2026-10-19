@@ -10,6 +10,8 @@ python replay.py --check   # confirms the committed results match a fresh run
 
 Standard Python, no packages, about a second. The rules are written at the top of `replay.py`.
 
+In the browser: the testing suite's Appendix A has a **Re-run the replay** button. `03 User Interface/replay.js` is a line-for-line port of `replay.py`, run on the same inputs (copied to `03 User Interface/data/replay/` by `replay.py`). It reproduces all 132 quoted figures and the 48 monthly values exactly, including at other hold-backs (checked at 0%, 2%, 5% and 10%).
+
 ## Inputs (committed in `02 Scheduler Module/data`)
 
 | File | What it is | Source |

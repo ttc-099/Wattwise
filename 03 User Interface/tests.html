@@ -101,6 +101,24 @@
   .yeartbl tfoot td { font-weight: 700; border-top: 2px solid var(--text); border-bottom: 0; }
   .yeartbl .good { color: #8A3A12; font-weight: 700; }
   #year-csv { margin-top: 12px; }
+  .rerun { border: 3px solid var(--text); }
+  .rr-go { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+  .rr-verdict { font-weight: 800; font-size: 16px; margin: 18px 0 8px; }
+  .rr-check { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14.5px; }
+  .rr-check th, .rr-check td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: right; height: auto; }
+  .rr-check th:first-child, .rr-check td:first-child { text-align: left; }
+  .rr-check th { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .rr-ok { color: var(--green-ink); font-weight: 800; }
+  .rr-bad { color: #B3261E; font-weight: 800; }
+  .rr-h { font-size: 14px; margin: 26px 0 10px; }
+  .calc.rr-calc { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; align-items: end; }
+  .rr-try { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 12px; }
+  .rr-try div { background: var(--peach2); border-radius: 14px; padding: 12px 14px; }
+  .rr-try b { display: block; font-stretch: 118%; font-size: 22px; font-weight: 850; }
+  .rr-try span { font-size: 13px; color: var(--muted); }
+  .rr-pick { display: grid; gap: 6px; font-size: 13.5px; font-weight: 700; color: var(--muted); max-width: 520px; margin-bottom: 10px; }
+  .rr-pick select, .rr-calc select { min-height: 44px; border: 1.5px solid var(--border2); border-radius: 10px; padding: 0 10px; font: 600 14.5px var(--f); color: var(--text); background: #fff; }
+  @media (max-width: 620px) { .calc.rr-calc { grid-template-columns: 1fr; } .rr-check { min-width: 0; font-size: 13px; } .rr-check th, .rr-check td { padding: 8px 5px; } }
   @media (max-width: 620px) { .yeartbl { min-width: 0; font-size: 13px; } .yeartbl th, .yeartbl td { padding: 8px 5px; } .yeartbl th:nth-child(n+6), .yeartbl td:nth-child(n+6) { display: none; } }
   .refs { margin-top: 34px; border-top: 2px solid var(--text); padding-top: 6px; }
   .refs ul { padding-left: 20px; margin: 8px 0; }
@@ -308,7 +326,7 @@
     <div class="intro">
       <div class="row"><b>WHAT THIS IS</b><span>Self-service verification for judges. Every pitch claim, tested on real meter data, with a script you can re-run.</span></div>
       <div class="row"><b>HOW TO USE</b><span>Pick a question. Each page shows the claim, the test, and the result, with the raw numbers one tap away.</span></div>
-      <div class="row"><b>DATA</b><span>Real monthly electricity from <span data-v="n_buildings">821</span> buildings, as one-buyer schemes and <span data-v="two_n">407</span> two-buyer pairs, with rooftop solar at Elmina <span class="cite">(Miller et al., 2020; European Commission JRC, 2022)</span>. One command rebuilds every number on this page: <span class="mono">python replay.py</span> in 02 Scheduler Module <span class="cite">(WattWise, 2026)</span>.</span></div>
+      <div class="row"><b>DATA</b><span>Real monthly electricity from <span data-v="n_buildings">821</span> buildings, as one-buyer schemes and <span data-v="two_n">407</span> two-buyer pairs, with rooftop solar at Elmina <span class="cite">(Miller et al., 2020; European Commission JRC, 2022)</span>. One command rebuilds every number on this page: <span class="mono">python replay.py</span> in 02 Scheduler Module, or press <a href="#a" data-go="a">Re-run the replay</a> in Appendix A <span class="cite">(WattWise, 2026)</span>.</span></div>
     </div>
     <div class="journey" aria-label="Median solar given away across real two-buyer schemes">
       <div class="jst"><i></i><div class="k">Fixed annual split</div><div class="v"><span data-v="two_fixed">6.05%</span></div><div class="s">median given away</div></div>
@@ -355,7 +373,7 @@
         <li>The Malaysian Reserve (2025) &lsquo;Sime Darby Property, TNB launch pilot solar project under CREAM to power homes, industries&rsquo;, <i>The Malaysian Reserve</i>, 26 September.</li>
         <li>WattWise (2026) <i>WattWise code and results</i> [Computer program]. Available at: https://github.com/ttc-099/Wattwise (Accessed: 19 October 2026). Replay: 02 Scheduler Module/replay.py; results: 02 Scheduler Module/results/replay.json.</li>
       </ul>
-      <p class="note">Re-run it yourself: <span class="mono">python replay.py</span> in 02 Scheduler Module (standard Python, about a second) rebuilds every number on these pages; <span class="mono">python replay.py --check</span> confirms the committed results match a fresh run. <span class="mono">build_inputs.py</span> rebuilds the input files from the public sources. How each rule and RM figure is derived: <span class="mono">docs/evidence-provenance.md</span>.</p>
+      <p class="note">Re-run it yourself: <span class="mono">python replay.py</span> in 02 Scheduler Module (standard Python, about a second) rebuilds every number on these pages; <span class="mono">python replay.py --check</span> confirms the committed results match a fresh run. <span class="mono">build_inputs.py</span> rebuilds the input files from the public sources. No Python? <a href="#a" data-go="a">Re-run it in your browser</a> (Appendix A). How each rule and RM figure is derived: <span class="mono">docs/evidence-provenance.md</span>.</p>
     </section>
   </div>
 
@@ -470,6 +488,26 @@
       <div class="row"><b>TEST</b><span>Replay 2017 for all <span data-v="two_n">407</span> real two-buyer schemes under a fixed split and under WattWise: same buyers, same solar <span class="cite">(Miller et al., 2020; WattWise, 2026)</span>. Below, the scheme closest to the median result, scaled to Elmina's size, every month.</span></div>
       <div class="row"><b>RESULT</b><span>Median give-away falls from <span data-v="two_fixed">6.05%</span> to <span data-v="two_plan">1.34%</span> of the year's solar. At Elmina's size (<span data-v="el_mwh">9,409</span> MWh a year) that is <span data-v="el_kept">443</span> MWh a year no longer given away <span class="mod">(modelled)</span>.</span></div>
       <div class="row verdict-row"><b>VERDICT</b><span>PASS &middot; WattWise gave away less than a fixed split in <span data-v="two_less_fixed">99.8%</span> of real two-buyer schemes.</span></div>
+    </div>
+    <div class="card rerun" id="rerun-card">
+      <h2 style="margin-top:0">Re-run the replay in your browser</h2>
+      <p class="note" style="margin-top:0">Runs the same rules as <span class="mono">replay.py</span> on the same public inputs (monthly meters of every building in the benchmark, and PVGIS rooftop solar at Elmina), here on your device. Nothing is uploaded. It takes about a second.</p>
+      <div class="rr-go"><button class="btn primary" id="rr-run" type="button">Re-run the replay</button><span id="rr-status" class="note" aria-live="polite"></span></div>
+      <div id="rr-out" hidden>
+        <p class="rr-verdict" id="rr-verdict"></p>
+        <div class="yscroll"><table class="rr-check" id="rr-check"></table></div>
+        <h3 class="rr-h">Try other settings</h3>
+        <div class="calc rr-calc">
+          <label>Hold-back <output id="rr-hb-o">2%</output><input type="range" id="rr-hb" min="0" max="10" step="0.5" value="2"></label>
+          <label>CREAM price<select id="rr-price"><option value="15">15 sen/kWh</option><option value="20">20 sen/kWh</option><option value="25">25 sen/kWh</option><option value="30" selected>30 sen/kWh</option></select></label>
+          <button class="btn" id="rr-again" type="button">Re-run with these settings</button>
+        </div>
+        <div id="rr-try" class="rr-try" aria-live="polite"></div>
+        <h3 class="rr-h">Replay any real scheme, month by month</h3>
+        <label class="rr-pick">Two-buyer scheme<select id="rr-pair"></select></label>
+        <div class="yscroll"><table class="yeartbl" id="rr-year"></table></div>
+        <p class="note">Scaled to Elmina&rsquo;s size (<span data-v="el_mwh">9,409</span> MWh a year), at the hold-back above. Changes stay on your screen; the pages keep the committed figures.</p>
+      </div>
     </div>
     <div class="card"><table class="cmp policy">
       <tr><th>Policy</th><th class="num">Given away</th><th class="num">Share of solar</th><th>Basis</th></tr>
@@ -611,6 +649,7 @@
 </div>
 
 <script src="data/plan.js"></script>
+<script src="replay.js"></script>
 <script>
 // ---------- data: written by 02 Scheduler Module/replay.py into data/plan.js ----------
 var D = window.PLAN_DATA, F = D.facts;
@@ -656,10 +695,12 @@ if (/^#(how|a|b|c|d)$/.test(location.hash)) showPage(location.hash.slice(1));
   S.months.forEach(function (mo, i) {
     var kept = S.fixed[i] - S.plan[i];
     tg += S.gen[i]; tf += S.fixed[i]; tp += S.plan[i]; tn += S.neda[i];
-    rows += "<tr><td>" + mo + "</td><td>" + S.gen[i].toFixed(1) + "</td><td>" + S.fixed[i].toFixed(1) + '</td><td class="good">' + S.plan[i].toFixed(1) + "</td><td>" + kept.toFixed(1) + "</td><td>" + S.neda[i].toFixed(1) + "</td><td>" + (S.fixed[i] / S.gen[i] * 100).toFixed(1) + "%</td><td>" + (S.plan[i] / S.gen[i] * 100).toFixed(1) + "%</td></tr>";
-    csv += [mo, S.gen[i], S.fixed[i], S.plan[i], kept.toFixed(2), S.neda[i]].join(",") + "\n";
+    rows += "<tr><td>" + mo + "</td><td>" + WWReplay.fmt(S.gen[i], 1) + "</td><td>" + WWReplay.fmt(S.fixed[i], 1) + '</td><td class="good">' + WWReplay.fmt(S.plan[i], 1) + "</td><td>" + WWReplay.fmt(kept, 1) + "</td><td>" + WWReplay.fmt(S.neda[i], 1) + "</td><td>" + WWReplay.fmt((S.fixed[i] / S.gen[i] * 100), 1) + "%</td><td>" + WWReplay.fmt((S.plan[i] / S.gen[i] * 100), 1) + "%</td></tr>";
+    csv += [mo, S.gen[i], S.fixed[i], S.plan[i], WWReplay.fmt(kept, 2), S.neda[i]].join(",") + "\n";
   });
-  rows += '</tbody><tfoot><tr><td>Year</td><td>' + tg.toFixed(1) + "</td><td>" + tf.toFixed(1) + '</td><td class="good">' + tp.toFixed(1) + "</td><td>" + (tf - tp).toFixed(1) + "</td><td>" + tn.toFixed(1) + "</td><td>" + (tf / tg * 100).toFixed(2) + "%</td><td>" + (tp / tg * 100).toFixed(2) + "%</td></tr></tfoot>";
+  // the year row uses the replay's own totals (the months above are each rounded to 0.01 MWh)
+  var T = D.settlement.totals;
+  rows += '</tbody><tfoot><tr><td>Year</td><td>' + WWReplay.fmt(tg, 1) + "</td><td>" + WWReplay.fmt(T.fixed.given_away_mwh, 1) + '</td><td class="good">' + WWReplay.fmt(T.plan.given_away_mwh, 1) + "</td><td>" + WWReplay.fmt(D.settlement.kept_mwh, 1) + "</td><td>" + WWReplay.fmt(T.plan.neda, 1) + "</td><td>" + WWReplay.fmt(T.fixed.pct, 2) + "%</td><td>" + WWReplay.fmt(T.plan.pct, 2) + "%</td></tr></tfoot>";
   document.getElementById("year-a").innerHTML = rows;
   document.getElementById("year-csv").addEventListener("click", function () {
     var a = document.createElement("a");
@@ -907,6 +948,103 @@ document.querySelectorAll("[data-go]").forEach(function (el) {
     if (document.getElementById("code-drawer").classList.contains("on")) cdLoad(cdCurrentPage());
   });
 });
+
+
+// ---------- re-run the replay in the browser (replay.js, a port of replay.py) ----------
+(function () {
+  var CHECK = [
+    ["n_buildings", "Real buildings in the benchmark"], ["two_n", "Two-buyer schemes"],
+    ["two_fixed", "Median given away, fixed split"], ["two_copy", "Median given away, copy last year"], ["two_plan", "Median given away, WattWise"],
+    ["two_less_fixed", "WattWise gives away less than fixed"], ["two_less_copy", "WattWise gives away less than copy last year"],
+    ["hot2_fixed", "Texas site, fixed split"], ["hot2_plan", "Texas site, WattWise"],
+    ["two_o12_plan", "WattWise at 1.2x scheme size"], ["two_o12_nw", "1.2x no worse than fixed today"],
+    ["el_kept", "Elmina size: MWh a year kept"], ["el_gain_30", "Elmina size: extra income at 30 sen"], ["el_gain_15", "Elmina size: extra income at 15 sen"],
+    ["ip_gain_30", "Innovation Park alone at 30 sen"], ["ip_gain_15", "Innovation Park alone at 15 sen"],
+    ["two_err_med", "Estimate error, median month"], ["two_err_worst", "Estimate error, worst month"],
+    ["ex_fixed", "Example year: given away, fixed (MWh)"], ["ex_plan", "Example year: given away, WattWise (MWh)"], ["ex_neda", "Example year: sold via NEDA (MWh)"]
+  ];
+  var INP = null, LAST = null;
+  var $ = function (id) { return document.getElementById(id); };
+  function fetchInputs() {
+    if (INP) return Promise.resolve(INP);
+    return Promise.all([fetch("data/replay/bdg2_buildings.csv").then(function (r) { return r.text(); }),
+                        fetch("data/replay/bdg2_monthly_kwh.csv").then(function (r) { return r.text(); }),
+                        fetch("data/replay/pvgis_elmina.json").then(function (r) { return r.json(); })])
+      .then(function (x) { INP = WWReplay.load(x[0], x[1], x[2]); return INP; });
+  }
+  function run(opts) {
+    $("rr-status").textContent = "Running…";
+    return fetchInputs().then(function (inp) {
+      return new Promise(function (ok) { setTimeout(function () { var t0 = performance.now(); var r = WWReplay.build(inp, opts); r.ms = performance.now() - t0; ok(r); }, 30); });
+    }).catch(function (e) {
+      $("rr-status").textContent = "Could not load the inputs (" + e.message + "). Open this page from a web server, not as a file.";
+      throw e;
+    });
+  }
+  function yearTable(r, ids) {
+    var ex = WWReplay.exampleYear(ids.map(function (b) { return r.good[b]; }), ids, INP.pv, r.P);
+    var rows = "<thead><tr><th>Month</th><th>Solar</th><th>Given away, fixed</th><th>Given away, plan</th><th>Kept</th><th>NEDA, plan</th></tr></thead><tbody>";
+    ex.monthly.forEach(function (m) {
+      rows += "<tr><td>" + m.month + "</td><td>" + WWReplay.fmt(m.solar_mwh, 1) + "</td><td>" + WWReplay.fmt(m.given_away_fixed_mwh, 1) + '</td><td class="good">' + WWReplay.fmt(m.given_away_plan_mwh, 1) +
+        "</td><td>" + WWReplay.fmt((m.given_away_fixed_mwh - m.given_away_plan_mwh), 1) + "</td><td>" + WWReplay.fmt(m.neda_plan_mwh, 1) + "</td></tr>";
+    });
+    var t = ex.totals_mwh;
+    rows += "</tbody><tfoot><tr><td>Year</td><td>" + WWReplay.fmt(t.fixed.solar, 1) + "</td><td>" + WWReplay.fmt(t.fixed.given, 1) + " (" + WWReplay.fmt(t.fixed.given_pct, 2) + '%)</td><td class="good">' +
+      WWReplay.fmt(t.plan.given, 1) + " (" + WWReplay.fmt(t.plan.given_pct, 2) + "%)</td><td>" + WWReplay.fmt(ex.kept_mwh, 1) + "</td><td>" + WWReplay.fmt(t.plan.neda, 1) + "</td></tr></tfoot>";
+    $("rr-year").innerHTML = rows;
+  }
+  function showTry(r) {
+    var pr = $("rr-price").value, two = r.benchmark.two_buyer, el = r.elmina.core;
+    var g = el.gain_rm_by_price_sen[pr], perRoof = Math.round(g / el.roofs_illustrative);
+    var rm = function (x) { return (x < 0 ? "−RM" : "RM") + Math.abs(Math.round(x / 100) * 100).toLocaleString("en-US"); };
+    $("rr-try").innerHTML =
+      "<div><b>" + WWReplay.fmt(two.given_away_median_pct.fixed, 2) + "% → " + WWReplay.fmt(two.given_away_median_pct.plan, 2) + "%</b><span>median given away, fixed → WattWise</span></div>" +
+      "<div><b>" + two.plan_gives_away_less_than_fixed_pct + "%</b><span>of schemes give away less than fixed</span></div>" +
+      "<div><b>" + rm(g) + "</b><span>extra a year at Elmina size, at " + pr + " sen</span></div>" +
+      "<div><b>RM" + perRoof + "</b><span>per roof a year</span></div>" +
+      "<div><b>" + two.plan_earns_more_than_fixed_pct[pr] + "%</b><span>of schemes earn more than fixed at " + pr + " sen</span></div>";
+  }
+  function fillPairs(r, keep) {
+    var sel = $("rr-pair"), ex = D.settlement.example_buildings.join("|");
+    sel.innerHTML = r.pairs.map(function (p) {
+      var site = p[0].split("_")[0];
+      return '<option value="' + p.join("|") + '">' + site + ": " + p.join(" + ") + (p.join("|") === ex ? " (the example above)" : "") + "</option>";
+    }).join("");
+    sel.value = keep || ex;
+  }
+  $("rr-run").addEventListener("click", function () {
+    run({}).then(function (r) {
+      LAST = r;
+      var f = WWReplay.facts(r), all = Object.keys(F), same = all.filter(function (k) { return F[k] === f[k]; }).length;
+      var rows = "<tr><th>Figure</th><th>On this page</th><th>Your re-run</th><th>Match</th></tr>";
+      CHECK.forEach(function (c) {
+        var ok = F[c[0]] === f[c[0]];
+        rows += "<tr><td>" + c[1] + "</td><td>" + F[c[0]] + "</td><td>" + f[c[0]] + '</td><td class="' + (ok ? "rr-ok" : "rr-bad") + '">' + (ok ? "✓" : "✗") + "</td></tr>";
+      });
+      var monthsOk = r.elmina.example_year.monthly.every(function (m, i) {
+        return m.solar_mwh === D.settlement.generation[i] && m.given_away_fixed_mwh === D.settlement.fixed[i] && m.given_away_plan_mwh === D.settlement.plan[i] && m.neda_plan_mwh === D.settlement.neda[i];
+      });
+      rows += "<tr><td>Example year, all 12 months (4 figures each)</td><td>48 values</td><td>48 values</td><td class=\"" + (monthsOk ? "rr-ok" : "rr-bad") + '">' + (monthsOk ? "✓" : "✗") + "</td></tr>";
+      $("rr-check").innerHTML = rows;
+      $("rr-verdict").textContent = (same === all.length && monthsOk ? "All " : "Only ") + same + " of " + all.length + " figures these pages quote match your re-run" + (monthsOk ? ", and every month of the example year." : ".");
+      $("rr-status").textContent = "Done in " + WWReplay.fmt((r.ms / 1000), 1) + " s on your device · " + r.benchmark.buildings + " buildings, " + r.pairs.length + " two-buyer schemes.";
+      $("rr-out").hidden = false;
+      $("rr-hb").value = 2; $("rr-hb-o").textContent = "2%";
+      showTry(r); fillPairs(r); yearTable(r, $("rr-pair").value.split("|"));
+    });
+  });
+  $("rr-hb").addEventListener("input", function () { $("rr-hb-o").textContent = this.value + "%"; });
+  $("rr-again").addEventListener("click", function () {
+    var keep = $("rr-pair").value;
+    run({ holdBack: +$("rr-hb").value / 100 }).then(function (r) {
+      LAST = r;
+      $("rr-status").textContent = "Re-run at a " + $("rr-hb").value + "% hold-back in " + WWReplay.fmt((r.ms / 1000), 1) + " s. The pages above still show the committed run (2%).";
+      showTry(r); fillPairs(r, keep); yearTable(r, keep.split("|"));
+    });
+  });
+  $("rr-price").addEventListener("change", function () { if (LAST) showTry(LAST); });
+  $("rr-pair").addEventListener("change", function () { if (LAST) yearTable(LAST, this.value.split("|")); });
+})();
 
 // ---------- data modal ----------
 document.getElementById("view-data").addEventListener("click", function () {
