@@ -59,8 +59,6 @@ and show me it beats what we do now."
 ## Non-goals (explicitly out of scope)
 - Township matching, balancing, or real-time monitoring — the EUC's role by
   regulation (CREAM Guideline 10.1).
-- Building-side scheduling (WATTWISE-1/2 forecasts + dispatch). Built,
-  validated, parked; not part of the allocation story and not shown to judges.
 - Self-consumption rate metrics; nothing instruments them and the committed
   site's is already 100%.
 

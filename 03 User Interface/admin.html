@@ -3,236 +3,520 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 28 28%27%3E%3Cpath d=%27M0 0h16L0 14z%27 fill=%27%23F9B915%27/%3E%3Cpath d=%27M28 28H10l18-16z%27 fill=%27%23EA6B3D%27/%3E%3Cpath d=%27M28 0v12L17 0z%27 fill=%27%23F7931E%27/%3E%3Cpath d=%27M0 28v-9l8 9z%27 fill=%27%23F7931E%27/%3E%3C/svg%3E">
 <title>WattWise · Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F5F7FA; --panel: #FFFFFF;
-    --border: #D0D7E2; --border2: #E9EDF2;
-    --text: #1F2937; --muted: #626B77;
-    --green: #2E7D6B; --green-ink: #10715A;
-    --grey: #7F7F7F; --blue: #0072BD;
-    --bad: #B3261E; --side-w: 210px;
+    --bg: #FFFFFF; --panel: #FFFFFF; --rail: #FFF4E2;
+    --border: #DCCFBF; --border2: #ECE2D6;
+    --text: #15120F; --muted: #5E5048;
+    --green: #15120F; --green-ink: #A3410F;
+    --sun: #F9B915; --amber: #F7931E; --coral: #EA6B3D; --peach: #FDE6BF; --peach2: #FFF4E2;
+    --grey: #B7AA9C; --blue: #5E5048;
+    --bad: #B3261E; --side-w: 84px; --top-h: 64px;
+    --f: "Archivo", "Segoe UI", system-ui, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; }
-  body { font-family: Calibri, "Segoe UI", "Helvetica Neue", Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+  body { font-family: var(--f); background: var(--bg); color: var(--text); font-size: 14.5px; line-height: 1.45; font-variant-numeric: tabular-nums; }
+  ::selection { background: var(--sun); color: var(--text); }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; border-radius: 6px; }
+  * { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  a { color: var(--green-ink); text-underline-offset: 3px; }
 
+  /* ---- top bar ---- */
   .topbar {
-    position: fixed; top: 0; left: 0; right: 0; height: 52px; z-index: 30;
-    background: #14171D; color: #E7EAEE; display: flex; align-items: center;
-    gap: 12px; padding: 0 16px; border-bottom: 1px solid #2A2F38;
+    position: fixed; top: 0; left: var(--side-w); right: 0; height: var(--top-h); z-index: 30;
+    background: rgba(255,255,255,.94); backdrop-filter: blur(8px); color: var(--text); display: flex; align-items: center;
+    gap: 12px; padding: 0 32px; border-bottom: 1px solid var(--border2);
   }
-  .topbar .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 15px; }
-  .topbar .brand img { height: 26px; display: block; }
-  .mod { color: #66707F; font-weight: 400; }
-  .chip .mod { color: #8D97A5; }
-.chip { font-size: 12px; padding: 3px 10px; border-radius: 10px; background: #232932; color: #C7CDD6; border: 1px solid #333A45; white-space: nowrap; }
-  .chip.alert { color: #FFC98A; border-color: #5A4526; background: #2E2418; }
+  .topbar .brand { display: flex; align-items: center; gap: 0; font-stretch: 125%; font-weight: 850; font-size: 16px; text-transform: uppercase; letter-spacing: .01em; }
+  .topbar .brand span { color: var(--green-ink); }
+  .mod { color: #7A6B60; font-weight: 400; }
+  .chip .mod { color: #7A6B60; }
+  .chip { font-size: 13px; font-weight: 600; padding: 7px 12px; border-radius: 999px; background: #fff; color: var(--muted); border: 1px solid var(--border2); white-space: nowrap; }
+  .chip.alert { color: #6B2C07; border-color: transparent; background: var(--peach); font-weight: 700; }
   .topbar .spacer { flex: 1; }
-  .topbar .profile { display: flex; align-items: center; gap: 9px; margin-left: 14px; }
-  .topbar .avatar { width: 30px; height: 30px; border-radius: 50%; background: #2E7D6B; color: #fff; font-size: 11.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; letter-spacing: .5px; }
+  .topbar .profile { display: flex; align-items: center; gap: 10px; margin-left: 10px; }
+  .topbar .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--text); color: var(--sun); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; letter-spacing: .5px; }
   .topbar .pmeta { line-height: 1.25; }
-  .topbar .pmeta b { display: block; font-size: 12.5px; }
-  .topbar .pmeta span { font-size: 11px; color: var(--muted); }
-  @media (max-width: 620px) { .topbar .pmeta { display: none; } }
-  .burger { display: none; background: none; border: 1px solid #333A45; color: #E7EAEE; border-radius: 5px; padding: 9px 13px; font-size: 17px; cursor: pointer; min-width: 44px; min-height: 44px; }
+  .topbar .pmeta b { display: block; font-size: 13px; }
+  .topbar .pmeta span { font-size: 12px; color: var(--muted); }
 
+  /* ---- icon rail ---- */
   .side {
-    position: fixed; top: 52px; left: 0; bottom: 0; width: var(--side-w);
-    background: #FFFFFF; border-right: 1px solid var(--border2);
-    padding: 14px 10px; display: flex; flex-direction: column; gap: 2px; z-index: 25;
+    position: fixed; top: 0; left: 0; bottom: 0; width: var(--side-w);
+    background: var(--rail); border-right: 1px solid var(--border2);
+    padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 31;
   }
+  .side .mark { width: 40px; height: 40px; display: block; margin: 6px 0 18px; flex: none; }
+  .topbar .brand .bmark { display: none; width: 24px; height: 24px; margin-right: 10px; flex: none; }
   .nav-item {
-    display: flex; align-items: center; gap: 9px; padding: 9px 12px;
-    border-radius: 6px; color: var(--muted); font-size: 13.5px; font-weight: 600;
-    background: none; border: 0; cursor: pointer; text-align: left; width: 100%;
+    width: 64px; min-height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    border-radius: 14px; color: var(--muted); font: 700 11.5px var(--f); background: none; border: 0; cursor: pointer; text-align: center;
   }
-  .nav-item:hover { background: #EEF2F6; color: var(--text); }
-  .nav-item.on { background: #E4EFEA; color: var(--green-ink); }
-  .nav-item svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .nav-item:hover { background: #fff; color: var(--text); }
+  .nav-item.on { background: var(--text); color: #fff; }
+  .nav-item.on svg { color: var(--sun); }
+  .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .side .sep { width: 36px; height: 1px; background: var(--border); margin: 6px 0; }
 
-  .main { margin-left: var(--side-w); padding: 72px 22px 40px; max-width: 1180px; }
+  .main { margin-left: var(--side-w); padding: calc(var(--top-h) + 28px) 36px 56px; max-width: 1480px; }
   .sec { display: none; }
   .sec.on { display: block; }
-  h1 { font-size: 21px; font-weight: 650; letter-spacing: -.2px; margin-bottom: 14px; }
-  h2 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
-  h2 .tag { font-size: 11px; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--muted); background: #EEF1F5; border: 1px solid var(--border2); border-radius: 8px; padding: 1px 8px; }
+  h1 { font-stretch: 125%; font-size: 30px; font-weight: 850; text-transform: uppercase; letter-spacing: -.005em; line-height: 1.02; margin-bottom: 18px; }
+  h2 { font-stretch: 112%; font-size: 14.5px; font-weight: 850; text-transform: uppercase; letter-spacing: .02em; color: var(--text); margin: 30px 0 12px; display: flex; align-items: center; gap: 10px; }
+  h2 .tag { font-stretch: 100%; font-size: 12.5px; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--muted); background: var(--peach2); border-radius: 999px; padding: 3px 10px; }
 
-  .grid { display: grid; gap: 12px; }
+  /* list / map toggle */
+  .sec-head { display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .sec-head h1 { margin-right: auto; }
+  .seg-tabs { display: inline-flex; border: 2px solid var(--text); border-radius: 999px; overflow: hidden; }
+  .vt { min-height: 44px; min-width: 76px; padding: 0 16px; border: 0; background: #fff; font: 700 13.5px var(--f); color: var(--muted); cursor: pointer; }
+  .vt.on { background: var(--text); color: #fff; }
+
+  .grid { display: grid; gap: 14px; }
   .desk { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 4px; }
-  .kpis { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-  .card { background: var(--panel); border: 1px solid var(--border2); border-radius: 8px; padding: 14px 16px; }
-  .card .lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin-bottom: 6px; }
-  .card .big { font-size: 21px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .kpis { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .card { background: var(--panel); border: 1px solid var(--border2); border-radius: 16px; padding: 16px 18px; }
+  .card .lbl { font-size: 12.5px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+  .card .big { font-stretch: 118%; font-size: 26px; font-weight: 850; }
   .card .big.good { color: var(--green-ink); }
-  .card .due { font-size: 16px; font-weight: 700; margin: 2px 0 5px; }
-  .card .line { font-size: 12.5px; color: var(--muted); }
+  .card .due { font-size: 17px; font-weight: 800; margin: 2px 0 5px; }
+  .card .line { font-size: 13px; color: var(--muted); }
 
-  .chart-card { padding: 14px 16px 10px; }
-  .chart-card .ttl { font-size: 14px; font-weight: 650; margin-bottom: 10px; }
-  .legend { display: flex; flex-wrap: wrap; gap: 14px; padding: 8px 2px 2px; font-size: 12px; color: var(--muted); }
-  .legend i { display: inline-block; width: 12px; height: 3px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+  .chart-card { padding: 16px 18px 12px; }
+  .chart-card .ttl { font-size: 15px; font-weight: 750; margin-bottom: 10px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; padding: 8px 2px 2px; font-size: 12.5px; color: var(--muted); }
+  .legend i { display: inline-block; width: 14px; height: 4px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
   canvas { width: 100%; display: block; }
 
-  .table-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--border2); border-radius: 8px; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); padding: 10px 14px; border-bottom: 1px solid var(--border2); white-space: nowrap; }
-  td { padding: 9px 14px; border-bottom: 1px solid var(--border2); white-space: nowrap; }
+  .table-wrap { overflow-x: auto; background: var(--panel); border-top: 2px solid var(--text); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 12px 14px; border-bottom: 1px solid var(--border2); white-space: nowrap; }
+  td { padding: 0 14px; height: 52px; border-bottom: 1px solid var(--border2); white-space: nowrap; }
   tr:last-child td { border-bottom: 0; }
-  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.num, th.num { text-align: right; }
   tr.rowbtn { cursor: pointer; }
-  tr.rowbtn:hover td { background: #F3F7F5; }
-  .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 9px; }
-  .badge.settled, .badge.ok { background: #E4EFEA; color: var(--green-ink); }
-  .badge.next { background: #FBEEDD; color: #7A4A12; }
+  tr.rowbtn:hover td { background: var(--peach2); }
+  .badge { display: inline-block; font-size: 12.5px; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: #F4EEE7; color: var(--muted); }
+  .badge.settled, .badge.ok { background: var(--peach); color: #6B2C07; }
+  .cite { color: #767676; font-weight: 400; font-style: normal; letter-spacing: 0; text-transform: none; font-stretch: 100%; }
+  .badge.warn { background: #fff; color: var(--green-ink); box-shadow: inset 0 0 0 1.5px var(--green-ink); }
+  td.needs { color: var(--green-ink); font-weight: 700; }
+  .prep-warn { color: var(--green-ink); font-size: 14px; font-weight: 600; margin: 10px 0 0; max-width: 70ch; }
+  .badge.next { background: transparent; color: var(--text); font-weight: 800; font-size: 14px; padding: 0; }
 
   .btn {
-    display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; cursor: pointer;
-    font-size: 12.5px; font-weight: 700; padding: 7px 14px; border: 1px solid var(--border);
-    background: #FFFFFF; color: var(--text);
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; cursor: pointer;
+    font: 700 14px var(--f); min-height: 44px; padding: 0 20px; border: 2px solid var(--text);
+    background: #FFFFFF; color: var(--text); text-decoration: none; white-space: nowrap;
   }
-  .btn:hover { border-color: var(--green); color: var(--green-ink); }
-  .btn.primary { background: var(--green); border-color: var(--green); color: #fff; }
-  .btn.primary:hover { background: var(--green-ink); border-color: var(--green-ink); color: #fff; }
-  .btn.sm { padding: 4px 10px; font-size: 12px; }
+  .btn:hover { background: var(--peach2); }
+  .btn.primary { background: var(--text); border-color: var(--text); color: #fff; }
+  .btn.primary:hover { background: #3A2F27; border-color: #3A2F27; color: #fff; }
+  .btn:disabled { background: #F2ECE5; border-color: #D9CEC2; color: #75675D; cursor: not-allowed; }
+  .btn.sm { min-height: 44px; padding: 0 16px; font-size: 13px; border-width: 1.5px; }
+  .chev { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .mc-nav { display: inline-grid; place-items: center; }
   .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
 
-  .detail { display: none; margin-top: 12px; border: 1px solid var(--border); border-radius: 8px; background: #FCFDFE; padding: 14px 16px; }
+  .detail { display: none; margin-top: 16px; border: 2px solid var(--text); border-radius: 16px; background: #fff; padding: 18px 20px; }
   .detail.on { display: block; }
-  .detail .dt { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
-  .dstats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-  .dstats .k { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
-  .dstats .v { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .detail .dt { font-stretch: 112%; font-size: 17px; font-weight: 850; text-transform: uppercase; margin-bottom: 12px; }
+  .dstats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .dstats .k { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+  .dstats .v { font-stretch: 112%; font-size: 19px; font-weight: 850; margin-top: 2px; }
 
-  .steps { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-  .step { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: var(--muted); background: #fff; border: 1px solid var(--border2); border-radius: 14px; padding: 5px 14px; }
-  .step.on { color: var(--green-ink); background: #E4EFEA; border-color: #BCDCD2; }
-  .step b { font-size: 13px; }
-  .filegrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
-  .filecard { background: var(--panel); border: 1px solid var(--border2); border-radius: 8px; padding: 14px 16px; }
-  .filecard .fname { font-size: 14px; font-weight: 700; }
-  .filecard .fstat { font-size: 12px; color: var(--muted); margin: 4px 0 10px; min-height: 16px; }
-  .filecard.loaded { border-color: var(--green); }
+  /* ---- the line: engine steps as stations ---- */
+  .steps { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); max-width: 560px; margin: 4px 0 22px; }
+  .steps::before { content: ""; position: absolute; left: 16.66%; right: 16.66%; top: 18px; height: 8px; border-radius: 4px; background: var(--border2); }
+  .step { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 800; color: var(--muted); }
+  .step b { width: 44px; height: 44px; border-radius: 50%; border: 4px solid var(--border2); background: #fff; display: grid; place-items: center; font-size: 15px; color: var(--muted); }
+  .step.on { color: var(--text); }
+  .step.on b { border-color: var(--text); background: var(--amber); color: var(--text); }
+
+  /* ---- route box (allocations) ---- */
+  .routebox { padding: 4px 0 8px; border-bottom: 1px solid var(--border2); padding-bottom: 26px; display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; align-items: center; margin-bottom: 26px; }
+  .route-h { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  .route-h b { font-stretch: 125%; font-size: 24px; font-weight: 850; text-transform: uppercase; }
+  .route-h span { color: var(--muted); font-size: 14px; }
+  .route { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); }
+  .route::before { content: ""; position: absolute; left: 10%; right: 10%; top: 17px; height: 10px; border-radius: 5px; background: linear-gradient(90deg, var(--amber) 0 var(--done, 0%), var(--border2) var(--done, 0%)); }
+  .stn { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: var(--muted); text-align: center; }
+  .stn i { width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 4px solid var(--border2); display: block; }
+  .stn.done, .stn.here { color: var(--text); }
+  .stn.done i { border-color: var(--text); background: var(--amber); }
+  .stn.here i { border: 5px solid var(--text); background: #fff; box-shadow: 0 0 0 8px var(--peach); }
+  /* interchange at Send (handoff to the Energy Commission), terminus after Settle */
+  .stn.ix i { width: 66px; border-radius: 22px; }
+  .stn.term i::after { content: ""; position: absolute; top: 4px; left: calc(50% + 30px); width: 7px; height: 36px; border-radius: 4px; background: var(--text); }
+  .stn.term.done i::after, .stn.term.here i::after { background: var(--text); }
+  .stn i { position: relative; }
+  .stn.here i { animation: arrive .7s cubic-bezier(.2,.8,.2,1); }
+  @keyframes arrive { from { transform: scale(.55); box-shadow: 0 0 0 0 var(--peach); } }
+  @property --done { syntax: "<percentage>"; inherits: true; initial-value: 0%; }
+  .route { transition: --done .8s cubic-bezier(.2,.8,.2,1); }
+  @media (prefers-reduced-motion: reduce) { .stn.here i { animation: none; } .route { transition: none; } }
+  .stn small { display: block; font-weight: 500; font-size: 12.5px; color: var(--muted); margin-top: -4px; max-width: 16ch; }
+  .here-card { background: var(--peach2); border-radius: 16px; padding: 16px 18px; }
+  .here-card .h { font-weight: 800; font-size: 15.5px; margin-bottom: 4px; }
+  .here-card p { font-size: 13.5px; color: var(--muted); line-height: 1.45; margin-bottom: 12px; }
+  .here-card .btn { width: 100%; }
+
+  /* notice preview: drafts list + message, like a mail client */
+  .mailbox { border: 2px solid var(--text); border-radius: 16px; overflow: hidden; margin: 0 0 28px; background: #fff; }
+  .mailbox[hidden] { display: none; }
+  .mb-head { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border2); background: var(--peach2); flex-wrap: wrap; }
+  .mb-head b { font-stretch: 112%; font-weight: 850; text-transform: uppercase; font-size: 15px; }
+  .mb-head .muted { font-size: 13px; }
+  .mb-head .btn { margin-left: auto; }
+  .mb-body { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: 520px; }
+  .mb-list { border-right: 1px solid var(--border2); background: var(--peach2); overflow-y: auto; max-height: 720px; }
+  .mb-item { display: grid; grid-template-columns: 12px 1fr auto; gap: 2px 10px; align-items: center; width: 100%; text-align: left; padding: 12px 14px; border: 0; border-bottom: 1px solid var(--border2); background: none; font: inherit; color: var(--text); cursor: pointer; min-height: 64px; }
+  .mb-item:hover { background: var(--peach2); }
+  .mb-item.on { background: #fff; box-shadow: inset 0 0 0 2px var(--text); }
+  .mb-item .dot { grid-row: 1 / span 2; width: 12px; height: 12px; margin: 0; }
+  .mb-item b { font-size: 14px; }
+  .mb-item small { grid-column: 2; font-size: 12.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mb-item em { grid-row: 1 / span 2; grid-column: 3; font-style: normal; font-weight: 800; font-size: 14px; }
+  .mb-msg { padding: 18px 22px 22px; min-width: 0; }
+  .mb-subj { font-size: 19px; font-weight: 800; margin: 0 0 12px; line-height: 1.3; }
+  .mb-meta { display: grid; grid-template-columns: 70px 1fr; gap: 4px 10px; font-size: 13.5px; padding-bottom: 12px; border-bottom: 1px solid var(--border2); }
+  .mb-meta span:nth-child(odd) { color: var(--muted); }
+  .mb-text { white-space: pre-wrap; font-size: 14.5px; line-height: 1.6; margin: 16px 0; max-width: 72ch; }
+  .mb-text .mono { font-family: Consolas, "Courier New", monospace; font-size: 13px; }
+  .mb-att { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 16px 0 10px; border: 1.5px solid var(--border); border-radius: 12px; background: #fff; font: 600 13.5px var(--f); color: var(--text); cursor: pointer; }
+  .mb-att:hover { border-color: var(--text); }
+  .mb-att .pdf { width: 32px; height: 36px; border-radius: 4px; background: var(--coral); color: #fff; font-size: 10px; font-weight: 800; display: grid; place-items: center; }
+  .mb-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border2); align-items: center; }
+  .mb-actions .muted { font-size: 13px; }
+  .mb-pdf { margin-top: 14px; }
+  .mb-pdf iframe { width: 100%; height: 520px; border: 1px solid var(--border2); border-radius: 12px; background: #F4EEE7; }
+
+  /* home: notice line across the next 120 days, then the to-do list */
+  .nline { position: relative; height: 128px; margin: 6px 0 8px; }
+  .nline::before { content: ""; position: absolute; left: 22px; right: 22px; top: 40px; height: 10px; border-radius: 5px; background: var(--amber); }
+  .nline .today, .nline .end { position: absolute; top: 24px; width: 8px; height: 42px; border-radius: 4px; background: var(--text); }
+  .nline .today { left: 18px; } .nline .end { right: 18px; }
+  .nline .cap { position: absolute; top: 0; font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  .nline .cap.l { left: 0; } .nline .cap.r { right: 0; text-align: right; }
+  .nstn { position: absolute; top: 23px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 0; font: inherit; color: var(--text); cursor: pointer; min-width: 44px; }
+  .nstn i { width: 44px; height: 44px; border-radius: 50%; border: 4px solid var(--text); background: #fff; display: block; }
+  .nstn.s-estimate i { background: var(--peach); }
+  .nstn.s-ready i { background: var(--sun); }
+  .nstn.s-sent i { background: var(--text); }
+  .nstn.urgent i { box-shadow: 0 0 0 7px var(--peach); }
+  .nstn b { font-size: 14px; white-space: nowrap; }
+  .nstn small { font-size: 12px; color: var(--muted); white-space: nowrap; margin-top: -4px; }
+  .todo { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--text); }
+  .todo li { display: grid; grid-template-columns: 30px 1fr auto; gap: 4px 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border2); }
+  .todo .dot { width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--text); background: #fff; grid-row: 1 / span 2; }
+  .todo .dot.urgent { background: var(--coral); }
+  .todo .dot.soon { background: var(--sun); }
+  .todo .dot.ok { background: var(--peach); }
+  .todo .t { font-weight: 800; font-size: 15.5px; }
+  .todo .d { grid-column: 2; font-size: 13.5px; color: var(--muted); }
+  .todo .btn { grid-column: 3; grid-row: 1 / span 2; }
+  .todo .when { font-weight: 700; color: var(--green-ink); }
+  .home-scheme { margin-top: 26px; font-size: 13.5px; color: var(--muted); }
+  .home-scheme b { color: var(--text); }
+
+  /* settlements: the settled year as one line of twelve stations */
+  .md-line { font-size: 16px; margin: 0 0 4px; }
+  .md-split { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border2); }
+  .sec-lede { max-width: 78ch; color: var(--muted); font-size: 15px; margin: -6px 0 26px; }
+  .yearline { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)) 200px; align-items: start; margin: 8px 0 30px; }
+  .yearline::before { content: ""; position: absolute; left: calc((100% - 200px) / 24); right: 200px; top: 17px; height: 10px; border-radius: 5px; background: var(--amber); }
+  .ystn { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 0; font: inherit; color: var(--text); cursor: pointer; min-height: 44px; }
+  .ystn i { width: 44px; height: 44px; border-radius: 50%; border: 4px solid var(--text); background: #fff; display: block; transition: box-shadow .25s; }
+  .ystn.ga i { background: var(--sun); }
+  .ystn.on i { box-shadow: 0 0 0 7px var(--peach); }
+  .ystn b { font-size: 14px; }
+  .ystn small { font-size: 12.5px; color: var(--muted); }
+  .ystn:hover small { color: var(--text); }
+  .yterm { position: relative; padding: 0 0 0 26px; font-size: 13px; color: var(--muted); line-height: 1.4; }
+  .yterm::before { content: ""; position: absolute; left: 0; top: 4px; width: 8px; height: 36px; border-radius: 4px; background: var(--text); }
+  .yterm b { display: block; color: var(--text); font-size: 15px; }
+  .ykey { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin: -18px 0 8px; }
+  .ykey i { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid var(--text); vertical-align: -2px; margin-right: 6px; background: #fff; }
+  .ykey i.ga { background: var(--sun); }
+  .closed-note { font-size: 13.5px; color: var(--muted); padding: 14px 0 4px; display: flex; align-items: center; gap: 12px; }
+
+  /* mini line in register rows */
+  .mini { display: inline-flex; align-items: center; vertical-align: middle; margin-right: 10px; }
+  .mini b { width: 13px; height: 13px; border-radius: 50%; border: 2px solid var(--border); background: #fff; }
+  .mini b.f { border-color: var(--text); background: var(--amber); }
+  .mini b.h { border-color: var(--text); box-shadow: 0 0 0 3px var(--peach); }
+  .mini u { width: 14px; height: 3px; background: var(--border2); }
+  .mini u.f { background: var(--amber); }
+  .stw { font-weight: 800; }
+  .mini.term b, .mini.term u { border-color: var(--border); background: #F4EEE7; }
+  .mini.term::after { content: ""; width: 3px; height: 16px; margin-left: 3px; border-radius: 2px; background: var(--muted); }
+  .why { display: block; font-size: 12.5px; color: var(--muted); font-weight: 500; white-space: normal; }
+  tr.closed td { color: var(--muted); }
+  #buyers-map .bpin.on circle { stroke: var(--text); stroke-width: 3.5; }
+
+  .filegrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .filecard { background: var(--panel); border: 1px solid var(--border2); border-radius: 16px; padding: 16px 18px; }
+  .filecard .fname { font-size: 15px; font-weight: 800; }
+  .filecard .fstat { font-size: 13px; color: var(--muted); margin: 4px 0 12px; min-height: 18px; }
+  .filecard.loaded { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
   .filecard.loaded .fstat { color: var(--green-ink); font-weight: 600; }
-  .preview { margin-top: 10px; background: #14171D; color: #C9F2DD; border-radius: 8px; padding: 12px 14px; font-family: Consolas, "Courier New", monospace; font-size: 12px; line-height: 1.6; overflow-x: auto; white-space: pre; }
-  .locked { filter: grayscale(1) brightness(.92); pointer-events: none; }
+  .preview { margin-top: 12px; background: var(--text); color: #FCE3B0; border-radius: 12px; padding: 12px 16px; font-family: Consolas, "Courier New", monospace; font-size: 12.5px; line-height: 1.6; overflow-x: auto; white-space: pre; }
+  .locked { filter: grayscale(1) brightness(.95); opacity: .7; pointer-events: none; }
+  .ctx-card { padding: 18px 20px; margin: 0 0 16px; background: var(--peach2); border: 0; }
+  .ctx-card .row { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; padding: 6px 0; border-bottom: 1px solid var(--border2); max-width: 520px; }
+  .ctx-card .row .k2 { color: var(--muted); }
   .mchart { display: flex; gap: 5px; align-items: flex-end; height: 150px; margin-top: 12px; }
   .mcol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; height: 100%; }
   .mbar { border-radius: 3px 3px 0 0; min-height: 1px; }
-  .mbar.f { background: #A8B0BA; }
-  .mbar.p { background: #2E7D6B; }
+  .mbar.f { background: var(--grey); }
+  .mbar.p { background: var(--amber); }
   .mlabels { display: flex; gap: 5px; margin-top: 6px; }
-  .mlab { flex: 1; text-align: center; font-size: 11px; color: var(--muted); }
-  .lgnd { display: flex; gap: 16px; margin-top: 10px; font-size: 12px; color: var(--muted); }
+  .mlab { flex: 1; text-align: center; font-size: 12px; color: var(--muted); }
+  .lgnd { display: flex; gap: 16px; margin-top: 10px; font-size: 12.5px; color: var(--muted); }
   .lgnd .dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
-  tr.flash td { animation: rowflash 1.6s ease-out; }
-  .mc-navrow { display: flex; align-items: stretch; gap: 8px; }
-  .mc-nav { border: 1px solid var(--border2); background: #fff; border-radius: 8px; width: 40px; font-size: 20px; color: var(--muted); cursor: pointer; }
-  .mc-nav:hover:enabled { color: var(--text); border-color: var(--green); }
+  tr.flash td { animation: rowflash 1.6s cubic-bezier(.2,.8,.2,1); }
+  .mc-navrow { display: flex; align-items: stretch; gap: 10px; }
+  .mc-nav { border: 2px solid var(--text); background: #fff; border-radius: 999px; min-width: 44px; min-height: 44px; font-size: 22px; line-height: 1; color: var(--text); cursor: pointer; align-self: center; }
+  .mc-nav:hover:enabled { background: var(--peach2); }
   .mc-nav:disabled { opacity: .3; cursor: default; }
   .mc-main { flex: 1; min-width: 0; }
-  .smwrap { display: flex; gap: 10px; align-items: stretch; }
+  .smwrap { display: flex; gap: 12px; align-items: stretch; }
   .sm-main { flex: 1; min-width: 0; }
-  .sm-side { width: 252px; padding: 14px; flex: 0 0 auto; }
-  #hood-map { width: 100%; height: auto; display: block; background: #FBFCFD; border: 1px solid var(--border2); border-radius: 8px; }
-  #buyers-map { width: 100%; height: auto; display: block; background: #FBFCFD; border: 1px solid var(--border2); border-radius: 8px; }
+  .sm-side { width: 300px; padding: 18px; flex: 0 0 auto; }
+  #hood-map { width: 100%; height: auto; display: block; background: var(--peach2); border: 1px solid var(--border2); border-radius: 16px; }
+  #buyers-map { width: 100%; height: auto; display: block; background: var(--peach2); border: 1px solid var(--border2); border-radius: 16px; }
   #buyers-map .bpin { cursor: pointer; }
-  #buyers-map .bpin:hover circle { stroke: #14171D; stroke-width: 2.5; }
-  #hood-map .cream rect { cursor: pointer; }
-  #hood-map .cream:hover rect { stroke: #1D5C4E; stroke-width: 2.2; }
-  #hood-map .cream.on rect { fill: #2E7D6B; }
+  #buyers-map .bpin:hover circle { stroke: var(--text); stroke-width: 2.5; }
+  #hood-map [stroke="#D8DEE6" i] { stroke: var(--border); }
+  #hood-map [stroke="#D9CDBB" i] { stroke: #E3D3BF; }
+  #hood-map [stroke="#E9E3D8" i] { stroke: #EFE4D6; }
+  #hood-map [stroke="#BBD5E8" i] { stroke: #F6D2A6; }
+  #hood-map [fill="#BBD5E8" i] { fill: #FCE3B0; }
+  #hood-map [fill="#DDEBDD" i] { fill: #F4EEE7; }
+  #hood-map .plain rect { fill: #fff; stroke: var(--border); }
+  #hood-map .cream rect { fill: var(--sun); stroke: var(--text); stroke-width: 1.8; cursor: pointer; transition: fill .2s; }
+  #hood-map .cream:hover rect, #hood-map .cream:focus-visible rect { fill: var(--amber); stroke-width: 2.6; }
+  #hood-map .cream.on rect { fill: var(--text); }
+  #hood-map .cream:focus { outline: none; }
+  .hood-key { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin: 10px 0 8px; }
+  .hood-key i { display: inline-block; width: 18px; height: 12px; border-radius: 2px; vertical-align: -1px; margin-right: 6px; }
+  .hood-key .k-cream { background: var(--sun); border: 1.5px solid var(--text); }
+  .hood-key .k-plain { background: #fff; border: 1.5px solid var(--border); }
+  .hood-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hood-chips button { min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--text); background: var(--sun); font: 700 13.5px var(--f); color: var(--text); cursor: pointer; }
+  .hood-chips button.on { background: var(--text); color: #fff; }
+  .gen-bars { display: flex; align-items: flex-end; gap: 4px; height: 92px; margin: 8px 0 2px; }
+  .gen-bars span { flex: 1; background: var(--amber); border-radius: 3px 3px 0 0; min-height: 2px; }
+  .gen-labs { display: flex; gap: 4px; font-size: 11px; color: var(--muted); text-align: center; }
+  .gen-labs span { flex: 1; }
+  .gen-total { font-stretch: 118%; font-size: 22px; font-weight: 850; margin-top: 2px; }
+  .tag-i { font-size: 12px; font-weight: 600; color: var(--muted); background: var(--peach2); border-radius: 999px; padding: 2px 9px; vertical-align: 3px; }
+  #sec-sitemap .smwrap { align-items: flex-start; }
+  #sec-sitemap .mc-nav { align-self: center; }
   .sm-side .hno { font-size: 17px; font-weight: 800; }
-  .sm-side .row { display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .sm-side .row { display: flex; justify-content: space-between; gap: 10px; font-size: 13.5px; padding: 7px 0; border-bottom: 1px solid var(--border2); }
   .sm-side .row .k2 { color: var(--muted); }
-  @media (max-width: 800px) { .smwrap { flex-wrap: wrap; } .sm-side { width: 100%; } }
+  @media (max-width: 1000px) { .smwrap { flex-wrap: wrap; } .sm-side { width: 100%; } }
   .smcol { flex-direction: column; }
   .smcol .sm-side { width: 100%; }
-  .gmap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
-  .gmap { position: relative; padding-bottom: 60%; border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; background: #EEF1F5; }
+  @media (min-width: 1100px) { .smcol { flex-direction: row; align-items: flex-start; } .smcol .sm-side { width: 340px; position: sticky; top: calc(var(--top-h) + 16px); } }
+  .gmap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .gmap { position: relative; padding-bottom: 60%; border: 1px solid var(--border2); border-radius: 16px; overflow: hidden; background: #F4EEE7; }
   .gmap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .gmap .gcap { position: absolute; left: 0; right: 0; bottom: 0; background: linear-gradient(transparent, rgba(20,23,29,.82)); color: #fff; font-size: 12px; padding: 16px 10px 6px; }
-  .pbar-cols { display: flex; gap: 28px; align-items: flex-end; height: 170px; padding: 0 8px; }
+  .gmap .gcap { position: absolute; left: 0; right: 0; bottom: 0; background: rgba(21,18,15,.84); color: #fff; font-size: 13px; padding: 8px 12px; }
+  .pbar-cols { display: flex; gap: 28px; align-items: flex-end; height: 180px; padding: 0 8px; }
   .pb-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; height: 100%; }
-  .pb-bar { width: 62%; max-width: 92px; border-radius: 6px 6px 0 0; }
-  .pb-val { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .pb-lab { font-size: 12px; color: var(--muted); }
-  .mchips { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; font-size: 12px; color: var(--muted); }
-  .mchips .dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+  .pb-bar { width: 62%; max-width: 92px; border-radius: 8px 8px 0 0; }
+  .pb-val { font-size: 14px; font-weight: 800; }
+  .pb-lab { font-size: 13px; color: var(--muted); }
+  .mchips { display: flex; flex-wrap: wrap; gap: 6px 8px; margin-top: 12px; font-size: 13px; color: var(--muted); }
+  .mchips > span { display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px; border-radius: 999px; cursor: pointer; transition: opacity .25s, background .25s; }
+  .mchips > span:hover { background: var(--peach2); }
+  .mchips .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--text); margin-right: 4px; }
   .mchips b { color: var(--text); }
-  @keyframes rowflash { 0% { background: #E4EFEA; } 100% { background: transparent; } }
-  .badge.noticed { background: #E3EDF8; color: #23507E; border-color: #B7D0EA; }
-  .badge.pending { background: #FBF3DC; color: #7A4A12; }
-  .badge.urgent { background: #FBE9D2; color: #8A4B12; border-color: #E8C39A; }
-  .alloc-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
-  .alloc-head .ttl2 { font-size: 15px; font-weight: 700; }
-  .alloc-head .muted { font-size: 12.5px; color: var(--muted); }
-  .alloc-bar { display: flex; height: 36px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border2); }
-  .alloc-seg { min-width: 2px; }
-  .alloc-seg.hold { background: repeating-linear-gradient(45deg, #E88B33, #E88B33 6px, #F3A96B 6px, #F3A96B 12px); }
-  .alloc-tbl { margin-top: 10px; }
-  .alloc-tbl .dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; vertical-align: middle; }
-  .alloc-stats { display: flex; gap: 18px; flex-wrap: wrap; margin: 10px 0 0; }
-  .alloc-stats .s { font-size: 12px; color: var(--muted); }
-  .alloc-stats .s b { font-size: 15px; color: var(--text); font-variant-numeric: tabular-nums; display: block; }
-  .pdfbox iframe { width: 100%; height: 460px; border: 1px solid var(--border2); border-radius: 8px; background: #EEF1F5; }
-  .pdfrow { display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
-  .pdfrow .fname-chip { font-size: 12px; color: var(--muted); margin-right: auto; }
-  .engine-controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
-  .engine-controls label { font-size: 12.5px; font-weight: 700; color: var(--muted); }
-  select, input.cell {
-    font-family: inherit; font-size: 13px; border: 1px solid var(--border); border-radius: 6px;
-    padding: 6px 9px; background: #fff; color: var(--text);
-  }
-  input.cell { width: 96px; text-align: right; font-variant-numeric: tabular-nums; }
-  input.cell:disabled { background: #F1F3F6; color: var(--muted); }
-  td input.cell { width: 100px; }
-  .src { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  @keyframes rowflash { 0% { background: var(--peach); } 100% { background: transparent; } }
+  .badge.noticed { background: var(--text); color: #fff; }
+  .badge.pending { background: var(--peach); color: #6B2C07; }
+  .badge.urgent { background: var(--peach); color: #6B2C07; }
+  .alloc-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+  .alloc-head .ttl2 { font-size: 16px; font-weight: 800; }
+  .alloc-head .muted { font-size: 13px; color: var(--muted); }
 
-  .nav-group { font-size: 11px; font-weight: 700; letter-spacing: .8px; color: #9AA3AE; padding: 12px 12px 4px; text-transform: uppercase; }
-  .nav-item.nav-sub { padding-left: 32px; }
-  .tbl-tools { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
-  .tbl-tools input { font-family: inherit; font-size: 13px; border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px; width: 230px; max-width: 60vw; }
-  .tbl-count { font-size: 12px; color: var(--muted); }
+  /* ---- allocation track: click a segment or a row ---- */
+  .alloc-bar { display: flex; height: 36px; border-radius: 18px; overflow: hidden; border: 2px solid var(--text); }
+  .alloc-seg { min-width: 3px; border-right: 2px solid #fff; transition: opacity .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s; }
+  .alloc-seg:last-child { border-right: 0; }
+  .alloc-seg[data-k] { cursor: pointer; }
+  .alloc-seg.hold { background: repeating-linear-gradient(45deg, var(--amber) 0 6px, #FBC27E 6px 12px); }
+  .alloc-seg.sel { box-shadow: inset 0 0 0 3px var(--text); }
+  [data-alloc].picking .alloc-seg:not(.sel) { opacity: .35; }
+  [data-alloc].picking tr[data-k]:not(.sel) td, [data-alloc].picking .mchips > span[data-k]:not(.sel) { color: #8A7B6E; }
+  [data-alloc].picking tr[data-k]:not(.sel) .dot, [data-alloc].picking .mchips > span[data-k]:not(.sel) .dot { opacity: .45; }
+  [data-alloc] tr[data-k] { cursor: pointer; }
+  [data-alloc] tr.sel td { background: var(--peach2); }
+  [data-alloc] .mchips > span.sel { background: var(--peach2); color: var(--text); }
+  .seg-cap { min-height: 40px; display: block; padding: 10px 0 8px; font-size: 14px; color: var(--muted); }
+  .seg-cap b { color: var(--text); margin-right: 6px; }
+  .alloc-tbl { margin-top: 4px; }
+  .alloc-tbl .dot, .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--text); margin-right: 10px; vertical-align: -2px; }
+  .alloc-stats { display: flex; gap: 22px; flex-wrap: wrap; margin: 14px 0 0; }
+  .alloc-stats .s { font-size: 13px; color: var(--muted); }
+  .alloc-stats .s b { font-stretch: 112%; font-size: 18px; font-weight: 850; color: var(--text); display: block; }
+  .pdfbox iframe { width: 100%; height: 480px; border: 1px solid var(--border2); border-radius: 12px; background: #F4EEE7; }
+  .pdfrow { display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+  .pdfrow .fname-chip { font-size: 13px; color: var(--muted); margin-right: auto; }
+  .engine-controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+  .engine-controls label { font-size: 13.5px; font-weight: 700; color: var(--muted); }
+  select, input.cell {
+    font-family: inherit; font-size: 14px; border: 1.5px solid var(--border); border-radius: 10px;
+    min-height: 40px; padding: 0 12px; background: #fff; color: var(--text);
+  }
+  select:focus, input.cell:focus { border-color: var(--text); }
+  input.cell { width: 104px; text-align: right; }
+  input.cell:disabled { background: #F4EEE7; color: var(--muted); }
+  td input.cell { width: 108px; min-height: 36px; }
+  .src { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .tbl-tools { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+  .tbl-tools input { font-family: inherit; font-size: 14px; border: 1.5px solid var(--border); border-radius: 999px; min-height: 44px; padding: 0 18px; width: 260px; max-width: 70vw; }
+  .tbl-tools input:focus { border-color: var(--text); outline: none; }
+  .tbl-count { font-size: 13px; color: var(--muted); }
   th.sortable { cursor: pointer; user-select: none; }
   th.sortable:hover { color: var(--text); }
-  th.sortable::after { content: " \2195"; color: #9AA3AE; font-size: 10px; }
-  th.sort-asc::after { content: " \2191"; color: var(--green-ink); }
-  th.sort-desc::after { content: " \2193"; color: var(--green-ink); }
+  th.sortable::after { content: ""; display: inline-block; width: 9px; height: 12px; margin-left: 6px; vertical-align: -1px; background: no-repeat center/9px 12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 12'%3E%3Cpath d='M1.5 4.5L4.5 1.5L7.5 4.5M1.5 7.5L4.5 10.5L7.5 7.5' fill='none' stroke='%23B7AA9C' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+  th.sort-asc::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 12'%3E%3Cpath d='M1.5 5.5L4.5 2.5L7.5 5.5' fill='none' stroke='%23A3410F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+  th.sort-desc::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 12'%3E%3Cpath d='M1.5 6.5L4.5 9.5L7.5 6.5' fill='none' stroke='%23A3410F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
 
-  select.flt { font-family: inherit; font-size: 13px; border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; background: #fff; color: var(--text); }
-  .compose { margin-top: 12px; border: 1px solid var(--border); border-radius: 8px; background: #FCFDFE; padding: 14px 16px; }
-  .compose .row { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; align-items: center; }
-  .compose label { font-size: 12px; font-weight: 700; color: var(--muted); min-width: 64px; }
+  select.flt { font-family: inherit; font-size: 14px; border: 1.5px solid var(--border); border-radius: 999px; min-height: 44px; padding: 0 14px; background: #fff; color: var(--text); }
+  .compose { margin-top: 14px; border: 1px solid var(--border2); border-radius: 16px; background: var(--peach2); padding: 16px 18px; }
+  .compose .row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+  .compose label { font-size: 13px; font-weight: 700; color: var(--muted); min-width: 64px; }
   .compose input, .compose textarea {
-    flex: 1; min-width: 200px; font-family: inherit; font-size: 13px;
-    border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px;
+    flex: 1; min-width: 200px; font-family: inherit; font-size: 14px;
+    border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 12px; background: #fff;
   }
-  .compose textarea { min-height: 190px; resize: vertical; font-family: Consolas, monospace; font-size: 12.5px; }
-  .report-sheet { margin-top: 12px; border: 1px solid var(--border); border-radius: 8px; background: #fff; padding: 26px 30px; }
-  .report-sheet .rbrand { display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--green); padding-bottom: 10px; margin-bottom: 14px; }
+  .compose textarea { min-height: 190px; resize: vertical; font-family: Consolas, monospace; font-size: 13px; }
+  .report-sheet { margin-top: 12px; border: 1px solid var(--border2); border-radius: 12px; background: #fff; padding: 26px 30px; }
+  .report-sheet .rbrand { display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--amber); padding-bottom: 10px; margin-bottom: 14px; }
   .report-sheet .rbrand img { height: 30px; }
   .report-sheet h3 { font-size: 17px; margin-bottom: 2px; }
-  .report-sheet .rmeta { font-size: 12px; color: var(--muted); }
+  .report-sheet .rmeta { font-size: 12.5px; color: var(--muted); }
   .report-sheet table { margin-top: 6px; }
-  .report-sheet .rfoot { margin-top: 18px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border2); padding-top: 8px; }
+  .report-sheet .rfoot { margin-top: 18px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border2); padding-top: 8px; }
   td.chk, th.chk { width: 34px; text-align: center; }
-  .backdrop { display: none; position: fixed; inset: 0; top: 52px; background: #14171DA8; z-index: 24; }
+  input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--text); vertical-align: middle; }
+  .muted { color: var(--muted); }
+
+  @media (max-width: 1100px) {
+    .routebox { grid-template-columns: 1fr; }
+  }
   @media (max-width: 860px) {
-    .burger { display: block; }
-    .side { transform: translateX(-100%); transition: transform .2s ease; box-shadow: 6px 0 20px #14171D22; }
-    body.nav-open .side { transform: none; }
-    body.nav-open .backdrop { display: block; }
-    .main { margin-left: 0; padding: 70px 12px 32px; }
-    .card .big { font-size: 19px; }
-    #scheme-chip { display: none; }
+    :root { --side-w: 0px; --top-h: 58px; }
+    .topbar { left: 0; padding: 0 14px; }
+    .topbar .pmeta, #scheme-chip { display: none; }
+    .side { top: auto; right: 0; width: auto; height: 72px; flex-direction: row; justify-content: space-around; padding: 6px 4px 8px; border-right: 0; border-top: 1px solid var(--border2); }
+    .side .mark, .side .sep { display: none; }
+    .topbar .brand .bmark { display: block; }
+    .nav-item { width: auto; flex: 1; min-height: 56px; }
+    .main { padding: calc(var(--top-h) + 18px) 14px 100px; }
+    h1 { font-size: 24px; }
+    .routebox { padding: 18px 14px; }
+    .stn { font-size: 12px; }
+    .stn small { display: none; }
+    .stn i { width: 34px; height: 34px; }
+    .route::before { top: 13px; height: 8px; }
+    .card .big { font-size: 22px; }
+    .nline { height: auto; padding: 4px 0 0 0; display: grid; gap: 8px; }
+    .nline::before { left: 18px; right: auto; top: 26px; bottom: 26px; width: 8px; height: auto; }
+    .nline .today, .nline .end, .nline .cap { position: static; }
+    .nline .today, .nline .end { width: 44px; height: 8px; margin: 0; }
+    .nline .cap { margin: -4px 0 4px 0; }
+    .nstn { position: static; transform: none; flex-direction: row; justify-content: flex-start; gap: 12px; text-align: left; }
+    .nstn b, .nstn small { margin: 0; }
+    .nline .cap { padding-left: 58px; }
+    .nline .today { order: 0; } .nline .cap.l { order: 1; margin-top: -30px; } .nline .nstn { order: 2; } .nline .end { order: 3; } .nline .cap.r { order: 4; text-align: left; }
+    .nline::before { top: 6px; bottom: 34px; }
+    .nstn i { position: relative; z-index: 1; }
+    .todo li { grid-template-columns: 26px 1fr; }
+    .todo .btn { grid-column: 2; grid-row: auto; justify-self: start; margin-top: 6px; }
+    .mb-body { grid-template-columns: 1fr; }
+    .mb-list { border-right: 0; border-bottom: 1px solid var(--border2); max-height: 260px; }
+    .mb-msg { padding: 16px 14px; }
+    .mb-pdf iframe { height: 440px; }
+    .yearline { grid-template-columns: 1fr; row-gap: 6px; }
+    .yearline::before { display: block; left: 18px; right: auto; top: 20px; bottom: 74px; width: 8px; height: auto; }
+    .ystn { flex-direction: row; justify-content: flex-start; gap: 14px; min-height: 44px; }
+    .ystn i { width: 44px; height: 44px; flex: none; }
+    .ystn b { width: 44px; text-align: left; }
+    .ystn small { font-size: 14px; color: var(--text); }
+    .ystn small::after { content: " MWh given away"; color: var(--muted); }
+    .yterm { padding: 18px 0 0 62px; margin-top: 0; }
+    .yterm::before { left: 4px; top: 4px; width: 36px; height: 8px; }
+    #sec-sitemap .smwrap { flex-wrap: wrap; }
+    #sec-sitemap .sm-main { flex: 1 1 100%; }
+    #sm2-prev { order: 1; }
+    #sm2-next { order: 2; margin-left: auto; }
+    #home-panel { order: 3; }
+    #months-table tr:first-child { display: none; }
+    #months-table tr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 12px; padding: 12px 0; border-bottom: 1px solid var(--border2); align-items: center; }
+    #months-table td { display: block; height: auto; padding: 0; border: 0; text-align: left; white-space: normal; }
+    #months-table td:nth-child(1) { grid-column: 1 / 3; }
+    #months-table td:nth-child(5) { grid-column: 3; grid-row: 1; text-align: right; }
+    #months-table td:nth-child(n+2):nth-child(-n+4)::before { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+    #months-table td:nth-child(2)::before { content: "Solar MWh"; }
+    #months-table td:nth-child(3)::before { content: "Given away"; }
+    #months-table td:nth-child(4)::before { content: "Share"; }
+    .yterm { grid-column: 1 / -1; margin-top: 6px; }
+    .ystn i { width: 36px; height: 36px; }
+    .stn.ix i { width: 48px; }
+    .stn.term i::after { left: calc(50% + 20px); top: 3px; height: 22px; width: 5px; }
+    .btn.sm, td input.cell { min-height: 44px; }
+    #runway-table tr:first-child, #engine-table tr:first-child, .alloc-tbl tr:first-child { display: none; }
+    #runway-table tr { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 12px 0; border-bottom: 1px solid var(--border2); }
+    #runway-table td { display: block; height: auto; padding: 0; border: 0; white-space: normal; text-align: left; }
+    #runway-table td:nth-child(1) { grid-column: 1; }
+    #runway-table td:nth-child(2) { grid-column: 1; grid-row: 2; color: var(--muted); font-size: 13px; }
+    #runway-table td:nth-child(3) { grid-column: 2; grid-row: 1; text-align: right; }
+    #runway-table td:nth-child(4) { grid-column: 1 / -1; grid-row: 3; }
+    #runway-table td:nth-child(5) { grid-column: 1; grid-row: 4; font-size: 13px; }
+    #runway-table td:nth-child(6) { grid-column: 2; grid-row: 4; text-align: right; }
+    #runway-table td:nth-child(6):empty, #runway-table td:nth-child(5):empty, #runway-table td:nth-child(5):has(.est-empty) { display: none; }
+    [data-alloc] .alloc-tbl tr.sel { background: var(--peach2); border-radius: 10px; }
+    [data-alloc] .alloc-tbl tr.sel td { background: transparent; }
+    #engine-table tr { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; padding: 12px 0; border-bottom: 1px solid var(--border2); }
+    #engine-table td { display: block; height: auto; padding: 0; border: 0; white-space: normal; text-align: left; }
+    #engine-table td:nth-child(1) { grid-column: 1 / -1; }
+    #engine-table td:nth-child(n+2)::before { display: block; font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    #engine-table td:nth-child(2)::before { content: "Last year MWh"; }
+    #engine-table td:nth-child(3)::before { content: "Trend %"; }
+    #engine-table td:nth-child(4)::before { content: "Estimate MWh"; }
+    #engine-table td:nth-child(5)::before { content: "Share"; }
+    #engine-table td input.cell { width: 100%; }
+    .alloc-tbl tr { display: grid; grid-template-columns: 1fr auto auto; gap: 2px 12px; padding: 10px 0; border-bottom: 1px solid var(--border2); align-items: baseline; }
+    .alloc-tbl td { display: block; height: auto; padding: 0; border: 0; white-space: normal; }
+    #month-detail table td { white-space: normal; }
+  }
+  @media (max-width: 480px) {
+    .topbar .profile { display: none; }
+    .topbar .chip.alert { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+    .stn { font-size: 11px; letter-spacing: -.01em; }
+    .stn i { width: 28px; height: 28px; border-width: 3px; }
+    .stn.here i { border-width: 4px; box-shadow: 0 0 0 5px var(--peach); }
+    .route::before { top: 10px; height: 7px; }
+    .routebox { padding: 16px 10px; }
   }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <button class="burger" id="burger" aria-label="Open navigation">&#9776;</button>
-  <span class="brand"><img src="assets/wattwise-logo.png" alt="WattWise"><span>WattWise</span></span>
+<header class="topbar">
+  <span class="brand"><svg class="bmark" viewBox="0 0 28 28" aria-hidden="true"><path d="M0 0h16L0 14z" fill="#F9B915"/><path d="M28 28H10l18-16z" fill="#EA6B3D"/><path d="M28 0v12L17 0z" fill="#F7931E"/><path d="M0 28v-9l8 9z" fill="#F7931E"/></svg>Watt<span>Wise</span></span>
   <span class="chip" id="scheme-chip">City of Elmina <span class="mod">(modelled)</span></span>
   <span class="spacer"></span>
   <span class="chip alert" id="notice-chip"></span>
@@ -240,38 +524,34 @@
     <div class="avatar">EO</div>
     <div class="pmeta"><b>Energy Officer</b><span>SDP &middot; Elmina operations</span></div>
   </div>
-</div>
-<div class="backdrop" id="backdrop"></div>
+</header>
 
-<nav class="side" id="side">
-  <div class="nav-group">Users</div>
-  <button class="nav-item on" data-sec="homeowners"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Homeowners</button>
-  <button class="nav-item" data-sec="buyers"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Buyers</button>
-  <button class="nav-item nav-sub" data-sec="engine"><svg viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/><circle cx="12" cy="12" r="4"/></svg>Energy estimation</button>
-  <div class="nav-group">Site maps</div>
-  <button class="nav-item" data-sec="sitemap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Homeowners</button>
-  <button class="nav-item" data-sec="sitemap-buyers"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Buyers</button>
-  <div class="nav-group">Allocations</div>
-  <button class="nav-item" data-sec="upcoming"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Upcoming</button>
-  <button class="nav-item" data-sec="settlements"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>Settlements</button>
+<nav class="side" id="side" aria-label="Sections">
+  <svg class="mark" viewBox="0 0 28 28" role="img" aria-label="WattWise"><path d="M0 0h16L0 14z" fill="#F9B915"/><path d="M28 28H10l18-16z" fill="#EA6B3D"/><path d="M28 0v12L17 0z" fill="#F7931E"/><path d="M0 28v-9l8 9z" fill="#F7931E"/></svg>
+  <button class="nav-item on" data-sec="home"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="5" rx="1.5"/><rect x="13.5" y="11" width="7.5" height="10" rx="1.5"/><rect x="3" y="15" width="7.5" height="6" rx="1.5"/></svg>Home</button>
+  <button class="nav-item" data-sec="upcoming"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.6"/><circle cx="19" cy="12" r="2.6"/><path d="M7.6 12h8.8"/></svg>Allocations</button>
+  <button class="nav-item" data-sec="engine"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Engine</button>
+  <button class="nav-item" data-sec="settlements"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg>Settle</button>
+  <span class="sep" aria-hidden="true"></span>
+  <button class="nav-item" data-sec="buyers" data-also="sitemap-buyers"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-6h6v6"/></svg>Buyers</button>
+  <button class="nav-item" data-sec="homeowners" data-also="sitemap"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></svg>Owners</button>
 </nav>
 
 <main class="main">
 
-  <section class="sec on" id="sec-homeowners">
-    <h1>Homeowners</h1>
+  <section class="sec" id="sec-homeowners">
+    <div class="sec-head"><h1>Homeowners</h1><div class="seg-tabs" role="tablist" aria-label="View"><button class="vt on" data-sec="homeowners">List</button><button class="vt" data-sec="sitemap">Map</button></div></div>
     <div class="grid kpis" id="house-kpis" style="margin-bottom:10px"></div>
     <div class="tbl-tools">
       <input id="house-search" type="search" placeholder="Search homeowners" aria-label="Search homeowners">
-      <select class="flt" id="flt-hood" aria-label="Filter by neighborhood"></select>
-      <select class="flt" id="flt-status" aria-label="Filter by lease status"></select>
+      <select class="flt" id="flt-hood" aria-label="Filter by neighbourhood"></select>
       <span class="tbl-count" id="house-count"></span>
     </div>
     <div class="table-wrap"><table id="houses-table"></table></div>
   </section>
 
   <section class="sec" id="sec-buyers">
-    <h1>Buyers</h1>
+    <div class="sec-head"><h1>Buyers</h1><div class="seg-tabs" role="tablist" aria-label="View"><button class="vt on" data-sec="buyers">List</button><button class="vt" data-sec="sitemap-buyers">Map</button></div></div>
     <h2>Buyer register <span class="tag">illustrative contacts</span></h2>
     <div class="tbl-tools">
       <input id="buyer-search" type="search" placeholder="Search buyers" aria-label="Search buyers">
@@ -298,12 +578,12 @@
     <div class="card chart-card">
       <div class="ttl">Fixed split vs WattWise Plan</div>
       <canvas id="chart-replay" height="220" aria-label="Monthly giveaway, fixed split versus WattWise Plan"></canvas>
-      <div class="legend"><span><i style="background:#7F7F7F"></i>Fixed annual split</span><span><i style="background:#2E7D6B"></i>WattWise Plan</span></div>
+      <div class="legend"><span><i style="background:#B7AA9C"></i>Fixed annual split</span><span><i style="background:#F7931E"></i>WattWise Plan</span></div>
     </div>
   </section>
 
   <section class="sec" id="sec-engine">
-    <h1 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">Estimation engine <span class="chip alert" id="engine-month-chip" style="font-size:13px;padding:4px 12px"></span></h1>
+    <div class="sec-head"><h1>Estimation engine</h1><span class="chip alert" id="engine-month-chip"></span></div>
     <div class="steps">
       <span class="step on" id="st1"><b>1</b> Inputs</span>
       <span class="step" id="st2"><b>2</b> Estimate</span>
@@ -341,11 +621,11 @@
 
     <p class="muted" style="margin:10px 0 0;font-size:12.5px" id="locked-hint">Steps 2 and 3 stay greyed out until meter readings are loaded above.</p>
     <div id="engine-body" class="locked">
-      <div class="card" id="engine-context" style="padding:14px;margin:0 0 14px;border-left:4px solid var(--green-ink);background:#F2F8F5"></div>
+      <div class="card ctx-card" id="engine-context"></div>
       <h2>Estimates &middot; <span id="est-month-h2" style="text-transform:none"></span></h2>
-      <p class="muted" style="margin:2px 0 10px;font-size:12px">Same month last year &times; trend &middot; backtest error: &plusmn;6.6% typical month, 24&ndash;32% worst &middot; <span class="mod">the hold-back covers forecast misses first</span></p>
+      <p class="muted" style="margin:2px 0 10px;font-size:12px">Same month last year &times; trend &middot; backtest error: worst month 24&ndash;40% <span class="cite">(WattWise, 2026)</span> &middot; <span class="mod">the hold-back covers forecast misses first</span></p>
       <div class="engine-controls">
-        <label for="engine-month">Settlement month</label>
+        <label for="engine-month">Allocation month</label>
         <select id="engine-month"></select>
         <label for="engine-holdback">Hold back</label>
         <input class="cell" id="engine-holdback" type="number" value="5" min="0" max="40" step="0.5">%
@@ -353,60 +633,68 @@
       <div class="table-wrap"><table id="engine-table"></table></div>
       <h2>Resulting allocation</h2>
       <p class="muted" id="engine-out-cap" style="margin:2px 0 10px;font-size:12px"></p>
-      <div class="card" id="engine-out" style="padding:16px"></div>
+      <div class="card" id="engine-out" style="padding:18px 20px" data-alloc></div>
       <div class="card" id="est-panel" style="padding:16px;margin-top:12px;display:none"></div>
       <div class="actions" style="margin-top:14px">
         <button class="btn primary" id="prepare-row">Prepare allocation row</button>
+      </div>
+      <p class="prep-warn" id="prepare-warn" hidden></p>
+      <div>
       </div>
     </div>
   </section>
 
   <section class="sec" id="sec-sitemap">
-    <h1>Homeowners &middot; site map</h1>
-    <h2>Neighborhoods &middot; Google Maps</h2>
-    <div class="gmap-grid">
-      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20East%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina East</b> &middot; 8 homes listed</div></div>
-      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20West%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina West</b> &middot; 8 homes listed</div></div>
-      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20Gardens%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina Gardens</b> &middot; 8 homes listed</div></div>
-      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20Hills%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina Hills</b> &middot; 8 homes listed</div></div>
-      <div class="gmap"><iframe loading="lazy" src="https://maps.google.com/maps?q=Elmina%20Valley%2C%20Shah%20Alam%2C%20Selangor&z=14&output=embed"></iframe><div class="gcap"><b>Elmina Valley</b> &middot; 8 homes listed</div></div>
-    </div>
-    <h2>Neighborhood plots &middot; CREAM homes in green</h2>
+    <div class="sec-head"><h1>Homeowners</h1><div class="seg-tabs" role="tablist" aria-label="View"><button class="vt" data-sec="homeowners">List</button><button class="vt on" data-sec="sitemap">Map</button></div></div>
+    <h2>Neighbourhood plots &middot; CREAM homes highlighted <span class="tag">illustrative homeowners</span></h2>
     <div class="smwrap">
-      <button class="mc-nav" id="sm2-prev">&#8249;</button>
+      <button class="mc-nav" id="sm2-prev" aria-label="Previous neighbourhood"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <div class="sm-main">
         <div class="alloc-head" style="margin-bottom:8px"><span class="ttl2" id="hood-name"></span><span class="muted" id="hood-sub"></span></div>
-        <svg id="hood-map" viewBox="0 0 660 430"></svg>
+        <svg id="hood-map" viewBox="0 0 660 430" role="img" aria-label="Traced neighbourhood plan with CREAM homes highlighted"></svg>
+        <div class="hood-key"><span><i class="k-cream"></i>CREAM home, click to see its solar</span><span><i class="k-plain"></i>other home</span></div>
+        <div class="hood-chips" id="hood-chips" aria-label="CREAM homes in this neighbourhood"></div>
       </div>
-      <button class="mc-nav" id="sm2-next">&#8250;</button>
+      <button class="mc-nav" id="sm2-next" aria-label="Next neighbourhood"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
       <aside class="sm-side card" id="home-panel" style="display:none"></aside>
     </div>
   </section>
 
   <section class="sec" id="sec-sitemap-buyers">
-    <h1>Buyers &middot; site map</h1>
+    <div class="sec-head"><h1>Buyers</h1><div class="seg-tabs" role="tablist" aria-label="View"><button class="vt" data-sec="buyers">List</button><button class="vt on" data-sec="sitemap-buyers">Map</button></div></div>
     <div class="smwrap smcol">
       <div class="sm-main" style="flex:1 1 100%">
-        <div class="alloc-head" style="margin-bottom:8px"><span class="ttl2">Commercial sites in the scheme</span><span class="muted">marker size = annual use \u00b7 click a site</span></div>
+        <div class="alloc-head" style="margin-bottom:8px"><span class="ttl2">Commercial sites in the scheme</span><span class="muted">ring size = annual use &middot; dashed = no meter history &middot; lines are the main roads, drawn schematically &middot; click a site to open it</span></div>
         <svg id="buyers-map" viewBox="0 0 660 430"></svg>
       </div>
       <aside class="sm-side card" id="buyer-panel" style="display:none"></aside>
     </div>
   </section>
 
+  <section class="sec on" id="sec-home">
+    <h1>Home</h1>
+    <p class="sec-lede" id="home-lede"></p>
+    <h2>Next 120 days of notices</h2>
+    <div class="nline" id="home-line"></div>
+    <h2>To do</h2>
+    <ul class="todo" id="home-todo"></ul>
+    <p class="home-scheme" id="home-scheme"></p>
+  </section>
+
   <section class="sec" id="sec-upcoming">
-    <h1>Upcoming</h1>
-    <div class="card" id="master-chart" style="padding:16px"></div>
-    <h2>Register &middot; upcoming allocation decisions</h2>
-    <p class="muted" style="margin:2px 0 10px">WattWise <b>suggests</b> the split &middot; the scheme admin <b>approves</b> it &middot; SDP <b>files</b> it with the Energy Commission &middot; <b>120-day</b> notice per buyer. The tool never files on its own.</p>
+    <h1>Allocations</h1>
+    <div class="routebox" id="route-box"></div>
+    <div class="mailbox" id="notice-preview" hidden></div>
+    <h2>Register</h2>
+    <p class="muted" style="margin:-4px 0 12px">WattWise <b>suggests</b> the split &middot; the scheme admin <b>approves</b> it &middot; SDP files with the Energy Commission &middot; <b>120-day</b> notice per buyer <span class="cite">(Energy Commission, 2025)</span>. The tool never sends on its own.</p>
     <div class="table-wrap"><table id="runway-table"></table></div>
   </section>
 
   <section class="sec" id="sec-settlements">
     <h1>Settlements</h1>
-    <div class="grid kpis" id="alloc-kpis"></div>
-    <h2>Predicted vs actual usage</h2>
-    <div class="card" id="settle-box" style="padding:16px"></div>
+    <p class="sec-lede">A month settles after it has happened. TNB reads every buyer's real meter and each allocation is checked against what the buyer actually used. Solar allocated beyond that use is given away; the held-back slice is sold at the NEDA floor. One simulated year of the Elmina core scheme <span class="cite">(WattWise, 2026)</span>.</p>
+    <div class="yearline" id="year-line" aria-label="Settled months"></div>
+    <div class="ykey"><span><i></i>nothing given away</span><span><i class="ga"></i>some solar given away</span><span>Click a month to open its statements.</span></div>
     <h2>Monthly log</h2>
     <div class="table-wrap" style="margin-top:12px"><table id="months-table"></table></div>
     <div class="detail" id="month-detail"></div>
@@ -419,7 +707,7 @@
     <div class="card chart-card">
       <div class="ttl">Fixed split vs persistence vs Plan</div>
       <canvas id="chart-bench" height="220" aria-label="Benchmark giveaway percentages by arm"></canvas>
-      <div class="legend"><span><i style="background:#7F7F7F"></i>Fixed annual split</span><span><i style="background:#0072BD"></i>Copy-last-year persistence</span><span><i style="background:#2E7D6B"></i>WattWise Plan</span></div>
+      <div class="legend"><span><i style="background:#B7AA9C"></i>Fixed annual split</span><span><i style="background:#5E5048"></i>Copy-last-year persistence</span><span><i style="background:#F7931E"></i>WattWise Plan</span></div>
     </div>
     <h2>Bench detail</h2>
     <div class="table-wrap"><table id="bench-table"></table></div>
@@ -439,8 +727,9 @@ var RUNWAY = [];
 var PREPARED = {};
 try { PREPARED = JSON.parse(localStorage.getItem("ww_prepared") || "{}"); } catch (e) {}
 var LAST_ALLOC = null;
-var TIMELINE = [], MC_IDX = 0;
-var PALETTE = ["#2E7D6B", "#0072BD", "#7F7F7F", "#B8860B", "#5C6772", "#8F6A50", "#4E7A9B", "#6B7F3F", "#9B6464", "#5E6874"];
+
+var PALETTE = ["#EA6B3D", "#F9B915", "#8A3A12", "#F7931E", "#FDE6BF", "#C9461D", "#FBD36A", "#5E5048", "#F4B183", "#A3410F"];
+var HOLD_BG = "repeating-linear-gradient(45deg,#F7931E 0 4px,#FBC27E 4px 8px)";
 var BUYERS = [
   { name: "Elmina Innovation Park", type: "Industrial park", annual: 2626, basis: "history", email: "facilities@elminapark.example" },
   { name: "Elmina Lakeside Mall", type: "Retail", annual: 6783, basis: "history", email: "operations@lakesidemall.example" },
@@ -458,24 +747,61 @@ var TRENDS = [-2.0, 1.5, 0.5, -1.0, 2.0];
 
 function fmt(v, dp) { return v.toLocaleString("en-US", { minimumFractionDigits: dp || 0, maximumFractionDigits: dp || 0 }); }
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+var CHEV_L = '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>', CHEV_R = '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+var SEG_CAP = '<div class="seg-cap">Click a segment or a row to find a buyer.</div>';
+function segHtml(k, pct, color, name, capLine) {
+  return '<div class="alloc-seg' + (color ? "" : " hold") + '" data-k="' + k + '" role="button" tabindex="0" style="width:' + pct.toFixed(2) + "%" + (color ? ";background:" + color : "") +
+    '" data-label="' + esc(name) + '" data-cap="' + esc(capLine) + '" aria-label="' + esc(name) + ", " + esc(capLine) + '" title="' + esc(name) + " \u00b7 " + esc(capLine) + '"></div>';
+}
+function pickAlloc(block, k) {
+  var on = block.querySelector('.alloc-seg.sel[data-k="' + k + '"]');
+  block.querySelectorAll(".sel").forEach(function (el) { el.classList.remove("sel"); });
+  var cap = block.querySelector(".seg-cap");
+  if (on) { block.classList.remove("picking"); if (cap) cap.textContent = "Click a segment or a row to find a buyer."; return; }
+  block.classList.add("picking");
+  block.querySelectorAll('[data-k="' + k + '"]').forEach(function (el) { el.classList.add("sel"); });
+  var seg = block.querySelector('.alloc-seg[data-k="' + k + '"]');
+  if (cap && seg) cap.innerHTML = "<b>" + seg.dataset.label + "</b>" + seg.dataset.cap;
+}
+document.addEventListener("click", function (e) {
+  if (e.target.closest("button, a, input, select, textarea")) return;
+  var hit = e.target.closest("[data-alloc] [data-k]");
+  if (hit) pickAlloc(hit.closest("[data-alloc]"), hit.dataset.k);
+});
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  var seg = e.target.closest && e.target.closest("[data-alloc] .alloc-seg[data-k]");
+  if (seg) { e.preventDefault(); pickAlloc(seg.closest("[data-alloc]"), seg.dataset.k); }
+});
 function card(lbl, inner, line) { return '<div class="card"><div class="lbl">' + lbl + "</div>" + inner + (line ? '<div class="line">' + line + "</div>" : "") + "</div>"; }
 
 /* ---------- navigation ---------- */
 function goto(sec) {
-  document.querySelectorAll(".nav-item").forEach(function (b) { b.classList.toggle("on", b.dataset.sec === sec); });
+  document.querySelectorAll(".nav-item").forEach(function (b) { b.classList.toggle("on", b.dataset.sec === sec || b.dataset.also === sec); });
+  document.querySelectorAll(".vt").forEach(function (b) { b.classList.toggle("on", b.dataset.sec === sec); });
   document.querySelectorAll(".sec").forEach(function (s) { s.classList.toggle("on", s.id === "sec-" + sec); });
   document.body.classList.remove("nav-open");
   window.scrollTo(0, 0);
   if (PLAN) drawCharts();
+  if (sec === "sitemap" && HOUSES.length) renderSitemap();
+  if (sec === "home") renderHome();
 }
-document.querySelectorAll(".nav-item").forEach(function (btn) {
+document.querySelectorAll(".nav-item, .vt").forEach(function (btn) {
   btn.addEventListener("click", function () { goto(btn.dataset.sec); });
 });
-document.getElementById("burger").addEventListener("click", function () { document.body.classList.toggle("nav-open"); });
-document.getElementById("backdrop").addEventListener("click", function () { document.body.classList.remove("nav-open"); });
 document.getElementById("open-engine").addEventListener("click", function () { goto("engine"); });
 document.getElementById("prepare-row").addEventListener("click", function () {
   if (!LAST_ALLOC) return;
+  var zero = BUYERS.filter(function (b, i) { return document.getElementById("eng-b-" + i).value === ""; }).map(function (b) { return b.name; });
+  var warn = document.getElementById("prepare-warn"), btn = this;
+  if (zero.length && btn.dataset.confirm !== "1") {
+    warn.hidden = false;
+    warn.textContent = zero.length + " buyers have no estimate and would get a 0% share: " + zero.join(", ") + ". Enter their estimates above, or press again to prepare without them.";
+    btn.dataset.confirm = "1";
+    btn.textContent = "Prepare without them";
+    return;
+  }
+  warn.hidden = true; btn.dataset.confirm = "";
   var key = LAST_ALLOC.r.y + "-" + String(LAST_ALLOC.r.m + 1).padStart(2, "0");
   PREPARED[key] = { total: LAST_ALLOC.total, hb: LAST_ALLOC.hb, parts: LAST_ALLOC.parts, when: Date.now() };
   try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {}
@@ -512,13 +838,13 @@ function updateEngineContext() {
   var th = document.querySelector("#engine-table th:nth-child(2)");
   if (th) th.textContent = "Last year (" + MONTHS[r.m] + " " + (r.y - 1) + ") MWh";
   box.innerHTML =
-    '<div class="dt" style="font-size:19px">Estimate sheet for <span style="color:var(--green-ink)">' + MONTHS[r.m] + " " + r.y + "</span> settlement</div>" +
+    '<div class="dt" style="font-size:19px">Estimate sheet for <span style="color:var(--green-ink)">' + MONTHS[r.m] + " " + r.y + "</span></div>" +
     '<div class="muted" style="font-size:12px;margin:2px 0 8px">Notice deadline <b>' + nd + "</b>" +
-    (days >= 0 ? " &middot; in " + days + " days" : " &middot; deadline passed") + " &middot; 120 days before settlement</div>" +
+    (days >= 0 ? " &middot; in " + days + " days" : " &middot; deadline passed") + " &middot; 120 days before the month starts</div>" +
     '<div class="row"><span class="k2">Upcoming register says</span><span><b>' + st + "</b> for this month</span></div>" +
     '<div class="muted" style="font-size:12px;margin:6px 0 0">' + waitLine + " Preparing here adds this month to the register as an Estimate.</div>";
   var cap = document.getElementById("engine-out-cap");
-  if (cap) cap.innerHTML = "For " + MONTHS[r.m] + " " + r.y + " settlement &middot; notice by " + nd;
+  if (cap) cap.innerHTML = "For " + MONTHS[r.m] + " " + r.y + " &middot; notice by " + nd;
   var pb = document.getElementById("prepare-row");
   if (pb) pb.textContent = "Prepare allocation row \u00b7 " + MONTHS[r.m] + " " + r.y;
 }
@@ -550,9 +876,9 @@ function bars(canvasId, labels, series, yLabel) {
   var max = 0;
   series.forEach(function (s) { s.values.forEach(function (v) { if (v > max) max = v; }); });
   max = Math.max(max * 1.15, 1);
-  x.font = "11px Calibri, Segoe UI, sans-serif";
+  x.font = "12px Archivo, Segoe UI, sans-serif";
   x.clearRect(0, 0, w, h);
-  x.strokeStyle = "#D9D9D9"; x.fillStyle = "#404040";
+  x.strokeStyle = "#ECE2D6"; x.fillStyle = "#5E5048";
   for (var g = 0; g <= 4; g++) {
     var gy = pad.t + ih - (ih * g / 4);
     x.beginPath(); x.moveTo(pad.l, gy); x.lineTo(w - pad.r, gy); x.stroke();
@@ -561,7 +887,7 @@ function bars(canvasId, labels, series, yLabel) {
   }
   var n = labels.length, gw = iw / n, bw = Math.min((gw - 8) / series.length, 26);
   labels.forEach(function (lb, i) {
-    x.fillStyle = "#404040"; x.textAlign = "center"; x.textBaseline = "top";
+    x.fillStyle = "#5E5048"; x.textAlign = "center"; x.textBaseline = "top";
     x.fillText(lb, pad.l + gw * i + gw / 2, pad.t + ih + 7);
     series.forEach(function (s, si) {
       var v = s.values[i]; if (v <= 0) return;
@@ -570,20 +896,20 @@ function bars(canvasId, labels, series, yLabel) {
       x.fillRect(bx, pad.t + ih - bh, bw - 2, bh);
     });
   });
-  x.fillStyle = "#404040"; x.textAlign = "left"; x.textBaseline = "top";
+  x.fillStyle = "#5E5048"; x.textAlign = "left"; x.textBaseline = "top";
   x.fillText(yLabel, pad.l, 2);
 }
 function drawCharts() {
   if (!PLAN) return;
   var s = PLAN.settlement;
   bars("chart-replay", s.months, [
-    { color: "#7F7F7F", values: s.fixed },
-    { color: "#2E7D6B", values: s.plan }
+    { color: "#B7AA9C", values: s.fixed },
+    { color: "#F7931E", values: s.plan }
   ], "MWh per month");
   bars("chart-bench", PLAN.bench.map(function (r) { return r.label.replace(" schemes", "").replace(" two-buyer", " 2-b"); }), [
-    { color: "#7F7F7F", values: PLAN.bench.map(function (r) { return r.fixed; }) },
-    { color: "#0072BD", values: PLAN.bench.map(function (r) { return r.persistence; }) },
-    { color: "#2E7D6B", values: PLAN.bench.map(function (r) { return r.plan; }) }
+    { color: "#B7AA9C", values: PLAN.bench.map(function (r) { return r.fixed; }) },
+    { color: "#5E5048", values: PLAN.bench.map(function (r) { return r.persistence; }) },
+    { color: "#F7931E", values: PLAN.bench.map(function (r) { return r.plan; }) }
   ], "median % given away");
 }
 
@@ -635,13 +961,13 @@ function dataTable(cfg) {
 }
 
 /* ---------- homeowners ---------- */
-var OWNERS = ["Ahmad Faizal bin Ismail","Siti Aminah binti Roslan","Tan Wei Ming","Nurul Huda binti Kamarul","Lim Jia Hao","Priya Raju","Muhammad Danial bin Azhar","Chong Mei Ling","Ravi Kumaran","Aina Sofea binti Zulkifli","Wong Kar Hoe","Farah Nadia binti Othman","Kumar Selvam","Nur Aisyah binti Hamid","Gan Zhi Kang","Intan Suraya binti Rahim","Koh Wei Lun","Syafiq bin Roslan","Deepa Anand","Hafiz bin Salleh"];
+var OWNERS = ["Ahmad Faizal bin Ismail","Siti Aminah binti Roslan","Tan Wei Ming","Nurul Huda binti Kamarul","Lim Jia Hao","Priya Raju","Muhammad Danial bin Azhar","Chong Mei Ling","Ravi Kumaran","Aina Sofea binti Zulkifli","Wong Kar Hoe","Farah Nadia binti Othman","Kumar Selvam","Nur Aisyah binti Hamid","Gan Zhi Kang","Intan Suraya binti Rahim","Koh Wei Lun","Syafiq bin Roslan","Deepa Anand","Hafiz bin Salleh","Zainab binti Yusof","Ong Chee Keong","Kavitha Subramaniam","Amirul bin Hakim","Lee Siew Mei","Faridah binti Ahmad","Rajesh Pillai","Teoh Boon Huat","Hidayah binti Musa","Yap Kai Wen","Saravanan Muthu","Norhayati binti Ismail","Chan Wai Kit","Izzati binti Rahman","Low Jun Jie","Anitha Krishnan","Azman bin Yahya","Goh Pei Shan","Rohani binti Daud","Vincent Tay"];
 function ownerEmail(name) {
   var parts = name.toLowerCase().replace(/binti |bin |a\/l |d\/o /g, "").split(" ");
   return parts[0] + "." + parts[parts.length - 1] + "@mail.example";
 }
 function ownerPhone(i) {
-  return "+60 1" + (2 + i % 8) + "-" + String(2000000 + i * 13579).slice(0, 3) + " " + String(2000 + i * 733).slice(0, 4);
+  return "+60 1" + (2 + i % 8) + "-xxx xxxx"; // illustrative, deliberately not dialable
 }
 function renderHomeowners() {
   var hoods = ["Elmina East", "Elmina West", "Elmina Gardens", "Elmina Hills", "Elmina Valley"];
@@ -667,21 +993,18 @@ function renderHomeowners() {
     card("Installed capacity", '<div class="big">' + fmt(core.scheme_kwp) + " kWp</div>");
   var hoods = ["Elmina East", "Elmina West", "Elmina Gardens", "Elmina Hills", "Elmina Valley"];
   var fltHood = document.getElementById("flt-hood");
-  fltHood.innerHTML = '<option value="">All neighborhoods</option>' + hoods.map(function (h) { return '<option value="' + h + '">' + h + "</option>"; }).join("");
-  var fltStatus = document.getElementById("flt-status");
-  fltStatus.innerHTML = '<option value="">All lease statuses</option><option value="Leased">Leased</option>';
+  fltHood.innerHTML = '<option value="">All neighbourhoods</option>' + hoods.map(function (h) { return '<option value="' + h + '">' + h + "</option>"; }).join("");
   dataTable({
     table: document.getElementById("houses-table"),
     search: document.getElementById("house-search"),
     count: document.getElementById("house-count"),
     rows: rows,
     filters: [
-      { k: "hood", el: fltHood },
-      { k: "status", el: fltStatus }
+      { k: "hood", el: fltHood }
     ],
     cols: [
       { k: "no", label: "House no." },
-      { k: "hood", label: "Neighborhood" },
+      { k: "hood", label: "Neighbourhood" },
       { k: "owner", label: "Homeowner" },
       { k: "phone", label: "Contact" },
       { k: "email", label: "Email" },
@@ -790,7 +1113,7 @@ function showBuyer(i) {
     doc.text("WattWise", 15, y);
     doc.setFont("helvetica", "normal"); doc.setFontSize(11); doc.setTextColor(98, 107, 119);
     doc.text("Meter report", 15, y + 7);
-    doc.setDrawColor(46, 125, 107); doc.setLineWidth(0.8); doc.line(15, y + 11, 195, y + 11);
+    doc.setDrawColor(247, 147, 30); doc.setLineWidth(0.8); doc.line(15, y + 11, 195, y + 11);
     y += 22;
     doc.setFontSize(13); doc.setFont("helvetica", "bold"); doc.setTextColor(20, 23, 29);
     doc.text(b.name, 15, y);
@@ -838,6 +1161,7 @@ function showBuyer(i) {
     window.location.href = "mailto:" + to + "?subject=" + s + "&body=" + b2;
   });
   document.getElementById("buyer-detail").classList.add("on");
+  document.getElementById("buyer-detail").scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 /* ---------- overview ---------- */
@@ -970,8 +1294,10 @@ function renderEngine() {
   BUYERS.forEach(function (b, i) {
     var fromFile = READINGS && READINGS.byMonth[keyMonth] && READINGS.byMonth[keyMonth][b.name] != null;
     var basisVal = fromFile ? READINGS.byMonth[keyMonth][b.name] : (b.annual ? (b.annual / 12).toFixed(0) : "");
-    var tag = b.basis !== "history" ? ' <span class="badge next">no history &middot; manual</span>' : (fromFile ? ' <span class="badge ok">from file</span>' : "");
-    html += "<tr><td><b class=\"eng-buyer\" data-eb=\"" + i + "\" style=\"cursor:pointer;border-bottom:1px dotted #9AA4AE\">" + esc(b.name) + "</b>" + tag + "</td>" +
+    var tag = b.basis !== "history" ? ' <span class="badge warn">no history &middot; enter an estimate</span>'
+      : fromFile ? ' <span class="badge ok">from file</span>'
+      : basisVal === "" ? ' <span class="badge warn">no readings yet &middot; enter an estimate</span>' : "";
+    html += "<tr><td><b class=\"eng-buyer\" data-eb=\"" + i + "\" style=\"cursor:pointer;border-bottom:1px dotted #B7AA9C\">" + esc(b.name) + "</b>" + tag + "</td>" +
       '<td class="num"><input class="cell" type="number" id="eng-b-' + i + '" value="' + basisVal + '" step="10"></td>' +
       '<td class="num"><input class="cell" type="number" id="eng-t-' + i + '" value="' + TRENDS[i % TRENDS.length] + '" step="0.5"></td>' +
       '<td class="num" id="eng-e-' + i + '"></td><td class="num" id="eng-s-' + i + '"></td></tr>';
@@ -993,6 +1319,8 @@ function renderEngine() {
 
 function computeEngine() {
   if (!READINGS) return;
+  var pw = document.getElementById("prepare-warn"), pb0 = document.getElementById("prepare-row");
+  if (pw && pb0 && pb0.dataset.confirm === "1") { pw.hidden = true; pb0.dataset.confirm = ""; updateEngineContext(); }
   var hb = (+document.getElementById("engine-holdback").value || 0) / 100;
   var ests = [], total = 0;
   BUYERS.forEach(function (b, i) {
@@ -1000,8 +1328,13 @@ function computeEngine() {
     var trend = parseFloat(document.getElementById("eng-t-" + i).value) || 0;
     ests[i] = basis * (1 + trend / 100);
     total += ests[i];
-    document.getElementById("eng-e-" + i).textContent = ests[i].toFixed(0);
-    document.getElementById("eng-s-" + i).textContent = total ? ((ests[i] / total) * (1 - hb) * 100).toFixed(1) + "%" : "&ndash;";
+  });
+  BUYERS.forEach(function (b, i) {
+    var needs = document.getElementById("eng-b-" + i).value === "";
+    var ce = document.getElementById("eng-e-" + i), cs = document.getElementById("eng-s-" + i);
+    ce.classList.toggle("needs", needs); cs.classList.toggle("needs", needs);
+    ce.textContent = needs ? "needs estimate" : ests[i].toFixed(0);
+    cs.textContent = needs ? "\u2013" : total ? ((ests[i] / total) * (1 - hb) * 100).toFixed(1) + "%" : "\u2013";
   });
 
   // allocation panel: stacked split bar + breakdown table
@@ -1017,21 +1350,21 @@ function computeEngine() {
   parts.forEach(function (p, rank) {
     if (p.pct < 0.05) return;
     var color = PALETTE[rank % PALETTE.length];
-    segs += '<div class="alloc-seg" style="width:' + p.pct.toFixed(2) + '%;background:' + color + '" title="' + esc(p.name) + " " + p.pct.toFixed(1) + '%"></div>';
-    rows += '<tr><td><span class="dot" style="background:' + color + '"></span>' + esc(p.short) + "</td><td class=\"num\"><b>" + p.pct.toFixed(1) + "%</b></td><td class=\"num\">" + p.est.toFixed(0) + " MWh</td></tr>";
+    segs += segHtml(rank, p.pct, color, p.name, p.pct.toFixed(1) + "% of scheme solar");
+    rows += '<tr data-k="' + rank + '"><td><span class="dot" style="background:' + color + '"></span>' + esc(p.short) + "</td><td class=\"num\"><b>" + p.pct.toFixed(1) + "%</b></td><td class=\"num\">" + p.est.toFixed(0) + " MWh</td></tr>";
   });
-  segs += '<div class="alloc-seg hold" style="width:' + (hb * 100).toFixed(2) + '%" title="Held back for NEDA ' + (hb * 100).toFixed(1) + '%"></div>';
-  rows += '<tr><td><span class="dot" style="background:#E88B33"></span>Held back &middot; NEDA</td><td class="num"><b>' + (hb * 100).toFixed(1) + "%</b></td><td class=\"num\">&ndash;</td></tr>";
+  segs += segHtml("h", hb * 100, null, "Held back for NEDA sale", (hb * 100).toFixed(1) + "% of scheme solar");
+  rows += '<tr data-k="h"><td><span class="dot" style="background:' + HOLD_BG + '"></span>Held back &middot; sold via NEDA <span class="mod">(8 sen/kWh, no access charge)</span> <span class="cite">(Energy Commission, 2025, 9.7)</span></td><td class="num"><b>' + (hb * 100).toFixed(1) + "%</b></td><td class=\"num\">&ndash;</td></tr>";
   document.getElementById("engine-out").innerHTML =
     '<div class="alloc-head"><span class="ttl2">Allocation &middot; ' + MONTHS[r.m] + " " + r.y + '</span><span class="muted">notice by ' +
     r.notice.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) + "</span></div>" +
-    '<div class="alloc-bar">' + segs + "</div>" +
+    '<div class="alloc-bar">' + segs + "</div>" + SEG_CAP +
     '<div class="table-wrap alloc-tbl"><table><tr><th>Buyer</th><th class="num">Share</th><th class="num">Estimate MWh</th></tr>' + rows + "</table></div>" +
     '<div class="alloc-stats"><span class="s"><b>' + fmt(total.toFixed(0)) + " MWh</b>scheme estimate</span>" +
     '<span class="s"><b>' + (hb * 100).toFixed(1) + "%</b>held back</span></div>";
 }
 
-/* ---------- site map: neighborhood plot carousel ---------- */
+/* ---------- site map: neighbourhood plot carousel ---------- */
 var HOUSES = [];
 var HOOD_SVG = null;
 fetch("data/hood-layouts.json").then(function (r) { return r.json(); }).then(function (j) { HOOD_SVG = j; renderSitemap(); }).catch(function () {});
@@ -1064,38 +1397,60 @@ function renderSitemap() {
   document.getElementById("hood-sub").textContent = mine.length + " CREAM homes \u00b7 " + mine.length * 5 + " kWp \u00b7 " + (SM2_I + 1) + " of " + hoods.length;
   document.getElementById("sm2-prev").disabled = SM2_I <= 0;
   document.getElementById("sm2-next").disabled = SM2_I >= hoods.length - 1;
+  var chips = document.getElementById("hood-chips");
   if (!HOOD_SVG) {
-    svg.innerHTML = '<text x="330" y="215" text-anchor="middle" font-size="13" fill="#C7CDD6">loading neighborhood layouts\u2026</text>';
+    svg.innerHTML = '<text x="330" y="215" text-anchor="middle" font-size="13" fill="#5E5048">Loading the neighbourhood plan\u2026</text>';
+    chips.innerHTML = "";
     return;
   }
-  // traced layout per neighborhood (see data/hood-layouts.json)
+  // traced plan per neighbourhood (data/hood-layouts.json); CREAM homes carry data-cream
   svg.innerHTML = HOOD_SVG[keys[SM2_I]];
+  function pick(no) {
+    svg.querySelectorAll(".cream").forEach(function (o) { o.classList.toggle("on", o.dataset.no === no); });
+    chips.querySelectorAll("button").forEach(function (b) { b.classList.toggle("on", b.dataset.no === no); });
+    showHome(no);
+  }
   svg.querySelectorAll(".cream").forEach(function (g) {
     var house = mine[+g.dataset.cream];
     if (!house) return;
     g.dataset.no = house.no;
-    g.insertAdjacentHTML("beforeend", "<title>" + house.no + " \u00b7 " + house.owner + "</title>");
-    g.addEventListener("click", function () {
-      svg.querySelectorAll(".cream.on").forEach(function (o) { o.classList.remove("on"); });
-      g.classList.add("on");
-      showHome(g.dataset.no);
-    });
+    g.setAttribute("tabindex", "0");
+    g.setAttribute("role", "button");
+    g.setAttribute("aria-label", house.no + ", CREAM home, show its solar");
+    g.insertAdjacentHTML("beforeend", "<title>" + house.no + " \u00b7 CREAM home \u00b7 click to see its solar</title>");
+    g.addEventListener("click", function () { pick(house.no); });
+    g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(house.no); } });
   });
+  chips.innerHTML = mine.map(function (h) { return '<button data-no="' + h.no + '">' + h.no + "</button>"; }).join("");
+  chips.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { pick(b.dataset.no); }); });
+}
+function homeSolar(h) {
+  if (!PLAN) return "";
+  var s = PLAN.settlement, kwp = PLAN.buyer_mix[0].scheme_kwp, frac = h.kwp / kwp;
+  var kwh = s.generation.map(function (g) { return g * 1000 * frac; });
+  var max = Math.max.apply(null, kwh), tot = kwh.reduce(function (a, b) { return a + b; }, 0);
+  return '<div class="hno" style="font-size:15px;margin:16px 0 2px">Solar from this roof</div>' +
+    '<div class="gen-total">' + fmt(tot, 0) + ' kWh a year</div>' +
+    '<div class="gen-bars" aria-hidden="true">' + kwh.map(function (v, i) { return '<span style="height:' + (v / max * 100).toFixed(1) + '%" title="' + s.months[i] + " \u00b7 " + fmt(v, 0) + ' kWh"></span>'; }).join("") + "</div>" +
+    '<div class="gen-labs">' + s.months.map(function (m) { return "<span>" + m.charAt(0) + "</span>"; }).join("") + "</div>" +
+    '<table style="margin-top:10px;font-size:13px"><tr><th>Month</th><th class="num">kWh</th><th>Month</th><th class="num">kWh</th></tr>' +
+    [0, 1, 2, 3, 4, 5].map(function (i) { return "<tr><td>" + s.months[i] + '</td><td class="num">' + fmt(kwh[i], 0) + "</td><td>" + s.months[i + 6] + '</td><td class="num">' + fmt(kwh[i + 6], 0) + "</td></tr>"; }).join("") + "</table>" +
+    '<div class="muted" style="font-size:12px;margin-top:8px;line-height:1.4"><span class="mod">(modelled)</span> This roof\u2019s ' + h.kwp.toFixed(1) + " kWp share of the scheme\u2019s " + fmt(kwp, 0) + " kWp, applied to the scheme\u2019s simulated monthly generation. No meter is read per roof.</div>";
 }
 function showHome(no) {
   var h = HOUSES.filter(function (x) { return x.no === no; })[0];
   if (!h) return;
   var p = document.getElementById("home-panel");
   p.style.display = "block";
-  p.innerHTML = '<div class="hno">Home \u00b7 ' + h.no + "</div>" +
+  if (window.matchMedia("(max-width: 1000px)").matches) setTimeout(function () { p.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, 30);
+  p.innerHTML = '<div class="hno">Home \u00b7 ' + h.no + ' <span class="tag-i">illustrative</span></div>' +
     '<div style="font-size:12px;color:var(--muted);margin:2px 0 10px">' + h.hood + "</div>" +
     '<div class="row"><span class="k2">Owner</span><span>' + h.owner + "</span></div>" +
     '<div class="row"><span class="k2">Contact</span><span>' + h.phone + "</span></div>" +
     '<div class="row"><span class="k2">Email</span><span style="text-align:right">' + h.email + "</span></div>" +
     '<div class="row"><span class="k2">Capacity</span><span>' + h.kwp.toFixed(1) + " kWp</span></div>" +
     '<div class="row"><span class="k2">Lease</span><span style="color:var(--green-ink)">' + h.status + "</span></div>" +
-    '<div class="row"><span class="k2">Connected</span><span>' + h.month + " " + h.year + "</span></div>" +
-    '<div style="font-size:11.5px;color:var(--green-ink);margin-top:10px">Roof leases solar to the CREAM scheme</div>';
+    '<div class="row"><span class="k2">Connected</span><span>' + h.month + " " + h.year + "</span></div>" + homeSolar(h);
 }
 
 /* ---------- estimate justification panel ---------- */
@@ -1125,7 +1480,7 @@ function showEstBuyer(i) {
     var hi = series[vals.indexOf(mx)], lo = series[vals.indexOf(mn)], last = series[series.length - 1];
     var bars = series.map(function (s, k) {
       var h = Math.max(2, (s[1] / (mx || 1)) * 44);
-      var fill = s[0] === lastKey ? "#2E7D6B" : "#BFD8CF";
+      var fill = s[0] === lastKey ? "#F7931E" : "#F6D2A6";
       return '<rect x="' + (k * 8 + 2) + '" y="' + (48 - h) + '" width="5" height="' + h + '" rx="1.5" fill="' + fill + '"><title>' + s[0] + " \u00b7 " + s[1] + " MWh</title></rect>";
     }).join("");
     spark = '<svg width="' + (series.length * 8 + 4) + '" height="50" style="max-width:100%">' + bars + '</svg>' +
@@ -1152,10 +1507,10 @@ function showEstBuyer(i) {
   p.style.display = "block";
   p.innerHTML = '<div class="alloc-head"><span class="ttl2">' + esc(b.name) + " \u00b7 estimate basis</span>" +
     '<button class="btn sm" id="est-close" style="margin-left:auto">Close</button></div>' +
-    '<div style="font-size:12px;color:var(--muted);margin:2px 0 10px">' + b.type + " \u00b7 " + MONTHS[r.m] + " " + r.y + " settlement</div>" +
+    '<div style="font-size:12px;color:var(--muted);margin:2px 0 10px">' + b.type + " \u00b7 " + MONTHS[r.m] + " " + r.y + " allocation</div>" +
     '<div class="hno" style="font-size:14px;margin-bottom:6px">Meter behavior</div>' + spark + stats +
     '<div class="hno" style="font-size:14px;margin:12px 0 6px">How the estimate was formed</div>' + why +
-    '<div style="font-size:11.5px;color:var(--muted);margin-top:10px">Buyer shares sum to ' + (100 - hb) + "%; the remaining " + hb + "% is held back: it covers forecast misses first, and the rest is sold at the NEDA floor (assumed band RM0.142&ndash;0.174/kWh, <span class='mod'>modelled</span>).</div>";
+    '<div style="font-size:11.5px;color:var(--muted);margin-top:10px">Buyer shares sum to ' + (100 - hb) + "%; the remaining " + hb + "% is held back: it covers forecast misses first, and the rest is sold via NEDA (8 sen/kWh, <span class='mod'>assumed</span>).</div>";
   document.getElementById("est-close").addEventListener("click", function () { p.style.display = "none"; });
   p.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
@@ -1172,45 +1527,48 @@ var BUYER_POS = {
   "Elmina Business Hotel": [520, 222], "Elmina Logistics Hub": [560, 300], "Elmina Community College": [382, 252],
   "Chong Hwa school": [198, 352], "Elmina International School": [302, 332]
 };
-var TYPE_COLOR = { "Industrial": "#5C6772", "Industrial park": "#5C6772", "Retail": "#0072BD", "Office": "#7F7F7F",
-  "Recreation": "#8F6A50", "Healthcare": "#2E7D6B", "Hospitality": "#B8860B", "Logistics": "#4E7A9B", "Education": "#23507E" };
+var TYPE_COLOR = { "Industrial": "#5E5048", "Industrial park": "#5E5048", "Retail": "#EA6B3D", "Office": "#8A7B6E",
+  "Recreation": "#C9461D", "Healthcare": "#F7931E", "Hospitality": "#F9B915", "Logistics": "#A3410F", "Education": "#6B4A2E" };
 function renderBuyersMap() {
   var svg = document.getElementById("buyers-map");
   var maxA = Math.max.apply(null, BUYERS.map(function (b) { return b.annual || 0; })) || 1;
-  var base = '<path d="M24 34 L636 22 L644 216 L628 412 L36 404 Z" fill="none" stroke="#D8DEE6" stroke-width="2" stroke-linejoin="round"/>' +
+  var base = '<rect x="20" y="20" width="620" height="390" rx="18" fill="none" stroke="#ECE2D6" stroke-width="2"/>' +
+    '<path d="M44 248 H616" stroke="#F9B915" stroke-width="10" stroke-linecap="round" fill="none"/>' +
+    '<path d="M430 40 V196 L462 228 V392" stroke="#EA6B3D" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>' +
+    '<g style="display:none">' +
     '<path d="M60 250 Q300 236 630 244" stroke="#E9E3D8" stroke-width="18" fill="none" stroke-linecap="round"/>' +
     '<path d="M60 250 Q300 236 630 244" stroke="#fff" stroke-width="2" stroke-dasharray="10 8" fill="none"/>' +
     '<path d="M420 26 Q450 210 470 410" stroke="#D9CDBB" stroke-width="20" fill="none" stroke-linecap="round"/>' +
     '<path d="M420 26 Q450 210 470 410" stroke="#fff" stroke-width="2" stroke-dasharray="10 8" fill="none"/>' +
-    '<ellipse cx="86" cy="352" rx="42" ry="30" fill="#BBD5E8"/>' +
-    '<ellipse cx="86" cy="352" rx="58" ry="44" fill="#DDEBDD"/>' +
-    '<ellipse cx="560" cy="90" rx="40" ry="28" fill="#DDEBDD"/>';
+    '<ellipse cx="86" cy="352" rx="42" ry="30" fill="#FCE3B0"/>' +
+    '<ellipse cx="86" cy="352" rx="58" ry="44" fill="#F4EEE7"/>' +
+    '<ellipse cx="560" cy="90" rx="40" ry="28" fill="#F4EEE7"/></g>';
   var marks = "";
   BUYERS.forEach(function (b, i) {
     var p = BUYER_POS[b.name] || [330, 215];
     var r = b.annual ? 9 + 13 * (b.annual / maxA) : 7;
-    var col = TYPE_COLOR[b.type] || "#5C6772";
+    var col = TYPE_COLOR[b.type] || "#5E5048";
     var short = b.name.replace("Elmina ", "").replace(" business-park unit", " WH unit").replace(" International School", " Intl School");
     marks += '<g class="bpin" data-bi="' + i + '">' +
-      '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + r.toFixed(1) + '" fill="' + col + '" fill-opacity=".85" stroke="#fff" stroke-width="2"/>' +
-      '<text x="' + (p[0] + r + 6) + '" y="' + (p[1] + 4) + '" font-size="11.5" font-weight="600" fill="#14171D">' + short + "</text></g>";
+      '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + r.toFixed(1) + '" fill="#fff" stroke="' + col + '" stroke-width="' + (b.annual ? 6 : 3) + '"' + (b.annual ? "" : ' stroke-dasharray="4 3"') + '/>' +
+      '<text x="' + (p[0] + r + 6) + '" y="' + (p[1] + 4) + '" font-size="10" font-weight="600" fill="#15120F" stroke="#FFF4E2" stroke-width="4" paint-order="stroke" stroke-linejoin="round">' + short + "</text></g>";
   });
   svg.innerHTML = base + marks;
   svg.querySelectorAll(".bpin").forEach(function (g) {
-    g.addEventListener("click", function () { showBuyer(+g.dataset.bi); });
+    g.addEventListener("click", function () { svg.querySelectorAll(".bpin.on").forEach(function (o) { o.classList.remove("on"); }); g.classList.add("on"); showBuyerPanel(+g.dataset.bi); });
   });
   if (!window.__bpTouched && document.getElementById("buyer-panel").style.display === "none") {
     var bi = 0, best = -1;
     BUYERS.forEach(function (bb, i) { if ((bb.annual || 0) > best) { best = bb.annual || 0; bi = i; } });
-    showBuyer(bi);
+    showBuyerPanel(bi);
   }
 }
-function showBuyer(i) {
+function showBuyerPanel(i) {
   var b = BUYERS[i];
   var share = buyerDemandShare(b);
   var p = document.getElementById("buyer-panel");
   p.style.display = "block";
-  p.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  if (document.getElementById("sec-sitemap-buyers").classList.contains("on")) p.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
   var hist = "";
   if (typeof READINGS !== "undefined" && READINGS && READINGS.byMonth) {
@@ -1223,7 +1581,7 @@ function showBuyer(i) {
         var v = vals[ki];
         var h = Math.max(2, (v / vmax) * 52);
         var kk = k.split("-");
-        return '<rect x="' + (ki * 9 + 1) + '" y="' + (56 - h).toFixed(1) + '" width="7" height="' + h.toFixed(1) + '" rx="1.5" fill="' + (ki === keys.length - 1 ? "#2E7D6B" : "#B9C6D2") + '"><title>' + MONH[+kk[1] - 1] + " " + kk[0] + " \u00b7 " + v + " MWh</title></rect>";
+        return '<rect x="' + (ki * 9 + 1) + '" y="' + (56 - h).toFixed(1) + '" width="7" height="' + h.toFixed(1) + '" rx="1.5" fill="' + (ki === keys.length - 1 ? "#F7931E" : "#E6D8C7") + '"><title>' + MONH[+kk[1] - 1] + " " + kk[0] + " \u00b7 " + v + " MWh</title></rect>";
       }).join("");
       var rowsH = keys.slice(-6).reverse().map(function (k) {
         var kk = k.split("-");
@@ -1231,7 +1589,7 @@ function showBuyer(i) {
       }).join("");
       hist = '<div class="hno" style="font-size:14px;margin:14px 0 6px">Meter readings \u00b7 monthly history</div>' +
         '<div><svg viewBox="0 0 ' + (keys.length * 9 + 2) + ' 60" style="width:100%;height:64px;display:block">' + bars + '</svg></div>' +
-        '<div class="muted" style="font-size:11px;margin:2px 0 6px">' + keys.length + " months on file \u00b7 newest bar in green</div>" +
+        '<div class="muted" style="font-size:11px;margin:2px 0 6px">' + keys.length + " months on file \u00b7 newest bar in amber</div>" +
         rowsH;
     } else {
       hist = '<div class="muted" style="font-size:12.5px;padding:8px 0">No meter history on file for this buyer yet.</div>';
@@ -1257,27 +1615,36 @@ function renderUpcoming() {
   var r0 = RUNWAY.filter(function (x) { return x.notice >= now; })[0] || RUNWAY[RUNWAY.length - 1];
   var days0 = Math.round((r0.notice - now) / 86400000);
   // runway with urgency + prepare action
-  var rows = '<tr><th>Allocation month</th><th>Notice deadline</th><th class="num">Days left</th><th>Status</th><th class="num">Estimate</th><th></th></tr>';
-  RUNWAY.forEach(function (r, ri) {
+  var rows = '<tr><th>Allocation month</th><th>Notice deadline</th><th class="num">Days left</th><th>Progress</th><th class="num">Estimate</th><th></th></tr>';
+  var order = RUNWAY.map(function (r, ri) { return ri; });
+  order.sort(function (a, b) { var ca = RUNWAY[a].notice < now ? 1 : 0, cb = RUNWAY[b].notice < now ? 1 : 0; return ca - cb || a - b; });
+  var closedSkipped = [];
+  order.forEach(function (ri) {
+    var r = RUNWAY[ri];
     var days = Math.round((r.notice - now) / 86400000);
     var closed = days < 0;
+    if (closed && !PREPARED[r.y + "-" + String(r.m + 1).padStart(2, "0")]) { closedSkipped.push(MONTHS[r.m] + " " + r.y); return; }
     var urg = !closed && days < 30 ? " urgent" : "";
     var key = r.y + "-" + String(r.m + 1).padStart(2, "0");
     var p = PREPARED[key];
-    var status = p
-      ? (p.noticed ? '<span class="badge noticed">Sent</span>'
-        : p.approved ? '<span class="badge ok">Ready</span>'
-        : '<span class="badge pending">Estimate</span>')
-      : '<span class="badge" style="color:var(--muted)">Unchecked</span>'; 
-    var est = p ? "<b>" + fmt(p.total, 0) + " MWh</b> \u00b7 hold " + (p.hb * 100).toFixed(0) + "%" : "&ndash;";
-    rows += '<tr id="reg-' + key + '"><td><span class="badge next">' + MONTHS[r.m] + " " + r.y + "</span></td><td>" +
+    var status = closed && !p
+      ? '<span class="mini term" aria-hidden="true"><b></b><u></u><b></b><u></u><b></b><u></u><b></b><u></u><b></b></span><span class="stw">Unchecked</span><span class="why">Window closed: the 120-day notice can no longer be met.</span>'
+      : miniLine(p ? (p.noticed ? "Sent" : p.approved ? "Ready" : "Estimate") : "Unchecked");
+    var est = p ? "<b>" + fmt(p.total, 0) + " MWh</b> \u00b7 hold " + (p.hb * 100).toFixed(0) + "%" : '<span class="est-empty">&ndash;</span>';
+    rows += '<tr id="reg-' + key + '"' + (closed && !p ? ' class="closed"' : "") + '><td><span class="badge next">' + MONTHS[r.m] + " " + r.y + "</span></td><td>" +
       r.notice.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) +
       '</td><td class="num"><span class="badge' + urg + '">' + (closed ? "window closed" : days) + "</span></td><td>" + status +
       '</td><td class="num">' + est + '</td><td class="num">' +
+      (p ? '<button class="btn sm" data-preview="' + key + '">Preview</button> ' : "") +
       (p && !p.approved ? '<button class="btn sm" data-approve="' + key + '">Approve</button> ' : "") +
       (p && p.approved && !p.noticed ? '<button class="btn sm" data-notice="' + key + '">Mark sent</button> ' : "") +
-      (closed && !p ? "" : '<button class="btn sm" data-prep="' + ri + '">' + (p ? "Open" : "Check &rarr;") + "</button>") + "</td></tr>";
+      (closed && !p ? "" : '<button class="btn sm" data-prep="' + ri + '">' + (p ? "Open" : "Check " + CHEV_R) + "</button>") + "</td></tr>";
   });
+  if (closedSkipped.length) {
+    rows += '<tr class="closed"><td colspan="6"><div class="closed-note"><span class="mini term" aria-hidden="true"><b></b><u></u><b></b><u></u><b></b><u></u><b></b><u></u><b></b></span><span>' +
+      closedSkipped[0] + (closedSkipped.length > 1 ? " to " + closedSkipped[closedSkipped.length - 1] : "") +
+      ": past the 120-day notice window, so " + (closedSkipped.length > 1 ? "these months" : "this month") + " can no longer be allocated here.</span></div></td></tr>";
+  }
   document.getElementById("runway-table").innerHTML = rows;
   document.querySelectorAll("#runway-table [data-approve]").forEach(function (btn) {
     btn.addEventListener("click", function () {
@@ -1293,6 +1660,9 @@ function renderUpcoming() {
       renderUpcoming();
     });
   });
+  document.querySelectorAll("#runway-table [data-preview]").forEach(function (btn) {
+    btn.addEventListener("click", function () { openNotices(btn.dataset.preview); });
+  });
   document.querySelectorAll("#runway-table [data-prep]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       goto("engine");
@@ -1302,132 +1672,265 @@ function renderUpcoming() {
     });
   });
 
-  // master chart: timeline of cycles (settled months + runway), arrows to step through
-  TIMELINE = [];
-  PLAN.settlement.months.forEach(function (mo, i) { TIMELINE.push({ kind: "settled", i: i, label: mo, sub: "settled \u00b7 simulated" }); });
-  RUNWAY.forEach(function (r, ri) {
-    var key = r.y + "-" + String(r.m + 1).padStart(2, "0");
-    TIMELINE.push({ kind: "runway", ri: ri, label: MONTHS[r.m] + " " + r.y, sub: PREPARED[key] ? (PREPARED[key].noticed ? "Sent" : PREPARED[key].approved ? "Ready" : "Estimate") : (r.notice < now ? "window closed" : "notice window open"), key: key });
+  renderRoute(r0, days0);
+  renderHome();
+
+}
+
+/* ---------- notice preview: what each buyer will receive ---------- */
+function noticeData(key) {
+  var pp = PREPARED[key]; if (!pp) return null;
+  var r = RUNWAY.filter(function (x) { return x.y + "-" + String(x.m + 1).padStart(2, "0") === key; })[0];
+  var y = +key.slice(0, 4), m = +key.slice(5) - 1;
+  var notice = r ? r.notice : new Date(y, m, 1 - 120);
+  var parts = pp.parts.filter(function (q) { return q.pct >= 0.05; });
+  return { key: key, y: y, m: m, label: MONTHS[m] + " " + y, notice: notice, pp: pp, parts: parts,
+    st: !pp.approved ? "Estimate" : (!pp.noticed ? "Ready" : "Sent") };
+}
+function noticeMail(d, q) {
+  var b = BUYERS.filter(function (x) { return x.name === q.name; })[0] || { type: "buyer", email: "" };
+  var nd = d.notice.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  var rows = [
+    ["Allocation month", d.label],
+    ["Your share", q.pct.toFixed(1) + "% of scheme solar"],
+    ["Your estimate", fmt(q.est, 0) + " MWh (same month last year \u00d7 trend)"],
+    ["Held back", (d.pp.hb * 100).toFixed(1) + "% for sale at the NEDA floor"],
+    ["Notice date", nd + " (120 days before the month)"],
+    ["Scheme", "Elmina core"]
+  ];
+  return {
+    to: b.email, b: b, rows: rows, nd: nd,
+    subject: "CREAM allocation notice \u00b7 " + d.label + " \u00b7 " + q.name,
+    body: "Hi " + b.type + " team,\n\n" +
+      "This is your CREAM solar allocation for " + d.label + ", sent 120 days ahead.\n\n" +
+      rows.map(function (r) { return "  " + (r[0] + "                    ").slice(0, 20) + r[1]; }).join("\n") +
+      "\n\nThe formal notice is attached as a PDF. The scheme admin approved this split; SDP files with the Energy Commission.\n" +
+      "Reply to this email if any figure looks off.\n\n" +
+      "Regards,\nWattWise operations\nSime Darby Property \u00b7 City of Elmina",
+    file: "wattwise-notice-" + q.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + d.key + ".pdf"
+  };
+}
+function noticePdfUrl(d, q, mail) {
+  if (!window.jspdf) return null;
+  var doc = new window.jspdf.jsPDF({ unit: "mm", format: "a4" });
+  var y = 22;
+  doc.setFont("helvetica", "bold"); doc.setFontSize(20); doc.setTextColor(21, 18, 15);
+  doc.text("WattWise", 15, y);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(11); doc.setTextColor(94, 80, 72);
+  doc.text("CREAM allocation notice", 15, y + 7);
+  doc.setDrawColor(247, 147, 30); doc.setLineWidth(0.8); doc.line(15, y + 11, 195, y + 11);
+  y += 22;
+  doc.setFont("helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(21, 18, 15);
+  doc.text(q.name, 15, y);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(94, 80, 72);
+  doc.text(mail.b.type + " \u00b7 " + mail.to, 15, y + 6);
+  y += 16;
+  doc.setFontSize(11);
+  mail.rows.forEach(function (r) {
+    doc.setFont("helvetica", "bold"); doc.setTextColor(94, 80, 72); doc.text(r[0], 15, y);
+    doc.setFont("helvetica", "normal"); doc.setTextColor(21, 18, 15); doc.text(String(r[1]), 70, y);
+    doc.setDrawColor(236, 226, 214); doc.setLineWidth(0.3); doc.line(15, y + 2, 195, y + 2);
+    y += 10;
   });
-  if (MC_IDX >= TIMELINE.length) MC_IDX = TIMELINE.length - 1;
-  if (!TIMELINE.some(function (t) { return t.kind === "runway" && PREPARED[t.key]; })) {
-    MC_IDX = TIMELINE.findIndex(function (t) { return t.kind === "runway"; });
-    if (MC_IDX < 0) MC_IDX = 0;
-  } else if (!window.__mcTouched) {
-    MC_IDX = Math.max.apply(null, TIMELINE.map(function (t, ix) { return t.kind === "runway" && PREPARED[t.key] ? ix : -1; }));
-  }
-  renderMasterChart(r0, days0);
-
+  doc.setFontSize(9); doc.setTextColor(122, 107, 96);
+  doc.text("WattWise suggests the split; the scheme admin approves it; SDP files with the Energy Commission.", 15, y + 8);
+  doc.text("Estimates use the buyer's own meter history: same month last year x trend.", 15, y + 13);
+  return URL.createObjectURL(doc.output("blob"));
+}
+function openNotices(key) {
+  var d = noticeData(key), box = document.getElementById("notice-preview");
+  if (!d) return;
+  box.hidden = false;
+  box.innerHTML = '<div class="mb-head"><b>Notices &middot; ' + d.label + '</b><span class="muted">' + d.parts.length + " drafts &middot; " + d.st +
+    " &middot; nothing is sent from here</span><button class=\"btn sm\" id=\"mb-close\">Close</button></div>" +
+    '<div class="mb-body"><div class="mb-list" role="listbox" aria-label="Draft notices">' +
+    d.parts.map(function (q, i) {
+      var b = BUYERS.filter(function (x) { return x.name === q.name; })[0] || {};
+      return '<button class="mb-item" role="option" data-i="' + i + '"><span class="dot" style="background:' + q.color + '"></span><b>' + esc(q.short) +
+        "</b><small>" + esc(b.email || "") + "</small><em>" + q.pct.toFixed(1) + "%</em></button>";
+    }).join("") + '</div><div class="mb-msg" id="mb-msg"></div></div>';
+  document.getElementById("mb-close").addEventListener("click", function () { box.hidden = true; box.innerHTML = ""; });
+  box.querySelectorAll(".mb-item").forEach(function (it) { it.addEventListener("click", function () { showNotice(d, +it.dataset.i); }); });
+  showNotice(d, 0);
+  box.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function showNotice(d, i) {
+  var q = d.parts[i], mail = noticeMail(d, q), box = document.getElementById("notice-preview");
+  box.querySelectorAll(".mb-item").forEach(function (it) { var on = +it.dataset.i === i; it.classList.toggle("on", on); it.setAttribute("aria-selected", on); });
+  var msg = document.getElementById("mb-msg");
+  msg.innerHTML = '<h3 class="mb-subj">' + esc(mail.subject) + "</h3>" +
+    '<div class="mb-meta"><span>From</span><span>WattWise operations &middot; Sime Darby Property</span><span>To</span><span>' + esc(mail.to) + "</span><span>Status</span><span>Draft &middot; month is " + d.st + "</span></div>" +
+    '<div class="mb-text">' + esc(mail.body).replace(/\n  ([^\n]*)/g, '\n  <span class="mono">$1</span>') + "</div>" +
+    '<button class="mb-att" id="mb-att"><span class="pdf">PDF</span>' + esc(mail.file) + "</button>" +
+    '<div class="mb-pdf" id="mb-pdf" hidden></div>' +
+    '<div class="mb-actions"><button class="btn primary" id="mb-mailto">Open in email app</button><button class="btn" id="mb-copy">Copy the text</button>' +
+    '<span class="muted">Opens a draft in your own mail app. WattWise never sends on its own.</span></div>';
+  document.getElementById("mb-att").addEventListener("click", function () {
+    var holder = document.getElementById("mb-pdf");
+    var url = noticePdfUrl(d, q, mail);
+    holder.hidden = false;
+    holder.innerHTML = url
+      ? '<iframe title="Notice PDF for ' + esc(q.name) + '" src="' + url + '"></iframe><div class="pdfrow"><span class="fname-chip">' + esc(mail.file) + '</span><a class="btn primary" href="' + url + '" download="' + esc(mail.file) + '">Download PDF</a></div>'
+      : '<p class="muted">The PDF library (jspdf.umd.min.js) did not load, so the attachment cannot be previewed here.</p>';
+  });
+  document.getElementById("mb-mailto").addEventListener("click", function () {
+    window.location.href = "mailto:" + encodeURIComponent(mail.to) + "?subject=" + encodeURIComponent(mail.subject) + "&body=" + encodeURIComponent(mail.body);
+  });
+  document.getElementById("mb-copy").addEventListener("click", function () {
+    var btn = this;
+    (navigator.clipboard ? navigator.clipboard.writeText(mail.subject + "\n\n" + mail.body) : Promise.reject()).then(function () { btn.textContent = "Copied"; }, function () { btn.textContent = "Copy failed"; });
+  });
 }
 
-var SET_M = 1, SET_YRS = ["2025", "2026"], SET_Y = 1;
-var SET_F = { 2025: 0.91, 2026: 1 };
-function settlePred(i) {
-  return Math.round(PLAN.settlement.plan[i] * SET_F[SET_YRS[SET_Y]] * 10) / 10;
+/* ---------- home: what the admin has to do ---------- */
+function monthState(r) {
+  var p = PREPARED[r.y + "-" + String(r.m + 1).padStart(2, "0")];
+  return !p ? "Unchecked" : (!p.approved ? "Estimate" : (!p.noticed ? "Ready" : "Sent"));
 }
-function settleActual(i) {
-  // simulated metered usage: predicted with a deterministic wiggle, different per year
-  var seed = i + SET_Y * 31;
-  return Math.round(settlePred(i) * (0.94 + ((seed * 37) % 13) / 100) * 10) / 10;
-}
-function renderSettleChart() {
-  var s = PLAN.settlement;
-  var pred = settlePred(SET_M);
-  var act = settleActual(SET_M);
-  var maxV = Math.max(pred, act, 1);
-  var pct = pred ? Math.round((act - pred) / pred * 100) : 0;
-  var delta = Math.abs(pct) <= 5
-    ? '<span class="badge ok">' + (pct >= 0 ? "+" : "") + pct + "% \u00b7 on target</span>"
-    : '<span class="badge urgent">' + (pct >= 0 ? "+" : "") + pct + "% \u00b7 " + (pct > 0 ? "over" : "under") + " predicted</span>";
-  document.getElementById("settle-box").innerHTML =
-    '<div class="alloc-head"><span class="ttl2" style="display:flex;align-items:center;gap:8px">' +
-    '<button class="mc-nav" id="sy-prev" style="width:28px;font-size:15px" ' + (SET_Y <= 0 ? "disabled" : "") + ">&#8249;</button>" + SET_YRS[SET_Y] +
-    '<button class="mc-nav" id="sy-next" style="width:28px;font-size:15px" ' + (SET_Y >= SET_YRS.length - 1 ? "disabled" : "") + ">&#8250;</button></span>" +
-    '<span class="muted">simulated</span></div>' +
-    '<div class="mc-navrow" style="margin-top:8px">' +
-    '<button class="mc-nav" id="sm-prev" ' + (SET_M <= 0 ? "disabled" : "") + ">&#8249;</button>" +
-    '<div class="mc-main">' +
-    '<div class="alloc-head" style="margin:0 0 8px"><span class="ttl2" style="font-size:13.5px">' + s.months[SET_M] + " " + SET_YRS[SET_Y] + "</span>" + delta + "</div>" +
-    '<div class="pbar-cols">' +
-    '<div class="pb-col"><div class="pb-val">' + pred.toFixed(1) + ' MWh</div><div class="pb-bar" style="height:' + Math.max(pred / maxV * 100, 2) + '%;background:#7F9BB5"></div><div class="pb-lab">Predicted</div></div>' +
-    '<div class="pb-col"><div class="pb-val">' + act.toFixed(1) + ' MWh</div><div class="pb-bar" style="height:' + Math.max(act / maxV * 100, 2) + '%;background:#2E7D6B"></div><div class="pb-lab">Actual</div></div>' +
-    "</div></div>" +
-    '<button class="mc-nav" id="sm-next" ' + (SET_M >= s.months.length - 1 ? "disabled" : "") + ">&#8250;</button></div>";
-  document.getElementById("sm-prev").addEventListener("click", function () { if (SET_M > 0) { SET_M--; renderSettleChart(); } });
-  document.getElementById("sm-next").addEventListener("click", function () { if (SET_M < PLAN.settlement.months.length - 1) { SET_M++; renderSettleChart(); } });
-  document.getElementById("sy-prev").addEventListener("click", function () { if (SET_Y > 0) { SET_Y--; renderSettleChart(); } });
-  document.getElementById("sy-next").addEventListener("click", function () { if (SET_Y < SET_YRS.length - 1) { SET_Y++; renderSettleChart(); } });
-}
-
-function renderSettlements() {
+function renderHome() {
+  if (!PLAN || !document.getElementById("home-todo")) return;
   var now = new Date(); now.setHours(0, 0, 0, 0);
-  var s = PLAN.settlement;
-  var totFixed = s.fixed.reduce(function (a, b) { return a + b; }, 0);
-  var totPlan = s.plan.reduce(function (a, b) { return a + b; }, 0);
-  var kept = s.fixed.map(function (f, i) { return f - s.plan[i]; });
-  var bestKept = Math.max.apply(null, kept);
-  document.getElementById("alloc-kpis").innerHTML =
-    card("Kept vs fixed", '<div class="big" style="color:var(--green-ink)">' + fmt(Math.max(totFixed - totPlan, 0), 0) + " MWh</div>", "simulated year") +
-    card("Months settled", '<div class="big">' + s.months.length + "</div>", "simulated stand-in") +
-    card("Best month kept", '<div class="big">' + fmt(bestKept, 0) + " MWh</div>", s.months[kept.indexOf(bestKept)] + " \u00b7 fixed minus plan");
-  // month-by-month predicted vs actual, arrows + year toggle
-  renderSettleChart();
+  var dfmt = function (d) { return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }); };
+  var open = RUNWAY.map(function (r, ri) { return { r: r, ri: ri, days: Math.round((r.notice - now) / 86400000), st: monthState(r) }; })
+    .filter(function (x) { return x.days >= 0; });
+  var nextOpen = open.filter(function (x) { return x.st !== "Sent"; })[0];
+  // lede
+  document.getElementById("home-lede").innerHTML = nextOpen
+    ? "Next notice: " + MONTHS[nextOpen.r.m] + " " + nextOpen.r.y + " is " + nextOpen.st + ", notice due " + dfmt(nextOpen.r.notice) + " (" + nextOpen.days + " days). Each month is sent 120 days before it starts <span class=\"cite\">(Energy Commission, 2025)</span>."
+    : "Every month inside the 120-day window has been sent.";
+  // notice line: today to +120 days
+  var line = '<span class="today" aria-hidden="true"></span><span class="end" aria-hidden="true"></span><span class="cap l">Today, ' + dfmt(now) + '</span><span class="cap r">+120 days</span>';
+  open.filter(function (x) { return x.days <= 120; }).forEach(function (x) {
+    line += '<button class="nstn s-' + x.st.toLowerCase() + (x.days < 30 && x.st !== "Sent" ? " urgent" : "") + '" data-ri="' + x.ri + '" style="left:calc(22px + (100% - 44px) * ' + (x.days / 120).toFixed(4) + ')" aria-label="' + MONTHS[x.r.m] + " " + x.r.y + ", " + x.st + ", notice " + dfmt(x.r.notice) + '">' +
+      "<i></i><b>" + MONTHS[x.r.m] + " " + x.r.y + "</b><small>" + x.st + " &middot; " + x.days + "d</small></button>";
+  });
+  var nl = document.getElementById("home-line");
+  nl.innerHTML = line;
+  nl.querySelectorAll(".nstn").forEach(function (b) {
+    b.addEventListener("click", function () { goto("engine"); document.getElementById("engine-month").value = b.dataset.ri; renderEngine(); });
+  });
+  // to-do list, most urgent first
+  var todo = [];
+  open.forEach(function (x) {
+    if (x.st === "Sent") return;
+    var lvl = x.days < 30 ? "urgent" : x.days < 75 ? "soon" : "ok";
+    var label = { Unchecked: "Estimate", Estimate: "Approve", Ready: "Send notices for" }[x.st];
+    var detail = { Unchecked: "Run the engine and prepare the allocation row.", Estimate: "The split is prepared; the scheme admin checks and approves it.", Ready: "Approved. Send each buyer's notice, then mark it Sent." }[x.st];
+    var btn = { Unchecked: "Open the engine", Estimate: "Approve", Ready: "Mark sent" }[x.st];
+    todo.push({ days: x.days, html: '<li><span class="dot ' + lvl + '"></span><span class="t">' + label + " " + MONTHS[x.r.m] + " " + x.r.y + '</span><span class="d"><span class="when">Notice due ' + dfmt(x.r.notice) + " &middot; " + x.days + " days</span> &middot; " + detail + "</span>" +
+      '<button class="btn' + (lvl === "urgent" ? " primary" : "") + '" data-act="' + x.st + '" data-ri="' + x.ri + '">' + btn + "</button></li>" });
+  });
+  if (nextOpen) {
+    var key = (nextOpen.r.y - 1) + "-" + String(nextOpen.r.m + 1).padStart(2, "0");
+    var missing = BUYERS.filter(function (b) { return !(READINGS && READINGS.byMonth[key] && READINGS.byMonth[key][b.name] != null) && !b.annual; });
+    if (missing.length) todo.push({ days: nextOpen.days + 0.5, html: '<li><span class="dot ' + (nextOpen.days < 30 ? "urgent" : "soon") + '"></span><span class="t">' + missing.length + " buyers need a manual estimate</span>" +
+      '<span class="d">No meter reading for ' + MONTHS[nextOpen.r.m] + " " + (nextOpen.r.y - 1) + ": " + missing.map(function (b) { return esc(b.name); }).join(", ") + ".</span>" +
+      '<button class="btn" data-go="engine">Enter estimates</button></li>' });
+  }
+  if (!READINGS) todo.push({ days: -1, html: '<li><span class="dot urgent"></span><span class="t">Load the buyers&rsquo; meter readings</span><span class="d">The engine needs last year&rsquo;s monthly readings before it can estimate.</span><button class="btn primary" data-go="engine">Upload CSV</button></li>' });
+  var sm = PLAN.settlement, ga = sm.months.filter(function (m, i) { return sm.plan[i] > 0; });
+  if (ga.length) todo.push({ days: 999, html: '<li><span class="dot ok"></span><span class="t">Settlement statements for ' + ga.length + " months</span>" +
+    '<span class="d">Solar was given away in ' + ga.join(", ") + " of the simulated year; each replay buyer gets a statement.</span>" +
+    '<button class="btn" data-go="settlements">Open Settle</button></li>' });
+  todo.sort(function (a, b) { return a.days - b.days; });
+  var ul = document.getElementById("home-todo");
+  ul.innerHTML = todo.length ? todo.map(function (t) { return t.html; }).join("") : '<li><span class="dot ok"></span><span class="t">Nothing due</span><span class="d">Every open month is sent and nothing is waiting.</span></li>';
+  ul.querySelectorAll("[data-go]").forEach(function (b) { b.addEventListener("click", function () { goto(b.dataset.go); }); });
+  ul.querySelectorAll("[data-act]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var r = RUNWAY[+b.dataset.ri], k = r.y + "-" + String(r.m + 1).padStart(2, "0");
+      if (b.dataset.act === "Unchecked") { goto("engine"); document.getElementById("engine-month").value = b.dataset.ri; renderEngine(); return; }
+      if (b.dataset.act === "Estimate") PREPARED[k].approved = true;
+      if (b.dataset.act === "Ready") PREPARED[k].noticed = true;
+      try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {}
+      renderUpcoming();
+    });
+  });
+  var core = PLAN.buyer_mix[0];
+  document.getElementById("home-scheme").innerHTML = "Elmina core scheme &middot; <b>" + fmt(core.homes_illustrative) + "</b> roofs &middot; <b>" + fmt(core.scheme_kwp) + "</b> kWp &middot; <b>" + BUYERS.length + "</b> buyers registered &middot; <b>" + fmt(PLAN.headline.scheme_solar_mwh) + " MWh</b> of solar a year <span class=\"mod\">(simulated)</span>";
+}
 
-  // detail table, kept column replaces the all-green settled badge
-  rows = '<tr><th>Month</th><th class="num">Generation MWh</th><th class="num">Given away \u00b7 fixed</th><th class="num">Given away \u00b7 Plan</th><th class="num">Kept</th></tr>';
+/* ---------- the line: five stations every month rides ---------- */
+var STATIONS = ["Read", "Estimate", "Allocate", "Send", "Settle"];
+var STATE_AT = { Unchecked: 1, Estimate: 2, Ready: 3, Sent: 4 };
+function miniLine(state) {
+  var at = STATE_AT[state], h = "";
+  for (var i = 0; i < 5; i++) {
+    var cls = i < at ? "f" : i === at ? "h" : "";
+    if (i) h += "<u" + (i <= at ? ' class="f"' : "") + "></u>";
+    h += "<b" + (cls ? ' class="' + cls + '"' : "") + "></b>";
+  }
+  return '<span class="mini" aria-hidden="true">' + h + '</span><span class="stw">' + state + "</span>";
+}
+function renderRoute(r, days) {
+  var key = r.y + "-" + String(r.m + 1).padStart(2, "0");
+  var p = PREPARED[key];
+  var st = !p ? "Unchecked" : (!p.approved ? "Estimate" : (!p.noticed ? "Ready" : "Sent"));
+  var at = STATE_AT[st];
+  var nd = r.notice.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  var subs = [READINGS ? "meter file loaded" : "waiting for meter file", p ? fmt(p.total, 0) + " MWh estimated" : "not estimated yet",
+    p ? "hold back " + (p.hb * 100).toFixed(0) + "%" : "after the estimate", "by " + nd, MONTHS[r.m] + " " + r.y];
+  var stn = STATIONS.map(function (n, i) {
+    return '<div class="stn' + (i < at ? " done" : i === at ? " here" : "") + (i === 3 ? " ix" : "") + (i === 4 ? " term" : "") + '"' +
+      (i === 3 ? ' title="Interchange: SDP files with the Energy Commission"' : "") + "><i></i>" + n + "<small>" + subs[i] + "</small></div>";
+  }).join("");
+  var prevAt = window.__routeAt == null ? at : window.__routeAt;
+  window.__routeAt = at;
+  var c = {
+    Unchecked: ["Estimate " + MONTHS[r.m] + " " + r.y, "Open the engine for this month. Each buyer is estimated from the same month last year, then you prepare the row.", '<button class="btn primary" id="rt-go">Open the estimate</button>'],
+    Estimate: ["Approve the split", "The estimate is prepared. The scheme admin checks the shares, then it becomes Ready.", '<button class="btn primary" id="rt-approve">Approve</button><button class="btn" id="rt-preview" style="margin-top:8px;width:100%">Preview the notices</button>'],
+    Ready: ["Send by " + nd, "Approved. Send each buyer's notice; SDP files with the Energy Commission. Then mark this month as Sent.", '<button class="btn" id="rt-preview" style="margin-bottom:8px;width:100%">Preview the notices</button><button class="btn primary" id="rt-sent">Mark sent</button>'],
+    Sent: ["Nothing due for " + MONTHS[r.m], "Notices are out. This month settles on real meters in " + MONTHS[r.m] + " " + r.y + ".", ""]
+  }[st];
+  var box = document.getElementById("route-box");
+  box.innerHTML = '<div><div class="route-h"><b>' + MONTHS[r.m] + " " + r.y + "</b><span>next to send &middot; notice " + nd +
+    (days >= 0 ? " &middot; " + days + " days left" : "") + "</span></div>" +
+    '<div class="route" id="route-line" style="--done:' + (prevAt * 25) + '%" aria-label="' + MONTHS[r.m] + " " + r.y + " is at " + STATIONS[at] + '">' + stn + "</div></div>" +
+    '<div class="here-card"><div class="h">' + c[0] + "</div><p>" + c[1] + "</p>" + c[2] + "</div>";
+  if (prevAt !== at) requestAnimationFrame(function () { requestAnimationFrame(function () { var rl = document.getElementById("route-line"); if (rl) rl.style.setProperty("--done", (at * 25) + "%"); }); });
+  else box.querySelector(".stn.here i") && (box.querySelector(".stn.here i").style.animation = "none");
+  var go = document.getElementById("rt-go");
+  if (go) go.addEventListener("click", function () { goto("engine"); document.getElementById("engine-month").value = RUNWAY.indexOf(r); renderEngine(); });
+  var ap = document.getElementById("rt-approve");
+  if (ap) ap.addEventListener("click", function () { PREPARED[key].approved = true; try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {} renderUpcoming(); });
+  var pv = document.getElementById("rt-preview");
+  if (pv) pv.addEventListener("click", function () { openNotices(key); });
+  var sn = document.getElementById("rt-sent");
+  if (sn) sn.addEventListener("click", function () { PREPARED[key].noticed = true; try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {} renderUpcoming(); });
+}
+
+/* ---------- settlements: what happened after each month ---------- */
+var SET_SEL = -1;
+function renderSettlements() {
+  var s = PLAN.settlement, t = s.totals.plan;
+  var line = s.months.map(function (m, i) {
+    return '<button class="ystn' + (s.plan[i] > 0 ? " ga" : "") + (i === SET_SEL ? " on" : "") + '" data-m="' + i + '" aria-label="' + m + ", " + fmt(s.plan[i], 1) + ' MWh given away"><i></i><b>' + m + "</b><small>" + fmt(s.plan[i], 1) + "</small></button>";
+  }).join("");
+  document.getElementById("year-line").innerHTML = line +
+    '<div class="yterm"><b>' + fmt(t.given_away_mwh, 1) + " MWh given away</b>" + t.pct + "% of the year's solar &middot; " + fmt(t.neda, 0) + " MWh held back and sold at the NEDA floor</div>";
+  document.querySelectorAll("#year-line .ystn").forEach(function (b) {
+    b.addEventListener("click", function () { SET_SEL = +b.dataset.m; renderSettlements(); showMonth(SET_SEL); });
+  });
+  var rows = '<tr><th>Month</th><th class="num">Solar generated MWh</th><th class="num">Given away MWh</th><th class="num">Share of generation</th><th></th></tr>';
   s.months.forEach(function (m, i) {
-    var saved = s.fixed[i] - s.plan[i];
-    rows += "<tr class=\"rowbtn\" data-m=\"" + i + "\"><td><b>" + m + "</b></td><td class=\"num\">" + fmt(s.generation[i], 0) +
-      "</td><td class=\"num\">" + fmt(s.fixed[i], 1) + "</td><td class=\"num\">" + fmt(s.plan[i], 1) +
-      '</td><td class="num" style="color:' + (saved > 0 ? "var(--green-ink)" : "var(--muted)") + '">' + fmt(Math.max(saved, 0), 1) + "</td></tr>";
+    rows += '<tr class="rowbtn" data-m="' + i + '"><td><b>' + m + '</b></td><td class="num">' + fmt(s.generation[i], 0) +
+      '</td><td class="num">' + fmt(s.plan[i], 1) + '</td><td class="num">' + (s.plan[i] / s.generation[i] * 100).toFixed(1) + "%" +
+      '</td><td class="num"><button class="btn sm" data-open="' + i + '">Statements ' + CHEV_R + "</button></td></tr>";
   });
   document.getElementById("months-table").innerHTML = rows;
   document.querySelectorAll("#months-table tr.rowbtn").forEach(function (tr) {
-    tr.addEventListener("click", function () { SET_M = +tr.dataset.m; renderSettleChart(); showMonth(+tr.dataset.m); });
+    tr.addEventListener("click", function () { SET_SEL = +tr.dataset.m; renderSettlements(); showMonth(SET_SEL); });
   });
 }
 
-function renderMasterChart(r0, days0) {
-  var t = TIMELINE[MC_IDX];
-  var mc = document.getElementById("master-chart");
-  var head = '<div class="alloc-head"><span class="ttl2">Next notice \u00b7 ' + MONTHS[r0.m] + " " + r0.y +
-    '</span><span class="muted">deadline ' + r0.notice.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) + " \u00b7 in " + days0 + " days</span></div>";
-  var pos = '<div class="alloc-head" style="margin:10px 0 6px"><span class="ttl2" style="font-size:13.5px">' + t.label +
-    '</span><span class="muted">' + t.sub + " \u00b7 cycle " + (MC_IDX + 1) + " of " + TIMELINE.length + "</span></div>";
-  var body = "";
-  if (t.kind === "runway" && PREPARED[t.key]) {
-    var pp = PREPARED[t.key];
-    var vis = pp.parts.filter(function (q) { return q.pct >= 0.05; });
-    body = '<div class="alloc-bar" style="height:44px">' +
-      vis.map(function (q) { return '<div class="alloc-seg" style="width:' + q.pct.toFixed(2) + "%;background:" + q.color + '" title="' + esc(q.name) + " " + q.pct.toFixed(1) + '%"></div>'; }).join("") +
-      '<div class="alloc-seg hold" style="width:' + (pp.hb * 100).toFixed(2) + '%"></div></div>' +
-      '<div class="mchips">' + vis.map(function (q) { return '<span><span class="dot" style="background:' + q.color + '"></span>' + esc(q.short) + " <b>" + q.pct.toFixed(1) + "%</b></span>"; }).join("") +
-      '<span><span class="dot" style="background:#E88B33"></span>Held back <b>' + (pp.hb * 100).toFixed(0) + "%</b></span></div>";
-  } else if (t.kind === "settled") {
-    var parts = buildAllocParts(t.i);
-    var tot = parts.reduce(function (a, p) { return a + p.mwh; }, 0) || 1;
-    body = '<div class="alloc-bar" style="height:44px">' +
-      parts.map(function (p) { return '<div class="alloc-seg" style="width:' + (p.mwh / tot * 100).toFixed(2) + "%;background:" + p.color + '" title="' + esc(p.name) + " " + p.mwh.toFixed(1) + ' MWh"></div>'; }).join("") +
-      "</div>" +
-      '<div class="mchips">' + parts.slice(0, 8).map(function (p) { return '<span><span class="dot" style="background:' + p.color + '"></span>' + esc(p.short) + " <b>" + p.mwh.toFixed(0) + " MWh</b></span>"; }).join("") + "</div>";
-  } else {
-    body = '<div style="font-size:13px;color:var(--muted);padding:14px 4px 2px">' + t.label + " has no prepared allocation yet \u2014 open the estimation engine to prepare it.</div>";
-  }
-  mc.innerHTML = head + '<div class="mc-navrow">' +
-    '<button class="mc-nav" id="mc-prev" ' + (MC_IDX <= 0 ? "disabled" : "") + ">&#8249;</button>" +
-    '<div class="mc-main">' + pos + body + "</div>" +
-    '<button class="mc-nav" id="mc-next" ' + (MC_IDX >= TIMELINE.length - 1 ? "disabled" : "") + ">&#8250;</button>" +
-    "</div>";
-  document.getElementById("mc-prev").addEventListener("click", function () { if (MC_IDX > 0) { MC_IDX--; window.__mcTouched = true; renderMasterChart(r0, days0); } });
-  document.getElementById("mc-next").addEventListener("click", function () { if (MC_IDX < TIMELINE.length - 1) { MC_IDX++; window.__mcTouched = true; renderMasterChart(r0, days0); } });
-}
-
 function buildAllocParts(i) {
-  // modelled per-buyer split of a settled month: share of annual use, applied to that month's plan give-away
+  // the settled year replays the two basis buyers only; their give-away split is modelled from annual use
   var s = PLAN.settlement;
+  var inReplay = function (b) { return (PLAN.basis || []).indexOf(b.name) >= 0; };
   var totAnnual = 0;
-  BUYERS.forEach(function (b) { totAnnual += b.annual || 0; });
+  BUYERS.forEach(function (b) { if (inReplay(b)) totAnnual += b.annual || 0; });
   var parts = BUYERS.map(function (b, bi) {
+    if (!inReplay(b)) return { mwh: 0 };
     var share = b.annual ? b.annual / totAnnual : 0;
     return { bi: bi, name: b.name, short: b.name.replace("Elmina ", "").replace(" business-park unit", " WH unit").replace(" International School", " Intl School"), share: share, mwh: s.plan[i] * share, email: b.email, type: b.type };
   }).filter(function (p) { return p.mwh > 0.05; });
@@ -1438,86 +1941,79 @@ function buildAllocParts(i) {
 
 function showMonth(i) {
   var s = PLAN.settlement;
-  var saved = s.fixed[i] - s.plan[i];
   var parts = buildAllocParts(i);
   var totParts = parts.reduce(function (a, p) { return a + p.mwh; }, 0) || 1;
-  var segs = parts.map(function (p) {
-    return '<div class="alloc-seg" style="width:' + (p.mwh / totParts * 100).toFixed(2) + "%;background:" + p.color + '" title="' + esc(p.name) + " " + p.mwh.toFixed(1) + ' MWh"></div>';
+  var share = s.plan[i] / s.generation[i] * 100;
+  var segs = parts.map(function (p, k) {
+    return segHtml(k, p.mwh / totParts * 100, p.color, p.name, p.mwh.toFixed(1) + " MWh, modelled share of the give-away");
   }).join("");
-  var rows = parts.map(function (p) {
-    return "<tr><td><span class=\"dot\" style=\"background:" + p.color + '\"></span>' + esc(p.short) +
-      "</td><td class=\"num\">" + p.mwh.toFixed(1) + " MWh</td><td class=\"num\">" + (p.mwh / totParts * 100).toFixed(1) + "%</td>" +
+  var rows = parts.map(function (p, k) {
+    return '<tr data-k="' + k + '"><td><span class="dot" style="background:' + p.color + '"></span>' + esc(p.short) +
+      '</td><td class="num">' + p.mwh.toFixed(1) + ' MWh</td><td class="num">' + (p.mwh / totParts * 100).toFixed(1) + "%</td>" +
       '<td class="num"><button class="btn sm" data-apdf="' + i + ":" + p.bi + '">PDF</button> <button class="btn sm" data-amail="' + i + ":" + p.bi + '">Email</button></td></tr>';
   }).join("");
+  var body = s.plan[i] > 0
+    ? '<div class="md-split" data-alloc>' +
+      '<div class="alloc-head"><span class="ttl2">Split between the two replay buyers</span><span class="muted mod">modelled from annual use, not metered per buyer</span></div>' +
+      '<div class="alloc-bar">' + segs + "</div>" + SEG_CAP +
+      '<div class="table-wrap alloc-tbl"><table><tr><th>Buyer</th><th class="num">Modelled share, MWh</th><th class="num">Share of the month</th><th></th></tr>' + rows + "</table></div></div>"
+    : '<p class="muted" style="margin-top:14px">Every buyer used at least what it was allocated in ' + s.months[i] + ", so nothing was given away and there is no statement to send.</p>";
   document.getElementById("month-detail").innerHTML =
-    '<div class="dt" style="display:flex;align-items:center;justify-content:space-between">Settlement \u00b7 ' + s.months[i] +'<button class="btn sm" id="md-close">Close</button></div>' +
-    '<div class="muted" style="font-size:11.5px;margin:-4px 0 8px">Notice by ' +
-    (function (mm) { var d = new Date(mm.y, mm.m, 1 - 120); return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); })({ m: i % 12, y: 2025 + Math.floor(i / 12) }) +
-    ' \u00b7 120 days before settlement</div>' +
-    '<div class="dstats">' +
-    '<div><div class="k">Generation</div><div class="v">' + fmt(s.generation[i], 0) + " MWh</div></div>" +
-    '<div><div class="k">Given away \u00b7 fixed</div><div class="v">' + fmt(s.fixed[i], 1) + " MWh</div></div>" +
-    '<div><div class="k">Given away \u00b7 plan</div><div class="v">' + fmt(s.plan[i], 1) + " MWh</div></div>" +
-    '<div><div class="k">Kept</div><div class="v" style="color:var(--green-ink)">' + fmt(Math.max(saved, 0), 1) + " MWh</div></div>" +
-    "</div>" +
-    '<div class="card" style="padding:14px;margin-top:12px">' +
-    '<div class="alloc-head"><span class="ttl2">Notified split \u00b7 plan arm</span><span class="muted mod">modelled from annual shares</span></div>' +
-    '<div class="alloc-bar">' + segs + "</div>" +
-    '<div class="table-wrap" style="margin-top:10px"><table><tr><th>Buyer</th><th class="num">Allocated</th><th class="num">Share</th><th></th></tr>' + rows + "</table></div>" +
-    "</div>" +
+    '<div class="dt" style="display:flex;align-items:center;justify-content:space-between;gap:12px">' + s.months[i] + ' &middot; settled<button class="btn sm" id="md-close">Close</button></div>' +
+    '<p class="md-line"><b>' + fmt(s.generation[i], 0) + " MWh</b> generated &middot; <b>" + fmt(s.plan[i], 1) + " MWh</b> given away &middot; <b>" + share.toFixed(1) + "%</b> of generation</p>" +
+    '<div class="muted" style="font-size:13px;margin:0 0 6px">Simulated year &middot; Elmina replay: ' + esc((PLAN.basis || []).join(" and ")) + " &middot; checked against TNB meter reads after the month ended</div>" + body +
     '<div class="pdfbox" id="alloc-pdf-box" style="display:none;margin-top:12px">' +
-    '<iframe id="alloc-pdf-frame" title="Allocation notice PDF"></iframe>' +
+    '<iframe id="alloc-pdf-frame" title="Settlement statement PDF"></iframe>' +
     '<div class="pdfrow"><span class="fname-chip" id="alloc-pdf-name"></span><a class="btn primary" id="alloc-pdf-dl">Download PDF</a></div>' +
     "</div>" +
     '<div class="compose" style="display:none;margin-top:12px" id="alloc-compose">' +
-    '<label>To</label><input class="cell" id="alloc-mail-to">' +
-    '<label>Subject</label><input class="cell" id="alloc-mail-subject">' +
-    '<label>Message</label><textarea id="alloc-mail-body"></textarea>' +
-    '<div class="actions" style="margin-top:10px"><button class="btn primary" id="alloc-mail-open">Open in email app</button></div>' +
+    '<div class="row"><label for="alloc-mail-to">To</label><input id="alloc-mail-to"></div>' +
+    '<div class="row"><label for="alloc-mail-subject">Subject</label><input id="alloc-mail-subject"></div>' +
+    '<div class="row"><label for="alloc-mail-body">Message</label><textarea id="alloc-mail-body"></textarea></div>' +
+    '<div class="row"><button class="btn primary" id="alloc-mail-open">Open in email app</button></div>' +
     "</div>";
-  document.getElementById("month-detail").classList.add("on");
+  var md = document.getElementById("month-detail");
+  md.classList.add("on");
+  md.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById("md-close").addEventListener("click", function () { md.classList.remove("on"); md.innerHTML = ""; SET_SEL = -1; renderSettlements(); });
+  md.querySelectorAll("[data-apdf]").forEach(function (btn) {
+    btn.addEventListener("click", function () { var q = btn.dataset.apdf.split(":"); allocPdf(+q[0], +q[1], parts); });
+  });
+  md.querySelectorAll("[data-amail]").forEach(function (btn) {
+    btn.addEventListener("click", function () { var q = btn.dataset.amail.split(":"); allocMail(+q[0], +q[1], parts); });
+  });
+}
 
-  document.getElementById("md-close").addEventListener("click", function () { document.getElementById("month-detail").classList.remove("on"); document.getElementById("month-detail").innerHTML = ""; });
-  document.querySelectorAll("#month-detail [data-apdf]").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var q = btn.dataset.apdf.split(":");
-      allocPdf(+q[0], +q[1], parts);
-    });
-  });
-  document.querySelectorAll("#month-detail [data-amail]").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var q = btn.dataset.amail.split(":");
-      allocMail(+q[0], +q[1], parts);
-    });
-  });
+function statementFields(i, p, totParts) {
+  var s = PLAN.settlement;
+  return [
+    ["Month settled", s.months[i] + " (simulated year)"],
+    ["Buyer", BUYERS[p.bi].name],
+    ["Modelled share of give-away", p.mwh.toFixed(1) + " MWh (from annual use)"],
+    ["Share of the month's give-away", (p.mwh / totParts * 100).toFixed(1) + "%"],
+    ["Scheme solar that month", fmt(s.generation[i], 0) + " MWh"],
+    ["Scheme", "Elmina core"],
+    ["Basis", "modelled from annual shares"]
+  ];
 }
 
 function allocPdf(i, bi, parts) {
   var s = PLAN.settlement;
   var p = parts.filter(function (x) { return x.bi === bi; })[0];
   var b = BUYERS[bi];
+  var totParts = parts.reduce(function (a, x) { return a + x.mwh; }, 0) || 1;
   var doc = new window.jspdf.jsPDF();
-  var fields = [
-    ["Settlement month", s.months[i] + " (settled \u00b7 simulated)"],
-    ["Buyer", b.name],
-    ["Allocated", p.mwh.toFixed(1) + " MWh"],
-    ["Share of month", (p.share * 100).toFixed(1) + "%"],
-    ["Scheme", "Elmina core"],
-    ["Basis", "modelled from annual shares"],
-    ["Source", "WattWise simulation \u00b7 plan arm"]
-  ];
   doc.setFontSize(16); doc.text("WattWise \u00b7 settlement statement", 14, 20);
   doc.setFontSize(10); doc.setTextColor(110);
   doc.text("CREAM scheme \u00b7 City of Elmina", 14, 27);
   doc.setTextColor(30);
   var y = 40;
-  fields.forEach(function (f) { doc.text(f[0], 14, y); doc.text(String(f[1]), 80, y); y += 9; });
+  statementFields(i, p, totParts).forEach(function (f) { doc.text(f[0], 14, y); doc.text(String(f[1]), 90, y); y += 9; });
   doc.setFontSize(9); doc.setTextColor(130);
-  doc.text("Prepared automatically by WattWise \u00b7 figures are simulated, not billed values.", 14, y + 6);
+  doc.text("Prepared by WattWise \u00b7 figures are simulated, not billed values.", 14, y + 6);
   var fname = "wattwise-settlement-" + b.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + s.months[i].toLowerCase() + ".pdf";
   var url = URL.createObjectURL(doc.output("blob"));
-  var box = document.getElementById("alloc-pdf-box");
-  box.style.display = "block";
+  document.getElementById("alloc-pdf-box").style.display = "block";
   document.getElementById("alloc-pdf-frame").src = url;
   document.getElementById("alloc-pdf-name").textContent = fname;
   var dl = document.getElementById("alloc-pdf-dl");
@@ -1529,27 +2025,21 @@ function allocMail(i, bi, parts) {
   var p = parts.filter(function (x) { return x.bi === bi; })[0];
   var b = BUYERS[bi];
   var totParts = parts.reduce(function (a, x) { return a + x.mwh; }, 0) || 1;
-  var box = document.getElementById("alloc-compose");
-  box.style.display = "block";
+  document.getElementById("alloc-compose").style.display = "block";
   document.getElementById("alloc-mail-to").value = b.email;
   document.getElementById("alloc-mail-subject").value = "Settlement statement \u00b7 " + s.months[i] + " \u00b7 " + b.name;
   document.getElementById("alloc-mail-body").value =
     "Hi " + b.type + " team,\n\n" +
-    "This is your solar settlement statement for " + s.months[i] + ".\n\n" +
+    "This is your solar settlement statement for " + s.months[i] + ". It shows your modelled share of the solar allocated beyond what was used that month.\n\n" +
     "--------------------------------\n" +
-    "  Buyer               " + b.name + "\n" +
-    "  Allocated           " + p.mwh.toFixed(1) + " MWh\n" +
-    "  Share of month      " + (p.mwh / totParts * 100).toFixed(1) + "%\n" +
-    "  Scheme              Elmina core\n" +
-    "  Basis               modelled from annual shares\n" +
-    "--------------------------------\n\n" +
+    statementFields(i, p, totParts).map(function (f) { return "  " + (f[0] + "                              ").slice(0, 30) + f[1]; }).join("\n") +
+    "\n--------------------------------\n\n" +
     "The formal statement is attached as a PDF. Contact WattWise operations if any figure needs correction.\n\n" +
     "Regards,\nWattWise operations\nSime Darby Property \u00b7 City of Elmina";
   document.getElementById("alloc-mail-open").onclick = function () {
-    var to = document.getElementById("alloc-mail-to").value;
-    var subject = document.getElementById("alloc-mail-subject").value;
-    var body = document.getElementById("alloc-mail-body").value;
-    window.location.href = "mailto:" + encodeURIComponent(to) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    window.location.href = "mailto:" + encodeURIComponent(document.getElementById("alloc-mail-to").value) +
+      "?subject=" + encodeURIComponent(document.getElementById("alloc-mail-subject").value) +
+      "&body=" + encodeURIComponent(document.getElementById("alloc-mail-body").value);
   };
 }
 
@@ -1576,7 +2066,7 @@ function renderEvidence() {
   });
   document.getElementById("schemes-table").innerHTML = srows;
   document.getElementById("sources").innerHTML =
-    "Consumption: BDG2 (Miller et al., 2020), 590 buildings, 2016 to 2017. Settlement: modelled, CREAM 9.10(e). Prices: assumed NEDA floor band 14.2 to 17.4 sen/kWh (CREAM price private). Buyer mix: modelled loads.";
+    "Consumption: BDG2 (Miller et al., 2020), 590 buildings, 2016 to 2017. Settlement: modelled, CREAM 9.10(e). Prices: CREAM price assumed at 15 to 30 sen/kWh (the real price is private); NEDA sale at an assumed 8 sen/kWh. Buyer mix: modelled loads.";
 }
 
 /* ---------- boot ---------- */
@@ -1593,7 +2083,12 @@ buildHouses(); renderHomeowners(); renderBuyersTbl(); renderOverview(); renderEn
 }).catch(function (e) {
   document.getElementById("house-kpis").innerHTML = card("Data", "unavailable", String(e.message || e));
 });
-window.addEventListener("resize", function () { if (PLAN) drawCharts(); });
+var __narrowMap = window.matchMedia("(max-width: 860px)").matches;
+window.addEventListener("resize", function () {
+  if (PLAN) drawCharts();
+  var n = window.matchMedia("(max-width: 860px)").matches;
+  if (n !== __narrowMap) { __narrowMap = n; if (HOUSES.length) renderSitemap(); }
+});
 </script>
 </body>
 </html>
