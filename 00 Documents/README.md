@@ -61,7 +61,8 @@ Honest limits: the extra income shrinks as the CREAM price rises, and above abou
 | | |
 |---|---|
 | ![Home](screenshots/testing-1-home.png) **Start here.** The headline result and the four appendices. | ![How the estimate works](screenshots/testing-2-how-the-estimate-works.png) **How the estimate works.** A live worked example: estimate, share, hold-back, settle. |
-| ![Appendix B](screenshots/testing-3-appendix-b-money.png) **Appendix B.** The money, step by step, at the assumed price band. | |
+| ![Appendix B](screenshots/testing-3-appendix-b-money.png) **Appendix B.** The money, step by step, at the assumed price band. | ![Watch the replay run](screenshots/testing-4-watch-the-replay-run.png) **Watch the replay run.** Step one real scheme through the code month by month: the lit lines of `replay.py`, the numbers going in, and a graph of each step. |
+| ![All schemes](screenshots/testing-5-all-schemes-median.png) **All schemes.** The last step adds up every real scheme into the headline median. | |
 
 Appendix A tests fixed vs WattWise across the 407 two-buyer schemes (with one shown month by month at Elmina size), B the income, C whether a scheme can be built 20% larger, and D dynamic splitting against fixed and copy-last-year across the 821 buildings.
 

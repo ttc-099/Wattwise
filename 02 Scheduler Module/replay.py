@@ -280,6 +280,23 @@ def build():
     return {"rules": rules, "benchmark": benchmark, "elmina": elmina(two, one, pv, example)}
 
 
+def walk_code():
+    """The rules as shown in the testing suite's walkthrough: the real lines of this file, with their line numbers."""
+    src = open(os.path.abspath(__file__), encoding="utf-8").read().splitlines()
+    out = []
+    for start in ("def last_complete_month", "def estimate", "def shares", "def replay", "def revenue", "def run_scheme", "def summarise"):
+        i = next(k for k, l in enumerate(src) if l.startswith(start))
+        j = i + 1
+        while j < len(src) and not src[j].startswith(("def ", "# ----")):
+            j += 1
+        while src[j - 1] == "":
+            j -= 1
+        if out:
+            out.append({"n": None, "t": ""})
+        out += [{"n": k + 1, "t": src[k]} for k in range(i, j)]
+    return out
+
+
 def facts(r):
     """Every number the web pages quote, already formatted. The pages fill [data-v] elements from these."""
     b, e = r["benchmark"], r["elmina"]
@@ -390,6 +407,8 @@ def main():
     files = {os.path.join(RESULTS, "replay.json"): dump(r), os.path.normpath(UI_PLAN): dump(ui_plan(r)),
              os.path.join(RESULTS, "elmina_example_year.csv"): monthly_csv(r["elmina"]["example_year"]),
              os.path.normpath(UI_PLAN[:-2]): "// written by 02 Scheduler Module/replay.py, do not edit\nwindow.PLAN_DATA = " + dump(ui_plan(r)).rstrip() + ";\n"}
+    files[os.path.normpath(os.path.join(os.path.dirname(UI_PLAN), "..", "walkthrough-code.js"))] = (
+        "// written by 02 Scheduler Module/replay.py, do not edit\nwindow.WALK_CODE = " + json.dumps(walk_code()) + ";\n")
     # the testing suite re-runs the replay in the browser (03 User Interface/replay.js) on the same inputs
     for name in ("bdg2_buildings.csv", "bdg2_monthly_kwh.csv", "pvgis_elmina.json"):
         files[os.path.normpath(os.path.join(os.path.dirname(UI_PLAN), "replay", name))] = open(os.path.join(DATA, name), encoding="utf-8").read()

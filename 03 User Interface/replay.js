@@ -213,6 +213,37 @@ var WWReplay = (function () {
     return out;
   }
 
+  // ---------- trace: one month of one scheme, every intermediate value (for the walkthrough) ----------
+  function scaleLoads(loads, P) {
+    var total = sum(P.elmina.map(function (b) { return b[1]; })) * 1000;
+    var k = total / sum(loads.map(function (u) { return sum(u.slice(0, 12)); }));
+    return loads.map(function (u) { return u.map(function (v) { return v * k; }); });
+  }
+  function trace(loads, pv, P, t, price) {
+    var L = lastCompleteMonth(t, P), winAll = [L - 2, L - 1, L], win = winAll.filter(function (k) { return k - 12 >= 0; });
+    var kwp = sum(loads.map(function (u) { return sum(u.slice(0, 12)); })) / sum(pv.kwh_per_kwp_long_term);
+    var y = MONTHS[t][0], m = MONTHS[t][1], key = y + "-" + (m < 10 ? "0" : "") + m;
+    var expSolar = kwp * pv.kwh_per_kwp_long_term[m - 1], solar = kwp * pv.kwh_per_kwp_by_month[key];
+    var release = new Date(Date.UTC(y, m - 1, 1) - P.noticeDays * 86400000);
+    var buyers = loads.map(function (u) {
+      var now = win.map(function (k) { return u[k]; }), prev = win.map(function (k) { return u[k - 12]; });
+      var raw = win.length === 3 ? sum(now) / sum(prev) - 1 : 0, trend = Math.max(-P.trendCap, Math.min(P.trendCap, raw));
+      return { lastYear: u[t - 12], now: now, prev: prev, rawTrend: raw, trend: trend, estimate: u[t - 12] * (1 + trend), actual: u[t], year2016: sum(u.slice(0, 12)), series: u.slice(0, 12) };
+    });
+    var fixedSh = shares("fixed", loads, t, expSolar, solar, P), planSh = shares("plan", loads, t, expSolar, solar, P);
+    var rawPlan = buyers.map(function (b) { return b.estimate / expSolar * (1 - P.holdBack); });
+    function settle(sh) {
+      var rows = sh.map(function (s, i) { var a = s * solar; return { share: s, allocated: a, actual: buyers[i].actual, used: Math.min(a, buyers[i].actual), given: Math.max(0, a - buyers[i].actual) }; });
+      var tot = { solar: solar, used: sum(rows.map(function (r) { return r.used; })), given: sum(rows.map(function (r) { return r.given; })), neda: solar * (1 - sum(sh)) };
+      tot.revenue = revenue(tot, price, P);
+      tot.parts = { used: tot.used * price, neda: tot.neda * P.neda, cac: P.cac * (solar - tot.neda) };
+      return { rows: rows, tot: tot };
+    }
+    return { t: t, month: MON[m - 1], year: y, release: release, window: win, windowMonths: winAll.map(function (k) { return MONTHS[k]; }), hasTrend: win.length === 3, buyers: buyers,
+             kwp: kwp, expSolar: expSolar, solar: solar, fixedShares: fixedSh, planShares: planSh, rawPlan: rawPlan, rawPlanSum: sum(rawPlan), cap: 1 - P.holdBack,
+             scaled: sum(rawPlan) > 1 - P.holdBack, fixed: settle(fixedSh), plan: settle(planSh), price: price, P: P };
+  }
+
   // ---------- run everything
   function build(inp, opts) {
     var P = {}, k;
@@ -238,7 +269,7 @@ var WWReplay = (function () {
       hot_humid_one_buyer: summarise(sc1.filter(function (x) { return hot(x[0]); }).map(function (x) { return x[1]; }), P),
       hot_humid_two_buyer: summarise(sc2.filter(function (x) { return hot(x[0]); }).map(function (x) { return x[1]; }), P) };
     var rules = { hold_back: P.holdBack, pvgis_kwh_per_kwp_year: pyRoundD(sum(pv.kwh_per_kwp_long_term), 1) };
-    return { rules: rules, benchmark: benchmark, elmina: elmina(two, one, pv, example, P), pairs: pairs, good: good, P: P };
+    return { rules: rules, benchmark: benchmark, elmina: elmina(two, one, pv, example, P), pairs: pairs, good: good, P: P, scores: sc2.map(function (x) { return { ids: x[0], fixed: x[1].fixed, plan: x[1].plan, copy: x[1].copy }; }) };
   }
 
   // the same formatted figures the pages quote (facts() in replay.py)
@@ -279,6 +310,6 @@ var WWReplay = (function () {
     return f;
   }
 
-  return { load: load, build: build, facts: facts, exampleYear: exampleYear, fmt: pyFixed, DEFAULTS: DEFAULTS, MON: MON };
+  return { load: load, build: build, facts: facts, exampleYear: exampleYear, trace: trace, scaleLoads: scaleLoads, revenue: revenue, fmt: pyFixed, DEFAULTS: DEFAULTS, MON: MON };
 })();
 if (typeof module !== "undefined") module.exports = WWReplay;
