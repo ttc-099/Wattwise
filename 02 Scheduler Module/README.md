@@ -1,13 +1,20 @@
-# 02 Scheduler Module: WattWise Plan results
+# 02 Scheduler Module: the WattWise replay
 
-This folder holds the committed evidence for the allocation planner. The building-side scheduler (Shift) is not part of WattWise and has been removed.
+One script produces every number in the deck, the operator app and the testing suite.
+
+```
+python replay.py           # rebuild results/ and 03 User Interface/data/plan.json + plan.js
+python replay.py --check   # confirm the committed results match a fresh run
+```
+
+Standard Python, no packages, about a second. The rules (notice, estimate, allocate, settle) are written at the top of `replay.py`.
 
 | File | What it is |
 |---|---|
-| `results/cream_plan.json` | One modelled year of the Elmina scheme (Innovation Park, plus Lakeside Mall as a modelled second buyer): fixed split vs Plan, month by month |
-| `results/plan_real_data.json` | Benchmark of 590 real buildings and 443 two-buyer pairings (Building Data Genome Project 2) |
-| `results/buyer_mix.json` | Effect of adding a third buyer to the Elmina scheme (modelled) |
-| `verify_claims.py` | Recomputes the headline figures from the files above. Run `python verify_claims.py` |
+| `replay.py` | The replay: real meters, real rooftop solar, CREAM's 120-day notice and settlement rules |
+| `build_inputs.py` | Rebuilds `data/` from the public sources (BDG2 meters, PVGIS solar); not needed to re-run the replay |
+| `data/` | The committed inputs: monthly electricity of 1,578 real buildings, their sites, and rooftop solar at Elmina |
+| `results/replay.json` | Everything the replay measured: benchmark, Elmina figures, the example year |
+| `results/elmina_example_year.csv` | The month-by-month example shown in Appendix A |
 
-How each RM figure is derived and what is not reproducible: `../docs/evidence-provenance.md`.
-Not in the repository: the script that built `plan_real_data.json`.
+How each figure is derived, and what it rests on: [docs/evidence-provenance.md](../docs/evidence-provenance.md).

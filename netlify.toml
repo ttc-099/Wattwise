@@ -1,0 +1,9 @@
+# Netlify: serve the static web app (operator app + testing suite). No build step.
+[build]
+  publish = "03 User Interface"
+  command = ""
+
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "no-cache"

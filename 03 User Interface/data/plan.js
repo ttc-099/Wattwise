@@ -1,0 +1,357 @@
+// written by 02 Scheduler Module/replay.py, do not edit
+window.PLAN_DATA = {
+ "basis": [
+  "Elmina Innovation Park",
+  "Elmina Lakeside Mall"
+ ],
+ "headline": {
+  "scheme_solar_mwh": 9409,
+  "kwp_match": 6840,
+  "homes_illustrative": 1368,
+  "lead_months": 4,
+  "hold_back_pct": 2.0,
+  "expected_solar_mwh_by_month": [
+   865.74,
+   871.42,
+   894.06,
+   789.34,
+   719.57,
+   669.02,
+   706.57,
+   776.68,
+   784.41,
+   820.25,
+   737.01,
+   774.42
+  ],
+  "trend_cap_pct": 25.0
+ },
+ "settlement": {
+  "example_buildings": [
+   "Bull_education_Sebastian",
+   "Bull_education_Stewart"
+  ],
+  "months": [
+   "Jan",
+   "Feb",
+   "Mar",
+   "Apr",
+   "May",
+   "Jun",
+   "Jul",
+   "Aug",
+   "Sep",
+   "Oct",
+   "Nov",
+   "Dec"
+  ],
+  "generation": [
+   788.83,
+   824.68,
+   875.43,
+   755.31,
+   694.64,
+   692.38,
+   727.47,
+   754.29,
+   750.87,
+   831.45,
+   622.0,
+   792.8
+  ],
+  "fixed": [
+   67.01,
+   141.71,
+   119.44,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   6.54,
+   16.36,
+   79.98,
+   0.0,
+   126.21
+  ],
+  "plan": [
+   4.66,
+   60.66,
+   41.88,
+   0.78,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   15.41,
+   0.0,
+   8.58
+  ],
+  "neda": [
+   83.96,
+   83.97,
+   78.03,
+   25.8,
+   13.89,
+   13.85,
+   14.55,
+   55.86,
+   62.54,
+   75.42,
+   42.67,
+   133.72
+  ],
+  "totals": {
+   "fixed": {
+    "given_away_mwh": 557.26,
+    "pct": 6.12,
+    "delivered": 8552.89,
+    "neda": 0.0
+   },
+   "plan": {
+    "given_away_mwh": 131.98,
+    "pct": 1.45,
+    "delivered": 8293.92,
+    "neda": 684.25
+   }
+  },
+  "kept_mwh": 425.28,
+  "income_gain_rm": [
+   38631,
+   77477
+  ]
+ },
+ "elmina": {
+  "kept_mwh": 443,
+  "gain_rm_by_price_sen": {
+   "15": 76025,
+   "20": 60406,
+   "25": 41870,
+   "30": 24557
+  },
+  "paid_for_pct": {
+   "fixed": 94.0,
+   "plan": 98.7
+  },
+  "given_away_pct": {
+   "fixed": 6.05,
+   "plan": 1.34
+  },
+  "basis": "median of the 407 real two-buyer schemes, applied to 9409 MWh a year"
+ },
+ "facts": {
+  "n_buildings": "821",
+  "n_sites": "11",
+  "hold_back": "2%",
+  "pvgis_yield": "1,376",
+  "one_n": "821",
+  "one_fixed": "5.98%",
+  "one_copy": "1.49%",
+  "one_plan": "0.95%",
+  "one_fixed_p90": "17.49%",
+  "one_plan_p90": "5.79%",
+  "one_less_fixed": "98.5%",
+  "one_less_copy": "77.2%",
+  "one_earns_15": "100%",
+  "one_earns_30": "63.9%",
+  "one_gain_15": "RM8.32",
+  "one_gain_30": "RM2.27",
+  "one_gcopy_15": "RM1.11",
+  "one_gcopy_30": "-RM1.57",
+  "one_err_med": "7.9%",
+  "one_err_worst": "22.3%",
+  "one_o11_fixed": "11.56%",
+  "one_o11_plan": "1.40%",
+  "one_o11_nw": "94.5%",
+  "one_o12_fixed": "17.60%",
+  "one_o12_plan": "1.73%",
+  "one_o12_nw": "90.5%",
+  "two_n": "407",
+  "two_fixed": "6.05%",
+  "two_copy": "1.95%",
+  "two_plan": "1.34%",
+  "two_fixed_p90": "16.14%",
+  "two_plan_p90": "6.18%",
+  "two_less_fixed": "99.8%",
+  "two_less_copy": "83.3%",
+  "two_earns_15": "100%",
+  "two_earns_30": "70.5%",
+  "two_gain_15": "RM8.08",
+  "two_gain_30": "RM2.61",
+  "two_gcopy_15": "RM1.24",
+  "two_gcopy_30": "-RM1.39",
+  "two_err_med": "7.9%",
+  "two_err_worst": "22.4%",
+  "two_o11_fixed": "11.58%",
+  "two_o11_plan": "1.88%",
+  "two_o11_nw": "96.1%",
+  "two_o12_fixed": "17.55%",
+  "two_o12_plan": "2.17%",
+  "two_o12_nw": "94.6%",
+  "hot1_n": "85",
+  "hot1_fixed": "3.75%",
+  "hot1_copy": "1.30%",
+  "hot1_plan": "0.71%",
+  "hot1_fixed_p90": "11.32%",
+  "hot1_plan_p90": "3.50%",
+  "hot1_less_fixed": "100%",
+  "hot1_less_copy": "85.9%",
+  "hot1_earns_15": "100%",
+  "hot1_earns_30": "50.6%",
+  "hot1_gain_15": "RM5.53",
+  "hot1_gain_30": "RM0.02",
+  "hot1_gcopy_15": "RM1.18",
+  "hot1_gcopy_30": "-RM1.62",
+  "hot1_err_med": "5.9%",
+  "hot1_err_worst": "15.4%",
+  "hot1_o11_fixed": "9.49%",
+  "hot1_o11_plan": "1.21%",
+  "hot1_o11_nw": "91.8%",
+  "hot1_o12_fixed": "15.92%",
+  "hot1_o12_plan": "1.39%",
+  "hot1_o12_nw": "87.1%",
+  "hot2_n": "42",
+  "hot2_fixed": "3.83%",
+  "hot2_copy": "1.28%",
+  "hot2_plan": "0.85%",
+  "hot2_fixed_p90": "10.17%",
+  "hot2_plan_p90": "4.69%",
+  "hot2_less_fixed": "100%",
+  "hot2_less_copy": "90.5%",
+  "hot2_earns_15": "100%",
+  "hot2_earns_30": "54.8%",
+  "hot2_gain_15": "RM5.72",
+  "hot2_gain_30": "RM0.91",
+  "hot2_gcopy_15": "RM1.12",
+  "hot2_gcopy_30": "-RM1.52",
+  "hot2_err_med": "5.8%",
+  "hot2_err_worst": "15.4%",
+  "hot2_o11_fixed": "9.25%",
+  "hot2_o11_plan": "1.42%",
+  "hot2_o11_nw": "92.9%",
+  "hot2_o12_fixed": "15.77%",
+  "hot2_o12_plan": "1.60%",
+  "hot2_o12_nw": "90.5%",
+  "el_mwh": "9,409",
+  "el_kwp": "6,840",
+  "el_roofs": "1,368",
+  "el_kept": "443",
+  "el_paid_fixed": "94.0%",
+  "el_paid_plan": "98.7%",
+  "el_gain_15": "RM76,000",
+  "el_gain_20": "RM60,400",
+  "el_gain_25": "RM41,900",
+  "el_gain_30": "RM24,600",
+  "el_roof_15": "RM56",
+  "el_roof_30": "RM18",
+  "ip_mwh": "2,626",
+  "ip_kwp": "1,909",
+  "ip_roofs": "382",
+  "ip_kept": "132",
+  "ip_paid_fixed": "94.0%",
+  "ip_paid_plan": "99.0%",
+  "ip_gain_15": "RM21,800",
+  "ip_gain_20": "RM16,100",
+  "ip_gain_25": "RM11,100",
+  "ip_gain_30": "RM6,000",
+  "ip_roof_15": "RM57",
+  "ip_roof_30": "RM16",
+  "ex_buildings": "Bull_education_Sebastian and Bull_education_Stewart",
+  "ex_kwp": "6,840",
+  "ex_solar": "9,110.1",
+  "ex_fixed": "557.3",
+  "ex_copy": "285.6",
+  "ex_plan": "132.0",
+  "ex_fixed_pct": "6.12%",
+  "ex_copy_pct": "3.14%",
+  "ex_plan_pct": "1.45%",
+  "ex_kept": "425.3",
+  "ex_neda": "684.2",
+  "ex_used_fixed": "8,552.9",
+  "ex_used_plan": "8,293.9",
+  "ex_cut": "76%",
+  "ex_gain_15": "RM77,500",
+  "ex_gain_30": "RM38,600"
+ },
+ "buyer_mix": [
+  {
+   "key": "core",
+   "buyers": [
+    "Elmina Innovation Park",
+    "Elmina Lakeside Mall"
+   ],
+   "scheme_kwp": 6840,
+   "homes_illustrative": 1368,
+   "given_away_pct_fixed": 6.05,
+   "given_away_pct_plan": 1.34,
+   "kept_for_residents_mwh": 443,
+   "plan_income_gain_rm": [
+    24557,
+    76025
+   ]
+  },
+  {
+   "key": "innovation_park_alone",
+   "buyers": [
+    "Elmina Innovation Park"
+   ],
+   "scheme_kwp": 1909,
+   "homes_illustrative": 382,
+   "given_away_pct_fixed": 5.98,
+   "given_away_pct_plan": 0.95,
+   "kept_for_residents_mwh": 132,
+   "plan_income_gain_rm": [
+    5961,
+    21848
+   ]
+  }
+ ],
+ "bench": [
+  {
+   "label": "Single-buyer schemes",
+   "n": 821,
+   "fixed": 5.98,
+   "persistence": 1.49,
+   "plan": 0.95,
+   "win_vs_fixed_pct": 98.5,
+   "win_vs_persistence_pct": 77.2,
+   "gain_vs_persistence_rm_mwh": [
+    -1.57,
+    1.11
+   ]
+  },
+  {
+   "label": "Two-buyer schemes",
+   "n": 407,
+   "fixed": 6.05,
+   "persistence": 1.95,
+   "plan": 1.34,
+   "win_vs_fixed_pct": 99.8,
+   "win_vs_persistence_pct": 83.3,
+   "gain_vs_persistence_rm_mwh": [
+    -1.39,
+    1.24
+   ]
+  },
+  {
+   "label": "Hot-humid two-buyer",
+   "n": 42,
+   "fixed": 3.83,
+   "persistence": 1.28,
+   "plan": 0.85,
+   "win_vs_fixed_pct": 100.0,
+   "win_vs_persistence_pct": 90.5,
+   "gain_vs_persistence_rm_mwh": [
+    -1.52,
+    1.12
+   ]
+  }
+ ],
+ "sources": {
+  "settlement": "02 Scheduler Module/replay.py: the real two-buyer scheme closest to the median result (Bull_education_Sebastian + Bull_education_Stewart), scaled to the Elmina size, PVGIS rooftop solar at Elmina, each month filed 120 days ahead (CREAM 9.10(e)), against a fixed annual split.",
+  "bench": "Building Data Genome Project 2 (Miller et al., 2020), real monthly electricity 2016-2017; PVGIS 5.2 rooftop solar at Elmina",
+  "prices": "CREAM price assumed at 15-30 sen/kWh; not public (CREAM 6.16)",
+  "neda": "held-back energy sold via NEDA at 8 sen/kWh, no access charge (CREAM 9.7, 13.2); its green attributes go to the Single Buyer (12.3)",
+  "homes": "illustrative 5 kWp per roof"
+ }
+};

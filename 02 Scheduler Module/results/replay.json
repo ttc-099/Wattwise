@@ -1,0 +1,442 @@
+{
+ "rules": {
+  "hold_back": 0.02,
+  "trend_cap": 0.25,
+  "notice_days": 120,
+  "neda_rm_kwh": 0.08,
+  "access_charge_rm_kwh": 0.09,
+  "prices_rm_kwh": [
+   0.15,
+   0.2,
+   0.25,
+   0.3
+  ],
+  "kwp_per_roof": 5.0,
+  "pvgis_kwh_per_kwp_year": 1375.5,
+  "pvgis_kwh_per_kwp_long_term": [
+   126.57,
+   127.4,
+   130.71,
+   115.4,
+   105.2,
+   97.81,
+   103.3,
+   113.55,
+   114.68,
+   119.92,
+   107.75,
+   113.22
+  ]
+ },
+ "benchmark": {
+  "source": "Building Data Genome Project 2 (Miller et al., 2020), real monthly electricity 2016-2017; solar: PVGIS 5.2 at the City of Elmina",
+  "buildings": 821,
+  "sites": 11,
+  "eligibility": "2017 complete; at most one missing 2016 month, filled from its neighbours; no month under 10% of the building's median",
+  "pairing": "two-buyer schemes pair buildings of the same site in building-id order",
+  "hot_humid_sites": [
+   "Bull"
+  ],
+  "one_buyer": {
+   "n": 821,
+   "given_away_median_pct": {
+    "fixed": 5.98,
+    "copy_last_year": 1.49,
+    "plan": 0.95
+   },
+   "given_away_p90_pct": {
+    "fixed": 17.49,
+    "copy_last_year": 7.77,
+    "plan": 5.79
+   },
+   "kept_median_pct_points": 4.38,
+   "plan_gives_away_less_than_fixed_pct": 98.5,
+   "plan_gives_away_less_than_copy_pct": 77.2,
+   "plan_gain_vs_fixed_rm_per_mwh_median": {
+    "15": 8.32,
+    "20": 6.14,
+    "25": 4.24,
+    "30": 2.27
+   },
+   "plan_gain_vs_copy_rm_per_mwh_median": {
+    "15": 1.11,
+    "20": 0.13,
+    "25": -0.71,
+    "30": -1.57
+   },
+   "plan_earns_more_than_fixed_pct": {
+    "15": 100.0,
+    "20": 91.6,
+    "25": 78.8,
+    "30": 63.9
+   },
+   "oversize": {
+    "1.1": {
+     "fixed": 11.56,
+     "plan": 1.4,
+     "plan_no_worse_than_fixed_at_1x_pct": 94.5
+    },
+    "1.2": {
+     "fixed": 17.6,
+     "plan": 1.73,
+     "plan_no_worse_than_fixed_at_1x_pct": 90.5
+    }
+   },
+   "estimate_error_pct": {
+    "median_month": 7.9,
+    "worst_month_median": 22.3
+   }
+  },
+  "two_buyer": {
+   "n": 407,
+   "given_away_median_pct": {
+    "fixed": 6.05,
+    "copy_last_year": 1.95,
+    "plan": 1.34
+   },
+   "given_away_p90_pct": {
+    "fixed": 16.14,
+    "copy_last_year": 8.57,
+    "plan": 6.18
+   },
+   "kept_median_pct_points": 4.28,
+   "plan_gives_away_less_than_fixed_pct": 99.8,
+   "plan_gives_away_less_than_copy_pct": 83.3,
+   "plan_gain_vs_fixed_rm_per_mwh_median": {
+    "15": 8.08,
+    "20": 6.42,
+    "25": 4.45,
+    "30": 2.61
+   },
+   "plan_gain_vs_copy_rm_per_mwh_median": {
+    "15": 1.24,
+    "20": 0.29,
+    "25": -0.59,
+    "30": -1.39
+   },
+   "plan_earns_more_than_fixed_pct": {
+    "15": 100.0,
+    "20": 95.3,
+    "25": 84.5,
+    "30": 70.5
+   },
+   "oversize": {
+    "1.1": {
+     "fixed": 11.58,
+     "plan": 1.88,
+     "plan_no_worse_than_fixed_at_1x_pct": 96.1
+    },
+    "1.2": {
+     "fixed": 17.55,
+     "plan": 2.17,
+     "plan_no_worse_than_fixed_at_1x_pct": 94.6
+    }
+   },
+   "estimate_error_pct": {
+    "median_month": 7.9,
+    "worst_month_median": 22.4
+   }
+  },
+  "hot_humid_one_buyer": {
+   "n": 85,
+   "given_away_median_pct": {
+    "fixed": 3.75,
+    "copy_last_year": 1.3,
+    "plan": 0.71
+   },
+   "given_away_p90_pct": {
+    "fixed": 11.32,
+    "copy_last_year": 5.46,
+    "plan": 3.5
+   },
+   "kept_median_pct_points": 2.82,
+   "plan_gives_away_less_than_fixed_pct": 100.0,
+   "plan_gives_away_less_than_copy_pct": 85.9,
+   "plan_gain_vs_fixed_rm_per_mwh_median": {
+    "15": 5.53,
+    "20": 3.92,
+    "25": 2.24,
+    "30": 0.02
+   },
+   "plan_gain_vs_copy_rm_per_mwh_median": {
+    "15": 1.18,
+    "20": 0.26,
+    "25": -0.84,
+    "30": -1.62
+   },
+   "plan_earns_more_than_fixed_pct": {
+    "15": 100.0,
+    "20": 90.6,
+    "25": 76.5,
+    "30": 50.6
+   },
+   "oversize": {
+    "1.1": {
+     "fixed": 9.49,
+     "plan": 1.21,
+     "plan_no_worse_than_fixed_at_1x_pct": 91.8
+    },
+    "1.2": {
+     "fixed": 15.92,
+     "plan": 1.39,
+     "plan_no_worse_than_fixed_at_1x_pct": 87.1
+    }
+   },
+   "estimate_error_pct": {
+    "median_month": 5.9,
+    "worst_month_median": 15.4
+   }
+  },
+  "hot_humid_two_buyer": {
+   "n": 42,
+   "given_away_median_pct": {
+    "fixed": 3.83,
+    "copy_last_year": 1.28,
+    "plan": 0.85
+   },
+   "given_away_p90_pct": {
+    "fixed": 10.17,
+    "copy_last_year": 7.9,
+    "plan": 4.69
+   },
+   "kept_median_pct_points": 3.04,
+   "plan_gives_away_less_than_fixed_pct": 100.0,
+   "plan_gives_away_less_than_copy_pct": 90.5,
+   "plan_gain_vs_fixed_rm_per_mwh_median": {
+    "15": 5.72,
+    "20": 4.16,
+    "25": 2.5,
+    "30": 0.91
+   },
+   "plan_gain_vs_copy_rm_per_mwh_median": {
+    "15": 1.12,
+    "20": 0.28,
+    "25": -0.67,
+    "30": -1.52
+   },
+   "plan_earns_more_than_fixed_pct": {
+    "15": 100.0,
+    "20": 95.2,
+    "25": 81.0,
+    "30": 54.8
+   },
+   "oversize": {
+    "1.1": {
+     "fixed": 9.25,
+     "plan": 1.42,
+     "plan_no_worse_than_fixed_at_1x_pct": 92.9
+    },
+    "1.2": {
+     "fixed": 15.77,
+     "plan": 1.6,
+     "plan_no_worse_than_fixed_at_1x_pct": 90.5
+    }
+   },
+   "estimate_error_pct": {
+    "median_month": 5.8,
+    "worst_month_median": 15.4
+   }
+  }
+ },
+ "elmina": {
+  "core": {
+   "buyers": [
+    "Elmina Innovation Park",
+    "Elmina Lakeside Mall"
+   ],
+   "assumed_use_mwh": 9409,
+   "scheme_kwp": 6840,
+   "roofs_illustrative": 1368,
+   "expected_solar_mwh": 9409,
+   "given_away_pct": {
+    "fixed": 6.05,
+    "plan": 1.34
+   },
+   "paid_for_pct": {
+    "fixed": 94.0,
+    "plan": 98.7
+   },
+   "kept_mwh": 443,
+   "gain_rm_by_price_sen": {
+    "15": 76025,
+    "20": 60406,
+    "25": 41870,
+    "30": 24557
+   },
+   "basis": "median of the 407 real two-buyer schemes, applied to 9409 MWh a year"
+  },
+  "innovation_park_alone": {
+   "buyers": [
+    "Elmina Innovation Park"
+   ],
+   "assumed_use_mwh": 2626,
+   "scheme_kwp": 1909,
+   "roofs_illustrative": 382,
+   "expected_solar_mwh": 2626,
+   "given_away_pct": {
+    "fixed": 5.98,
+    "plan": 0.95
+   },
+   "paid_for_pct": {
+    "fixed": 94.0,
+    "plan": 99.0
+   },
+   "kept_mwh": 132,
+   "gain_rm_by_price_sen": {
+    "15": 21848,
+    "20": 16124,
+    "25": 11134,
+    "30": 5961
+   },
+   "basis": "median of the 821 real one-buyer schemes, applied to 2626 MWh a year"
+  },
+  "example_year": {
+   "buildings": [
+    "Bull_education_Sebastian",
+    "Bull_education_Stewart"
+   ],
+   "scaled_to_mwh_2016": 9409.0,
+   "scheme_kwp": 6840,
+   "totals_mwh": {
+    "fixed": {
+     "solar": 9110.14,
+     "used": 8552.89,
+     "given": 557.26,
+     "neda": 0.0,
+     "given_pct": 6.12
+    },
+    "copy_last_year": {
+     "solar": 9110.14,
+     "used": 8503.01,
+     "given": 285.62,
+     "neda": 321.51,
+     "given_pct": 3.14
+    },
+    "plan": {
+     "solar": 9110.14,
+     "used": 8293.92,
+     "given": 131.98,
+     "neda": 684.25,
+     "given_pct": 1.45
+    }
+   },
+   "kept_mwh": 425.28,
+   "gain_rm_by_price_sen": {
+    "15": 77477,
+    "20": 64528,
+    "25": 51579,
+    "30": 38631
+   },
+   "monthly": [
+    {
+     "month": "Jan",
+     "solar_mwh": 788.83,
+     "given_away_fixed_mwh": 67.01,
+     "given_away_plan_mwh": 4.66,
+     "neda_plan_mwh": 83.96,
+     "used_fixed_mwh": 721.82,
+     "used_plan_mwh": 700.21
+    },
+    {
+     "month": "Feb",
+     "solar_mwh": 824.68,
+     "given_away_fixed_mwh": 141.71,
+     "given_away_plan_mwh": 60.66,
+     "neda_plan_mwh": 83.97,
+     "used_fixed_mwh": 682.96,
+     "used_plan_mwh": 680.05
+    },
+    {
+     "month": "Mar",
+     "solar_mwh": 875.43,
+     "given_away_fixed_mwh": 119.44,
+     "given_away_plan_mwh": 41.88,
+     "neda_plan_mwh": 78.03,
+     "used_fixed_mwh": 755.99,
+     "used_plan_mwh": 755.52
+    },
+    {
+     "month": "Apr",
+     "solar_mwh": 755.31,
+     "given_away_fixed_mwh": 0.0,
+     "given_away_plan_mwh": 0.78,
+     "neda_plan_mwh": 25.8,
+     "used_fixed_mwh": 755.31,
+     "used_plan_mwh": 728.74
+    },
+    {
+     "month": "May",
+     "solar_mwh": 694.64,
+     "given_away_fixed_mwh": 0.0,
+     "given_away_plan_mwh": 0.0,
+     "neda_plan_mwh": 13.89,
+     "used_fixed_mwh": 694.64,
+     "used_plan_mwh": 680.75
+    },
+    {
+     "month": "Jun",
+     "solar_mwh": 692.38,
+     "given_away_fixed_mwh": 0.0,
+     "given_away_plan_mwh": 0.0,
+     "neda_plan_mwh": 13.85,
+     "used_fixed_mwh": 692.38,
+     "used_plan_mwh": 678.53
+    },
+    {
+     "month": "Jul",
+     "solar_mwh": 727.47,
+     "given_away_fixed_mwh": 0.0,
+     "given_away_plan_mwh": 0.0,
+     "neda_plan_mwh": 14.55,
+     "used_fixed_mwh": 727.47,
+     "used_plan_mwh": 712.92
+    },
+    {
+     "month": "Aug",
+     "solar_mwh": 754.29,
+     "given_away_fixed_mwh": 6.54,
+     "given_away_plan_mwh": 0.0,
+     "neda_plan_mwh": 55.86,
+     "used_fixed_mwh": 747.75,
+     "used_plan_mwh": 698.43
+    },
+    {
+     "month": "Sep",
+     "solar_mwh": 750.87,
+     "given_away_fixed_mwh": 16.36,
+     "given_away_plan_mwh": 0.0,
+     "neda_plan_mwh": 62.54,
+     "used_fixed_mwh": 734.51,
+     "used_plan_mwh": 688.32
+    },
+    {
+     "month": "Oct",
+     "solar_mwh": 831.45,
+     "given_away_fixed_mwh": 79.98,
+     "given_away_plan_mwh": 15.41,
+     "neda_plan_mwh": 75.42,
+     "used_fixed_mwh": 751.47,
+     "used_plan_mwh": 740.62
+    },
+    {
+     "month": "Nov",
+     "solar_mwh": 622.0,
+     "given_away_fixed_mwh": 0.0,
+     "given_away_plan_mwh": 0.0,
+     "neda_plan_mwh": 42.67,
+     "used_fixed_mwh": 622.0,
+     "used_plan_mwh": 579.32
+    },
+    {
+     "month": "Dec",
+     "solar_mwh": 792.8,
+     "given_away_fixed_mwh": 126.21,
+     "given_away_plan_mwh": 8.58,
+     "neda_plan_mwh": 133.72,
+     "used_fixed_mwh": 666.59,
+     "used_plan_mwh": 650.49
+    }
+   ]
+  }
+ }
+}

@@ -4,6 +4,10 @@ WattWise is software that tells Sime Darby Property (SDP) how to share its resid
 
 The pitch deck is in this folder: [WattWise Pitch Deck.pdf](WattWise%20Pitch%20Deck.pdf).
 
+**Live demo:** [wattwise-promax.netlify.app](https://wattwise-promax.netlify.app) (operator app and testing suite, demo data only).
+
+![Landing page](screenshots/0-landing.png)
+
 ## The problem
 
 Under Malaysia's Community Renewable Energy Aggregation Mechanism (CREAM), the aggregator (SDP at Elmina) pools solar from home roofs and supplies nearby buyers. Three rules in the Energy Commission's Guidelines (GP/ST/No.55/2025) make fixed splits costly:
@@ -12,32 +16,33 @@ Under Malaysia's Community Renewable Energy Aggregation Mechanism (CREAM), the a
 - **Over-allocation is lost.** Solar sent to a buyer beyond what it uses is "free energy" to the grid and earns nothing (9.9), while the 9 sen/kWh community access charge still applies to it (13.2).
 - **Held-back solar can be sold.** Solar the aggregator keeps back can be sold through NEDA at 8 sen/kWh, with no access charge (9.7, 13.2). The Commission can change that rate.
 
-Replayed on real meter readings, a fixed split gives away a median 8.66% of the year's solar across 443 two-buyer schemes, and 10.05% in Malaysia-like climates.
+Replayed on real meter readings from 821 buildings, a fixed yearly split gives away a median 6.05% of the year's solar across 407 two-buyer schemes.
 
 ## What WattWise does
 
 1. **Read** each buyer's monthly meter history.
 2. **Estimate** each buyer's use for a month that has not happened yet: the same month last year, adjusted by the latest trend. The estimator only sees data that existed before the release date.
-3. **Allocate** each buyer a share of scheme solar proportional to its estimate, and hold a small slice back to sell through NEDA.
+3. **Allocate** each buyer its estimate as a share of the expected solar (scaled down if the estimates add up to more), minus a 2% hold-back. What is not allocated is sold through NEDA.
 4. **File.** Each month is stamped with its notice date, 120 days before it starts. WattWise suggests, the scheme admin approves, SDP files. The tool never sends anything on its own.
 5. **Settle.** Once TNB bills the month on real meters, compare what was allocated with what was used.
 
 ## Results
 
-All figures are in `02 Scheduler Module/results` and can be recomputed with `python "02 Scheduler Module/verify_claims.py"`. How each was derived, and what cannot be reproduced yet, is in [docs/evidence-provenance.md](../docs/evidence-provenance.md).
+One command rebuilds every number below, on the deck and on both web pages: `python replay.py` in `02 Scheduler Module` (standard Python, about a second; `--check` confirms the committed results match). Inputs are public and committed: real monthly electricity from the Building Data Genome Project 2 and rooftop solar at Elmina from PVGIS. How each figure is derived: [docs/evidence-provenance.md](../docs/evidence-provenance.md).
 
 | Result | Figure | Basis |
 |---|---|---|
-| Median solar given away, 443 two-buyer schemes | fixed 8.66%, copy-last-year 5.69%, WattWise 3.40% | 590 real buildings (Building Data Genome Project 2), measured |
-| Malaysia-like climates (55 schemes) | fixed 10.05%, WattWise 4.19% | Florida and Texas sites, measured |
-| Beats a fixed split | 98.0% of schemes | measured |
-| Beats copy-last-year | 87.8% (two-buyer) to 91.0% (one-buyer) | measured |
-| Scheme built 1.2x larger | WattWise gives away 3.66%, below a fixed split's 8.66% today | measured |
-| Elmina, one modelled year | 319 MWh kept from being given away; paid-for share 95.4% to 98.8% | modelled, with a second buyer |
-| Extra scheme income, Elmina | RM45,200 to RM55,600 a year | modelled, at an assumed 15 to 30 sen/kWh CREAM price (the real price is private) |
-| Floor case: Innovation Park alone | 90 MWh, RM12,800 to RM15,600 a year | modelled |
+| Median solar given away, 407 two-buyer schemes | fixed 6.05%, copy-last-year 1.95%, WattWise 1.34% | 821 real buildings, 2016-2017, replayed with CREAM's 120-day notice |
+| Humid Texas site (42 schemes) | fixed 3.83%, WattWise 0.85% | the most Malaysia-like climate with complete data |
+| Gives away less than a fixed split | 99.8% of two-buyer schemes (98.5% one-buyer) | measured |
+| Gives away less than copy-last-year | 83.3% of two-buyer schemes (77.2% one-buyer) | measured |
+| Scheme built 1.2x larger | WattWise gives away 2.17%, below a fixed split's 6.05% today; no worse in 94.6% of schemes | measured |
+| Estimate error | median month 7.9%; a buyer's worst month 22.4% (median) | measured |
+| Elmina size (9,409 MWh a year, 6,840 kWp, 1,368 roofs) | 443 MWh a year kept from being given away; paid-for share 94.0% to 98.7% | benchmark medians applied to the assumed size |
+| Extra scheme income, Elmina size | RM24,600 (at 30 sen) to RM76,000 (at 15 sen) a year; RM18 to RM56 per roof | modelled; the real CREAM price is private |
+| Floor case: Innovation Park alone | RM6,000 to RM21,800 a year | modelled |
 
-Not measured at Elmina: the benchmark uses public data from other countries, because no Malaysian building meter data is public. Lakeside Mall as a second buyer is a modelling assumption.
+Honest limits: the extra income shrinks as the CREAM price rises, and above about 20 sen copying last year earns slightly more than WattWise, because the hold-back sells at 8 sen some energy a buyer would have used. No Elmina meter data is public, so Elmina figures are benchmark medians at Elmina's assumed size; Lakeside Mall as a second buyer is an assumption.
 
 ## The prototype (operator app)
 
@@ -58,19 +63,19 @@ Not measured at Elmina: the benchmark uses public data from other countries, bec
 | ![Home](screenshots/testing-1-home.png) **Start here.** The headline result and the four appendices. | ![How the estimate works](screenshots/testing-2-how-the-estimate-works.png) **How the estimate works.** A live worked example: estimate, share, hold-back, settle. |
 | ![Appendix B](screenshots/testing-3-appendix-b-money.png) **Appendix B.** The money, step by step, at the assumed price band. | |
 
-Appendix A tests fixed vs WattWise over a modelled year, B the income, C whether a scheme can be built 20% larger, and D dynamic splitting against fixed and copy-last-year across the 590 buildings.
+Appendix A tests fixed vs WattWise across the 407 two-buyer schemes (with one shown month by month at Elmina size), B the income, C whether a scheme can be built 20% larger, and D dynamic splitting against fixed and copy-last-year across the 821 buildings.
 
 ## Repository layout
 
 - `00 Documents/`: this README, the pitch deck, screenshots, and the documentation log
 - `01 Prediction Module/`, `04 Physical Kit/`: earlier building-side experiments, not part of WattWise
-- `02 Scheduler Module/results/`: the committed evidence (`cream_plan.json`, `plan_real_data.json`, `buyer_mix.json`) and `verify_claims.py` one level up
+- `02 Scheduler Module/`: `replay.py` (every number), `build_inputs.py`, the committed inputs in `data/` and the results in `results/`
 - `03 User Interface/`: `admin.html` (prototype), `tests.html` (testing suite), `PRODUCT.md` and `DESIGN.md`
 - `docs/`: `evidence-provenance.md`, the red-team report and the action plan
 
 ## Status and limits
 
-A working prototype and tests on real past data. It has not been trialled at Elmina, and SDP has not approved a pilot. The proposed pilot is a no-cost, three-month shadow run: SDP shares three files, WattWise suggests splits, SDP still files. The script that built the 590-building benchmark is not in the repository yet.
+A working prototype and tests on real past data. It has not been trialled at Elmina, and SDP has not approved a pilot. The proposed pilot is a no-cost, three-month shadow run: SDP shares three files, WattWise suggests splits, SDP still files.
 
 ## References
 

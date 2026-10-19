@@ -1,5 +1,7 @@
 # Wattwise Grilling Report (deck-grounded, read-only)
 
+> Written against an earlier draft of the deck. Its numbers are superseded by `02 Scheduler Module/replay.py` and `results/replay.json` (19 October 2026).
+
 Date: 2026-10-18 · Method: grill-me / grilling design-tree interrogation, run by a subagent
 Grounding: every Wattwise fact below comes ONLY from the pitch deck at https://canva.link/z333e2xxkgxke5e (23 pages, extracted read-only). Nothing from the repo, Notes, or elsewhere. No files were edited anywhere.
 

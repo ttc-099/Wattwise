@@ -1,36 +1,45 @@
 # Evidence provenance: where each WattWise number comes from
 
-Checked 19 October 2026 against the CREAM Guidelines (GP/ST/No.55/2025, st.gov.my) and the committed result files.
-Reproduce the checkable figures with `python "02 Scheduler Module/verify_claims.py"` (no network).
+Every number in the pitch deck, the operator app and the testing suite comes from one script:
 
-## Settled against the guideline text
+```
+cd "02 Scheduler Module"
+python replay.py           # rebuilds results/ and 03 User Interface/data/plan.json + plan.js
+python replay.py --check   # confirms the committed results match a fresh run
+```
 
-| Claim | Guideline | Result |
+Standard Python, no packages, about a second. The rules are written at the top of `replay.py`.
+
+## Inputs (committed in `02 Scheduler Module/data`)
+
+| File | What it is | Source |
 |---|---|---|
-| Held-back energy is sold via NEDA at 8 sen/kWh | 9.7: "8 cent/kWh or any other rate as may be determined by the Commission" | Confirmed. The rate can change, so every RM figure is modelled. |
-| The 9 sen access charge (CAC) does not apply to NEDA sales | 9.7 "CAC does not apply to LEGA"; 13.2 the charge excludes energy sold via NEDA | Confirmed. |
-| Energy allocated beyond a buyer's use is given away unpaid | 9.9: imbalance energy "will not be compensated through NEDA ... free energy" | Confirmed. The CAC still applies to it (13.2 counts all other exported energy). |
-| 120-day notice | 9.10(e): allocation changes in writing 120 days before; effective only on the 1st of a month | Confirmed. |
-| CREAM energy price is private | 6.16: buyer pays the aggregator under a bilateral contract | Confirmed. No public price, so 15-30 sen is an assumption. |
+| `bdg2_monthly_kwh.csv` | Monthly electricity of 1,578 real buildings, 2016-2017 | Building Data Genome Project 2 (Miller et al., 2020, CC-BY 4.0), hourly meters summed by month; a month counts if at least 90% of its hours have readings |
+| `bdg2_buildings.csv` | Site and primary use of each building | BDG2 metadata |
+| `pvgis_elmina.json` | Rooftop solar per kWp at the City of Elmina: long-term monthly average and each month of 2015-2017 | PVGIS 5.2 (European Commission JRC), PVGIS-ERA5, 3.185 N 101.51 E, 15 degree roof facing south, building-mounted, 14% loss |
 
-**8 sen against 9 sen is not a conflict.** They apply to different energy. Energy given away pays the 9 sen and earns nothing (9.9, 13.2). Energy held back and sold via NEDA earns 8 sen and pays no CAC (9.7, 13.2). That is why a wrongly allocated kWh costs 17 sen (8 forgone + 9 charge) against NEDA.
-Definition caveat: the Guidelines define "Excess Energy" (clause 2) as export above a buyer's maximum monthly demand due to withdrawal from the programme. Using the same route for deliberately held-back energy rests on 9.7 as the team reads it; confirm with the Energy Commission before relying on it in a filing.
+`python build_inputs.py` downloads the public files (about 175 MB, checksums pinned) and rebuilds these three files.
 
-## How RM45,200-55,600 a year is derived
+## Settled against the CREAM Guidelines (GP/ST/No.55/2025)
 
-Replay of one year of the modelled Elmina scheme (Innovation Park plus Lakeside Mall), same solar, two policies. Annual revenue per policy:
+| Rule used in the replay | Guideline | Result |
+|---|---|---|
+| Held-back energy sold via NEDA at 8 sen/kWh | 9.7: "8 cent/kWh or any other rate as may be determined by the Commission" | Confirmed. The rate can change, so every RM figure is modelled. |
+| No access charge (CAC) on NEDA sales | 9.7 "CAC does not apply to LEGA"; 13.2 the charge excludes energy sold via NEDA | Confirmed. |
+| Energy allocated beyond a buyer's use earns nothing | 9.9: "free energy to the Distribution System" | Confirmed. The 9 sen CAC still applies to it (13.2). |
+| 120-day notice, effective on the 1st of a month | 9.10(e) | Confirmed. |
+| CREAM price is private | 6.16: bilateral contract between buyer and aggregator | Confirmed. Money is shown at 15, 20, 25 and 30 sen/kWh. |
 
-`revenue = delivered_kWh x CREAM_price + NEDA_kWh x 0.08 - 0.09 x (exported_kWh - NEDA_kWh)`
+8 sen against 9 sen is not a conflict: they apply to different energy. Given-away energy pays 9 sen and earns nothing; NEDA energy earns 8 sen and pays no charge. So an over-allocated kWh costs about 17 sen, and an under-allocated one costs the CREAM price minus 17 sen.
+Caveat: the Guidelines define "Excess Energy" as export above a buyer's maximum demand after it withdraws from the programme. Selling deliberately held-back energy through NEDA rests on 9.7 as the team reads it; confirm with the Energy Commission before relying on it in a filing.
 
-| | Delivered MWh | Given away MWh | NEDA MWh |
-|---|---|---|---|
-| Fixed yearly split | 8,975.0 | 434.2 | 0 |
-| WattWise Plan | 8,905.8 | 115.3 | 388.0 |
+## How the main figures are built
 
-Gain = revenue(Plan) - revenue(fixed). It is a function of the assumed CREAM price: RM55,580 at 15 sen, 52,120 at 20, 48,660 at 25, 45,200 at 30. The gain is larger at a low CREAM price because the held-back energy sells at 8 sen instead of being given away. The range in the deck is therefore the price band 30 to 15 sen. "14.2 to 17.4 sen per kept kWh" is only the result divided by the 319 MWh kept, not an input. The same formula gives the floor case (Innovation Park alone): RM12,788 at 30 sen and RM15,608 at 15 sen, on 90 MWh kept.
-It depends on a second buyer (Lakeside Mall) that is modelled, not announced.
+- **Benchmark.** Buildings with all of 2017 and at most one missing 2016 month (filled from its neighbours), and no month under 10% of the building's median: 821 buildings at 11 sites. Each is a one-buyer scheme; buildings at the same site are paired in id order into 407 two-buyer schemes. Each scheme gets rooftop solar sized so expected yearly solar equals its 2016 use, and 2017 is replayed month by month under a fixed split, copy-last-year and WattWise.
+- **Hot-humid.** The Texas site (Bull) is the only humid subtropical site with complete data; earlier drafts' Florida sites (Panther, Gator) have whole months missing in 2016.
+- **Elmina.** No Elmina meter data is public. Elmina figures are the benchmark medians applied to the assumed scheme size (Innovation Park 2,626 MWh + Lakeside Mall 6,783 MWh a year). The month-by-month example in Appendix A is the real two-buyer scheme closest to the median result, scaled to that size.
+- **Money.** revenue = used kWh x price + NEDA kWh x 0.08 - 0.09 x (solar - NEDA kWh), computed for WattWise and for a fixed split over the same year; the difference is the extra income.
 
-## Not reproducible from this repository
+## What changed from earlier drafts
 
-- **The script that built the 590-building benchmark** (`plan_real_data.json`). Only its output is committed. The headline figures are read back and checked by `verify_claims.py`, but not recomputed from the Building Data Genome Project 2 meters. The `run_all.py` and `real_data_validation.json` named in earlier pitch drafts are not in the repository.
-- **"Typical month estimate error 6.6%".** It appears in an earlier pitch draft as the median error of a forecaster on 26 real hot-humid buildings (`real_data_validation.json`, not committed). It is not a measurement of the "same month last year plus trend" estimator, so it has been removed from both HTML pages. The worst-month errors (24.3% one-buyer, 32.1% two-buyer) are committed and kept.
+The earlier figures (590 buildings, 443 pairs, 8.66% to 3.40%, RM45,200-55,600, a 6.6% typical error) came from scripts that are not in the repository, and the Elmina year used loads from the removed building simulator. They could not be re-run, so they were replaced by this replay. Two results moved materially: the extra income is smaller at high CREAM prices, and above about 20 sen copying last year earns slightly more than WattWise (the hold-back sells at 8 sen some energy a buyer would have used). Both are stated on the pages.

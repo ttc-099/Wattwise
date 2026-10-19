@@ -8,3 +8,6 @@ __pycache__/
 # OS junk
 Thumbs.db
 .DS_Store
+
+# replay input cache (build_inputs.py)
+.cache/

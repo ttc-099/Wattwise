@@ -21,28 +21,30 @@ and show me it beats what we do now."
 1. READ — three files: buyers' monthly meter readings, splits already allocated,
    the scheme's solar output. No hardware, no integration.
 2. ESTIMATE — each buyer's consumption for the filing month: same month last
-   year × (1 + buyer trend). No weather, no calendar features, no ML that
-   "learns on its own" — a transparent rule that re-bases from fresh data.
-3. ALLOCATE — shares matched to estimates; a slice deliberately held back to
-   sell via NEDA (8 sen/kWh) rather than risk giving energy away (over-allocating
-   costs the contract-price difference; under-allocating costs far less).
+   year × (1 + trend), trend = latest 3 complete months vs the same months a
+   year earlier, within ±25%. No weather, no calendar features, no ML.
+3. ALLOCATE — share = estimate ÷ the larger of expected scheme solar and the
+   sum of estimates, × (1 − 2% hold-back). What is not allocated is sold via
+   NEDA (8 sen/kWh, no access charge). Over-allocating a kWh costs ~17 sen;
+   under-allocating costs (CREAM price − 17 sen).
 4. SETTLE — every filing replayed against actual consumption; the estimate
    re-bases monthly.
 
 ## Evidence the product must show (sources of record)
-- 590 real buildings' meters (BDG2, Miller et al. 2020; 2016→2017), paired
-  into 443 two-buyer schemes: fixed split gives away median 8.66% of
-  generation, copy-last-year persistence 5.69%, Plan 3.40%. Plan wins vs
-  fixed in 98% of schemes, vs persistence in 87.8%; median income gain vs
-  persistence RM2.58–5.28/MWh.
-- Elmina scheme settlement (Innovation Park + Lakeside Mall, modelled):
-  giveaway 434 → 115 MWh/yr (4.61% → 1.23%), 319 MWh kept ≈ +RM45,209–55,589
-  /yr at an assumed 15–30 sen CREAM price; 388 MWh/yr held back for NEDA sale.
+- One command rebuilds every number: `python "02 Scheduler Module/replay.py"`
+  (`--check` confirms the committed results match). Inputs: BDG2 monthly
+  electricity (Miller et al. 2020) and PVGIS rooftop solar at Elmina, both
+  committed in `02 Scheduler Module/data`.
+- Results of record: `02 Scheduler Module/results/replay.json`; the web pages
+  read `data/plan.json` / `data/plan.js`, which replay.py writes. Numbers move
+  when the replay changes: re-read, never retype.
+- Elmina figures are benchmark medians applied to the assumed scheme size
+  (Innovation Park 2,626 + Lakeside Mall 6,783 MWh a year); no Elmina meter
+  data is public. The Mall as a buyer is an assumption.
+- Money depends on the private CREAM price: quote it at 15–30 sen, and say
+  that copy-last-year earns slightly more than WattWise above ~20 sen.
 - The defensible wedge: a buyer with no history (a new school), where
   persistence is undefined and a forecast is the only option.
-- Data files of record: results/plan_real_data.json, results/cream_plan.json,
-  results/buyer_mix.json (numbers move when the pipeline reruns; re-read, never
-  retype).
 
 ## Claim discipline (hard constraints)
 - Never claim AI, machine learning, self-learning, or weather/calendar inputs.

@@ -306,31 +306,31 @@
   <div class="page on" id="page-home">
     <h1>Testing suite</h1>
     <div class="intro">
-      <div class="row"><b>WHAT THIS IS</b><span>Self-service verification for judges. Every pitch claim, tested against replayed scheme data.</span></div>
+      <div class="row"><b>WHAT THIS IS</b><span>Self-service verification for judges. Every pitch claim, tested on real meter data, with a script you can re-run.</span></div>
       <div class="row"><b>HOW TO USE</b><span>Pick a question. Each page shows the claim, the test, and the result, with the raw numbers one tap away.</span></div>
-      <div class="row"><b>DATA</b><span>A modelled 12-month replay of the Elmina scheme, and a benchmark of 590 real buildings and 443 two-buyer pairings of them <span class="cite">(Miller et al., 2020; WattWise, 2026)</span>. Every figure traces to plan.json and 02 Scheduler Module/results.</span></div>
+      <div class="row"><b>DATA</b><span>Real monthly electricity from <span data-v="n_buildings">821</span> buildings, as one-buyer schemes and <span data-v="two_n">407</span> two-buyer pairs, with rooftop solar at Elmina <span class="cite">(Miller et al., 2020; European Commission JRC, 2022)</span>. One command rebuilds every number on this page: <span class="mono">python replay.py</span> in 02 Scheduler Module <span class="cite">(WattWise, 2026)</span>.</span></div>
     </div>
-    <div class="journey" aria-label="Median solar given away across 443 real two-buyer schemes">
-      <div class="jst"><i></i><div class="k">Fixed annual split</div><div class="v">8.66%</div><div class="s">median given away</div></div>
-      <div class="jst"><i></i><div class="k">Copy last year</div><div class="v">5.69%</div><div class="s">median given away</div></div>
-      <div class="jst end"><i></i><div class="k">WattWise plan</div><div class="v">3.40%</div><div class="s">median given away</div></div>
-      <div class="jterm"><b>VERDICT</b><strong>PASS</strong>Less than copy-last-year in 87.8% of 443 real two-buyer schemes, less than fixed in 98.0% <span class="cite">(WattWise, 2026)</span>.</div>
+    <div class="journey" aria-label="Median solar given away across real two-buyer schemes">
+      <div class="jst"><i></i><div class="k">Fixed annual split</div><div class="v"><span data-v="two_fixed">6.05%</span></div><div class="s">median given away</div></div>
+      <div class="jst"><i></i><div class="k">Copy last year</div><div class="v"><span data-v="two_copy">1.95%</span></div><div class="s">median given away</div></div>
+      <div class="jst end"><i></i><div class="k">WattWise plan</div><div class="v"><span data-v="two_plan">1.34%</span></div><div class="s">median given away</div></div>
+      <div class="jterm"><b>VERDICT</b><strong>PASS</strong>Less than a fixed split in <span data-v="two_less_fixed">99.8%</span> of <span data-v="two_n">407</span> real two-buyer schemes, and less than copy-last-year in <span data-v="two_less_copy">83.3%</span> <span class="cite">(WattWise, 2026)</span>.</div>
     </div>
     <p class="bench-note">New here? Start with how the estimate works. Each appendix after it tests one claim from the deck, with the raw numbers one tap away.</p>
     <div class="lines">
       <button class="apx start" data-go="how">
         <span class="tag">Start</span>
-        <span><div class="q">How the estimate works, step by step</div><div class="d">One buyer walked through Read, Estimate, Allocate, Send and Settle with the numbers on screen, then how we tested the rule on 590 real buildings.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        <span><div class="q">How the estimate works, step by step</div><div class="d">One buyer walked through Read, Estimate, Allocate, Send and Settle with the numbers on screen, then how we tested the rule on <span data-v="n_buildings">821</span> real buildings.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
       </button>
       <button class="apx" data-go="a">
         <span class="tag" aria-label="Appendix A">A</span>
         <span><div class="q">Does it really reduce solar giveaway?</div>
-        <div class="d">Fixed split vs WattWise plan, replayed over a settled year and 443 real schemes.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        <div class="d">Fixed split vs WattWise across <span data-v="two_n">407</span> real two-buyer schemes, and one of them month by month at Elmina's size.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
       </button>
       <button class="apx" data-go="b">
         <span class="tag" aria-label="Appendix B">B</span>
         <span><div class="q">Do homeowners really earn that much?</div>
-        <div class="d">Kept energy, valued at an assumed CREAM price, and what flows back per roof.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        <div class="d">The extra scheme income at each assumed CREAM price, and what it is per roof.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
       </button>
       <button class="apx" data-go="c">
         <span class="tag" aria-label="Appendix C">C</span>
@@ -340,21 +340,22 @@
       <button class="apx" data-go="d">
         <span class="tag" aria-label="Appendix D">D</span>
         <span><div class="q">Does dynamic splitting beat fixed ones?</div>
-        <div class="d">Win rates vs fixed and vs copy-last-year, across 590 real buildings and 443 two-buyer pairings.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        <div class="d">Win rates vs fixed and vs copy-last-year, across <span data-v="n_buildings">821</span> real buildings and <span data-v="two_n">407</span> two-buyer pairings.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
       </button>
     </div>
-    
+
     <section class="refs" id="references">
       <h2>References</h2>
       <ul>
         <li>Energy Commission (2025) <i>Guidelines for Community Renewable Energy Aggregation Mechanism (CREAM)</i>, GP/ST/No.55/2025. Putrajaya: Suruhanjaya Tenaga. Available at: https://www.st.gov.my (Accessed: 18 October 2026).</li>
+        <li>European Commission Joint Research Centre (2022) <i>Photovoltaic Geographical Information System (PVGIS) 5.2</i> [Online tool]. Available at: https://re.jrc.ec.europa.eu/pvg_tools/ (Accessed: 19 October 2026).</li>
         <li>Miller, C., Kathirgamanathan, A., Picchetti, B. et al. (2020) &lsquo;The Building Data Genome Project 2, energy meter data from the ASHRAE Great Energy Predictor III competition&rsquo;, <i>Scientific Data</i>, 7, 368. Available at: https://doi.org/10.1038/s41597-020-00712-x.</li>
         <li>Sime Darby Property (2025) <i>Sime Darby Property launches nation&rsquo;s first residential solar project under NETR</i> [Press release]. 26 September. Available at: https://www.simedarbyproperty.com (Accessed: 18 October 2026).</li>
         <li>Skrine (2025) <i>Energy Commission issues guidelines for Malaysia&rsquo;s CREAM</i> [Legal alert]. April. Available at: https://www.skrine.com (Accessed: 18 October 2026).</li>
         <li>The Malaysian Reserve (2025) &lsquo;Sime Darby Property, TNB launch pilot solar project under CREAM to power homes, industries&rsquo;, <i>The Malaysian Reserve</i>, 26 September.</li>
-        <li>WattWise (2026) <i>WattWise code and results</i> [Computer program]. Available at: https://github.com/ttc-099/Wattwise (Accessed: 18 October 2026). Results: 02 Scheduler Module/results; figures: 03 User Interface/data/plan.json.</li>
+        <li>WattWise (2026) <i>WattWise code and results</i> [Computer program]. Available at: https://github.com/ttc-099/Wattwise (Accessed: 19 October 2026). Replay: 02 Scheduler Module/replay.py; results: 02 Scheduler Module/results/replay.json.</li>
       </ul>
-      <p class="note">Not yet in the repository: the script that produced the 590-building benchmark. Its committed output is read back and checked by <code>02 Scheduler Module/verify_claims.py</code>; how each RM figure and NEDA/access-charge rule is derived is in <code>docs/evidence-provenance.md</code>.</p>
+      <p class="note">Re-run it yourself: <span class="mono">python replay.py</span> in 02 Scheduler Module (standard Python, about a second) rebuilds every number on these pages; <span class="mono">python replay.py --check</span> confirms the committed results match a fresh run. <span class="mono">build_inputs.py</span> rebuilds the input files from the public sources. How each rule and RM figure is derived: <span class="mono">docs/evidence-provenance.md</span>.</p>
     </section>
   </div>
 
@@ -384,7 +385,7 @@
       <div class="hs-head"><i>2</i><div><b>Estimate</b><span>One rule, the same for every buyer.</span></div></div>
       <div class="hs-body">
         <div class="rule">estimate = <b>same month last year</b> &times; (1 + <b>trend</b>)</div>
-        <p><b>Same month last year</b>, because use follows the seasons: a mall's March looks like last March, not like last October. <b>Trend</b>, because buyers grow or shrink: a small yearly nudge, up or down. In this prototype the trend is a per-buyer input the operator can edit (the demo uses fixed defaults of &minus;2% to +2%); it is not yet calculated from the readings, and the benchmark's trend rule is not in the repository.</p>
+        <p><b>Same month last year</b>, because use follows the seasons: a mall's March looks like last March, not like last October. <b>Trend</b>, because buyers grow or shrink: the latest 3 complete months against the same 3 months a year earlier, kept within &plusmn;25%. The operator app reads it from the meter file and the replay uses the same rule. The demo file repeats one year, so its trend is 0; move the slider to see what a trend does.</p>
         <div class="calc">
           <label>Buyer<select id="hw-buyer"></select></label>
           <label>Trend <output id="hw-trend-o"></output><input type="range" id="hw-trend" min="-10" max="10" step="0.5"></label>
@@ -394,21 +395,22 @@
         <div class="tl" id="hw-tl" aria-label="Months the estimator can and cannot see"></div>
         <div class="tl-key"><span><i class="k-seen"></i>meter reading on file</span><span><i class="k-basis"></i>the month it uses</span><span><i class="k-future"></i>not happened yet when the share is sent</span><span><i class="k-target"></i>the month being planned</span></div>
         <p class="note" id="hw-tl-cap"></p>
-        <div class="notdo"><b>What it does not use</b> No weather, no machine learning, and no data from after the release date. It is a rule anyone can check by hand. Step 6 shows it already beats the alternatives.</div>
+        <div class="notdo"><b>What it does not use</b> No weather, no machine learning, and no data from after the release date. It is a rule anyone can check by hand. Step 6 shows how it does against the alternatives.</div>
       </div>
     </section>
 
     <section class="hstep" id="how-3">
-      <div class="hs-head"><i>3</i><div><b>Allocate</b><span>Split the solar in proportion to the estimates, keep a slice back.</span></div></div>
+      <div class="hs-head"><i>3</i><div><b>Allocate</b><span>Size each share to its estimate, keep a slice back.</span></div></div>
       <div class="hs-body">
-        <div class="rule">share = estimate &divide; all estimates &times; (1 &minus; <b>hold-back</b>)</div>
+        <div class="rule">share = estimate &divide; the larger of <b>expected solar</b> and all estimates &times; (1 &minus; <b>hold-back</b>)</div>
         <div class="calc">
-          <label>Hold-back <output id="hw-hb-o"></output><input type="range" id="hw-hb" min="0" max="15" step="0.5" value="5"></label>
+          <label>Hold-back <output id="hw-hb-o"></output><input type="range" id="hw-hb" min="0" max="15" step="0.5" value="2"></label>
           <div class="calc-out" id="hw-share" aria-live="polite"></div>
         </div>
         <div class="hw-bar" id="hw-bar" aria-hidden="true"></div>
         <table class="hw-table" id="hw-table"></table>
-        <p><b>Why hold some back?</b> The two mistakes do not cost the same. Allocating too much hands solar to a buyer who cannot use it, and the scheme loses about 17 sen for every kWh <span class="cite">(WattWise, 2026)</span>. Allocating too little costs far less, because the held-back energy is still sold via NEDA at 8 sen/kWh, with no access charge <span class="cite">(Energy Commission, 2025, clauses 9.7 and 13.2)</span>. The Commission can change that rate, so every RM figure is modelled. So a small, deliberate hold-back is cheap insurance against a bad guess.</p>
+        <p>Expected solar is the scheme's size times the long-term rooftop yield at Elmina for that month <span class="cite">(European Commission JRC, 2022)</span>. If the buyers are expected to use less than the roofs make, each gets its estimate and the rest is held back too; if they are expected to use more, the shares are scaled down. Whatever is not allocated is sold via NEDA.</p>
+        <p><b>Why hold some back?</b> The two mistakes do not cost the same. Allocating a kWh a buyer cannot use loses about 17 sen: the 8 sen NEDA sale it could have been, plus the 9 sen access charge still paid on it <span class="cite">(Energy Commission, 2025, clauses 9.7, 9.9 and 13.2)</span>. Holding back a kWh the buyer would have used loses the CREAM price minus 17 sen: 13 sen at an assumed 30 sen, nothing at 17 sen. So a small hold-back pays when the price is low and costs a little when it is high. The replay and the operator app use <span data-v="hold_back">2%</span>.</p>
       </div>
     </section>
 
@@ -429,7 +431,7 @@
           <div class="calc-out" id="hw-settle" aria-live="polite"></div>
         </div>
         <div class="hw-bar settle" id="hw-settle-bar" aria-hidden="true"></div>
-        <p class="note">Illustrative numbers. In the simulated Elmina year a fixed split gave away 434.2 MWh and WattWise 115.3 MWh; <a href="#" data-go="a">Appendix A</a> shows it month by month. Each settled month also feeds the next estimate: new readings arrive and the basis moves forward a month.</p>
+        <p class="note">Illustrative numbers. In the replay, a real two-buyer scheme at Elmina's size gave away <span data-v="ex_fixed">557.3</span> MWh in a year under a fixed split and <span data-v="ex_plan">132.0</span> MWh under WattWise; <a href="#" data-go="a">Appendix A</a> shows every month. Each settled month also feeds the next estimate: new readings arrive and the basis moves forward a month.</p>
       </div>
     </section>
 
@@ -437,23 +439,24 @@
       <div class="hs-head"><i>6</i><div><b>Test</b><span>Does the rule beat what people do today? Replayed on real meters.</span></div></div>
       <div class="hs-body">
         <ol class="method">
-          <li><b>Real data.</b> Monthly meter readings from 590 real buildings in the Building Data Genome Project 2, 2016 to 2017 <span class="cite">(Miller et al., 2020)</span>. Each building is a one-buyer scheme; pairs of them make 443 two-buyer schemes.</li>
-          <li><b>Same constraint as CREAM.</b> Every month is planned four months ahead, using only readings that existed at that point.</li>
-          <li><b>Three ways to set the split</b>, replayed on the same buildings: a <b>fixed annual split</b> (what happens today), <b>copy last year</b> (the same month last year, used as is), and <b>WattWise</b> (this page).</li>
-          <li><b>One measure:</b> the share of the year's solar given away. Lower is better.</li>
+          <li><b>Real use.</b> Monthly electricity from <span data-v="n_buildings">821</span> real buildings at <span data-v="n_sites">11</span> sites, 2016 to 2017 <span class="cite">(Miller et al., 2020)</span>. Each building is a one-buyer scheme; buildings at the same site are paired into <span data-v="two_n">407</span> two-buyer schemes.</li>
+          <li><b>Real solar.</b> Rooftop solar at Elmina, hour by hour for 2017 <span class="cite">(European Commission JRC, 2022)</span>, sized so the expected yearly solar equals the buyers' use the year before.</li>
+          <li><b>Same constraint as CREAM.</b> Every month of 2017 is planned 120 days ahead, using only readings that existed at that point.</li>
+          <li><b>Three ways to set the split</b>, on the same buildings: a <b>fixed annual split</b> (what happens today), <b>copy last year</b> (the same month last year, as is), and <b>WattWise</b> (this page).</li>
+          <li><b>Measures:</b> the share of the year's solar given away (lower is better), and the scheme's income at 15 to 30 sen/kWh.</li>
         </ol>
         <div class="card"><table class="cmp policy3">
           <tr><th>Schemes</th><th class="num">Fixed split</th><th class="num">Copy last year</th><th class="num">WattWise</th></tr>
-          <tr><td>443 two-buyer</td><td class="num">8.66%</td><td class="num">5.69%</td><td class="num good">3.40%</td></tr>
-          <tr><td>590 one-buyer</td><td class="num">8.34%</td><td class="num">5.74%</td><td class="num good">2.47%</td></tr>
-          <tr><td>55 two-buyer, Malaysia-like climates</td><td class="num">10.05%</td><td class="num">5.62%</td><td class="num good">4.19%</td></tr>
+          <tr><td><span data-v="two_n">407</span> two-buyer</td><td class="num"><span data-v="two_fixed">6.05%</span></td><td class="num"><span data-v="two_copy">1.95%</span></td><td class="num good"><span data-v="two_plan">1.34%</span></td></tr>
+          <tr><td><span data-v="one_n">821</span> one-buyer</td><td class="num"><span data-v="one_fixed">5.98%</span></td><td class="num"><span data-v="one_copy">1.49%</span></td><td class="num good"><span data-v="one_plan">0.95%</span></td></tr>
+          <tr><td><span data-v="hot2_n">42</span> two-buyer, humid Texas site</td><td class="num"><span data-v="hot2_fixed">3.83%</span></td><td class="num"><span data-v="hot2_copy">1.28%</span></td><td class="num good"><span data-v="hot2_plan">0.85%</span></td></tr>
         </table>
-        <p class="note">Median given away. WattWise gave away less than the fixed split in 98% of the 443 schemes, and less than copying last year in 87.8% <span class="cite">(WattWise, 2026)</span>.</p></div>
+        <p class="note">Median given away. WattWise gave away less than the fixed split in <span data-v="two_less_fixed">99.8%</span> of the two-buyer schemes, and less than copying last year in <span data-v="two_less_copy">83.3%</span> <span class="cite">(WattWise, 2026)</span>.</p></div>
         <div class="limits">
           <b>Where it is weak</b>
-          <p>The worst month's estimate is off by 24% (one-buyer) to 32% (two-buyer) at the four-month distance, and 40% in Malaysia-like two-buyer schemes <span class="cite">(WattWise, 2026)</span>. WattWise still wins over a year because over-allocating costs far more than under-allocating, and the hold-back takes the hit first. Perfect foresight would give away 0%; we use it only as a ceiling, never as a claim.</p>
+          <p>A median month's estimate is off by <span data-v="two_err_med">7.9%</span>, and a buyer's worst month by <span data-v="two_err_worst">22.4%</span> (median) at the four-month distance <span class="cite">(WattWise, 2026)</span>. On money, copying last year does slightly better than WattWise once the CREAM price is 25 sen or more (<span data-v="two_gcopy_30">-RM1.39</span> per MWh at 30 sen), because the hold-back sells at 8 sen some energy a buyer would have used. Perfect foresight would give away 0%; we use it only as a ceiling, never as a claim.</p>
         </div>
-        <div class="how-cta"><button class="btn primary" id="hw-code">Show the engine code</button><button class="btn" data-go="a">Appendix A: the year, month by month</button></div>
+        <div class="how-cta"><button class="btn primary" id="hw-code">Show the replay code</button><button class="btn" data-go="a">Appendix A: a year, month by month</button></div>
       </div>
     </section>
   </div>
@@ -464,56 +467,59 @@
     <h1>Appendix A · Does it really reduce solar giveaway?</h1>
     <div class="ctr">
       <div class="row"><b>CLAIM</b><span>WattWise gives away less solar than a fixed split.</span></div>
-      <div class="row"><b>TEST</b><span>Replay one modelled year twice (every month is listed below): fixed percentage split vs plan sized to estimated use. Same buyers, same solar <span class="cite">(WattWise, 2026)</span>.</span></div>
-      <div class="row"><b>RESULT</b><span>Giveaway drops from 434 to 115 MWh. 319 MWh kept: RM12,800&ndash;15,600/yr <span class="mod">(modelled)</span> on Innovation Park alone (floor case); RM45k&ndash;56k <span class="mod">(modelled)</span> only with the modelled Mall.</span></div>
-      <div class="row verdict-row"><b>VERDICT</b><span>PASS &middot; 73% less energy given away: 434 &rarr; 115 MWh, same year, same buyers.</span></div>
+      <div class="row"><b>TEST</b><span>Replay 2017 for all <span data-v="two_n">407</span> real two-buyer schemes under a fixed split and under WattWise: same buyers, same solar <span class="cite">(Miller et al., 2020; WattWise, 2026)</span>. Below, the scheme closest to the median result, scaled to Elmina's size, every month.</span></div>
+      <div class="row"><b>RESULT</b><span>Median give-away falls from <span data-v="two_fixed">6.05%</span> to <span data-v="two_plan">1.34%</span> of the year's solar. At Elmina's size (<span data-v="el_mwh">9,409</span> MWh a year) that is <span data-v="el_kept">443</span> MWh a year no longer given away <span class="mod">(modelled)</span>.</span></div>
+      <div class="row verdict-row"><b>VERDICT</b><span>PASS &middot; WattWise gave away less than a fixed split in <span data-v="two_less_fixed">99.8%</span> of real two-buyer schemes.</span></div>
     </div>
     <div class="card"><table class="cmp policy">
-      <tr><th>Policy</th><th class="num">Given away</th><th class="num">Share of generation</th><th>Basis</th></tr>
-      <tr><td>Fixed annual split</td><td class="num">434.2 MWh</td><td class="num">4.61%</td><td>Elmina, simulated year</td></tr>
-      <tr><td>Copy last year</td><td class="num">not run</td><td class="num">5.69% median</td><td>Not in the Elmina replay. Median across 443 real two-buyer schemes (Appendix D).</td></tr>
-      <tr><td>WattWise plan</td><td class="num good">115.3 MWh</td><td class="num good">1.23%</td><td>Elmina, simulated year</td></tr>
+      <tr><th>Policy</th><th class="num">Given away</th><th class="num">Share of solar</th><th>Basis</th></tr>
+      <tr><td>Fixed annual split</td><td class="num"><span data-v="ex_fixed">557.3</span> MWh</td><td class="num"><span data-v="ex_fixed_pct">6.12%</span></td><td>Example scheme, 2017</td></tr>
+      <tr><td>Copy last year</td><td class="num"><span data-v="ex_copy">285.6</span> MWh</td><td class="num"><span data-v="ex_copy_pct">3.14%</span></td><td>Example scheme, 2017</td></tr>
+      <tr><td>WattWise plan</td><td class="num good"><span data-v="ex_plan">132.0</span> MWh</td><td class="num good"><span data-v="ex_plan_pct">1.45%</span></td><td>Example scheme, 2017</td></tr>
     </table>
-    <p class="note">319.0 MWh kept a year &middot; +RM45,209&ndash;55,589/yr <span class="mod">(modelled across an assumed 15&ndash;30 sen/kWh CREAM price, with the modelled Mall)</span> &middot; 388 MWh held back and sold via NEDA, not given away.</p></div>
+    <p class="note">Example: real buildings <span data-v="ex_buildings">Bull_education_Sebastian and Bull_education_Stewart</span> (Texas site), scaled to <span data-v="el_mwh">9,409</span> MWh a year, <span data-v="ex_solar">9,110.1</span> MWh of rooftop solar. <span data-v="ex_kept">425.3</span> MWh kept from being given away (<span data-v="ex_cut">76%</span> less) &middot; <span data-v="ex_neda">684.2</span> MWh held back and sold via NEDA &middot; energy used by the buyers <span data-v="ex_used_fixed">8,552.9</span> MWh under fixed, <span data-v="ex_used_plan">8,293.9</span> MWh under WattWise (the hold-back gives up some paid use; Appendix B counts the money).</p></div>
     <div class="card">
       <div class="lgnd"><span><span class="dot" style="background:#B7AA9C"></span>Given away &middot; fixed</span><span><span class="dot" style="background:#F7931E"></span>Given away &middot; plan</span></div>
       <div class="mchart" id="chart-a"></div>
       <div class="mlabels" id="labels-a"></div>
     </div>
     <div class="card" id="year-card">
-      <h2 style="margin-top:0">The whole simulated year, month by month</h2>
+      <h2 style="margin-top:0">The whole year, month by month</h2>
       <div class="yscroll"><table class="yeartbl" id="year-a"></table></div>
-      <p class="note">Solar generated and solar given away, in MWh, for each month of the modelled Elmina year (Innovation Park and the modelled Lakeside Mall, same solar in both runs). Kept = fixed minus plan. Monthly values are stored to one decimal, so the rows add to within 0.2 MWh of the yearly totals above (434.2, 115.3 and 319.0). The 388 MWh sold via NEDA is only stored as a yearly total, so it is not split by month here. Saved output of the replay in <span class="mono">02 Scheduler Module/results/cream_plan.json</span> (township_core, settlement_at_match); <span class="mono">python verify_claims.py</span> re-derives the totals and the RM range from it. The script that produced the replay is not in the repository yet.</p>
+      <p class="note">MWh for each month of 2017 in the example scheme. Kept = fixed minus plan. NEDA = solar WattWise did not allocate, sold at 8 sen/kWh. Written by <span class="mono">02 Scheduler Module/replay.py</span> to <span class="mono">results/elmina_example_year.csv</span>; <span class="mono">python replay.py --check</span> confirms a fresh run gives exactly these numbers.</p>
       <button class="btn" id="year-csv" type="button">Download the table as CSV</button>
     </div>
-    <div class="card"><h2 style="margin-top:0">Own the worst month</h2><p class="note" style="margin-top:0">Worst month estimate error 24&ndash;32%, and 40% in Malaysia-like two-buyer schemes <span class="cite">(WattWise, 2026)</span>. Wins are aggregate: in the worst months the plan can lose to fixed, and the hold-back is the shock absorber.</p><div style="display:flex;gap:4px;margin-top:10px"><span style="flex:1;height:14px;border-radius:3px;background:#F7931E" title="Jan: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#F7931E" title="Feb: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#F7931E" title="Mar: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#F7931E" title="Apr: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#F7931E" title="May: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#F7931E" title="Jun: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#F7931E" title="Jul: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#F7931E" title="Aug: win"></span><span style="flex:1;height:14px;border-radius:3px;background:#ECE2D6" title="Sep: tie"></span><span style="flex:1;height:14px;border-radius:3px;background:#ECE2D6" title="Oct: tie"></span><span style="flex:1;height:14px;border-radius:3px;background:#ECE2D6" title="Nov: tie"></span><span style="flex:1;height:14px;border-radius:3px;background:#F7931E" title="Dec: win"></span></div><div style="display:flex;gap:12px;margin-top:8px;font-size:12px" class="note"><span><span class="dot" style="background:#F7931E"></span> 9 months the plan won</span><span><span class="dot" style="background:#ECE2D6"></span> 3 ties</span><span>0 losses in the modelled year &middot; across the 443 two-buyer schemes the plan gave away more than fixed in 2% <span class="cite">(WattWise, 2026)</span></span></div></div>
-    <p class="note">Simulated 12 months of the Elmina core scheme. Give-away = solar allocated beyond what a buyer used; it goes to the grid unpaid while the 9 sen access charge is still paid <span class="cite">(Energy Commission, 2025, clauses 9.9 and 13.2)</span>.</p>
+    <div class="card"><h2 style="margin-top:0">Own the worst month</h2><p class="note" style="margin-top:0">A buyer's worst month is off by <span data-v="two_err_worst">22.4%</span> (median) at the four-month distance <span class="cite">(WattWise, 2026)</span>. Wins are counted over the year: in a bad month WattWise can give away more than a fixed split.</p><div id="worst-strip" style="display:flex;gap:4px;margin-top:10px"></div><div style="display:flex;gap:12px;margin-top:8px;font-size:12px" class="note" id="worst-key"></div></div>
+    <p class="note">Give-away = solar allocated beyond what a buyer used; it goes to the grid unpaid while the 9 sen access charge is still paid <span class="cite">(Energy Commission, 2025, clauses 9.9 and 13.2)</span>.</p>
   </div>
 
   <!-- B: homeowner earnings -->
   <div class="page" id="page-b">
     <button class="btn back" data-go="home"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Back</button>
     <h1>Appendix B &middot; Do homeowners really earn that much?</h1>
-    <p class="note">The CREAM price is private, so every RM figure is modelled across an assumed 15&ndash;30 sen/kWh &middot; floor case first, Mall scenario labelled. Each figure is revenue(Plan) &minus; revenue(fixed split), where revenue = used kWh &times; price + NEDA kWh &times; 8 sen &minus; 9 sen &times; (exported &minus; NEDA kWh); the gain is largest at the lowest price (RM55,600 at 15 sen, RM45,200 at 30 sen).</p>
+    <p class="note">The CREAM price is private, so every RM figure is modelled at an assumed 15, 20, 25 and 30 sen/kWh. Each figure is revenue(WattWise) &minus; revenue(fixed split) for the same year, where revenue = used kWh &times; price + NEDA kWh &times; 8 sen &minus; 9 sen &times; (solar &minus; NEDA kWh) <span class="cite">(Energy Commission, 2025, clauses 9.7, 9.9 and 13.2)</span>.</p>
     <div class="ctr">
-      <div class="row"><b>CLAIM</b><span>Homeowners earn from leasing their roofs <span class="cite">(Sime Darby Property, 2025)</span>.</span></div>
-      <div class="row"><b>TEST</b><span>Walk the money: kept energy, valued at an assumed CREAM price, divided across 1,470 illustrative roofs. Every step shown, no promises.</span></div>
-      <div class="row"><b>RESULT</b><span>RM31 to RM38 <span class="mod">(modelled)</span> per roof per year at the assumed price. Real, but modest. Leases are negotiated on top.</span></div>
-      <div class="row verdict-row"><b>VERDICT</b><span>PASS, WITH CAVEATS &middot; earnings are real but modest per roof. The CREAM tariff is private, so lease terms are negotiated, not guaranteed by this tool.</span></div>
+      <div class="row"><b>CLAIM</b><span>Homeowners earn from leasing their roofs <span class="cite">(Sime Darby Property, 2025)</span>, and WattWise adds to the scheme's income.</span></div>
+      <div class="row"><b>TEST</b><span>Take the median extra income per MWh of solar across the <span data-v="two_n">407</span> real two-buyer schemes, apply it to Elmina's size (<span data-v="el_mwh">9,409</span> MWh a year), then divide across <span data-v="el_roofs">1,368</span> illustrative roofs.</span></div>
+      <div class="row"><b>RESULT</b><span><span data-v="el_gain_30">RM24,600</span> (at 30 sen) to <span data-v="el_gain_15">RM76,000</span> (at 15 sen) a year, <span data-v="el_roof_30">RM18</span> to <span data-v="el_roof_15">RM56</span> per roof <span class="mod">(modelled)</span>. WattWise earned more than a fixed split in <span data-v="two_earns_15">100%</span> of schemes at 15 sen, and <span data-v="two_earns_30">70.5%</span> at 30 sen.</span></div>
+      <div class="row verdict-row"><b>VERDICT</b><span>PASS, WITH CAVEATS &middot; real but modest per roof, and smaller the higher the CREAM price. Lease terms are negotiated, not set by this tool.</span></div>
     </div>
     <div class="card">
       <h2 style="margin-top:0">The honest ladder</h2>
       <table>
         <tr><th>Step</th><th class="num">Value</th><th>Basis</th></tr>
-        <tr><td>Kept energy</td><td class="num">319 MWh/yr</td><td>replay: fixed giveaway &minus; plan giveaway</td></tr>
-        <tr><td>CREAM price</td><td class="num">15&ndash;30 sen/kWh</td><td>assumed range <span class="mod">(the real price is private)</span></td></tr>
-        <tr><td>Kept value</td><td class="num">RM45,209&ndash;55,589/yr</td><td>319 MWh kept, valued across that price range <span class="mod">(with modelled Mall)</span></td></tr>
-        <tr><td>Roofs in scheme</td><td class="num">1,470</td><td>5 kWp each &middot; 7,355 kWp</td></tr>
-        <tr><td>Per roof (1,470)</td><td class="num">RM31&ndash;38/yr</td><td>equal split of kept value</td></tr>
-        <tr><td>Floor case: 1 buyer</td><td class="num">RM12,800&ndash;15,600/yr</td><td><b>Innovation Park alone</b>, 90 MWh kept &middot; the announced buyer <span class="mod">(modelled)</span></td></tr>
+        <tr><td>Extra income per MWh</td><td class="num"><span data-v="two_gain_30">RM2.61</span>&ndash;<span data-v="two_gain_15">RM8.08</span></td><td>median of <span data-v="two_n">407</span> real two-buyer schemes, at 30 and 15 sen</td></tr>
+        <tr><td>Elmina size</td><td class="num"><span data-v="el_mwh">9,409</span> MWh/yr</td><td>assumed use: Innovation Park 2,626 + Lakeside Mall 6,783 MWh <span class="mod">(assumption)</span></td></tr>
+        <tr><td>At 15 sen/kWh</td><td class="num"><span data-v="el_gain_15">RM76,000</span>/yr</td><td rowspan="4">scheme income, WattWise minus fixed split</td></tr>
+        <tr><td>At 20 sen/kWh</td><td class="num"><span data-v="el_gain_20">RM60,400</span>/yr</td></tr>
+        <tr><td>At 25 sen/kWh</td><td class="num"><span data-v="el_gain_25">RM41,900</span>/yr</td></tr>
+        <tr><td>At 30 sen/kWh</td><td class="num"><span data-v="el_gain_30">RM24,600</span>/yr</td></tr>
+        <tr><td>Roofs in scheme</td><td class="num"><span data-v="el_roofs">1,368</span></td><td>5 kWp each &middot; <span data-v="el_kwp">6,840</span> kWp</td></tr>
+        <tr><td>Per roof</td><td class="num"><span data-v="el_roof_30">RM18</span>&ndash;<span data-v="el_roof_15">RM56</span>/yr</td><td>equal split of the extra income</td></tr>
+        <tr><td>Floor case: 1 buyer</td><td class="num"><span data-v="ip_gain_30">RM6,000</span>&ndash;<span data-v="ip_gain_15">RM21,800</span>/yr</td><td><b>Innovation Park alone</b>, the announced buyer, <span data-v="ip_mwh">2,626</span> MWh a year, <span data-v="ip_kept">132</span> MWh kept <span class="mod">(median of <span data-v="one_n">821</span> one-buyer schemes)</span></td></tr>
       </table>
     </div>
-    <p class="note">Lakeside Mall is a second buyer in our model only. The CREAM price is private; every RM figure is modelled across an assumed 15&ndash;30 sen/kWh, not a tariff claim <span class="cite">(WattWise, 2026)</span>. Innovation Park is the announced buyer <span class="cite">(The Malaysian Reserve, 2025)</span>.</p>
+    <p class="note">No Elmina meter data is public, so these are benchmark medians applied to Elmina's assumed size, not measurements at Elmina. Lakeside Mall is a second buyer in our model only. Innovation Park is the announced buyer <span class="cite">(The Malaysian Reserve, 2025)</span>.</p>
   </div>
 
   <!-- C: room for bigger schemes -->
@@ -521,28 +527,28 @@
     <button class="btn back" data-go="home"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Back</button>
     <h1>Appendix C &middot; Space for 20% more CREAM contributors?</h1>
     <div class="ctr">
-      <div class="row"><b>CLAIM</b><span>SDP can build schemes 20% larger for the same buyers without increasing give-away risk.</span></div>
-      <div class="row"><b>TEST</b><span>Replay the 443 two-buyer schemes with solar sized at 1.0&times;, 1.1&times; and 1.2&times; of each scheme's annual use. Compare WattWise at each size against today's fixed split at 1.0&times; <span class="cite">(Miller et al., 2020; WattWise, 2026)</span>.</span></div>
-      <div class="row"><b>RESULT</b><span>At 1.2&times; WattWise gives away a median 3.66%, still below the fixed split's 8.66% at today's size, and it is no worse than fixed-at-1.0&times; in 96.6% of schemes <span class="cite">(WattWise, 2026)</span>.</span></div>
+      <div class="row"><b>CLAIM</b><span>SDP can build schemes 20% larger for the same buyers and still give away less than a fixed split does today.</span></div>
+      <div class="row"><b>TEST</b><span>Replay the <span data-v="two_n">407</span> two-buyer schemes with solar sized at 1.0&times;, 1.1&times; and 1.2&times; of the buyers' use. Compare WattWise at each size against today's fixed split at 1.0&times; <span class="cite">(Miller et al., 2020; WattWise, 2026)</span>.</span></div>
+      <div class="row"><b>RESULT</b><span>At 1.2&times; WattWise gives away a median <span data-v="two_o12_plan">2.17%</span>, below a fixed split's <span data-v="two_fixed">6.05%</span> at today's size, and no worse than it in <span data-v="two_o12_nw">94.6%</span> of schemes <span class="cite">(WattWise, 2026)</span>.</span></div>
       <div class="row verdict-row"><b>VERDICT</b><span>PASS &middot; 20% more solar, so room for about 20% more roofs, with less give-away than today's fixed split.</span></div>
     </div>
     <div class="card"><table class="cmp size">
       <tr><th>Scheme size</th><th class="num">Fixed split</th><th class="num">WattWise</th><th>WattWise no worse than fixed at 1.0&times;</th></tr>
-      <tr><td>1.0&times; (today)</td><td class="num">8.66%</td><td class="num good">3.40%</td><td>baseline</td></tr>
-      <tr><td>1.1&times;</td><td class="num">7.87%</td><td class="num good">3.70%</td><td>97.1% of schemes</td></tr>
-      <tr><td>1.2&times;</td><td class="num">7.22%</td><td class="num good">3.66%</td><td>96.6% of schemes</td></tr>
+      <tr><td>1.0&times; (today)</td><td class="num"><span data-v="two_fixed">6.05%</span></td><td class="num good"><span data-v="two_plan">1.34%</span></td><td>baseline</td></tr>
+      <tr><td>1.1&times;</td><td class="num"><span data-v="two_o11_fixed">11.58%</span></td><td class="num good"><span data-v="two_o11_plan">1.88%</span></td><td><span data-v="two_o11_nw">96.1%</span> of schemes</td></tr>
+      <tr><td>1.2&times;</td><td class="num"><span data-v="two_o12_fixed">17.55%</span></td><td class="num good"><span data-v="two_o12_plan">2.17%</span></td><td><span data-v="two_o12_nw">94.6%</span> of schemes</td></tr>
     </table>
-    <p class="note">Median solar given away, 443 real two-buyer schemes. In Malaysia-like climates (55 schemes) WattWise at 1.2&times; gives away 4.61% against fixed's 10.05% at 1.0&times;; single buyers (590): 3.00% against 8.34%.</p></div>
+    <p class="note">Median solar given away, <span data-v="two_n">407</span> real two-buyer schemes. At the humid Texas site (<span data-v="hot2_n">42</span> schemes) WattWise at 1.2&times; gives away <span data-v="hot2_o12_plan">1.60%</span> against fixed's <span data-v="hot2_fixed">3.83%</span> at 1.0&times;; single buyers (<span data-v="one_n">821</span>): <span data-v="one_o12_plan">1.73%</span> against <span data-v="one_fixed">5.98%</span>.</p></div>
     <div class="card">
       <h2 style="margin-top:0">Why a bigger scheme stays safe</h2>
       <p class="note" style="margin-top:0">A fixed split hands out the same share whatever the month looks like, so extra solar spills straight to the grid. WattWise sizes each month to the buyers' expected use and holds the rest back for NEDA, so most of the extra solar is sold instead of given away.</p>
-      <div class="bars">
-        <div class="bcol"><div class="bval">8.66%</div><div class="bbar" style="height:100%;background:#5E5048"></div><div class="blab">Fixed, 1.0&times; (today)</div></div>
-        <div class="bcol"><div class="bval">3.4%</div><div class="bbar" style="height:39%;background:#F7931E"></div><div class="blab">WattWise, 1.0&times;</div></div>
-        <div class="bcol"><div class="bval">3.66%</div><div class="bbar" style="height:42%;background:#F9B915"></div><div class="blab">WattWise, 1.2&times;</div></div>
+      <div class="bars" id="bars-c">
+        <div class="bcol"><div class="bval"><span data-v="two_fixed">6.05%</span></div><div class="bbar" style="height:100%;background:#5E5048"></div><div class="blab">Fixed, 1.0&times; (today)</div></div>
+        <div class="bcol"><div class="bval"><span data-v="two_plan">1.34%</span></div><div class="bbar" style="height:22%;background:#F7931E"></div><div class="blab">WattWise, 1.0&times;</div></div>
+        <div class="bcol"><div class="bval"><span data-v="two_o12_plan">2.17%</span></div><div class="bbar" style="height:36%;background:#F9B915"></div><div class="blab">WattWise, 1.2&times;</div></div>
       </div>
     </div>
-    <p class="note">Roofs scale with solar: 20% more solar at 5 kWp a roof is about 20% more roofs for the same buyers <span class="mod">(illustrative)</span>. Source: 02 Scheduler Module/results/plan_real_data.json, oversize test.</p>
+    <p class="note">Roofs scale with solar: 20% more solar at 5 kWp a roof is about 20% more roofs for the same buyers <span class="mod">(illustrative)</span>. Source: 02 Scheduler Module/results/replay.json, oversize test.</p>
   </div>
 
   <!-- D: dynamic vs fixed -->
@@ -551,22 +557,22 @@
     <h1>Appendix D · Dynamic splitting works better than fixed?</h1>
     <div class="ctr">
       <div class="row"><b>CLAIM</b><span>Dynamic splitting beats a fixed split.</span></div>
-      <div class="row"><b>TEST</b><span>Replay 590 real buildings as one-buyer schemes, and 443 two-buyer pairings of them, under three policies: fixed, copy-last-year, and the WattWise plan <span class="cite">(Miller et al., 2020)</span>.</span></div>
-      <div class="row"><b>RESULT</b><span>The plan gives away less than fixed in 98% of schemes, and less than copy-last-year in 87.8% (two-buyer) to 91.0% (one-buyer) <span class="cite">(WattWise, 2026)</span>.</span></div>
-      <div class="row verdict-row"><b>VERDICT</b><span>PASS &middot; dynamic splitting beat fixed in 98% of schemes, and copy-last-year in 88 to 91%.</span></div>
+      <div class="row"><b>TEST</b><span>Replay <span data-v="n_buildings">821</span> real buildings as one-buyer schemes, and <span data-v="two_n">407</span> same-site pairs of them, under three policies: fixed, copy-last-year, and WattWise <span class="cite">(Miller et al., 2020; European Commission JRC, 2022)</span>.</span></div>
+      <div class="row"><b>RESULT</b><span>WattWise gives away less than fixed in <span data-v="one_less_fixed">98.5%</span> (one-buyer) to <span data-v="two_less_fixed">99.8%</span> (two-buyer) of schemes, and less than copy-last-year in <span data-v="one_less_copy">77.2%</span> to <span data-v="two_less_copy">83.3%</span> <span class="cite">(WattWise, 2026)</span>.</span></div>
+      <div class="row verdict-row"><b>VERDICT</b><span>PASS &middot; beats a fixed split almost every time; beats copying last year on give-away in most schemes, but not on money above 20 sen.</span></div>
     </div>
     <div class="card">
-      <h2 style="margin-top:0">Median giveaway by arm (% of generation)</h2>
+      <h2 style="margin-top:0">Median giveaway by arm (% of solar)</h2>
       <table class="arms">
-        <tr><th>Scheme class</th><th class="num">Fixed</th><th class="num">Persistence</th><th class="num">WattWise plan</th><th class="num">Win vs fixed</th><th class="num">Win vs persistence</th></tr>
-        <tr><td>Single-buyer (590)</td><td class="num">8.34%</td><td class="num">5.74%</td><td class="num good">2.47%</td><td class="num">98.1%</td><td class="num">91.0%</td></tr>
-        <tr><td>Two-buyer (443)</td><td class="num">8.66%</td><td class="num">5.69%</td><td class="num good">3.40%</td><td class="num">98.0%</td><td class="num">87.8%</td></tr>
-        <tr><td>Malaysia-like two-buyer (55)</td><td class="num">10.05%</td><td class="num">5.62%</td><td class="num good">4.19%</td><td class="num">100.0%</td><td class="num">85.5%</td></tr>
+        <tr><th>Scheme class</th><th class="num">Fixed</th><th class="num">Copy last year</th><th class="num">WattWise plan</th><th class="num">Less than fixed</th><th class="num">Less than copy</th></tr>
+        <tr><td>Single-buyer (<span data-v="one_n">821</span>)</td><td class="num"><span data-v="one_fixed">5.98%</span></td><td class="num"><span data-v="one_copy">1.49%</span></td><td class="num good"><span data-v="one_plan">0.95%</span></td><td class="num"><span data-v="one_less_fixed">98.5%</span></td><td class="num"><span data-v="one_less_copy">77.2%</span></td></tr>
+        <tr><td>Two-buyer (<span data-v="two_n">407</span>)</td><td class="num"><span data-v="two_fixed">6.05%</span></td><td class="num"><span data-v="two_copy">1.95%</span></td><td class="num good"><span data-v="two_plan">1.34%</span></td><td class="num"><span data-v="two_less_fixed">99.8%</span></td><td class="num"><span data-v="two_less_copy">83.3%</span></td></tr>
+        <tr><td>Humid Texas two-buyer (<span data-v="hot2_n">42</span>)</td><td class="num"><span data-v="hot2_fixed">3.83%</span></td><td class="num"><span data-v="hot2_copy">1.28%</span></td><td class="num good"><span data-v="hot2_plan">0.85%</span></td><td class="num"><span data-v="hot2_less_fixed">100%</span></td><td class="num"><span data-v="hot2_less_copy">90.5%</span></td></tr>
       </table>
-      <p class="note">590 one-buyer schemes and 443 two-buyer pairings of the same buildings. Malaysia-like = the Florida and Texas sites in the dataset (Panther, Gator, Bull), the closest real climates to Malaysia; no Malaysian meter data is public. Median income gain against copy-last-year RM2.6&ndash;5.9 per MWh <span class="mod">(modelled)</span>.</p>
+      <p class="note"><span data-v="one_n">821</span> one-buyer schemes and <span data-v="two_n">407</span> two-buyer pairs of the same buildings, at <span data-v="n_sites">11</span> sites. The Texas site is the only humid subtropical site with complete 2016 to 2017 data, the closest to Malaysia's climate; no Malaysian meter data is public. Median income against copy-last-year: <span data-v="two_gcopy_15">RM1.24</span> per MWh at 15 sen, <span data-v="two_gcopy_30">-RM1.39</span> at 30 sen <span class="mod">(modelled)</span>.</p>
     </div>
-    <div class="card"><h2 style="margin-top:0">Compliance</h2><p class="note" style="margin-top:0">Allocation cadence: one allocation per buyer per month, each stamped with its 120-day notice date. WattWise suggests, the scheme admin approves, SDP files with the Energy Commission. <span class="cite">(Energy Commission, 2025)</span> <span class="mod">(verbatim clause quote pending)</span>.</p></div>
-    <p class="note">Estimate accuracy behind the wins: worst month's error 24&ndash;40% <span class="cite">(WattWise, 2026)</span>. The bench replays real monthly meter readings from the Building Data Genome Project 2 (590 buildings, 2016 to 2017), at the same 4-month distance CREAM requires.</p>
+    <div class="card"><h2 style="margin-top:0">Compliance</h2><p class="note" style="margin-top:0">One allocation per buyer per month. Changes to a buyer's percentage must be made in writing no later than 120 days before they take effect, and take effect only on the 1st of a month <span class="cite">(Energy Commission, 2025, clause 9.10(e))</span>. WattWise suggests, the scheme admin approves, SDP files.</p></div>
+    <p class="note">Estimate accuracy behind the wins: a median month is off by <span data-v="two_err_med">7.9%</span>, a buyer's worst month by <span data-v="two_err_worst">22.4%</span> <span class="cite">(WattWise, 2026)</span>. The bench replays real monthly meter readings from the Building Data Genome Project 2 (<span data-v="n_buildings">821</span> buildings, 2016 to 2017), at the same 120-day distance CREAM requires.</p>
   </div>
 </main>
 
@@ -595,36 +601,41 @@
       <h2 style="margin:0">The data behind the suite</h2>
       <button class="btn" id="data-close" style="margin-left:auto">Close</button>
     </div>
-    <h2 style="margin-top:0">Settled year &middot; monthly replay (MWh)</h2>
+    <h2 style="margin-top:0">Example scheme, 2017 &middot; monthly replay (MWh)</h2>
     <table id="tbl-year"></table>
     <h2>Bench arms</h2>
     <table id="tbl-bench"></table>
-    <p class="note"><b>Price assumption:</b> CREAM price assumed at 15&ndash;30 sen/kWh <span class="mod">(the real price is private)</span>; held-back energy sells via NEDA at an assumed 8 sen/kWh.</p>
-    <p class="note">Same numbers the admin app and pitch deck use, from <span class="mono">data/plan.json</span> (02 Scheduler Module results).</p>
+    <p class="note"><b>Price assumption:</b> CREAM price assumed at 15&ndash;30 sen/kWh <span class="mod">(the real price is private)</span>; held-back energy sells via NEDA at 8 sen/kWh with no access charge (CREAM 9.7, 13.2).</p>
+    <p class="note">Same numbers the admin app and pitch deck use, from <span class="mono">data/plan.json</span>, written by <span class="mono">02 Scheduler Module/replay.py</span>.</p>
   </div>
 </div>
 
+<script src="data/plan.js"></script>
 <script>
-// ---------- data (mirrors data/plan.json) ----------
-var S = {
-  months: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-  fixed: [42.3,101.0,48.0,87.0,5.6,41.2,41.9,40.1,0.0,0.0,0.0,27.0],
-  plan:  [0.0,59.3,26.2,13.9,0.0,0.0,1.1,0.0,0.0,0.0,0.0,14.8],
-  gen:   [840.9,824.1,849.4,857.2,810.0,812.8,839.6,843.7,598.4,687.4,622.0,823.6]
-};
-var BENCH = [
-  { label: "Single-buyer schemes", n: 590, fixed: 8.34, persistence: 5.74, plan: 2.47, wf: 98.1, wp: 91.0, gain: "2.97-5.88" },
-  { label: "Two-buyer schemes", n: 443, fixed: 8.66, persistence: 5.69, plan: 3.40, wf: 98.0, wp: 87.8, gain: "2.58-5.28" }
-];
+// ---------- data: written by 02 Scheduler Module/replay.py into data/plan.js ----------
+var D = window.PLAN_DATA, F = D.facts;
+var S = { months: D.settlement.months, fixed: D.settlement.fixed, plan: D.settlement.plan, gen: D.settlement.generation, neda: D.settlement.neda };
+var BENCH = D.bench.map(function (r) {
+  return { label: r.label, n: r.n, fixed: r.fixed, persistence: r.persistence, plan: r.plan, wf: r.win_vs_fixed_pct, wp: r.win_vs_persistence_pct,
+           gain: r.gain_vs_persistence_rm_mwh[0] + " to " + r.gain_vs_persistence_rm_mwh[1] };
+});
+// every quoted number on the page is a [data-v] element filled from the replay
+document.querySelectorAll("[data-v]").forEach(function (el) {
+  if (F[el.dataset.v] == null) { console.error("no replay value for " + el.dataset.v); return; }
+  el.textContent = F[el.dataset.v];
+});
 
 // ---------- nav ----------
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("on"); });
+  document.getElementById("page-" + id).classList.add("on");
+  window.scrollTo(0, 0);
+}
 document.querySelectorAll("[data-go]").forEach(function (el) {
-  el.addEventListener("click", function () {
-    document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("on"); });
-    document.getElementById("page-" + el.dataset.go).classList.add("on");
-    window.scrollTo(0, 0);
-  });
+  el.addEventListener("click", function () { showPage(el.dataset.go); });
 });
+// deep links from the pitch deck: tests.html#a ... #d, #how
+if (/^#(how|a|b|c|d)$/.test(location.hash)) showPage(location.hash.slice(1));
 
 // ---------- appendix A chart ----------
 (function () {
@@ -640,34 +651,48 @@ document.querySelectorAll("[data-go]").forEach(function (el) {
   document.getElementById("chart-a").innerHTML = cols;
   document.getElementById("labels-a").innerHTML = labs;
   // full year as a table, and as a CSV
-  var tg = 0, tf = 0, tp = 0, csv = "month,solar_generated_mwh,given_away_fixed_mwh,given_away_plan_mwh,kept_mwh\n";
-  var rows = "<thead><tr><th>Month</th><th>Solar generated</th><th>Given away, fixed</th><th>Given away, plan</th><th>Kept</th><th>Fixed %</th><th>Plan %</th></tr></thead><tbody>";
+  var tg = 0, tf = 0, tp = 0, tn = 0, csv = "month,solar_mwh,given_away_fixed_mwh,given_away_plan_mwh,kept_mwh,neda_plan_mwh\n";
+  var rows = "<thead><tr><th>Month</th><th>Solar</th><th>Given away, fixed</th><th>Given away, plan</th><th>Kept</th><th>NEDA, plan</th><th>Fixed %</th><th>Plan %</th></tr></thead><tbody>";
   S.months.forEach(function (mo, i) {
     var kept = S.fixed[i] - S.plan[i];
-    tg += S.gen[i]; tf += S.fixed[i]; tp += S.plan[i];
-    rows += "<tr><td>" + mo + "</td><td>" + S.gen[i].toFixed(1) + "</td><td>" + S.fixed[i].toFixed(1) + '</td><td class="good">' + S.plan[i].toFixed(1) + "</td><td>" + kept.toFixed(1) + "</td><td>" + (S.fixed[i] / S.gen[i] * 100).toFixed(1) + "%</td><td>" + (S.plan[i] / S.gen[i] * 100).toFixed(1) + "%</td></tr>";
-    csv += [mo, S.gen[i].toFixed(1), S.fixed[i].toFixed(1), S.plan[i].toFixed(1), kept.toFixed(1)].join(",") + "\n";
+    tg += S.gen[i]; tf += S.fixed[i]; tp += S.plan[i]; tn += S.neda[i];
+    rows += "<tr><td>" + mo + "</td><td>" + S.gen[i].toFixed(1) + "</td><td>" + S.fixed[i].toFixed(1) + '</td><td class="good">' + S.plan[i].toFixed(1) + "</td><td>" + kept.toFixed(1) + "</td><td>" + S.neda[i].toFixed(1) + "</td><td>" + (S.fixed[i] / S.gen[i] * 100).toFixed(1) + "%</td><td>" + (S.plan[i] / S.gen[i] * 100).toFixed(1) + "%</td></tr>";
+    csv += [mo, S.gen[i], S.fixed[i], S.plan[i], kept.toFixed(2), S.neda[i]].join(",") + "\n";
   });
-  rows += '</tbody><tfoot><tr><td>Year</td><td>' + tg.toFixed(1) + "</td><td>" + tf.toFixed(1) + '</td><td class="good">' + tp.toFixed(1) + "</td><td>" + (tf - tp).toFixed(1) + "</td><td>" + (tf / tg * 100).toFixed(2) + "%</td><td>" + (tp / tg * 100).toFixed(2) + "%</td></tr></tfoot>";
+  rows += '</tbody><tfoot><tr><td>Year</td><td>' + tg.toFixed(1) + "</td><td>" + tf.toFixed(1) + '</td><td class="good">' + tp.toFixed(1) + "</td><td>" + (tf - tp).toFixed(1) + "</td><td>" + tn.toFixed(1) + "</td><td>" + (tf / tg * 100).toFixed(2) + "%</td><td>" + (tp / tg * 100).toFixed(2) + "%</td></tr></tfoot>";
   document.getElementById("year-a").innerHTML = rows;
   document.getElementById("year-csv").addEventListener("click", function () {
     var a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
-    a.download = "elmina-simulated-year.csv"; a.click();
+    a.download = "wattwise-example-year-2017.csv"; a.click();
   });
+  // worst-month strip: did the plan give away less, the same, or more than fixed each month?
+  var won = 0, tie = 0, lost = 0, strip = "";
+  S.months.forEach(function (mo, i) {
+    var d = S.fixed[i] - S.plan[i], st = d > 0.05 ? "win" : d < -0.05 ? "loss" : "tie";
+    if (st === "win") won++; else if (st === "tie") tie++; else lost++;
+    strip += '<span style="flex:1;height:14px;border-radius:3px;background:' + (st === "win" ? "#F7931E" : st === "tie" ? "#ECE2D6" : "#5E5048") + '" title="' + mo + ": " + st + '"></span>';
+  });
+  document.getElementById("worst-strip").innerHTML = strip;
+  document.getElementById("worst-key").innerHTML = '<span><span class="dot" style="background:#F7931E"></span> ' + won + " months the plan gave away less</span>" +
+    '<span><span class="dot" style="background:#ECE2D6"></span> ' + tie + " the same</span>" +
+    '<span><span class="dot" style="background:#5E5048"></span> ' + lost + " more</span><span>in the example year</span>";
+  // appendix C bars, scaled to the fixed split at today's size
+  var bc = document.querySelectorAll("#bars-c .bbar"), top = D.bench[1].fixed;
+  [D.bench[1].fixed, D.bench[1].plan, parseFloat(F.two_o12_plan)].forEach(function (v, k) { if (bc[k]) bc[k].style.height = Math.max(2, v / top * 100).toFixed(0) + "%"; });
 })();
 
 // ---------- how the estimate works: live worked example ----------
 (function () {
   // the operator app's demo meter file: buyers with history, their trends, the same seasonal shape
   var HB = [
-    { n: "Elmina Lakeside Mall", a: 6783, t: 1.5, c: "#EA6B3D" },
-    { n: "Elmina Logistics Hub", a: 3100, t: 0.5, c: "#F9B915" },
-    { n: "Elmina Innovation Park", a: 2626, t: -2.0, c: "#8A3A12" },
-    { n: "Elmina Medical Centre", a: 2400, t: -2.0, c: "#F7931E" },
-    { n: "Elmina Sports Complex", a: 1850, t: 2.0, c: "#FDE6BF" },
-    { n: "Elmina Business Hotel", a: 1200, t: 1.5, c: "#C9461D" },
-    { n: "Elmina Community College", a: 900, t: -1.0, c: "#FBD36A" }
+    { n: "Elmina Lakeside Mall", a: 6783, t: 0, c: "#EA6B3D" },
+    { n: "Elmina Logistics Hub", a: 3100, t: 0, c: "#F9B915" },
+    { n: "Elmina Innovation Park", a: 2626, t: 0, c: "#8A3A12" },
+    { n: "Elmina Medical Centre", a: 2400, t: 0, c: "#F7931E" },
+    { n: "Elmina Sports Complex", a: 1850, t: 0, c: "#FDE6BF" },
+    { n: "Elmina Business Hotel", a: 1200, t: 0, c: "#C9461D" },
+    { n: "Elmina Community College", a: 900, t: 0, c: "#FBD36A" }
   ];
   var MO = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   function reading(b, m) { return Math.round(b.a / 12 * (1 + 0.14 * Math.sin((m + 1) / 12 * 2 * Math.PI))); }
@@ -715,14 +740,16 @@ document.querySelectorAll("[data-go]").forEach(function (el) {
     // allocate across all demo buyers; the selected buyer uses the slider trend
     var ests = HB.map(function (x, k) { return reading(x, tM) * (1 + (k === i ? t : x.t) / 100); });
     var tot = ests.reduce(function (a, v) { return a + v; }, 0);
-    var shares = ests.map(function (e) { return e / tot * (100 - h); });
-    document.getElementById("hw-share").innerHTML = b.n.replace("Elmina ", "") + ": " + est.toFixed(0) + " &divide; " + tot.toFixed(0) + " MWh &times; (1 &minus; " + h + "%)" +
+    var expSolar = D.headline.expected_solar_mwh_by_month[tM], denom = Math.max(tot, expSolar);
+    var shares = ests.map(function (e) { return e / denom * (100 - h); });
+    var held = 100 - shares.reduce(function (a, v) { return a + v; }, 0);
+    document.getElementById("hw-share").innerHTML = b.n.replace("Elmina ", "") + ": " + est.toFixed(0) + " &divide; the larger of " + expSolar.toFixed(0) + " MWh expected solar and " + tot.toFixed(0) + " MWh of estimates &times; (1 &minus; " + h + "%)" +
       '<span class="big">' + shares[i].toFixed(1) + "%</span>of scheme solar for " + target;
     document.getElementById("hw-bar").innerHTML = HB.map(function (x, k) { return '<span class="' + (k === i ? "sel" : "") + '" style="flex-grow:' + shares[k].toFixed(3) + ";background:" + x.c + '"></span>'; }).join("") +
-      '<span class="hold" style="flex-grow:' + h + '"></span>';
+      '<span class="hold" style="flex-grow:' + held.toFixed(3) + '"></span>';
     document.getElementById("hw-table").innerHTML = "<tr><th>Buyer</th><th class=\"num\">Estimate MWh</th><th class=\"num\">Share</th></tr>" +
       HB.map(function (x, k) { return '<tr class="' + (k === i ? "sel" : "") + '"><td><span class="dot" style="background:' + x.c + '"></span>' + x.n.replace("Elmina ", "") + '</td><td class="num">' + ests[k].toFixed(0) + '</td><td class="num">' + shares[k].toFixed(1) + "%</td></tr>"; }).join("") +
-      '<tr><td><span class="dot" style="background:repeating-linear-gradient(45deg,#F7931E 0 3px,#FBC27E 3px 6px)"></span>Held back, sold via NEDA</td><td class="num">&ndash;</td><td class="num">' + h.toFixed(1) + "%</td></tr>";
+      '<tr><td><span class="dot" style="background:repeating-linear-gradient(45deg,#F7931E 0 3px,#FBC27E 3px 6px)"></span>Held back, sold via NEDA</td><td class="num">&ndash;</td><td class="num">' + held.toFixed(1) + "%</td></tr>";
     // settle: 100 MWh allocated against the actual use
     var u = +use.value, given = Math.max(0, 100 - u), short = Math.max(0, u - 100);
     document.getElementById("hw-use-o").textContent = u + " MWh";
@@ -744,8 +771,8 @@ document.querySelectorAll("[data-go]").forEach(function (el) {
 })();
 
 // ---------- code drawer ----------
-var CODE = {"files":{"engine":{"path":"03 User Interface/admin.html","desc":"The estimation engine, exactly as it runs in the operator app","code":"// 03 User Interface/admin.html, copied line for line from the operator app\n// (lines that only draw the table are left out and marked ...)\n\n// READ: the basis is the buyer's own reading for the same month last year\n  var r0 = RUNWAY[+sel.value || 0];\n  var keyMonth = (r0.y - 1) + \"-\" + String(r0.m + 1).padStart(2, \"0\");\n  BUYERS.forEach(function (b, i) {\n    var fromFile = READINGS && READINGS.byMonth[keyMonth] && READINGS.byMonth[keyMonth][b.name] != null;\n    var basisVal = fromFile ? READINGS.byMonth[keyMonth][b.name] : (b.annual ? (b.annual / 12).toFixed(0) : \"\");\n    // ...\n  });\n\nfunction computeEngine() {\n  // ...\n  var hb = (+document.getElementById(\"engine-holdback\").value || 0) / 100;\n  var ests = [], total = 0;\n  // ESTIMATE: same month last year x (1 + trend)\n  BUYERS.forEach(function (b, i) {\n    var basis = parseFloat(document.getElementById(\"eng-b-\" + i).value) || 0;\n    var trend = parseFloat(document.getElementById(\"eng-t-\" + i).value) || 0;\n    ests[i] = basis * (1 + trend / 100);\n    total += ests[i];\n  });\n\n  // ALLOCATE: share = estimate / all estimates, minus the hold-back\n  BUYERS.forEach(function (b, i) {\n    // ...\n    cs.textContent = needs ? \"\\u2013\" : total ? ((ests[i] / total) * (1 - hb) * 100).toFixed(1) + \"%\" : \"\\u2013\";\n  });\n  // ...\n}"},"plan":{"path":"03 User Interface/data/plan.json","desc":"The replayed year produced by this engine","code":"{\n  \"settlement\": {\n    \"months\": [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",\n               \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"],\n    \"fixed\":  [42.3, 101.0, 48.0, 87.0, 5.6, 41.2,\n               41.9, 40.1, 0.0, 0.0, 0.0, 27.0],\n    \"plan\":   [0.0, 59.3, 26.2, 13.9, 0.0, 0.0,\n               1.1, 0.0, 0.0, 0.0, 0.0, 14.8],\n    \"totals\": {\n      \"fixed\": { \"given_away_mwh\": 434.2, \"pct\": 4.61 },\n      \"plan\":  { \"given_away_mwh\": 115.3, \"pct\": 1.23,\n                 \"neda\": 388.0 }\n    }\n  }\n}"},"bench":{"path":"02 Scheduler Module/results/plan_real_data.json","desc":"The 590-building replay these pages quote","code":"// 02 Scheduler Module/results/plan_real_data.json (excerpt, values unchanged)\n{\n  \"source\": \"Building Data Genome Project 2 (Miller et al., Sci Data 7, 368, 2020), real 2016 -> 2017 monthly kWh; Malaysian yield shape for the residents' solar\",\n  \"buildings\": 590,\n  \"two_consumer_township\": {\n    \"n\": 443,\n    \"given_away_fixed_median_pct\": 8.66,\n    \"given_away_persistence_median_pct\": 5.69,\n    \"given_away_plan_median_pct\": 3.4,\n    \"plan_gives_away_less_share\": 0.98,\n    \"plan_gives_away_less_than_persistence_share\": 0.878,\n    \"worst_month_forecast_error_median_pct\": 32.1,\n    \"oversize\": {\n      \"1.0\": {\n        \"fixed\": 8.66,\n        \"plan\": 3.4\n      },\n      \"1.1\": {\n        \"fixed\": 7.87,\n        \"plan\": 3.7,\n        \"plan_no_worse_than_fixed_at_1x_share\": 0.971\n      },\n      \"1.2\": {\n        \"fixed\": 7.22,\n        \"plan\": 3.66,\n        \"plan_no_worse_than_fixed_at_1x_share\": 0.966\n      }\n    }\n  }\n}"}},"sets":{"home":{"monthly":false,"steps":[["engine",5,6,"READ: the engine looks up the same month one year earlier.","To estimate March 2027 it starts from what the buyer used in March 2026. Use follows the seasons, so last year's same month is the honest starting point."],["engine",7,9,"The basis comes straight from the buyer's meter file.","No adjusting yet: the raw reading from twelve months ago."],["engine",16,23,"ESTIMATE: estimate = basis x (1 + trend).","One multiplication: last year's figure, nudged up or down by the buyer's own trend. That is the whole estimate."],["engine",25,29,"ALLOCATE: share = estimate / all estimates x (1 - hold-back).","Solar is split in proportion to expected use, and a slice is held back to sell via NEDA instead of risking giving it away."],["bench",7,9,"TEST: the same rule replayed on 443 real two-buyer schemes.","Fixed split gives away a median 8.66% of the year's solar, copying last year 5.69%, WattWise 3.40%."]]},"how":{"monthly":false,"steps":[["engine",5,6,"READ: target month minus one year.","The engine works out which month last year to read: March 2027 reads March 2026."],["engine",7,9,"The reading is taken from the meter file; if it is missing the buyer needs a manual estimate.","A new buyer, like a new school, has no history, so the operator enters an estimate by hand."],["engine",16,23,"ESTIMATE: basis x (1 + trend) for every buyer, then summed.","This is the calculator at the top of the page, done for every buyer at once."],["engine",15,15,"The hold-back percentage is read first.","The operator chooses how much to keep back. 5% is the default."],["engine",25,29,"ALLOCATE: each buyer's share of scheme solar.","Shares add up to 100% minus the hold-back."],["bench",3,4,"TEST data: Building Data Genome Project 2, 590 real buildings, 2016 to 2017.","Real monthly meter readings, not made-up loads."],["bench",7,9,"Three policies compared at the 4-month distance.","Fixed split, copying last year, and WattWise. Lower is better."],["bench",12,12,"Worst-month error, median across schemes.","Estimates are sometimes far off. The hold-back is there to absorb those months."]]},"a":{"monthly":true,"steps":"monthly_a"},"b":{"monthly":true,"steps":"monthly_b"},"c":{"monthly":false,"steps":[["bench",13,28,"Oversize test: solar sized at 1.0x, 1.1x and 1.2x of annual use.","Build the scheme 20% bigger and replay the year again with the same buyers."],["bench",7,9,"Today's baseline: fixed split at 1.0x gives away 8.66%.","This is the bar a bigger scheme has to stay under."]]},"d":{"monthly":false,"steps":[["bench",3,4,"590 real buildings, paired into 443 two-buyer schemes.","Every pair of buildings on the same site becomes a test scheme."],["bench",7,9,"Median given away: fixed 8.66%, copy-last-year 5.69%, WattWise 3.40%.","WattWise gives away the least."],["bench",10,11,"Win rates: 98% against fixed, 87.8% against copy-last-year.","Scheme by scheme, WattWise gave away less in almost all of them."],["engine",16,23,"The policy under test is this exact rule.","Nothing different was run for the test than what the operator app runs."]]}}};
-var LN = {"est":[16,23],"share":[25,29]};
+var CODE = {"files": {"rules": {"path": "02 Scheduler Module/replay.py", "desc": "The replay: the rules every number on these pages comes from", "code": "# 02 Scheduler Module/replay.py, copied line for line (the rules every number on these pages comes from)\n\n# --- lines 93-98\ndef last_complete_month(t):\n    \"\"\"Index of the last month complete before the release date of target month index t.\"\"\"\n    y, m = MONTHS[t]\n    release = date(y, m, 1) - timedelta(days=NOTICE_DAYS)\n    prev = date(release.year, release.month, 1) - timedelta(days=1)\n    return (prev.year - 2016) * 12 + prev.month - 1\n\n# --- lines 101-108\ndef estimate(u, t):\n    L = last_complete_month(t)\n    window = [k for k in (L - 2, L - 1, L) if k - 12 >= 0]\n    trend = 0.0\n    if len(window) == 3:\n        trend = sum(u[k] for k in window) / sum(u[k - 12] for k in window) - 1\n        trend = max(-TREND_CAP, min(TREND_CAP, trend))\n    return u[t - 12] * (1 + trend), trend\n\n# --- lines 111-125\ndef shares(policy, loads, t, exp_solar, act_solar):\n    if policy == \"fixed\":\n        last = [sum(u[:12]) for u in loads]\n        return [x / sum(last) for x in last]\n    if policy == \"oracle\":\n        raw = [u[t] / act_solar for u in loads]\n        cap = 1.0\n    elif policy == \"copy\":\n        raw = [u[t - 12] / exp_solar for u in loads]\n        cap = 1.0\n    else:  # plan\n        raw = [estimate(u, t)[0] / exp_solar * (1 - HOLD_BACK) for u in loads]\n        cap = 1 - HOLD_BACK\n    s = sum(raw)\n    return [r * cap / s for r in raw] if s > cap else raw\n\n# --- lines 128-144\ndef replay(loads, kwp, pv, policy):\n    lt = pv[\"kwh_per_kwp_long_term\"]\n    months = []\n    for t in range(12, 24):\n        y, m = MONTHS[t]\n        exp_solar = kwp * lt[m - 1]\n        solar = kwp * pv[\"kwh_per_kwp_by_month\"][\"%d-%02d\" % (y, m)]\n        sh = shares(policy, loads, t, exp_solar, solar)\n        used = given = 0.0\n        for s, u in zip(sh, loads):\n            a = s * solar\n            used += min(a, u[t])\n            given += max(0.0, a - u[t])\n        months.append({\"solar\": solar, \"used\": used, \"given\": given, \"neda\": solar * (1 - sum(sh)), \"shares\": sh})\n    tot = {k: sum(x[k] for x in months) for k in (\"solar\", \"used\", \"given\", \"neda\")}\n    tot[\"given_pct\"] = tot[\"given\"] / tot[\"solar\"] * 100\n    return months, tot\n\n# --- lines 147-148\ndef revenue(tot, price):\n    return tot[\"used\"] * price + tot[\"neda\"] * NEDA_RM_KWH - CAC_RM_KWH * (tot[\"solar\"] - tot[\"neda\"])\n\n# --- lines 151-156\ndef run_scheme(loads, pv, ratio=1.0):\n    kwp = sum(sum(u[:12]) for u in loads) / sum(pv[\"kwh_per_kwp_long_term\"]) * ratio\n    return kwp, {p: replay(loads, kwp, pv, p) for p in (\"fixed\", \"copy\", \"plan\", \"oracle\")}\n\n\n# ---------------------------------------------------------------- benchmark\n"}, "engine": {"path": "03 User Interface/admin.html", "desc": "The same rule as it runs in the operator app", "code": "// 03 User Interface/admin.html, copied line for line from the operator app\n\n// --- lines 749-763\nfunction trendFor(name, r) {\n  if (!READINGS) return 0;\n  var cut = new Date(Math.min(r.notice.getTime(), Date.now()));\n  var now = 0, prev = 0;\n  for (var k = 1; k <= 3; k++) {\n    var d = new Date(cut.getFullYear(), cut.getMonth() - k, 1);\n    var a = d.getFullYear() + \"-\" + String(d.getMonth() + 1).padStart(2, \"0\");\n    var b = (d.getFullYear() - 1) + \"-\" + String(d.getMonth() + 1).padStart(2, \"0\");\n    var va = READINGS.byMonth[a] && READINGS.byMonth[a][name], vb = READINGS.byMonth[b] && READINGS.byMonth[b][name];\n    if (va == null || vb == null || !vb) return 0;\n    now += va; prev += vb;\n  }\n  var t = Math.max(-0.25, Math.min(0.25, now / prev - 1));\n  return Math.round(t * 1000) / 10;\n}\n\n// --- lines 1337-1361\nfunction computeEngine() {\n  if (!READINGS) return;\n  var pw = document.getElementById(\"prepare-warn\"), pb0 = document.getElementById(\"prepare-row\");\n  if (pw && pb0 && pb0.dataset.confirm === \"1\") { pw.hidden = true; pb0.dataset.confirm = \"\"; updateEngineContext(); }\n  var hb = (+document.getElementById(\"engine-holdback\").value || 0) / 100;\n  var ests = [], total = 0;\n  BUYERS.forEach(function (b, i) {\n    var basis = parseFloat(document.getElementById(\"eng-b-\" + i).value) || 0;\n    var trend = parseFloat(document.getElementById(\"eng-t-\" + i).value) || 0;\n    ests[i] = basis * (1 + trend / 100);\n    total += ests[i];\n  });\n  // share = estimate / the larger of expected scheme solar and the sum of estimates, x (1 - hold-back)\n  var selM = RUNWAY[+document.getElementById(\"engine-month\").value || 0];\n  var expSolar = PLAN && PLAN.headline.expected_solar_mwh_by_month ? PLAN.headline.expected_solar_mwh_by_month[selM.m] : 0;\n  var denom = Math.max(total, expSolar);\n  var xs = document.getElementById(\"engine-solar\");\n  if (xs) xs.textContent = expSolar ? \"Expected scheme solar for \" + MONTHS[selM.m] + \": \" + fmt(expSolar, 0) + \" MWh (PVGIS). Each share = estimate \u00f7 the larger of that and the sum of estimates, \u00d7 (1 \u2212 hold-back).\" : \"\";\n  BUYERS.forEach(function (b, i) {\n    var needs = document.getElementById(\"eng-b-\" + i).value === \"\";\n    var ce = document.getElementById(\"eng-e-\" + i), cs = document.getElementById(\"eng-s-\" + i);\n    ce.classList.toggle(\"needs\", needs); cs.classList.toggle(\"needs\", needs);\n    ce.textContent = needs ? \"needs estimate\" : ests[i].toFixed(0);\n    cs.textContent = needs ? \"\\u2013\" : denom ? ((ests[i] / denom) * (1 - hb) * 100).toFixed(1) + \"%\" : \"\\u2013\";\n  });\n  // ... draws the allocation bar and table\n"}, "results": {"path": "02 Scheduler Module/results/replay.json", "desc": "What the replay wrote (python replay.py --check re-creates it)", "code": "// 02 Scheduler Module/results/replay.json (excerpt), written by replay.py\n{\n \"benchmark\": {\n  \"buildings\": 821,\n  \"sites\": 11,\n  \"two_buyer\": {\n   \"n\": 407,\n   \"given_away_median_pct\": {\n    \"fixed\": 6.05,\n    \"copy_last_year\": 1.95,\n    \"plan\": 1.34\n   },\n   \"plan_gives_away_less_than_fixed_pct\": 99.8,\n   \"plan_gives_away_less_than_copy_pct\": 83.3,\n   \"plan_gain_vs_fixed_rm_per_mwh_median\": {\n    \"15\": 8.08,\n    \"20\": 6.42,\n    \"25\": 4.45,\n    \"30\": 2.61\n   },\n   \"oversize\": {\n    \"1.1\": {\n     \"fixed\": 11.58,\n     \"plan\": 1.88,\n     \"plan_no_worse_than_fixed_at_1x_pct\": 96.1\n    },\n    \"1.2\": {\n     \"fixed\": 17.55,\n     \"plan\": 2.17,\n     \"plan_no_worse_than_fixed_at_1x_pct\": 94.6\n    }\n   },\n   \"estimate_error_pct\": {\n    \"median_month\": 7.9,\n    \"worst_month_median\": 22.4\n   }\n  }\n },\n \"elmina\": {\n  \"example_year\": {\n   \"buildings\": [\n    \"Bull_education_Sebastian\",\n    \"Bull_education_Stewart\"\n   ],\n   \"totals_mwh\": {\n    \"fixed\": {\n     \"solar\": 9110.14,\n     \"used\": 8552.89,\n     \"given\": 557.26,\n     \"neda\": 0.0,\n     \"given_pct\": 6.12\n    },\n    \"copy_last_year\": {\n     \"solar\": 9110.14,\n     \"used\": 8503.01,\n     \"given\": 285.62,\n     \"neda\": 321.51,\n     \"given_pct\": 3.14\n    },\n    \"plan\": {\n     \"solar\": 9110.14,\n     \"used\": 8293.92,\n     \"given\": 131.98,\n     \"neda\": 684.25,\n     \"given_pct\": 1.45\n    }\n   },\n   \"kept_mwh\": 425.28\n  },\n  \"core\": {\n   \"assumed_use_mwh\": 9409,\n   \"kept_mwh\": 443,\n   \"gain_rm_by_price_sen\": {\n    \"15\": 76025,\n    \"20\": 60406,\n    \"25\": 41870,\n    \"30\": 24557\n   }\n  }\n }\n}\n"}}, "sets": {"home": {"monthly": false, "steps": [["rules", 4, 9, "READ: which months exist on the release date.", "The share for a month is sent 120 days before it starts, so only months finished before then can be used."], ["rules", 12, 19, "ESTIMATE: same month last year x (1 + trend).", "Trend is the latest 3 months against the same months a year earlier, kept within 25%."], ["rules", 32, 36, "ALLOCATE: estimate / expected solar, minus the hold-back.", "If the estimates add up to more than the solar, the shares are scaled down. What is not allocated is sold via NEDA."], ["rules", 58, 59, "SETTLE: the money, by CREAM's rules.", "Used energy is paid at the CREAM price, NEDA sales at 8 sen, and the 9 sen access charge is paid on everything except NEDA sales."], ["results", 8, 11, "TEST: the same rule on {two_n} real two-buyer schemes.", "Median given away: fixed {two_fixed}, copying last year {two_copy}, WattWise {two_plan}."]]}, "how": {"monthly": false, "steps": [["engine", 4, 17, "The operator app reads the trend from the meter file.", "Latest 3 months against the same 3 months a year earlier, within 25%. No file, no trend."], ["engine", 30, 31, "ESTIMATE: basis x (1 + trend) for every buyer.", "This is the calculator on this page, done for every buyer at once."], ["engine", 36, 36, "Divide by the larger of expected solar and all estimates.", "The same rule as the replay."], ["engine", 25, 25, "The hold-back is read first.", "The operator chooses how much to keep back. {hold_back} is the default."], ["rules", 12, 19, "The replay uses the identical estimate.", "So the test below measures exactly what the app does."], ["results", 4, 5, "TEST data: {n_buildings} real buildings at {n_sites} sites.", "Real monthly meters from the Building Data Genome Project 2, 2016 to 2017."], ["results", 8, 11, "Three policies, planned 120 days ahead.", "Fixed split, copying last year, and WattWise. Lower is better."], ["results", 33, 35, "How far off the estimates are.", "A median month is off by {two_err_med}; a buyer's worst month by {two_err_worst}."]]}, "a": {"monthly": true, "steps": "monthly_a"}, "b": {"monthly": true, "steps": "monthly_b"}, "c": {"monthly": false, "steps": [["rules", 62, 64, "Oversize test: the scheme is built 1.1x and 1.2x bigger.", "Same buyers, more roofs, the year replayed again."], ["results", 21, 33, "At 1.2x WattWise gives away {two_o12_plan}.", "Still below a fixed split's {two_fixed} at today's size."]]}, "d": {"monthly": false, "steps": [["results", 4, 5, "{n_buildings} real buildings, {two_n} same-site pairs.", "Every pair of buildings on the same site becomes a test scheme."], ["results", 8, 11, "Median given away: fixed {two_fixed}, copy-last-year {two_copy}, WattWise {two_plan}.", "WattWise gives away the least."], ["results", 13, 14, "Less than fixed in {two_less_fixed}, less than copy in {two_less_copy}.", "Scheme by scheme, not just on average."], ["rules", 22, 36, "The three policies under test.", "Fixed split, copying last year, and WattWise, side by side in one function."]]}}};
+var LN = {"est": [12, 19], "share": [32, 36], "res": [40, 68]};
 var CD = { page: "home", step: -1, file: null };
 function cdCurrentPage() {
   var on = document.querySelector(".page.on");
@@ -770,13 +797,7 @@ function cdRenderFile(key) {
   document.getElementById("cd-code").innerHTML = html;
 }
 function cdMonthlySteps(kind) {
-  var notes = {
-    1: "February is the worst month of the year for waste.",
-    8: "September: the fixed split happened to fit, nothing wasted either way.",
-    9: "October: both policies agree again, nothing wasted.",
-    10: "November: quiet month, both give away nothing.",
-    0: "January: the estimate was almost perfect."
-  };
+  var notes = {};
   var steps = S.months.map(function (mo, i) {
     var f = S.fixed[i], p = S.plan[i], k = f - p;
     var tech, plain;
@@ -784,21 +805,21 @@ function cdMonthlySteps(kind) {
       tech = mo + " \u00b7 the engine sized this month from last year's " + mo + " meters \u00d7 (1 + trend) \u00b7 fixed gave away " + f.toFixed(1) + " MWh \u00b7 plan " + p.toFixed(1) + " \u00b7 kept " + k.toFixed(1);
       plain = (notes[i] ? notes[i] + " " : "") +
         "The plan looked at what buyers used last " + mo + ", nudged it by their trend, and split only that much solar. The fixed split ignored it and handed over " + f.toFixed(0) + " MWh; the plan gave away " + p.toFixed(0) + ", so " + k.toFixed(0) + " MWh stayed in the scheme.";
-      return ["engine", LN.est[0], LN.est[1], tech, plain];
+      return ["rules", LN.est[0], LN.est[1], tech, plain];
     } else {
-      tech = mo + " \u00b7 share = estimate / all estimates \u00d7 (1 \u2212 hold-back) \u00b7 kept " + k.toFixed(1) + " MWh";
+      tech = mo + " \u00b7 share = estimate / larger of expected solar and all estimates \u00d7 (1 \u2212 hold-back) \u00b7 kept " + k.toFixed(1) + " MWh";
       plain = (k > 0
-        ? "This month the plan kept " + k.toFixed(0) + " MWh that a fixed split would have given away. The months add up to the 319 MWh a year behind the homeowner earnings, valued at an assumed 15-30 sen/kWh CREAM price."
+        ? "This month the plan kept " + k.toFixed(0) + " MWh that a fixed split would have given away. The months add up to the " + F.ex_kept + " MWh kept in this example; Appendix B turns the median result into money at 15 to 30 sen."
         : "Nothing was wasted this month (" + f.toFixed(0) + " MWh both ways), so nothing was saved. The earnings come from the other months.");
-      return ["engine", LN.share[0], LN.share[1], tech, plain];
+      return ["rules", LN.share[0], LN.share[1], tech, plain];
     }
   });
   if (kind === "a") {
-    steps.push(["plan", 9, 13, "Year verdict \u00b7 fixed 434.2 MWh given away vs plan 115.3 \u00b7 kept 319",
-      "Add the twelve months up: the old way wasted 434 MWh, the plan 115. That difference, 319 MWh, is the whole point of WattWise."]);
+    steps.push(["results", LN.res[0], LN.res[1], "Year verdict \u00b7 fixed " + F.ex_fixed + " MWh given away vs plan " + F.ex_plan + " \u00b7 kept " + F.ex_kept,
+      "Add the twelve months up: the fixed split gave away " + F.ex_fixed + " MWh, WattWise " + F.ex_plan + ". Across all " + F.two_n + " real two-buyer schemes the median fell from " + F.two_fixed + " to " + F.two_plan + "."]);
   } else {
-    steps.push(["plan", 9, 13, "Year total \u00b7 319 MWh kept \u00b7 388 MWh held back and sold, not given",
-      "Across the year the scheme kept 319 MWh of value and sold another 388 via NEDA instead of giving it away. That is where homeowner money comes from."]);
+    steps.push(["results", LN.res[0], LN.res[1], "Year total \u00b7 " + F.ex_kept + " MWh kept \u00b7 " + F.ex_neda + " MWh held back and sold via NEDA",
+      "The example kept " + F.ex_kept + " MWh from being given away and sold " + F.ex_neda + " MWh via NEDA. At Elmina's size the median scheme earns " + F.el_gain_30 + " to " + F.el_gain_15 + " a year more than a fixed split."]);
   }
   return steps;
 }
@@ -844,8 +865,9 @@ function cdShow(n) {
     var l = +el.dataset.l;
     el.classList.toggle("on", l >= st[1] && l <= st[2]);
   });
-  document.getElementById("cd-cap").innerHTML = "<b>Running:</b><span>" + st[3] + "</span>" +
-    '<span class="plain"><span class="pl-tag">IN PLAIN TERMS</span>' + st[4] + "</span>";
+  var ff = function (x) { return String(x).replace(/\{(\w+)\}/g, function (m, k) { return F[k] != null ? F[k] : m; }); };
+  document.getElementById("cd-cap").innerHTML = "<b>Running:</b><span>" + ff(st[3]) + "</span>" +
+    '<span class="plain"><span class="pl-tag">IN PLAIN TERMS</span>' + ff(st[4]) + "</span>";
   var set = CODE.sets[CD.page];
   if (set.monthly && n < steps.length - 1) {
     cdRenderCal(n);

@@ -594,7 +594,7 @@
     <div class="filegrid">
       <div class="filecard" id="fc-readings">
         <div class="fname">Buyers&rsquo; monthly readings</div>
-        <div class="fstat" id="fs-readings">CSV: buyer, month, kwh</div>
+        <div class="fstat" id="fs-readings">CSV: buyer, month, MWh</div>
         <div class="actions" style="margin-bottom:0">
           <button class="btn primary" id="up-readings">Upload CSV</button>
           <button class="btn" id="demo-readings">Load demo data</button>
@@ -623,14 +623,15 @@
     <div id="engine-body" class="locked">
       <div class="card ctx-card" id="engine-context"></div>
       <h2>Estimates &middot; <span id="est-month-h2" style="text-transform:none"></span></h2>
-      <p class="muted" style="margin:2px 0 10px;font-size:12px">Same month last year &times; trend &middot; backtest error: worst month 24&ndash;40% <span class="cite">(WattWise, 2026)</span> &middot; <span class="mod">the hold-back covers forecast misses first</span></p>
+      <p class="muted" style="margin:2px 0 10px;font-size:12px">Same month last year &times; trend &middot; backtest error: median month 7.9%, worst month 22% <span class="cite">(WattWise, 2026)</span> &middot; <span class="mod">trend is read from the file: latest 3 months vs a year earlier</span></p>
       <div class="engine-controls">
         <label for="engine-month">Allocation month</label>
         <select id="engine-month"></select>
         <label for="engine-holdback">Hold back</label>
-        <input class="cell" id="engine-holdback" type="number" value="5" min="0" max="40" step="0.5">%
+        <input class="cell" id="engine-holdback" type="number" value="2" min="0" max="40" step="0.5">%
       </div>
       <div class="table-wrap"><table id="engine-table"></table></div>
+      <p class="muted" id="engine-solar" style="margin:8px 0 0;font-size:12px"></p>
       <h2>Resulting allocation</h2>
       <p class="muted" id="engine-out-cap" style="margin:2px 0 10px;font-size:12px"></p>
       <div class="card" id="engine-out" style="padding:18px 20px" data-alloc></div>
@@ -692,7 +693,7 @@
 
   <section class="sec" id="sec-settlements">
     <h1>Settlements</h1>
-    <p class="sec-lede">A month settles after it has happened. TNB reads every buyer's real meter and each allocation is checked against what the buyer actually used. Solar allocated beyond that use is given away; the held-back slice is sold via NEDA at 8 sen/kWh. One simulated year of the Elmina core scheme <span class="cite">(WattWise, 2026)</span>.</p>
+    <p class="sec-lede">A month settles after it has happened. TNB reads every buyer's real meter and each allocation is checked against what the buyer actually used. Solar allocated beyond that use is given away; the held-back slice is sold via NEDA at 8 sen/kWh. One modelled year at Elmina&rsquo;s size: the load shapes come from two real buildings, scaled to the scheme&rsquo;s assumed use <span class="cite">(Miller et al., 2020; WattWise, 2026)</span>.</p>
     <div class="yearline" id="year-line" aria-label="Settled months"></div>
     <div class="ykey"><span><i></i>nothing given away</span><span><i class="ga"></i>some solar given away</span><span>Click a month to open its statements.</span></div>
     <h2>Monthly log</h2>
@@ -743,7 +744,23 @@ var BUYERS = [
   { name: "Chong Hwa school", type: "Education", annual: null, basis: "none", email: "admin@chonghwa.example" },
   { name: "Elmina International School", type: "Education", annual: null, basis: "none", email: "office@elminais.example" }
 ];
-var TRENDS = [-2.0, 1.5, 0.5, -1.0, 2.0];
+// trend = latest 3 complete months before the release date / the same 3 months a year earlier - 1, within +/-25%
+// (the rule in 02 Scheduler Module/replay.py); 0 when the file does not hold both
+function trendFor(name, r) {
+  if (!READINGS) return 0;
+  var cut = new Date(Math.min(r.notice.getTime(), Date.now()));
+  var now = 0, prev = 0;
+  for (var k = 1; k <= 3; k++) {
+    var d = new Date(cut.getFullYear(), cut.getMonth() - k, 1);
+    var a = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+    var b = (d.getFullYear() - 1) + "-" + String(d.getMonth() + 1).padStart(2, "0");
+    var va = READINGS.byMonth[a] && READINGS.byMonth[a][name], vb = READINGS.byMonth[b] && READINGS.byMonth[b][name];
+    if (va == null || vb == null || !vb) return 0;
+    now += va; prev += vb;
+  }
+  var t = Math.max(-0.25, Math.min(0.25, now / prev - 1));
+  return Math.round(t * 1000) / 10;
+}
 
 function fmt(v, dp) { return v.toLocaleString("en-US", { minimumFractionDigits: dp || 0, maximumFractionDigits: dp || 0 }); }
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
@@ -1214,7 +1231,7 @@ function readingsSummary(r) {
 }
 
 function demoReadings() {
-  var out = ["buyer,month,kwh"];
+  var out = ["buyer,month,mwh"];
   var now = new Date();
   BUYERS.forEach(function (b) {
     if (b.basis !== "history" || b.annual == null) return;
@@ -1256,7 +1273,7 @@ document.getElementById("file-readings").addEventListener("change", function (e)
 });
 document.getElementById("demo-readings").addEventListener("click", function () { loadReadings(parseReadings(demoReadings())); });
 document.getElementById("tpl-readings").addEventListener("click", function () {
-  var csv = "buyer,month,kwh\nElmina Lakeside Mall,2026-06,583\nElmina Innovation Park,2026-06,226\nElmina Medical Centre,2026-06,201\n";
+  var csv = "buyer,month,mwh\nElmina Lakeside Mall,2026-06,583\nElmina Innovation Park,2026-06,226\nElmina Medical Centre,2026-06,201\n";
   var a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
   a.download = "wattwise-meter-readings-template.csv";
@@ -1299,7 +1316,7 @@ function renderEngine() {
       : basisVal === "" ? ' <span class="badge warn">no readings yet &middot; enter an estimate</span>' : "";
     html += "<tr><td><b class=\"eng-buyer\" data-eb=\"" + i + "\" style=\"cursor:pointer;border-bottom:1px dotted #B7AA9C\">" + esc(b.name) + "</b>" + tag + "</td>" +
       '<td class="num"><input class="cell" type="number" id="eng-b-' + i + '" value="' + basisVal + '" step="10"></td>' +
-      '<td class="num"><input class="cell" type="number" id="eng-t-' + i + '" value="' + TRENDS[i % TRENDS.length] + '" step="0.5"></td>' +
+      '<td class="num"><input class="cell" type="number" id="eng-t-' + i + '" value="' + trendFor(b.name, r0) + '" step="0.5"></td>' +
       '<td class="num" id="eng-e-' + i + '"></td><td class="num" id="eng-s-' + i + '"></td></tr>';
   });
   document.getElementById("engine-table").innerHTML = html;
@@ -1329,12 +1346,18 @@ function computeEngine() {
     ests[i] = basis * (1 + trend / 100);
     total += ests[i];
   });
+  // share = estimate / the larger of expected scheme solar and the sum of estimates, x (1 - hold-back)
+  var selM = RUNWAY[+document.getElementById("engine-month").value || 0];
+  var expSolar = PLAN && PLAN.headline.expected_solar_mwh_by_month ? PLAN.headline.expected_solar_mwh_by_month[selM.m] : 0;
+  var denom = Math.max(total, expSolar);
+  var xs = document.getElementById("engine-solar");
+  if (xs) xs.textContent = expSolar ? "Expected scheme solar for " + MONTHS[selM.m] + ": " + fmt(expSolar, 0) + " MWh (PVGIS). Each share = estimate ÷ the larger of that and the sum of estimates, × (1 − hold-back)." : "";
   BUYERS.forEach(function (b, i) {
     var needs = document.getElementById("eng-b-" + i).value === "";
     var ce = document.getElementById("eng-e-" + i), cs = document.getElementById("eng-s-" + i);
     ce.classList.toggle("needs", needs); cs.classList.toggle("needs", needs);
     ce.textContent = needs ? "needs estimate" : ests[i].toFixed(0);
-    cs.textContent = needs ? "\u2013" : total ? ((ests[i] / total) * (1 - hb) * 100).toFixed(1) + "%" : "\u2013";
+    cs.textContent = needs ? "\u2013" : denom ? ((ests[i] / denom) * (1 - hb) * 100).toFixed(1) + "%" : "\u2013";
   });
 
   // allocation panel: stacked split bar + breakdown table
@@ -1342,7 +1365,7 @@ function computeEngine() {
   var r = RUNWAY[+sel.value || 0];
   var parts = [];
   BUYERS.forEach(function (b, i) {
-    parts.push({ name: b.name, short: b.name.replace("Elmina ", "").replace(" business-park unit", " WH unit").replace(" International School", " Intl School"), pct: total ? (ests[i] / total) * (1 - hb) * 100 : 0, est: ests[i], i: i });
+    parts.push({ name: b.name, short: b.name.replace("Elmina ", "").replace(" business-park unit", " WH unit").replace(" International School", " Intl School"), pct: denom ? (ests[i] / denom) * (1 - hb) * 100 : 0, est: ests[i], i: i });
   });
   parts.sort(function (a, b) { return b.pct - a.pct; });
   LAST_ALLOC = { r: r, total: total, hb: hb, parts: parts.map(function (p, rank) { return { name: p.name, short: p.short, pct: p.pct, est: p.est, color: PALETTE[rank % PALETTE.length] }; }) };
@@ -1435,7 +1458,7 @@ function homeSolar(h) {
     '<div class="gen-labs">' + s.months.map(function (m) { return "<span>" + m.charAt(0) + "</span>"; }).join("") + "</div>" +
     '<table style="margin-top:10px;font-size:13px"><tr><th>Month</th><th class="num">kWh</th><th>Month</th><th class="num">kWh</th></tr>' +
     [0, 1, 2, 3, 4, 5].map(function (i) { return "<tr><td>" + s.months[i] + '</td><td class="num">' + fmt(kwh[i], 0) + "</td><td>" + s.months[i + 6] + '</td><td class="num">' + fmt(kwh[i + 6], 0) + "</td></tr>"; }).join("") + "</table>" +
-    '<div class="muted" style="font-size:12px;margin-top:8px;line-height:1.4"><span class="mod">(modelled)</span> This roof\u2019s ' + h.kwp.toFixed(1) + " kWp share of the scheme\u2019s " + fmt(kwp, 0) + " kWp, applied to the scheme\u2019s simulated monthly generation. No meter is read per roof.</div>";
+    '<div class="muted" style="font-size:12px;margin-top:8px;line-height:1.4"><span class="mod">(modelled)</span> This roof\u2019s ' + h.kwp.toFixed(1) + " kWp share of the scheme\u2019s " + fmt(kwp, 0) + " kWp, applied to the scheme\u2019s monthly rooftop solar (PVGIS, 2017 weather). No meter is read per roof.</div>";
 }
 function showHome(no) {
   var h = HOUSES.filter(function (x) { return x.no === no; })[0];
@@ -1830,7 +1853,7 @@ function renderHome() {
   if (!READINGS) todo.push({ days: -1, html: '<li><span class="dot urgent"></span><span class="t">Load the buyers&rsquo; meter readings</span><span class="d">The engine needs last year&rsquo;s monthly readings before it can estimate.</span><button class="btn primary" data-go="engine">Upload CSV</button></li>' });
   var sm = PLAN.settlement, ga = sm.months.filter(function (m, i) { return sm.plan[i] > 0; });
   if (ga.length) todo.push({ days: 999, html: '<li><span class="dot ok"></span><span class="t">Settlement statements for ' + ga.length + " months</span>" +
-    '<span class="d">Solar was given away in ' + ga.join(", ") + " of the simulated year; each replay buyer gets a statement.</span>" +
+    '<span class="d">Solar was given away in ' + ga.join(", ") + " of the modelled year; each replay buyer gets a statement.</span>" +
     '<button class="btn" data-go="settlements">Open Settle</button></li>' });
   todo.sort(function (a, b) { return a.days - b.days; });
   var ul = document.getElementById("home-todo");
@@ -1847,7 +1870,7 @@ function renderHome() {
     });
   });
   var core = PLAN.buyer_mix[0];
-  document.getElementById("home-scheme").innerHTML = "Elmina core scheme &middot; <b>" + fmt(core.homes_illustrative) + "</b> roofs &middot; <b>" + fmt(core.scheme_kwp) + "</b> kWp &middot; <b>" + BUYERS.length + "</b> buyers registered &middot; <b>" + fmt(PLAN.headline.scheme_solar_mwh) + " MWh</b> of solar a year <span class=\"mod\">(simulated)</span>";
+  document.getElementById("home-scheme").innerHTML = "Elmina core scheme &middot; <b>" + fmt(core.homes_illustrative) + "</b> roofs &middot; <b>" + fmt(core.scheme_kwp) + "</b> kWp &middot; <b>" + BUYERS.length + "</b> buyers registered &middot; <b>" + fmt(PLAN.headline.scheme_solar_mwh) + " MWh</b> of solar expected a year <span class=\"mod\">(PVGIS, modelled)</span>";
 }
 
 /* ---------- the line: five stations every month rides ---------- */
@@ -1961,7 +1984,7 @@ function showMonth(i) {
   document.getElementById("month-detail").innerHTML =
     '<div class="dt" style="display:flex;align-items:center;justify-content:space-between;gap:12px">' + s.months[i] + ' &middot; settled<button class="btn sm" id="md-close">Close</button></div>' +
     '<p class="md-line"><b>' + fmt(s.generation[i], 0) + " MWh</b> generated &middot; <b>" + fmt(s.plan[i], 1) + " MWh</b> given away &middot; <b>" + share.toFixed(1) + "%</b> of generation</p>" +
-    '<div class="muted" style="font-size:13px;margin:0 0 6px">Simulated year &middot; Elmina replay: ' + esc((PLAN.basis || []).join(" and ")) + " &middot; checked against TNB meter reads after the month ended</div>" + body +
+    '<div class="muted" style="font-size:13px;margin:0 0 6px">Modelled year &middot; ' + esc((PLAN.basis || []).join(" and ")) + " (load shapes from real buildings, scaled) &middot; checked against TNB meter reads after the month ended</div>" + body +
     '<div class="pdfbox" id="alloc-pdf-box" style="display:none;margin-top:12px">' +
     '<iframe id="alloc-pdf-frame" title="Settlement statement PDF"></iframe>' +
     '<div class="pdfrow"><span class="fname-chip" id="alloc-pdf-name"></span><a class="btn primary" id="alloc-pdf-dl">Download PDF</a></div>' +
@@ -1987,7 +2010,7 @@ function showMonth(i) {
 function statementFields(i, p, totParts) {
   var s = PLAN.settlement;
   return [
-    ["Month settled", s.months[i] + " (simulated year)"],
+    ["Month settled", s.months[i] + " (modelled year)"],
     ["Buyer", BUYERS[p.bi].name],
     ["Modelled share of give-away", p.mwh.toFixed(1) + " MWh (from annual use)"],
     ["Share of the month's give-away", (p.mwh / totParts * 100).toFixed(1) + "%"],
@@ -2047,7 +2070,7 @@ function allocMail(i, bi, parts) {
 function renderEvidence() {
   var two = PLAN.bench[1];
   document.getElementById("ev-kpis").innerHTML =
-    card("Schemes replayed", '<div class="big">' + fmt(two.n) + "</div>", "two-buyer, 590 real buildings") +
+    card("Schemes replayed", '<div class="big">' + fmt(two.n) + "</div>", "two-buyer, " + PLAN.bench[0].n + " real buildings") +
     card("Plan wins vs fixed", '<div class="big good">' + two.win_vs_fixed_pct + "%</div>") +
     card("Plan wins vs persistence", '<div class="big good">' + two.win_vs_persistence_pct + "%</div>") +
     card("Income gain vs persistence", '<div class="big">RM' + two.gain_vs_persistence_rm_mwh[0] + " to " + two.gain_vs_persistence_rm_mwh[1] + "</div>", "per MWh, median");
@@ -2066,7 +2089,7 @@ function renderEvidence() {
   });
   document.getElementById("schemes-table").innerHTML = srows;
   document.getElementById("sources").innerHTML =
-    "Consumption: BDG2 (Miller et al., 2020), 590 buildings, 2016 to 2017. Settlement: modelled, CREAM 9.10(e). Prices: CREAM price assumed at 15 to 30 sen/kWh (the real price is private); NEDA sale at an assumed 8 sen/kWh. Buyer mix: modelled loads.";
+    "Consumption: BDG2 (Miller et al., 2020), " + PLAN.bench[0].n + " buildings, 2016 to 2017. Solar: PVGIS 5.2 at Elmina. Settlement: 02 Scheduler Module/replay.py, CREAM 9.10(e). Prices: CREAM price assumed at 15 to 30 sen/kWh (the real price is private); NEDA sale at 8 sen/kWh, no access charge (CREAM 9.7).";
 }
 
 /* ---------- boot ---------- */

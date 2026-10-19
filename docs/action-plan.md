@@ -1,5 +1,7 @@
 # Wattwise Clarity Action Plan
 
+> Written against an earlier draft of the deck. Its numbers are superseded by `02 Scheduler Module/replay.py` and `results/replay.json` (19 October 2026).
+
 Date: 2026-10-18 · Owner split: slides = team pastes (Canva stays view-only for the agent), dashboard + testing suite = agent builds
 Source: docs/grilling-report.md (deck-grounded interrogation)
 
