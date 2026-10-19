@@ -1,120 +1,77 @@
-# WattWise
+# WattWise: solar splits that fit
 
-WattWise is a smart software system that lowers electricity bills for commercial buildings in Malaysia. It shifts air conditioning and cooling work to times when electricity is cheap or free, helping buildings avoid expensive battery purchases. It connects directly to existing building meters and controls without needing any new hardware attached to sealed utility devices.
+WattWise is software that tells Sime Darby Property (SDP) how to share its residents' rooftop solar between the buildings that buy it, four months ahead. It is Team Promax's entry to the Sime Darby Hackathon 2026, "Township of Tomorrow".
 
-This is an entry for the Sime Darby Property University Hackathon 2026, "Township of Tomorrow", Planet track, Energy Efficiency category ("smarter energy use across the township").
+The pitch deck is in this folder: [WattWise Pitch Deck.pdf](WattWise%20Pitch%20Deck.pdf).
 
-## The Problem
+## The problem
 
-One single bad half-hour can set a building's entire monthly electricity bill. Buildings on medium-voltage power pay a "demand charge" based purely on their highest 30-minute spike of electricity use in a month. In typical Malaysian offices, that spike happens between 8:30 and 10:30 AM when everyone arrives for work. Shopping malls are busiest in the evenings and weekends, so their peak hits then instead. Either way, a single 30-minute window dictates the cost for the whole month.
+Under Malaysia's Community Renewable Energy Aggregation Mechanism (CREAM), the aggregator (SDP at Elmina) pools solar from home roofs and supplies nearby buyers. Three rules in the Energy Commission's Guidelines (GP/ST/No.55/2025) make fixed splits costly:
 
-- **High Demand Charges:** These cost between RM89.27 and RM97.06 per kW each month, triggered by just one half-hour window.
-- **Solar Mismatch:** Solar power peaks at midday. It is strong long after the morning peak has passed, and weak when the morning peak actually hits.
-- **Wasted Surplus Solar:** Under current rules (SELCO), excess solar energy cannot be sent back to the grid. Midday surplus power is wasted unless it is used right away.
-- **Strict Legal Compliance:** The Energy Efficiency and Conservation Act (EECA 2024) requires large energy consumers to appoint an energy manager, run an energy management system, and file regular audits and reports.
-- **Batteries Are Too Expensive:** Buying batteries to store energy is heavy on upfront costs. A 500 kWh battery system costs roughly US$55,000 to US$65,000 just for the cells—often two to three times that amount when fully installed—plus ongoing replacement costs.
+- **120 days' notice.** Each buyer's percentage share must be filed in writing 120 days before it takes effect, and only changes on the 1st of a month (clause 9.10(e)). The share is set before the real demand is known.
+- **Over-allocation is lost.** Solar sent to a buyer beyond what it uses is "free energy" to the grid and earns nothing (9.9), while the 9 sen/kWh community access charge still applies to it (13.2).
+- **Held-back solar can be sold.** Solar the aggregator keeps back can be sold through NEDA at 8 sen/kWh, with no access charge (9.7, 13.2). The Commission can change that rate.
 
-The pressure isn't just on individual buildings; the entire national power grid is feeling the strain, according to Tenaga Nasional Berhad (TNB) and the Grid System Operator (Source: Eco-Business, Sept 2026):
+Replayed on real meter readings, a fixed split gives away a median 8.66% of the year's solar across 443 two-buyer schemes, and 10.05% in Malaysia-like climates.
 
-- **Data Centres:** Data centres already consume 9.28% of Malaysia's electricity, and they draw a constant, heavy load from the moment they plug in.
-- **Renewable Energy Fluctuations:** Renewable sources create supply swings. Malaysia aims for 40% renewable energy in its power mix by 2035 and 70% of installed capacity by 2050.
-- **Grid Flexibility:** The grid operator stresses that flexibility is just as important as building new power lines.
+## What WattWise does
 
-A building that flattens its morning peak and soaks up midday solar energy is doing exactly what the grid needs. WattWise saves money at the building level, but acts like a good citizen for the national grid.
+1. **Read** each buyer's monthly meter history.
+2. **Estimate** each buyer's use for a month that has not happened yet: the same month last year, adjusted by the latest trend. The estimator only sees data that existed before the release date.
+3. **Allocate** each buyer a share of scheme solar proportional to its estimate, and hold a small slice back to sell through NEDA.
+4. **File.** Each month is stamped with its notice date, 120 days before it starts. WattWise suggests, the scheme admin approves, SDP files. The tool never sends anything on its own.
+5. **Settle.** Once TNB bills the month on real meters, compare what was allocated with what was used.
 
-## The Idea
+## Results
 
-![[Pasted image 20261012174704.png]]
+All figures are in `02 Scheduler Module/results` and can be recomputed with `python "02 Scheduler Module/verify_claims.py"`. How each was derived, and what cannot be reproduced yet, is in [docs/evidence-provenance.md](../docs/evidence-provenance.md).
 
-Instead of moving electricity around, WattWise moves _when_ the work happens. It schedules heavy energy tasks during hours when power is cheap or free:
+| Result | Figure | Basis |
+|---|---|---|
+| Median solar given away, 443 two-buyer schemes | fixed 8.66%, copy-last-year 5.69%, WattWise 3.40% | 590 real buildings (Building Data Genome Project 2), measured |
+| Malaysia-like climates (55 schemes) | fixed 10.05%, WattWise 4.19% | Florida and Texas sites, measured |
+| Beats a fixed split | 98.0% of schemes | measured |
+| Beats copy-last-year | 87.8% (two-buyer) to 91.0% (one-buyer) | measured |
+| Scheme built 1.2x larger | WattWise gives away 3.66%, below a fixed split's 8.66% today | measured |
+| Elmina, one modelled year | 319 MWh kept from being given away; paid-for share 95.4% to 98.8% | modelled, with a second buyer |
+| Extra scheme income, Elmina | RM45,200 to RM55,600 a year | modelled, at an assumed 15 to 30 sen/kWh CREAM price (the real price is private) |
+| Floor case: Innovation Park alone | 90 MWh, RM12,800 to RM15,600 a year | modelled |
 
-- Chiller start times
-- Water pumps
-- Pre-cooling
+Not measured at Elmina: the benchmark uses public data from other countries, because no Malaysian building meter data is public. Lakeside Mall as a second buyer is a modelling assumption.
 
-How WattWise operates day-to-day:
+## The prototype (operator app)
 
-- **Before 8:00 AM (Pre-cool):** Chill the building early so the concrete walls and air act like a thermal thermos.
-- **8:30 to 10:30 AM (Coast):** Ride through the expensive peak window using the stored cold, keeping power draw low.
-- **Midday (Soak):** Absorb extra solar power into the building's thermal mass and water tanks.
+`03 User Interface/admin.html` is the app the scheme admin would use. It is a static page; open it from a local web server (`START-DASHBOARD.bat`, or `python -m http.server` in `03 User Interface`). Only the buyers' meter-readings CSV is read today.
 
-The indoor temperature stays comfortably inside the 24 to 26°C range. Comfort is a strict rule built into the software scheduler, meaning no one can accidentally change or trade away comfort settings.
+| | |
+|---|---|
+| ![Home](screenshots/prototype-1-home.png) **Home.** What the admin has to do next, and the notice deadline. | ![Allocations](screenshots/prototype-2-allocations.png) **Allocations.** Each month on a five-step line, with its 120-day notice deadline. |
+| ![Engine](screenshots/prototype-3-estimation-engine.png) **Engine.** Same month last year times trend, per buyer, with the hold-back. | ![Notice preview](screenshots/prototype-4-notice-preview.png) **Notice preview.** The email and PDF each buyer would receive, shown before anything is sent. |
+| ![Settlements](screenshots/prototype-5-settlements.png) **Settlements.** A month allocated against what was used. | ![Homes map](screenshots/prototype-6-homes-map.png) **Homes.** CREAM homes on the neighbourhood plan; click one to see its modelled solar. |
 
-## How It Works
+## The testing suite (for judges)
 
-| **Module** | **Function** |
-| --- | --- |
-| **WATTWISE-1** | Forecasts solar generation and building energy demand 30 minutes to 3 hours ahead, aligned with the 30-minute billing schedule. |
-| **WATTWISE-2** | Schedules flexible equipment using a smart rule engine first, and an adaptive learning scheduler over time. |
+`03 User Interface/tests.html` explains how the estimate works and tests each claim in the deck, one appendix per claim, with the raw numbers and the code behind them.
 
-The system loops every 30 minutes. This matches the exact interval that utility companies measure for demand charges, which is the entire point of the design.
+| | |
+|---|---|
+| ![Home](screenshots/testing-1-home.png) **Start here.** The headline result and the four appendices. | ![How the estimate works](screenshots/testing-2-how-the-estimate-works.png) **How the estimate works.** A live worked example: estimate, share, hold-back, settle. |
+| ![Appendix B](screenshots/testing-3-appendix-b-money.png) **Appendix B.** The money, step by step, at the assumed price band. | |
 
-Surrounding these two core modules is a wrapper for tenant green billing and automated EECA compliance report generation, built directly from the logged data the scheduler already records.
+Appendix A tests fixed vs WattWise over a modelled year, B the income, C whether a scheme can be built 20% larger, and D dynamic splitting against fixed and copy-last-year across the 590 buildings.
 
-## Quantified Objectives
+## Repository layout
 
-The figures below are categorized as verified (sourced directly), derived (calculated from verified inputs), or illustrative (model outputs based on simulations, awaiting real pilot data). None of these are field-measured results yet.
+- `00 Documents/`: this README, the pitch deck, screenshots, and the documentation log
+- `01 Prediction Module/`, `04 Physical Kit/`: earlier building-side experiments, not part of WattWise
+- `02 Scheduler Module/results/`: the committed evidence (`cream_plan.json`, `plan_real_data.json`, `buyer_mix.json`) and `verify_claims.py` one level up
+- `03 User Interface/`: `admin.html` (prototype), `tests.html` (testing suite), `PRODUCT.md` and `DESIGN.md`
+- `docs/`: `evidence-provenance.md`, the red-team report and the action plan
 
-### Engineering Objectives
+## Status and limits
 
-| **Objective**                  | **Target**                                                                                                                      | **Basis**                                                                 |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| **Peak demand reduction**      | 5% to 15% of site peak demand, targeting 10%+                                                                                   | Based on load factor limits; rule-engine testing currently achieves 14.5% |
-| **Indoor comfort**             | Zero violations outside the 24 to 26°C range                                                                                    | Hard rule built into the scheduler that overrides energy savings          |
-| **Solar forecasting accuracy** | Normalized root mean square error (nRMSE) under 8% at 30 minutes ahead, beating standard tracking                               | Based on published Malaysian rooftop LSTM benchmarks (6.75% / R² 0.957)   |
-| **Surplus solar absorbed**     | 30 to 40 kWh per day on average per site                                                                                        | Illustrative estimate; surplus energy is highest on low-occupancy days    |
-| **Re-plan frequency**          | Every 30 minutes                                                                                                                | Matches the utility demand charge measurement window                      |
-| **Hardware needed**            | None. Connects to existing utility meters and building management systems (BMS). Older buildings may need a small data gateway. | Per site                                                                  |
+A working prototype and tests on real past data. It has not been trialled at Elmina, and SDP has not approved a pilot. The proposed pilot is a no-cost, three-month shadow run: SDP shares three files, WattWise suggests splits, SDP still files. The script that built the 590-building benchmark is not in the repository yet.
 
-_Modelled on a 1,000 kW peak commercial building, roughly the size of the Wisma R&D building (628 to 1,001 kW peak demand). Illustrative, pending pilot data._
+## References
 
-| **Peak Shave Target** | **Power Shifted (kW)** | **Annual Savings (RM1,071 to RM1,165 per kW-year)** |
-| --- | --- | --- |
-| **5%** | 50 kW | RM53,600 to RM58,200 |
-| **10%** | 100 kW | RM107,100 to RM116,500 |
-| **15%** | 150 kW | RM160,700 to RM174,700 |
-
-Adding the solar-redirect savings (30 to 40 kWh/day at an estimated RM0.30 to RM0.36 per kWh) brings an extra RM3,300 to RM5,300 per year. A mid-sized building can save roughly **RM110,000 to RM122,000 per year** in recurring savings with zero upfront hardware costs.
-
-Valued at a typical 5% capitalization rate, this creates about **RM2.2m to RM2.4m in building asset value** per site.
-
-### Portfolio Impact
-
-Sime Darby Property’s reported 2025 electricity consumption totals 24,921,964 kWh (89,719 GJ). The Investment & Asset Management division (malls and commercial properties) accounts for 48,131 GJ, which is roughly 13.4 million kWh/year and an average draw of ~1,526 kW (SR2025, verified). Its total annual demand-charge pool is estimated at **RM2.5m to RM2.7m per year** (derived).
-
-| **Portfolio Peak Reduction** | **Annual Savings** | **Share of Group Electricity Spend** |
-| --- | --- | --- |
-| **10%** | RM252,000 to RM273,000 | ~3% |
-| **15%** | RM378,000 to RM410,000 | ~5% |
-
-Estimated portfolio asset value increase at a 5% cap rate: **RM5.0m to RM8.2m** (derived).
-
-### The Honest Reality Check
-
-Sime Darby Property’s FY2025 profit before tax was RM803.4m. Saving RM250,000 to RM410,000 across the portfolio represents about 0.03% to 0.05% of profit. This is a smart operational optimization rather than a financial rescue mission—and we acknowledge that upfront.
-
-The real value lies in four distinct advantages:
-
-1. **Zero Upfront Cost, Recurring, Compounding:** Savings repeat every single month and grow whenever utility tariffs increase, unlike physical hardware that depreciates over time.
-2. **More Than Just Energy Savings:** The same software platform handles tenant green billing and compliance reporting, which helps retain tenants rather than just cutting costs.
-3. **Maximizing Existing Solar Investments:** Sime Darby Property already has 603 kWp of solar capacity across nine assets and a pioneering CREAM rollout on its balance sheet. WattWise ensures that solar energy is actually used during the hours it matters most.
-4. **The Strategic Wedge:** Owning each building's data and control systems is the entry ticket to advanced operating layers and future grid-flexibility revenue. While competitors can copy a scheduling algorithm, being the first software platform integrated directly into Sime Darby Property's own data is a unique advantage.
-
-## The Township Layer
-
-Sime Darby Property is Malaysia’s first Local Energy Generation Aggregator under CREAM, pooling residential rooftop solar energy and wheeling it through TNB's power grid to nearby commercial buildings. That clean energy typically arrives around midday. However, the building's utility bill is still hit by demand charges set during morning spikes that the midday solar barely touches. This timing mismatch is the exact problem WattWise solves for individual buildings.
-
-At the township scale, the system forecasts energy use per site, schedules equipment per building, and generates tenant billing and compliance reports from a single unified dataset. Whether the wheeled solar energy directly lowers the demand charge is a technical settlement detail currently being verified with grid operators, rather than an unproven assumption.
-
-## Repository Layout
-
-- `00 Documents/`: Concepts, build plans, source materials, and critiques
-- `01 Prediction Module/`: WATTWISE-1 source code
-- `02 Scheduler Module/`: WATTWISE-2 source code
-- `03 User Interface/`: Dashboard interface
-
-## Status
-
-Proposal stage. Registration closes October 21, 2026; the final proposal is due October 23, 2026, at 11:59 PM and requires four components: a pitch deck (10 main slides plus an appendix), a 5-minute demo video, a link to the codebase, and optional supporting documents. Finals take place on November 14, 2026.
-
-WATTWISE-1 runs on calibrated synthetic interval data. WATTWISE-2’s rule engine successfully shaves 14.5% of peak energy use on test days with zero comfort violations, fitting squarely within our target 5% to 15% range. Every figure in this project is clearly labeled as a prototype, published benchmark, or illustrative estimate. All referenced facts are tracked in the sources ledger (`Notes/03-FACTS-AND-SOURCES.md`).
+Energy Commission (2025) *Guidelines for Community Renewable Energy Aggregation Mechanism (CREAM)*, GP/ST/No.55/2025. Miller, C. et al. (2020) 'The Building Data Genome Project 2', *Scientific Data*, 7, 368. Skrine (2025) *Energy Commission issues guidelines for Malaysia's CREAM*. The full list is on the last slide of the deck.

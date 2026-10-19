@@ -1,45 +1,19 @@
-# WattWise — Documentation Log
-*A dated chronological record of builds, updates, and key decisions (newest first).*
+# WattWise: Documentation Log
+*A dated record of what changed and why, newest first. The full history is in the git log.*
 
-> **Note:** Data figures follow our source discipline (verified vs. illustrative). Full engineering history is available via the repository's git log.
+### 2026-10-19: Evidence and cleanup
+- Fact-checked the deck and both HTML pages against the CREAM Guidelines and the committed results. NEDA at 8 sen with no access charge (9.7, 13.2) and the RM45,200 to 55,600 revenue formula are written up in `docs/evidence-provenance.md`.
+- Added `02 Scheduler Module/verify_claims.py`, which recomputes every headline figure from the committed results.
+- Removed the building-side scheduler and the dashboard that depended on it. WattWise is the allocation planner only.
+- Removed the unsourced "6.6% typical month error" claim. The script behind the 590-building benchmark is still not in the repository.
+- Added the corrected pitch deck and a product README with screenshots to this folder.
 
----
+### 2026-10-18: Testing suite
+- `tests.html` for judges: how the estimate works, four appendices (A to D), the engine code, and references.
+- Operator app: allocation lifecycle with 120-day notice deadlines, estimation engine with hold-back, notice preview, settlements, and site maps with meter history.
 
-### 2026-10-13 — Physical Demo Kit (`esp32/wattwise_demo`)
-* **Hardware Evolution:** Upgraded through version iterations to v4. A physical dial actuator physicalizes the active schedule (sweeping quickly during off-peak hours, moving slowly between 08:30–10:30, and running fast in basic mode).
-* **Interface & Controls:** Includes status indicator lights, a 16x2 text display, a power toggle button, and a standalone 5-minute accelerated day cycle.
-* **Companion Link:** `wattwise.py --port COMx` streams status, time, mode, state, and power at 115200 baud. The terminal link acts as the system master clock when connected and automatically wakes up sleeping hardware nodes.
+### 2026-10-17: Operator app and design pass
+- Homeowners, buyers and energy allocations; dashboard restyles; detector findings brought to zero.
 
-### 2026-10-13 — Companion Monitor (`03 User Interface/wattwise.py`)
-* **Terminal Dashboard:** A command-line twin of the main web dashboard sharing the same township data model.
-* **Features:** Five distinct views, 3-level drill-down navigation (entire portfolio $\rightarrow$ township $\rightarrow$ individual building) for building and forecast tabs, a timeline-driven schedule view showing half-hour power allowances per building, day navigation, system health views (equipment watchlist, solar health, rule runtimes), and CSV export capabilities using built-in libraries only.
-
-### 2026-10-12 — Multi-Town Portfolio Setup
-* **Data Model v2:** Expanded to cover three townships (City of Elmina, Bandar Bukit Raja, and Ara Damansara) encompassing 13 buildings total.
-* **Forecasting & Solar:** Incorporates solar forecasts per town and building, demand forecasts per building, and realistic on-site solar utilization (no grid export; excess power is safely clipped).
-* **Dataset Scale:** Total dataset size reached ~640 KB to accommodate a 21-day schedule window (3 weeks $\times$ 7 days $\times$ 13 buildings).
-
-### 2026-10-12 — Smart Scheduler v1
-* **Baseline Configuration:** Implemented per-building equipment parameters with a realistic baseline comparison (using night setbacks and standard morning timers, causing energy peaks to consistently land between 09:30–10:30, matching recorded peak demand windows).
-* **Reference Cases:** Utilized an essential data center building as a reliable counter-example for load profiles.
-* **Tariff Constants:** Integrated commercial Time-of-Use rate structures ($30.19 + 66.87 = 97.06\text{ RM/kW/month}$).
-
-### 2026-10-11 to 2026-10-12 — Foundation: Core Modules (01–03)
-The three modules everything else is built on (first commits of the build, dated from repository history):
-
-* **01 Prediction Module — WATTWISE-1** *(Committed 2026-10-12 00:03)*
-  * Built using two core scripts: `generate_data.py` constructs a calibrated synthetic dataset (one year of 30-minute data for a modelled ~1,000 kW commercial site with 600 kWp PV, totaling 17,520 rows). `train_forecast.py` trains 12 gradient-boosting forecasters (solar and demand across 6 horizons from +30 min to +3 h) evaluated walk-forward on the final 60 days (time order preserved, never shuffled).
-  * **Results:** Solar normalized RMSE of 7.35% (R-squared 0.996); demand mean absolute error of $10.2\text{ kW}$.
-  * **Calibration Anchors:** Specific yield of 1,285 kWh/kWp/year vs. the 1,274 Malaysian national average; load factor of 0.51 (intentionally peaky to provide shaving headroom); net peak landing in a September monsoon month.
-  * **Model Choice:** `HistGradientBoostingRegressor` chosen as a defensible tabular baseline. Any complex neural architecture must outperform this on the exact same split to justify its overhead.
-
-* **02 Scheduler Module — WATTWISE-2 v0** *(Committed 2026-10-12 00:23)*
-  * A rule-based controller coupled with a building thermal simulator, benchmarked against a reactive "dumb" baseline under identical weather and load profiles. Uses a 4-stage priority sequence: **precooling (05:30–08:30) $\rightarrow$ coasting (08:30–10:30) $\rightarrow$ soaking (11:00–14:30 on surplus solar) $\rightarrow$ proportional comfort tracking**.
-  * **Results:** Achieved a 14.5% peak reduction (mean daily peak dropping from 794.6 kW to 679.6 kW) with zero comfort violations, holding zones strictly inside a 24–26 °C band day and night.
-  * **Design Iterations:** Three prior iterations were discarded due to unrealistic physics (e.g., thermal banks that never depleted or afternoon rebounds performing worse than baseline). The final shipped thermal model treats stored coldness as a finite 900 kWh budget and rejects silent comfort overrides.
-
-* **03 User Interface** *(First commit 2026-10-12 00:41, with five same-day revisions)*
-  * Comprises `index.html` and the startup script `START-DASHBOARD.bat`. 
-  * **Evolution Lineage:** 3D township dashboard (Three.js) $\rightarrow$ light theme with Calibri typography, collapsible 2D site map, and live WATTWISE-1 forecast tab $\rightarrow$ solar forecast table-chart (amber capsules with green/red actual underlines) $\rightarrow$ 5-tab engineering workstation (overview register + alarms, scheduler control room, reports/EECA/CSV, command bar) $\rightarrow$ MATLAB-style workstation featuring ribbon toolbars, dockable panels, breadcrumb command bar, and status bar. QA findings from the cleanup pass are documented in `03 User Interface/REVIEW.md`.
-
-> **Source Discipline Notice:** The prediction metrics above represent walk-forward performance on calibrated synthetic data to validate pipelines and feature engineering, not measured field results. Published Malaysian benchmarks of this class indicate solar nRMSE around 6.75% and R-squared around 0.957. Synthetic R-squared values must never be cited as real-world operational performance.
+### 2026-10-12 to 2026-10-14: First builds
+- First dashboard, charts and data model for the township demo.

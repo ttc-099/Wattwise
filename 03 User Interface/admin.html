@@ -692,7 +692,7 @@
 
   <section class="sec" id="sec-settlements">
     <h1>Settlements</h1>
-    <p class="sec-lede">A month settles after it has happened. TNB reads every buyer's real meter and each allocation is checked against what the buyer actually used. Solar allocated beyond that use is given away; the held-back slice is sold at the NEDA floor. One simulated year of the Elmina core scheme <span class="cite">(WattWise, 2026)</span>.</p>
+    <p class="sec-lede">A month settles after it has happened. TNB reads every buyer's real meter and each allocation is checked against what the buyer actually used. Solar allocated beyond that use is given away; the held-back slice is sold via NEDA at 8 sen/kWh. One simulated year of the Elmina core scheme <span class="cite">(WattWise, 2026)</span>.</p>
     <div class="yearline" id="year-line" aria-label="Settled months"></div>
     <div class="ykey"><span><i></i>nothing given away</span><span><i class="ga"></i>some solar given away</span><span>Click a month to open its statements.</span></div>
     <h2>Monthly log</h2>
@@ -1694,7 +1694,7 @@ function noticeMail(d, q) {
     ["Allocation month", d.label],
     ["Your share", q.pct.toFixed(1) + "% of scheme solar"],
     ["Your estimate", fmt(q.est, 0) + " MWh (same month last year \u00d7 trend)"],
-    ["Held back", (d.pp.hb * 100).toFixed(1) + "% for sale at the NEDA floor"],
+    ["Held back", (d.pp.hb * 100).toFixed(1) + "% sold via NEDA (8 sen/kWh)"],
     ["Notice date", nd + " (120 days before the month)"],
     ["Scheme", "Elmina core"]
   ];
@@ -1907,7 +1907,7 @@ function renderSettlements() {
     return '<button class="ystn' + (s.plan[i] > 0 ? " ga" : "") + (i === SET_SEL ? " on" : "") + '" data-m="' + i + '" aria-label="' + m + ", " + fmt(s.plan[i], 1) + ' MWh given away"><i></i><b>' + m + "</b><small>" + fmt(s.plan[i], 1) + "</small></button>";
   }).join("");
   document.getElementById("year-line").innerHTML = line +
-    '<div class="yterm"><b>' + fmt(t.given_away_mwh, 1) + " MWh given away</b>" + t.pct + "% of the year's solar &middot; " + fmt(t.neda, 0) + " MWh held back and sold at the NEDA floor</div>";
+    '<div class="yterm"><b>' + fmt(t.given_away_mwh, 1) + " MWh given away</b>" + t.pct + "% of the year's solar &middot; " + fmt(t.neda, 0) + " MWh held back and sold via NEDA</div>";
   document.querySelectorAll("#year-line .ystn").forEach(function (b) {
     b.addEventListener("click", function () { SET_SEL = +b.dataset.m; renderSettlements(); showMonth(SET_SEL); });
   });

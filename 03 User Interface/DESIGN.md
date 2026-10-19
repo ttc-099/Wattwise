@@ -306,7 +306,7 @@ A vertical 8px line with a coral to amber to sun gradient. Each row (CLAIM, TEST
 A 36px pill track of buyer segments in the categorical palette, with held back energy hatched. Clicking a segment, row or legend chip selects that buyer: the segment gets a 3px inset ink ring, other segments drop to 35% opacity, other rows and chips turn dimmed with their dots at 45%, the selected row fills peach rail, and a caption line under the track names the match. Transitions run 0.25s on `cubic-bezier(.2,.8,.2,1)`.
 
 ### Held Back Hatch
-A 45 degree repeating stripe of line amber and hatch light (6px bands on the track, 4px on legend dots). It always means energy deliberately held back for the NEDA floor.
+A 45 degree repeating stripe of line amber and hatch light (6px bands on the track, 4px on legend dots). It always means energy deliberately held back for sale via NEDA.
 
 ## Do's and Don'ts
 

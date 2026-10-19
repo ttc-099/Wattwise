@@ -24,7 +24,7 @@ and show me it beats what we do now."
    year × (1 + buyer trend). No weather, no calendar features, no ML that
    "learns on its own" — a transparent rule that re-bases from fresh data.
 3. ALLOCATE — shares matched to estimates; a slice deliberately held back to
-   sell at the NEDA floor rather than risk giving energy away (over-allocating
+   sell via NEDA (8 sen/kWh) rather than risk giving energy away (over-allocating
    costs the contract-price difference; under-allocating costs far less).
 4. SETTLE — every filing replayed against actual consumption; the estimate
    re-bases monthly.
