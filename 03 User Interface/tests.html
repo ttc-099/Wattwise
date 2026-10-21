@@ -595,7 +595,7 @@
     <div class="ctr">
       <div class="row"><b>CLAIM</b><span>Homeowners earn from leasing their roofs <span class="cite">(Sime Darby Property, 2025)</span>, and WattWise adds to the scheme's income.</span></div>
       <div class="row"><b>TEST</b><span>Take the median extra income per MWh of solar across the <span data-v="two_n">407</span> real two-buyer schemes, apply it to Elmina's size (<span data-v="el_mwh">9,409</span> MWh a year), then divide across <span data-v="el_roofs">1,368</span> illustrative roofs.</span></div>
-      <div class="row"><b>RESULT</b><span><span data-v="el_gain_30">RM24,600</span> (at 30 sen) to <span data-v="el_gain_15">RM76,000</span> (at 15 sen) a year, <span data-v="el_roof_30">RM18</span> to <span data-v="el_roof_15">RM56</span> per roof <span class="mod">(modelled)</span>. WattWise earned more than a fixed split in <span data-v="two_earns_15">100%</span> of schemes at 15 sen, and <span data-v="two_earns_30">70.5%</span> at 30 sen.</span></div>
+      <div class="row"><b>RESULT</b><span>At the 20 to 30 sen price band: <span data-v="el_gain_30">RM24,600</span> (at 30 sen) to <span data-v="el_gain_20">RM60,400</span> (at 20 sen) a year at Elmina's modelled size, <span data-v="el_roof_30">RM18</span> to <span data-v="el_roof_20">RM44</span> per roof <span class="mod">(modelled)</span>; <span data-v="sc_gain_30">RM108k</span> to <span data-v="sc_gain_20">RM265k</span> at 6,000 roofs. WattWise earned more than a fixed split in <span data-v="two_earns_20">95.3%</span> of schemes at 20 sen, and <span data-v="two_earns_30">70.5%</span> at 30 sen.</span></div>
       <div class="row verdict-row"><b>VERDICT</b><span>PASS, WITH CAVEATS &middot; real but modest per roof, and smaller the higher the CREAM price. Lease terms are negotiated, not set by this tool.</span></div>
     </div>
     <div class="card">
@@ -604,7 +604,7 @@
         <tr><th>Step</th><th class="num">Value</th><th>Basis</th></tr>
         <tr><td>Extra income per MWh</td><td class="num"><span data-v="two_gain_30">RM2.61</span>&ndash;<span data-v="two_gain_15">RM8.08</span></td><td>median of <span data-v="two_n">407</span> real two-buyer schemes, at 30 and 15 sen</td></tr>
         <tr><td>Elmina size</td><td class="num"><span data-v="el_mwh">9,409</span> MWh/yr</td><td>assumed use: Innovation Park 2,626 + Lakeside Mall 6,783 MWh <span class="mod">(assumption)</span></td></tr>
-        <tr><td>At 15 sen/kWh</td><td class="num"><span data-v="el_gain_15">RM76,000</span>/yr</td><td rowspan="4">scheme income, WattWise minus fixed split</td></tr>
+        <tr><td>At 15 sen/kWh <span class="mod">(below the 17 sen break-even)</span></td><td class="num"><span data-v="el_gain_15">RM76,000</span>/yr</td><td rowspan="4">scheme income, WattWise minus fixed split</td></tr>
         <tr><td>At 20 sen/kWh</td><td class="num"><span data-v="el_gain_20">RM60,400</span>/yr</td></tr>
         <tr><td>At 25 sen/kWh</td><td class="num"><span data-v="el_gain_25">RM41,900</span>/yr</td></tr>
         <tr><td>At 30 sen/kWh</td><td class="num"><span data-v="el_gain_30">RM24,600</span>/yr</td></tr>
@@ -612,6 +612,17 @@
         <tr><td>Per roof</td><td class="num"><span data-v="el_roof_30">RM18</span>&ndash;<span data-v="el_roof_15">RM56</span>/yr</td><td>equal split of the extra income</td></tr>
         <tr><td>Floor case: 1 buyer</td><td class="num"><span data-v="ip_gain_30">RM6,000</span>&ndash;<span data-v="ip_gain_15">RM21,800</span>/yr</td><td><b>Innovation Park alone</b>, the announced buyer, <span data-v="ip_mwh">2,626</span> MWh a year, <span data-v="ip_kept">132</span> MWh kept <span class="mod">(median of <span data-v="one_n">821</span> one-buyer schemes)</span></td></tr>
       </table>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">At SDP's pilot target: <span data-v="sc_roofs">6,000</span> roofs</h2>
+      <p class="note" style="margin-top:0">The pilot is reported to target 6,000 homes <span class="cite">(The Malaysian Reserve, 2025)</span>; how many are signed up is not public. The same medians, applied to <span data-v="sc_mwh">41,265</span> MWh of solar a year (<span data-v="sc_kwp">30,000</span> kWp, 5 kWp a roof), for a two-buyer scheme. Scheme income is after the 9 sen access charge and before roof-lease payments, costs and tax.</p>
+      <div class="yscroll"><table class="wk-tbl">
+        <tr><th>CREAM price</th><th>Scheme income, fixed split</th><th>WattWise adds</th><th>As % of income</th></tr>
+        <tr><td>20 sen/kWh</td><td><span data-v="sc_inc_20">RM4.0M</span></td><td><b data-v="sc_gain_20">RM265k</b></td><td><span data-v="sc_pct_20">6.6%</span></td></tr>
+        <tr><td>25 sen/kWh</td><td><span data-v="sc_inc_25">RM6.0M</span></td><td><b data-v="sc_gain_25">RM184k</b></td><td><span data-v="sc_pct_25">3.1%</span></td></tr>
+        <tr><td>30 sen/kWh</td><td><span data-v="sc_inc_30">RM7.9M</span></td><td><b data-v="sc_gain_30">RM108k</b></td><td><span data-v="sc_pct_30">1.4%</span></td></tr>
+      </table></div>
+      <p class="note">Below 17 sen (8 sen NEDA + 9 sen access charge) selling to a buyer is worth less than NEDA, which is why the table starts at 20 sen; at 15 sen the gain would be <span data-v="sc_gain_15">RM333k</span> on <span data-v="sc_inc_15">RM2.1M</span>, but 15 sen is an unlikely contract price. The gain also depends on SDP using a fixed yearly split today; against simply copying last year's month it is about <span data-v="two_gcopy_15">RM1.24</span> per MWh at 15 sen and <span data-v="two_gcopy_30">-RM1.39</span> at 30 sen.</p>
     </div>
     <p class="note">No Elmina meter data is public, so these are benchmark medians applied to Elmina's assumed size, not measurements at Elmina. Lakeside Mall is a second buyer in our model only. Innovation Park is the announced buyer <span class="cite">(The Malaysian Reserve, 2025)</span>.</p>
   </div>
@@ -624,7 +635,7 @@
       <div class="row"><b>CLAIM</b><span>SDP can build schemes 20% larger for the same buyers and still give away less than a fixed split does today.</span></div>
       <div class="row"><b>TEST</b><span>Replay the <span data-v="two_n">407</span> two-buyer schemes with solar sized at 1.0&times;, 1.1&times; and 1.2&times; of the buyers' use. Compare WattWise at each size against today's fixed split at 1.0&times; <span class="cite">(Miller et al., 2020; WattWise, 2026)</span>.</span></div>
       <div class="row"><b>RESULT</b><span>At 1.2&times; WattWise gives away a median <span data-v="two_o12_plan">2.17%</span>, below a fixed split's <span data-v="two_fixed">6.05%</span> at today's size, and no worse than it in <span data-v="two_o12_nw">94.6%</span> of schemes <span class="cite">(WattWise, 2026)</span>.</span></div>
-      <div class="row verdict-row"><b>VERDICT</b><span>PASS &middot; 20% more solar, so room for about 20% more roofs, with less give-away than today's fixed split.</span></div>
+      <div class="row verdict-row"><b>VERDICT</b><span>PASS, WITH CAVEATS &middot; a 20% larger scheme still gives away less than today's fixed split. But about <span data-v="two_o12_neda">76%</span> of the extra solar is sold via NEDA at 8 sen, not to buyers at the CREAM price, and the replay does not model feeder limits (2 MWp each), roof availability or lease take-up.</span></div>
     </div>
     <div class="card"><table class="cmp size">
       <tr><th>Scheme size</th><th class="num">Fixed split</th><th class="num">WattWise</th><th>WattWise no worse than fixed at 1.0&times;</th></tr>

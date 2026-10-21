@@ -57,6 +57,7 @@ NEDA_RM_KWH = 0.08
 CAC_RM_KWH = 0.09
 PRICES = [0.15, 0.20, 0.25, 0.30]
 KWP_PER_ROOF = 5.0
+SCALE_ROOFS = 6000                  # SDP's stated pilot target (the number actually signed up is not public)
 OVERSIZE = [1.1, 1.2]
 HOT_HUMID_SITES = ["Bull"]          # Texas: the only humid subtropical site with complete 2016-2017 data
 ELMINA_BUYERS = [("Elmina Innovation Park", 2626), ("Elmina Lakeside Mall", 6783)]   # assumed MWh a year
@@ -171,11 +172,14 @@ def score(loads, pv):
     s = {"fixed": f["given_pct"], "copy": c["given_pct"], "plan": p["given_pct"],
          "gain_fixed": {pr: (revenue(p, pr) - revenue(f, pr)) / mwh for pr in PRICES},
          "gain_copy": {pr: (revenue(p, pr) - revenue(c, pr)) / mwh for pr in PRICES}}
+    s["rev_fixed"] = {pr: revenue(f, pr) / mwh for pr in PRICES}
     for r in OVERSIZE:
         _, rr = run_scheme(loads, pv, r)
         s["over_fixed_%s" % r] = rr["fixed"][1]["given_pct"]
         s["over_plan_%s" % r] = rr["plan"][1]["given_pct"]
-    errs = [abs(estimate(u, t)[0] - u[t]) / u[t] * 100 for u in loads for t in range(12, 24)]
+        extra = rr["plan"][1]["solar"] - p["solar"]          # the extra solar of the bigger scheme
+        s["over_neda_%s" % r] = (rr["plan"][1]["neda"] - p["neda"]) / extra
+    errs =[abs(estimate(u, t)[0] - u[t]) / u[t] * 100 for u in loads for t in range(12, 24)]
     s["errs"] = errs
     s["worst"] = [max(abs(estimate(u, t)[0] - u[t]) / u[t] * 100 for t in range(12, 24)) for u in loads]
     return s
@@ -196,8 +200,10 @@ def summarise(scores):
         "plan_gain_vs_fixed_rm_per_mwh_median": {"%d" % round(pr * 100): med([s["gain_fixed"][pr] for s in scores]) for pr in PRICES},
         "plan_gain_vs_copy_rm_per_mwh_median": {"%d" % round(pr * 100): med([s["gain_copy"][pr] for s in scores]) for pr in PRICES},
         "plan_earns_more_than_fixed_pct": {"%d" % round(pr * 100): share([s["gain_fixed"][pr] > 0 for s in scores]) for pr in PRICES},
+        "fixed_income_rm_per_mwh_median": {"%d" % round(pr * 100): med([s["rev_fixed"][pr] for s in scores]) for pr in PRICES},
         "oversize": {str(r): {"fixed": med(col("over_fixed_%s" % r)), "plan": med(col("over_plan_%s" % r)),
-                              "plan_no_worse_than_fixed_at_1x_pct": share([s["over_plan_%s" % r] <= s["fixed"] for s in scores])}
+                              "plan_no_worse_than_fixed_at_1x_pct": share([s["over_plan_%s" % r] <= s["fixed"] for s in scores]),
+                              "extra_solar_to_neda_pct": round(statistics.median(col("over_neda_%s" % r)) * 100, 1)}
                      for r in OVERSIZE},
         "estimate_error_pct": {"median_month": round(statistics.median([e for s in scores for e in s["errs"]]), 1),
                                "worst_month_median": round(statistics.median([w for s in scores for w in s["worst"]]), 1)},
@@ -242,6 +248,15 @@ def elmina(two, one, pv, example):
             "basis": "median of the %d real %s schemes, applied to %d MWh a year" % (b["n"], "two-buyer" if len(buyers) == 2 else "one-buyer", use_mwh),
         }
     out["example_year"] = example
+    # SDP's stated pilot target: the same medians applied to 6,000 roofs
+    kwp6 = SCALE_ROOFS * KWP_PER_ROOF
+    mwh6 = kwp6 * sum(pv["kwh_per_kwp_long_term"]) / 1000
+    gain6 = {k: round(v * mwh6) for k, v in two["plan_gain_vs_fixed_rm_per_mwh_median"].items()}
+    inc6 = {k: round(v * mwh6) for k, v in two["fixed_income_rm_per_mwh_median"].items()}
+    out["scale"] = {"roofs": SCALE_ROOFS, "scheme_kwp": round(kwp6), "solar_mwh": round(mwh6), "buyers": 2,
+                    "gain_rm_by_price_sen": gain6, "fixed_split_income_rm_by_price_sen": inc6,
+                    "gain_pct_of_income_by_price_sen": {k: round(gain6[k] / inc6[k] * 100, 1) for k in gain6},
+                    "basis": "median of the %d real two-buyer schemes, applied to %d roofs; income is after the 9 sen access charge" % (two["n"], SCALE_ROOFS)}
     return out
 
 
@@ -311,7 +326,7 @@ def facts(r):
         f.update({k + "_n": "{:,}".format(x["n"]), k + "_fixed": pc(g["fixed"]), k + "_copy": pc(g["copy_last_year"]), k + "_plan": pc(g["plan"]),
                   k + "_fixed_p90": pc(x["given_away_p90_pct"]["fixed"]), k + "_plan_p90": pc(x["given_away_p90_pct"]["plan"]),
                   k + "_less_fixed": pc(x["plan_gives_away_less_than_fixed_pct"], 1), k + "_less_copy": pc(x["plan_gives_away_less_than_copy_pct"], 1),
-                  k + "_earns_15": pc(x["plan_earns_more_than_fixed_pct"]["15"], 1), k + "_earns_30": pc(x["plan_earns_more_than_fixed_pct"]["30"], 1),
+                  k + "_earns_15": pc(x["plan_earns_more_than_fixed_pct"]["15"], 1), k + "_earns_20": pc(x["plan_earns_more_than_fixed_pct"]["20"], 1), k + "_earns_30": pc(x["plan_earns_more_than_fixed_pct"]["30"], 1),
                   k + "_gain_15": rmx(x["plan_gain_vs_fixed_rm_per_mwh_median"]["15"]), k + "_gain_30": rmx(x["plan_gain_vs_fixed_rm_per_mwh_median"]["30"]),
                   k + "_gcopy_15": rmx(x["plan_gain_vs_copy_rm_per_mwh_median"]["15"]), k + "_gcopy_30": rmx(x["plan_gain_vs_copy_rm_per_mwh_median"]["30"]),
                   k + "_err_med": pc(x["estimate_error_pct"]["median_month"], 1), k + "_err_worst": pc(x["estimate_error_pct"]["worst_month_median"], 1)})
@@ -324,7 +339,15 @@ def facts(r):
         f.update({k + "_mwh": "{:,}".format(s["assumed_use_mwh"]), k + "_kwp": "{:,}".format(s["scheme_kwp"]), k + "_roofs": "{:,}".format(s["roofs_illustrative"]),
                   k + "_kept": "{:,}".format(s["kept_mwh"]), k + "_paid_fixed": pc(s["paid_for_pct"]["fixed"], 1), k + "_paid_plan": pc(s["paid_for_pct"]["plan"], 1),
                   k + "_gain_15": rm(g["15"]), k + "_gain_20": rm(g["20"]), k + "_gain_25": rm(g["25"]), k + "_gain_30": rm(g["30"]),
-                  k + "_roof_15": "RM%d" % round(g["15"] / s["roofs_illustrative"]), k + "_roof_30": "RM%d" % round(g["30"] / s["roofs_illustrative"])})
+                  k + "_roof_15": "RM%d" % round(g["15"] / s["roofs_illustrative"]), k + "_roof_20": "RM%d" % round(g["20"] / s["roofs_illustrative"]), k + "_roof_30": "RM%d" % round(g["30"] / s["roofs_illustrative"])})
+    sc = e["scale"]
+    rk = lambda x: "RM%dk" % round(x / 1000)
+    rmm = lambda x: "RM%.1fM" % (x / 1e6)
+    f.update({"sc_roofs": "{:,}".format(sc["roofs"]), "sc_mwh": "{:,}".format(sc["solar_mwh"]), "sc_kwp": "{:,}".format(sc["scheme_kwp"])})
+    for p_ in ("15", "20", "25", "30"):
+        f.update({"sc_gain_" + p_: rk(sc["gain_rm_by_price_sen"][p_]), "sc_inc_" + p_: rmm(sc["fixed_split_income_rm_by_price_sen"][p_]),
+                  "sc_pct_" + p_: pc(sc["gain_pct_of_income_by_price_sen"][p_], 1)})
+    f["two_o12_neda"] = pc(b["two_buyer"]["oversize"]["1.2"]["extra_solar_to_neda_pct"], 0)
     t = ex["totals_mwh"]
     f.update({"ex_buildings": " and ".join(ex["buildings"]), "ex_kwp": "{:,}".format(ex["scheme_kwp"]),
               "ex_solar": "{:,.1f}".format(t["fixed"]["solar"]),

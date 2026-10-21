@@ -70,16 +70,24 @@
     "25": 78.8,
     "30": 63.9
    },
+   "fixed_income_rm_per_mwh_median": {
+    "15": 51.04,
+    "20": 98.05,
+    "25": 145.06,
+    "30": 192.07
+   },
    "oversize": {
     "1.1": {
      "fixed": 11.56,
      "plan": 1.4,
-     "plan_no_worse_than_fixed_at_1x_pct": 94.5
+     "plan_no_worse_than_fixed_at_1x_pct": 94.5,
+     "extra_solar_to_neda_pct": 68.3
     },
     "1.2": {
      "fixed": 17.6,
      "plan": 1.73,
-     "plan_no_worse_than_fixed_at_1x_pct": 90.5
+     "plan_no_worse_than_fixed_at_1x_pct": 90.5,
+     "extra_solar_to_neda_pct": 74.7
     }
    },
    "estimate_error_pct": {
@@ -120,16 +128,24 @@
     "25": 84.5,
     "30": 70.5
    },
+   "fixed_income_rm_per_mwh_median": {
+    "15": 50.93,
+    "20": 97.91,
+    "25": 144.89,
+    "30": 191.86
+   },
    "oversize": {
     "1.1": {
      "fixed": 11.58,
      "plan": 1.88,
-     "plan_no_worse_than_fixed_at_1x_pct": 96.1
+     "plan_no_worse_than_fixed_at_1x_pct": 96.1,
+     "extra_solar_to_neda_pct": 68.5
     },
     "1.2": {
      "fixed": 17.55,
      "plan": 2.17,
-     "plan_no_worse_than_fixed_at_1x_pct": 94.6
+     "plan_no_worse_than_fixed_at_1x_pct": 94.6,
+     "extra_solar_to_neda_pct": 76.5
     }
    },
    "estimate_error_pct": {
@@ -170,16 +186,24 @@
     "25": 76.5,
     "30": 50.6
    },
+   "fixed_income_rm_per_mwh_median": {
+    "15": 54.38,
+    "20": 102.51,
+    "25": 150.63,
+    "30": 198.76
+   },
    "oversize": {
     "1.1": {
      "fixed": 9.49,
      "plan": 1.21,
-     "plan_no_worse_than_fixed_at_1x_pct": 91.8
+     "plan_no_worse_than_fixed_at_1x_pct": 91.8,
+     "extra_solar_to_neda_pct": 68.3
     },
     "1.2": {
      "fixed": 15.92,
      "plan": 1.39,
-     "plan_no_worse_than_fixed_at_1x_pct": 87.1
+     "plan_no_worse_than_fixed_at_1x_pct": 87.1,
+     "extra_solar_to_neda_pct": 81.4
     }
    },
    "estimate_error_pct": {
@@ -220,16 +244,24 @@
     "25": 81.0,
     "30": 54.8
    },
+   "fixed_income_rm_per_mwh_median": {
+    "15": 54.26,
+    "20": 102.34,
+    "25": 150.43,
+    "30": 198.51
+   },
    "oversize": {
     "1.1": {
      "fixed": 9.25,
      "plan": 1.42,
-     "plan_no_worse_than_fixed_at_1x_pct": 92.9
+     "plan_no_worse_than_fixed_at_1x_pct": 92.9,
+     "extra_solar_to_neda_pct": 70.2
     },
     "1.2": {
      "fixed": 15.77,
      "plan": 1.6,
-     "plan_no_worse_than_fixed_at_1x_pct": 90.5
+     "plan_no_worse_than_fixed_at_1x_pct": 90.5,
+     "extra_solar_to_neda_pct": 82.0
     }
    },
    "estimate_error_pct": {
@@ -437,6 +469,31 @@
      "used_plan_mwh": 650.49
     }
    ]
+  },
+  "scale": {
+   "roofs": 6000,
+   "scheme_kwp": 30000,
+   "solar_mwh": 41265,
+   "buyers": 2,
+   "gain_rm_by_price_sen": {
+    "15": 333424,
+    "20": 264923,
+    "25": 183631,
+    "30": 107702
+   },
+   "fixed_split_income_rm_by_price_sen": {
+    "15": 2101642,
+    "20": 4040286,
+    "25": 5978929,
+    "30": 7917160
+   },
+   "gain_pct_of_income_by_price_sen": {
+    "15": 15.9,
+    "20": 6.6,
+    "25": 3.1,
+    "30": 1.4
+   },
+   "basis": "median of the 407 real two-buyer schemes, applied to 6000 roofs; income is after the 9 sen access charge"
   }
  }
 }

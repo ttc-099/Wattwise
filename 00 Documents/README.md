@@ -38,9 +38,10 @@ One command rebuilds every number below, on the deck and on both web pages: `pyt
 | Gives away less than copy-last-year | 83.3% of two-buyer schemes (77.2% one-buyer) | measured |
 | Scheme built 1.2x larger | WattWise gives away 2.17%, below a fixed split's 6.05% today; no worse in 94.6% of schemes | measured |
 | Estimate error | median month 7.9%; a buyer's worst month 22.4% (median) | measured |
-| Elmina size (9,409 MWh a year, 6,840 kWp, 1,368 roofs) | 443 MWh a year kept from being given away; paid-for share 94.0% to 98.7% | benchmark medians applied to the assumed size |
-| Extra scheme income, Elmina size | RM24,600 (at 30 sen) to RM76,000 (at 15 sen) a year; RM18 to RM56 per roof | modelled; the real CREAM price is private |
-| Floor case: Innovation Park alone | RM6,000 to RM21,800 a year | modelled |
+| Elmina size (9,409 MWh a year, 6,840 kWp, 1,368 roofs) | 443 MWh a year kept from being given away | benchmark medians applied to the assumed size |
+| Extra scheme income, Elmina size | RM24,600 to RM60,400 a year at 30 to 20 sen/kWh; RM18 to RM44 per roof | modelled; the real CREAM price is private, and below 17 sen NEDA beats selling to a buyer |
+| Floor case: Innovation Park alone | RM6,000 to RM16,100 a year at 30 to 20 sen/kWh | modelled |
+| SDP's 6,000-roof pilot target (41,265 MWh a year, 2 buyers assumed) | RM108k to RM265k a year, 1.4% to 6.6% of scheme income after the access charge | modelled; before roof-lease payments, costs and tax. The number of roofs signed up is not public |
 
 Honest limits: the extra income shrinks as the CREAM price rises, and above about 20 sen copying last year earns slightly more than WattWise, because the hold-back sells at 8 sen some energy a buyer would have used. No Elmina meter data is public, so Elmina figures are benchmark medians at Elmina's assumed size; Lakeside Mall as a second buyer is an assumption.
 

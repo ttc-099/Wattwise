@@ -7,7 +7,7 @@ var WWReplay = (function () {
   for (var y = 2016; y <= 2017; y++) for (var m = 1; m <= 12; m++) MONTHS.push([y, m]);
   var MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   var DEFAULTS = { holdBack: 0.02, trendCap: 0.25, noticeDays: 120, neda: 0.08, cac: 0.09, prices: [0.15, 0.20, 0.25, 0.30],
-                   kwpPerRoof: 5.0, oversize: [1.1, 1.2], hotSites: ["Bull"],
+                   kwpPerRoof: 5.0, scaleRoofs: 6000, oversize: [1.1, 1.2], hotSites: ["Bull"],
                    elmina: [["Elmina Innovation Park", 2626], ["Elmina Lakeside Mall", 6783]] };
 
   // ---------- Python-compatible rounding and formatting
@@ -136,10 +136,13 @@ var WWReplay = (function () {
       s.gain_fixed[pr] = (revenue(p, pr, P) - revenue(f, pr, P)) / mwh;
       s.gain_copy[pr] = (revenue(p, pr, P) - revenue(c, pr, P)) / mwh;
     });
+    s.rev_fixed = {};
+    P.prices.forEach(function (pr) { s.rev_fixed[pr] = revenue(f, pr, P) / mwh; });
     P.oversize.forEach(function (r) {
       var rr = runScheme(loads, pv, r, P)[1];
       s["over_fixed_" + r] = rr.fixed[1].given_pct;
       s["over_plan_" + r] = rr.plan[1].given_pct;
+      s["over_neda_" + r] = (rr.plan[1].neda - p.neda) / (rr.plan[1].solar - p.solar);
     });
     s.errs = []; s.worst = [];
     loads.forEach(function (u) {
@@ -174,9 +177,12 @@ var WWReplay = (function () {
       out.plan_gain_vs_copy_rm_per_mwh_median[k] = med(scores.map(function (s) { return s.gain_copy[pr]; }));
       out.plan_earns_more_than_fixed_pct[k] = share(scores.map(function (s) { return s.gain_fixed[pr] > 0; }));
     });
+    out.fixed_income_rm_per_mwh_median = {};
+    P.prices.forEach(function (pr) { out.fixed_income_rm_per_mwh_median[priceKey(pr)] = med(scores.map(function (s) { return s.rev_fixed[pr]; })); });
     P.oversize.forEach(function (r) {
       out.oversize[String(r)] = { fixed: med(col("over_fixed_" + r)), plan: med(col("over_plan_" + r)),
-        plan_no_worse_than_fixed_at_1x_pct: share(scores.map(function (s) { return s["over_plan_" + r] <= s.fixed; })) };
+        plan_no_worse_than_fixed_at_1x_pct: share(scores.map(function (s) { return s["over_plan_" + r] <= s.fixed; })),
+        extra_solar_to_neda_pct: pyRoundD(median(col("over_neda_" + r)) * 100, 1) };
     });
     return out;
   }
@@ -210,6 +216,13 @@ var WWReplay = (function () {
         kept_mwh: pyRound((b.given_away_median_pct.fixed - b.given_away_median_pct.plan) / 100 * useMwh), gain_rm_by_price_sen: g };
     });
     out.example_year = example;
+    var kwp6 = P.scaleRoofs * P.kwpPerRoof, mwh6 = kwp6 * sum(pv.kwh_per_kwp_long_term) / 1000, gain6 = {}, inc6 = {}, pct6 = {};
+    Object.keys(two.plan_gain_vs_fixed_rm_per_mwh_median).forEach(function (k) {
+      gain6[k] = pyRound(two.plan_gain_vs_fixed_rm_per_mwh_median[k] * mwh6);
+      inc6[k] = pyRound(two.fixed_income_rm_per_mwh_median[k] * mwh6);
+      pct6[k] = pyRoundD(gain6[k] / inc6[k] * 100, 1);
+    });
+    out.scale = { roofs: P.scaleRoofs, scheme_kwp: pyRound(kwp6), solar_mwh: pyRound(mwh6), buyers: 2, gain_rm_by_price_sen: gain6, fixed_split_income_rm_by_price_sen: inc6, gain_pct_of_income_by_price_sen: pct6 };
     return out;
   }
 
@@ -284,7 +297,7 @@ var WWReplay = (function () {
       f[k + "_n"] = comma(x.n); f[k + "_fixed"] = pc(g.fixed); f[k + "_copy"] = pc(g.copy_last_year); f[k + "_plan"] = pc(g.plan);
       f[k + "_fixed_p90"] = pc(x.given_away_p90_pct.fixed); f[k + "_plan_p90"] = pc(x.given_away_p90_pct.plan);
       f[k + "_less_fixed"] = pc(x.plan_gives_away_less_than_fixed_pct, 1); f[k + "_less_copy"] = pc(x.plan_gives_away_less_than_copy_pct, 1);
-      f[k + "_earns_15"] = pc(x.plan_earns_more_than_fixed_pct["15"], 1); f[k + "_earns_30"] = pc(x.plan_earns_more_than_fixed_pct["30"], 1);
+      f[k + "_earns_15"] = pc(x.plan_earns_more_than_fixed_pct["15"], 1); f[k + "_earns_20"] = pc(x.plan_earns_more_than_fixed_pct["20"], 1); f[k + "_earns_30"] = pc(x.plan_earns_more_than_fixed_pct["30"], 1);
       f[k + "_gain_15"] = rmx(x.plan_gain_vs_fixed_rm_per_mwh_median["15"]); f[k + "_gain_30"] = rmx(x.plan_gain_vs_fixed_rm_per_mwh_median["30"]);
       f[k + "_gcopy_15"] = rmx(x.plan_gain_vs_copy_rm_per_mwh_median["15"]); f[k + "_gcopy_30"] = rmx(x.plan_gain_vs_copy_rm_per_mwh_median["30"]);
       f[k + "_err_med"] = pc(x.estimate_error_pct.median_month, 1); f[k + "_err_worst"] = pc(x.estimate_error_pct.worst_month_median, 1);
@@ -298,8 +311,12 @@ var WWReplay = (function () {
       f[k + "_mwh"] = comma(s.assumed_use_mwh); f[k + "_kwp"] = comma(s.scheme_kwp); f[k + "_roofs"] = comma(s.roofs_illustrative);
       f[k + "_kept"] = comma(s.kept_mwh); f[k + "_paid_fixed"] = pc(s.paid_for_pct.fixed, 1); f[k + "_paid_plan"] = pc(s.paid_for_pct.plan, 1);
       ["15", "20", "25", "30"].forEach(function (p) { f[k + "_gain_" + p] = rm(g[p]); });
-      f[k + "_roof_15"] = "RM" + pyRound(g["15"] / s.roofs_illustrative); f[k + "_roof_30"] = "RM" + pyRound(g["30"] / s.roofs_illustrative);
+      f[k + "_roof_15"] = "RM" + pyRound(g["15"] / s.roofs_illustrative); f[k + "_roof_20"] = "RM" + pyRound(g["20"] / s.roofs_illustrative); f[k + "_roof_30"] = "RM" + pyRound(g["30"] / s.roofs_illustrative);
     });
+    var sc = e.scale, rk = function (x) { return "RM" + pyRound(x / 1000) + "k"; }, rmm = function (x) { return "RM" + pyFixed(x / 1e6, 1) + "M"; };
+    f.sc_roofs = comma(sc.roofs); f.sc_mwh = comma(sc.solar_mwh); f.sc_kwp = comma(sc.scheme_kwp);
+    ["15", "20", "25", "30"].forEach(function (p) { f["sc_gain_" + p] = rk(sc.gain_rm_by_price_sen[p]); f["sc_inc_" + p] = rmm(sc.fixed_split_income_rm_by_price_sen[p]); f["sc_pct_" + p] = pc(sc.gain_pct_of_income_by_price_sen[p], 1); });
+    f.two_o12_neda = pc(b.two_buyer.oversize["1.2"].extra_solar_to_neda_pct, 0);
     var t = ex.totals_mwh;
     f.ex_buildings = ex.buildings.join(" and "); f.ex_kwp = comma(ex.scheme_kwp); f.ex_solar = comma1(t.fixed.solar);
     f.ex_fixed = comma1(t.fixed.given); f.ex_copy = comma1(t.copy_last_year.given); f.ex_plan = comma1(t.plan.given);
