@@ -57,6 +57,9 @@ NEDA_RM_KWH = 0.08
 CAC_RM_KWH = 0.09
 PRICES = [0.15, 0.20, 0.25, 0.30]
 KWP_PER_ROOF = 5.0
+# Grid emission factor, Peninsular Malaysia 2024 (provisional), tCO2e per MWh: Energy Commission (2026)
+# "Grid Emission Factor (GEF) in Malaysia, 2022-2024 (Provisional)", published 23 Feb 2026 (0.769 in 2022, 0.760 in 2023).
+GEF_TCO2_PER_MWH = 0.740
 SCALE_ROOFS = 6000                  # SDP's stated pilot target (the number actually signed up is not public)
 OVERSIZE = [1.1, 1.2]
 HOT_HUMID_SITES = ["Bull"]          # Texas: the only humid subtropical site with complete 2016-2017 data
@@ -325,9 +328,9 @@ def facts(r):
         g = x["given_away_median_pct"]
         f.update({k + "_n": "{:,}".format(x["n"]), k + "_fixed": pc(g["fixed"]), k + "_copy": pc(g["copy_last_year"]), k + "_plan": pc(g["plan"]),
                   k + "_fixed_p90": pc(x["given_away_p90_pct"]["fixed"]), k + "_plan_p90": pc(x["given_away_p90_pct"]["plan"]),
-                  k + "_less_fixed": pc(x["plan_gives_away_less_than_fixed_pct"], 1), k + "_less_copy": pc(x["plan_gives_away_less_than_copy_pct"], 1),
+                  k + "_cut": pc((g["fixed"] - g["plan"]) / g["fixed"] * 100, 0), k + "_less_fixed": pc(x["plan_gives_away_less_than_fixed_pct"], 1), k + "_less_copy": pc(x["plan_gives_away_less_than_copy_pct"], 1),
                   k + "_earns_15": pc(x["plan_earns_more_than_fixed_pct"]["15"], 1), k + "_earns_20": pc(x["plan_earns_more_than_fixed_pct"]["20"], 1), k + "_earns_30": pc(x["plan_earns_more_than_fixed_pct"]["30"], 1),
-                  k + "_gain_15": rmx(x["plan_gain_vs_fixed_rm_per_mwh_median"]["15"]), k + "_gain_30": rmx(x["plan_gain_vs_fixed_rm_per_mwh_median"]["30"]),
+                  k + "_gain_20": rmx(x["plan_gain_vs_fixed_rm_per_mwh_median"]["20"]), k + "_gain_15": rmx(x["plan_gain_vs_fixed_rm_per_mwh_median"]["15"]), k + "_gain_30": rmx(x["plan_gain_vs_fixed_rm_per_mwh_median"]["30"]),
                   k + "_gcopy_15": rmx(x["plan_gain_vs_copy_rm_per_mwh_median"]["15"]), k + "_gcopy_30": rmx(x["plan_gain_vs_copy_rm_per_mwh_median"]["30"]),
                   k + "_err_med": pc(x["estimate_error_pct"]["median_month"], 1), k + "_err_worst": pc(x["estimate_error_pct"]["worst_month_median"], 1)})
         for ratio in OVERSIZE:
@@ -343,6 +346,8 @@ def facts(r):
     sc = e["scale"]
     rk = lambda x: "RM%dk" % round(x / 1000)
     rmm = lambda x: "RM%.1fM" % (x / 1e6)
+    sc_kept = sc["solar_mwh"] * (b["two_buyer"]["given_away_median_pct"]["fixed"] - b["two_buyer"]["given_away_median_pct"]["plan"]) / 100
+    f.update({"gef": "%.3f" % GEF_TCO2_PER_MWH, "el_co2": "{:,}".format(round(core["kept_mwh"] * GEF_TCO2_PER_MWH)), "sc_kept": "{:,}".format(round(sc_kept)), "sc_co2": "{:,}".format(round(sc_kept * GEF_TCO2_PER_MWH))})
     f.update({"sc_roofs": "{:,}".format(sc["roofs"]), "sc_mwh": "{:,}".format(sc["solar_mwh"]), "sc_kwp": "{:,}".format(sc["scheme_kwp"])})
     for p_ in ("15", "20", "25", "30"):
         f.update({"sc_gain_" + p_: rk(sc["gain_rm_by_price_sen"][p_]), "sc_inc_" + p_: rmm(sc["fixed_split_income_rm_by_price_sen"][p_]),

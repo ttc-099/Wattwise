@@ -2,7 +2,7 @@
 
 WattWise is software that tells Sime Darby Property (SDP) how to share its residents' rooftop solar between the buildings that buy it, four months ahead. It is Team Promax's entry to the Sime Darby Hackathon 2026, "Township of Tomorrow".
 
-The pitch deck is in this folder: [WattWise Pitch Deck.pdf](WattWise%20Pitch%20Deck.pdf).
+The pitch deck is in this folder: [WattWise Pitch Deck.pdf](WattWise%20Pitch%20Deck.pdf) (editable: [WattWise Pitch Deck (final).pptx](WattWise%20Pitch%20Deck%20%28final%29.pptx)).
 
 **Live demo:** [wattwise-promax.netlify.app](https://wattwise-promax.netlify.app) (operator app and testing suite, demo data only).
 

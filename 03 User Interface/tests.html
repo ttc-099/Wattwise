@@ -445,6 +445,7 @@
       <h2>References</h2>
       <ul>
         <li>Energy Commission (2025) <i>Guidelines for Community Renewable Energy Aggregation Mechanism (CREAM)</i>, GP/ST/No.55/2025. Putrajaya: Suruhanjaya Tenaga. Available at: https://www.st.gov.my (Accessed: 18 October 2026).</li>
+        <li>Energy Commission (2026) <i>Grid Emission Factor (GEF) in Malaysia, 2022-2024 (Provisional)</i>. Putrajaya: Suruhanjaya Tenaga, 23 February. Available at: https://myenergystats.st.gov.my/documents/d/guest/grid-emission-factor-gef-in-malaysia-2022-2024-provisional- (Accessed: 22 October 2026).</li>
         <li>European Commission Joint Research Centre (2022) <i>Photovoltaic Geographical Information System (PVGIS) 5.2</i> [Online tool]. Available at: https://re.jrc.ec.europa.eu/pvg_tools/ (Accessed: 19 October 2026).</li>
         <li>Miller, C., Kathirgamanathan, A., Picchetti, B. et al. (2020) &lsquo;The Building Data Genome Project 2, energy meter data from the ASHRAE Great Energy Predictor III competition&rsquo;, <i>Scientific Data</i>, 7, 368. Available at: https://doi.org/10.1038/s41597-020-00712-x.</li>
         <li>Sime Darby Property (2025) <i>Sime Darby Property launches nation&rsquo;s first residential solar project under NETR</i> [Press release]. 26 September. Available at: https://www.simedarbyproperty.com (Accessed: 18 October 2026).</li>
@@ -543,7 +544,7 @@
           <li><b>Measures:</b> the share of the year's solar given away (lower is better), and the scheme's income at 15 to 30 sen/kWh.</li>
         </ol>
         <div class="card"><table class="cmp policy3">
-          <tr><th>Schemes</th><th class="num">Fixed split</th><th class="num">Copy last year</th><th class="num">WattWise</th></tr>
+          <tr><th>Test cases</th><th class="num">Fixed split</th><th class="num">Copy last year</th><th class="num">WattWise</th></tr>
           <tr><td><span data-v="two_n">407</span> two-buyer</td><td class="num"><span data-v="two_fixed">6.05%</span></td><td class="num"><span data-v="two_copy">1.95%</span></td><td class="num good"><span data-v="two_plan">1.34%</span></td></tr>
           <tr><td><span data-v="one_n">821</span> one-buyer</td><td class="num"><span data-v="one_fixed">5.98%</span></td><td class="num"><span data-v="one_copy">1.49%</span></td><td class="num good"><span data-v="one_plan">0.95%</span></td></tr>
           <tr><td><span data-v="hot2_n">42</span> two-buyer, humid Texas site</td><td class="num"><span data-v="hot2_fixed">3.83%</span></td><td class="num"><span data-v="hot2_copy">1.28%</span></td><td class="num good"><span data-v="hot2_plan">0.85%</span></td></tr>
@@ -565,9 +566,19 @@
     <div class="ctr">
       <div class="row"><b>CLAIM</b><span>WattWise gives away less solar than a fixed split.</span></div>
       <div class="row"><b>TEST</b><span>Replay 2017 for all <span data-v="two_n">407</span> real two-buyer schemes under a fixed split and under WattWise: same buyers, same solar <span class="cite">(Miller et al., 2020; WattWise, 2026)</span>. Below, the scheme closest to the median result, scaled to Elmina's size, every month.</span></div>
-      <div class="row"><b>RESULT</b><span>Median give-away falls from <span data-v="two_fixed">6.05%</span> to <span data-v="two_plan">1.34%</span> of the year's solar. At Elmina's size (<span data-v="el_mwh">9,409</span> MWh a year) that is <span data-v="el_kept">443</span> MWh a year no longer given away <span class="mod">(modelled)</span>.</span></div>
+      <div class="row"><b>RESULT</b><span>Median give-away falls from <span data-v="two_fixed">6.05%</span> to <span data-v="two_plan">1.34%</span> of the year's solar. At Elmina's size (<span data-v="el_mwh">9,409</span> MWh a year) that is <span data-v="el_kept">443</span> MWh a year no longer given away <span class="mod">(modelled)</span>. At the Peninsular grid's <span data-v="gef">0.740</span> tCO&#8322;e/MWh <span class="cite">(Energy Commission, 2026)</span> that is about <span data-v="el_co2">328</span> tonnes of CO&#8322;e a year, or about <span data-v="sc_co2">1,438</span> tonnes at the 6,000-roof target (<span data-v="sc_kept">1,944</span> MWh a year kept).</span></div>
       <div class="row verdict-row"><b>VERDICT</b><span>PASS &middot; WattWise gave away less than a fixed split in <span data-v="two_less_fixed">99.8%</span> of real two-buyer schemes.</span></div>
     </div>
+    <h2>Median share of the year's solar given away</h2>
+        <div class="card"><table class="cmp policy3">
+          <tr><th>Test cases</th><th class="num">Fixed split</th><th class="num">Copy last year</th><th class="num">WattWise</th></tr>
+          <tr><td><span data-v="two_n">407</span> two-buyer</td><td class="num"><span data-v="two_fixed">6.05%</span></td><td class="num"><span data-v="two_copy">1.95%</span></td><td class="num good"><span data-v="two_plan">1.34%</span></td></tr>
+          <tr><td><span data-v="one_n">821</span> one-buyer</td><td class="num"><span data-v="one_fixed">5.98%</span></td><td class="num"><span data-v="one_copy">1.49%</span></td><td class="num good"><span data-v="one_plan">0.95%</span></td></tr>
+          <tr><td><span data-v="hot2_n">42</span> two-buyer, humid Texas site</td><td class="num"><span data-v="hot2_fixed">3.83%</span></td><td class="num"><span data-v="hot2_copy">1.28%</span></td><td class="num good"><span data-v="hot2_plan">0.85%</span></td></tr>
+        </table>
+</div>
+    <p class="note">Same three ways to split, on the same buildings: a fixed annual split, copying last year, and WattWise. One-buyer: each of the <span data-v="one_n">821</span> real buildings alone. Two-buyer: <span data-v="two_n">407</span> pairs at the same site. Humid Texas: the one humid subtropical site with complete data.</p>
+    <p class="note">That is <b><span data-v="two_cut">78%</span> less solar given away</b> than a fixed split (<span data-v="two_fixed">6.05%</span> to <span data-v="two_plan">1.34%</span>). The unlucky end matters too: one two-buyer scheme in ten gives away <b><span data-v="two_fixed_p90">16.14%</span> or more</b> under a fixed split, against <span data-v="two_plan_p90">6.18%</span> or more under WattWise.</p>
     <div class="card rerun" id="rerun-card">
       <h2 style="margin-top:0">Re-run the replay in your browser</h2>
       <p class="note" style="margin-top:0">Runs the same rules as <span class="mono">replay.py</span> on the same public inputs (monthly meters of every building in the benchmark, and PVGIS rooftop solar at Elmina), here on your device. Nothing is uploaded. It takes about a second.</p>
@@ -625,7 +636,7 @@
       <h2 style="margin-top:0">The honest ladder</h2>
       <table>
         <tr><th>Step</th><th class="num">Value</th><th>Basis</th></tr>
-        <tr><td>Extra income per MWh</td><td class="num"><span data-v="two_gain_30">RM2.61</span>&ndash;<span data-v="two_gain_15">RM8.08</span></td><td>median of <span data-v="two_n">407</span> real two-buyer schemes, at 30 and 15 sen</td></tr>
+        <tr><td>Extra income per MWh</td><td class="num"><span data-v="two_gain_30">RM2.61</span>&ndash;<span data-v="two_gain_20">RM6.42</span></td><td>median of <span data-v="two_n">407</span> real two-buyer schemes, at 30 and 20 sen; the same rate applies to any amount of solar</td></tr>
         <tr><td>Elmina size</td><td class="num"><span data-v="el_mwh">9,409</span> MWh/yr</td><td>assumed use: Innovation Park 2,626 + Lakeside Mall 6,783 MWh <span class="mod">(assumption)</span></td></tr>
         <tr><td>At 15 sen/kWh <span class="mod">(below the 17 sen break-even)</span></td><td class="num"><span data-v="el_gain_15">RM76,000</span>/yr</td><td rowspan="4">scheme income, WattWise minus fixed split</td></tr>
         <tr><td>At 20 sen/kWh</td><td class="num"><span data-v="el_gain_20">RM60,400</span>/yr</td></tr>
@@ -698,6 +709,7 @@
         <tr><td>Humid Texas two-buyer (<span data-v="hot2_n">42</span>)</td><td class="num"><span data-v="hot2_fixed">3.83%</span></td><td class="num"><span data-v="hot2_copy">1.28%</span></td><td class="num good"><span data-v="hot2_plan">0.85%</span></td><td class="num"><span data-v="hot2_less_fixed">100%</span></td><td class="num"><span data-v="hot2_less_copy">90.5%</span></td></tr>
       </table>
       <p class="note"><span data-v="one_n">821</span> one-buyer schemes and <span data-v="two_n">407</span> two-buyer pairs of the same buildings, at <span data-v="n_sites">11</span> sites. The Texas site is the only humid subtropical site with complete 2016 to 2017 data, the closest to Malaysia's climate; no Malaysian meter data is public. Median income against copy-last-year: <span data-v="two_gcopy_15">RM1.24</span> per MWh at 15 sen, <span data-v="two_gcopy_30">-RM1.39</span> at 30 sen <span class="mod">(modelled)</span>.</p>
+      <p class="note">Does the number of buyers change the money? Set <b>Buyers per scheme</b> in the test panel to 1, 5, 10 and 20: the extra income per MWh stays in the same range, so income grows with the solar generated, not with the number of buyers.</p>
     </div>
     <div class="card"><h2 style="margin-top:0">Compliance</h2><p class="note" style="margin-top:0">One allocation per buyer per month. Changes to a buyer's percentage must be made in writing no later than 120 days before they take effect, and take effect only on the 1st of a month <span class="cite">(Energy Commission, 2025, clause 9.10(e))</span>. WattWise suggests, the scheme admin approves, SDP files.</p></div>
     <p class="note">Estimate accuracy behind the wins: a median month is off by <span data-v="two_err_med">7.9%</span>, a buyer's worst month by <span data-v="two_err_worst">22.4%</span> <span class="cite">(WattWise, 2026)</span>. The bench replays real monthly meter readings from the Building Data Genome Project 2 (<span data-v="n_buildings">821</span> buildings, 2016 to 2017), at the same 120-day distance CREAM requires.</p>
