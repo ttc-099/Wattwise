@@ -7,7 +7,7 @@
 <title>WattWise · Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200..900&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #FFFFFF; --panel: #FFFFFF; --rail: #FFF4E2;
@@ -17,8 +17,52 @@
     --sun: #F9B915; --amber: #F7931E; --coral: #EA6B3D; --peach: #FDE6BF; --peach2: #FFF4E2;
     --grey: #B7AA9C; --blue: #5E5048;
     --bad: #B3261E; --side-w: 84px; --top-h: 64px;
-    --f: "Archivo", "Segoe UI", system-ui, sans-serif;
+    --f: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   }
+  /* savings strip on Home: what WattWise kept from being given away */
+  .kept-row { display: flex; gap: 12px; margin: 14px 0 6px; flex-wrap: wrap; }
+  .kept { flex: 1 1 200px; background: #fff; border: 1.5px solid var(--border); border-radius: 14px; padding: 14px 16px 12px; }
+  .kept .lab { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .kept .val { font-size: 26px; font-weight: 800; color: var(--green-ink); margin-top: 4px; }
+  .kept .val small { font-size: 15px; font-weight: 600; color: var(--text); }
+  .kept .sub { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .ga-wrap { margin: 8px 0 2px; }
+  .ga-wrap svg { display: block; width: 100%; height: auto; }
+  .ga-grid { stroke: var(--border2); stroke-width: 1; }
+  .ga-ylab { font-size: 11px; fill: var(--muted); }
+  .ga-xlab { font-size: 12px; fill: var(--muted); }
+  .ga-fix { stroke: var(--grey); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .ga-plan { stroke: var(--amber); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .ga-wrap { position: relative; }
+  .ga-hit { fill: transparent; cursor: pointer; }
+  .ga-band { fill: var(--peach2); }
+  .ga-xlab.on { fill: var(--text); font-weight: 700; }
+  .ga-pop { position: absolute; display: none; visibility: hidden; background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; width: 220px; z-index: 5; pointer-events: none; }
+  .ga-pop .m { font-size: 13px; font-weight: 700; color: var(--text); }
+  .ga-pop .k { font-size: 15px; font-weight: 800; color: var(--green-ink); margin-top: 3px; }
+  .ga-pop .p { font-size: 13px; font-weight: 600; color: var(--text); margin-top: 2px; }
+  .ga-pop .d { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .ga-bar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .ga-bar .lgnd { margin-top: 0; }
+  .ga-yr { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; }
+  .ga-btn { border: 2px solid var(--text); background: #fff; border-radius: 999px; min-width: 44px; min-height: 44px; font-size: 20px; line-height: 1; color: var(--text); cursor: pointer; align-self: center; }
+  .ga-btn:disabled { color: #70695F; border-color: #70695F; cursor: default; }
+  .ga-vl { font-size: 13.5px; font-weight: 700; color: var(--text); min-width: 160px; text-align: center; }
+  .ga-note { font-size: 12.5px; color: var(--muted); margin: 6px 0 0; }
+  /* split review: the pre-approval detail panel on Allocations */
+  .rv-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .rv-head .muted { font-size: 12.5px; }
+  .rv-sum { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0 4px; }
+  .rv-chip { border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: 13px; background: #fff; }
+  .rv-chip b { font-size: 15px; }
+  .rv-rows { margin: 10px 0 4px; }
+  .rv-row { display: flex; align-items: center; gap: 10px; padding: 10px 4px; border-bottom: 1px solid var(--border2); font-size: 14px; }
+  .rv-row:last-child { border-bottom: 0; }
+  .rv-row .dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .rv-row b { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rv-row .n { font-variant-numeric: tabular-nums; color: var(--text); width: 110px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rv-row .s { font-variant-numeric: tabular-nums; font-weight: 700; width: 90px; text-align: right; }
+  .rv-foot { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; }
   body { font-family: var(--f); background: var(--bg); color: var(--text); font-size: 14.5px; line-height: 1.45; font-variant-numeric: tabular-nums; }
@@ -267,7 +311,7 @@
   .filecard.loaded { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
   .filecard.loaded .fstat { color: var(--green-ink); font-weight: 600; }
   .preview { margin-top: 12px; background: var(--text); color: #FCE3B0; border-radius: 12px; padding: 12px 16px; font-family: Consolas, "Courier New", monospace; font-size: 12.5px; line-height: 1.6; overflow-x: auto; white-space: pre; }
-  .locked { filter: grayscale(1) brightness(.95); opacity: .7; pointer-events: none; }
+  .locked { filter: grayscale(1) brightness(.93); pointer-events: none; }
   .ctx-card { padding: 18px 20px; margin: 0 0 16px; background: var(--peach2); border: 0; }
   .ctx-card .row { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; padding: 6px 0; border-bottom: 1px solid var(--border2); max-width: 520px; }
   .ctx-card .row .k2 { color: var(--muted); }
@@ -284,7 +328,7 @@
   .mc-navrow { display: flex; align-items: stretch; gap: 10px; }
   .mc-nav { border: 2px solid var(--text); background: #fff; border-radius: 999px; min-width: 44px; min-height: 44px; font-size: 22px; line-height: 1; color: var(--text); cursor: pointer; align-self: center; }
   .mc-nav:hover:enabled { background: var(--peach2); }
-  .mc-nav:disabled { opacity: .3; cursor: default; }
+  .mc-nav:disabled { color: #70695F; border-color: #70695F; cursor: default; }
   .mc-main { flex: 1; min-width: 0; }
   .smwrap { display: flex; gap: 12px; align-items: stretch; }
   .sm-main { flex: 1; min-width: 0; }
@@ -675,6 +719,14 @@
   <section class="sec on" id="sec-home">
     <h1>Home</h1>
     <p class="sec-lede" id="home-lede"></p>
+    <div class="kept-row" id="home-kept"></div>
+    <h2>Given away each month <span class="mod">(modelled)</span></h2>
+    <div class="ga-bar">
+      <div class="lgnd"><span><i class="dot" style="background:var(--grey)"></i>Fixed split</span><span><i class="dot" style="background:var(--amber)"></i>WattWise</span></div>
+      <div class="ga-yr" id="ga-yr" style="display:none"><button class="ga-btn" id="ga-prev" type="button" aria-label="Previous year">&lsaquo;</button><span class="ga-vl" id="ga-vl"></span><button class="ga-btn" id="ga-next" type="button" aria-label="Next year">&rsaquo;</button></div>
+    </div>
+    <p class="ga-note" id="ga-note" style="display:none"></p>
+    <div class="ga-wrap" id="home-ga"><div class="ga-pop" id="ga-pop"></div></div>
     <h2>Next 120 days of notices</h2>
     <div class="nline" id="home-line"></div>
     <h2>To do</h2>
@@ -686,6 +738,7 @@
     <h1>Allocations</h1>
     <div class="routebox" id="route-box"></div>
     <div class="mailbox" id="notice-preview" hidden></div>
+    <div class="mailbox" id="split-review" hidden></div>
     <h2>Register</h2>
     <p class="muted" style="margin:-4px 0 12px">WattWise <b>suggests</b> the split &middot; the scheme admin <b>approves</b> it &middot; SDP files with the Energy Commission &middot; <b>120-day</b> notice per buyer <span class="cite">(Energy Commission, 2025)</span>. The tool never sends on its own.</p>
     <div class="table-wrap"><table id="runway-table"></table></div>
@@ -712,7 +765,7 @@
     </div>
     <h2>Bench detail</h2>
     <div class="table-wrap"><table id="bench-table"></table></div>
-    <h2>Schemes</h2>
+    <h2>Elmina buyer mixes</h2>
     <div class="table-wrap"><table id="schemes-table"></table></div>
     <h2>Sources</h2>
     <div class="card src" id="sources"></div>
@@ -893,7 +946,7 @@ function bars(canvasId, labels, series, yLabel) {
   var max = 0;
   series.forEach(function (s) { s.values.forEach(function (v) { if (v > max) max = v; }); });
   max = Math.max(max * 1.15, 1);
-  x.font = "12px Archivo, Segoe UI, sans-serif";
+  x.font = "12px Source Sans 3, Segoe UI, sans-serif";
   x.clearRect(0, 0, w, h);
   x.strokeStyle = "#ECE2D6"; x.fillStyle = "#5E5048";
   for (var g = 0; g <= 4; g++) {
@@ -923,7 +976,7 @@ function drawCharts() {
     { color: "#B7AA9C", values: s.fixed },
     { color: "#F7931E", values: s.plan }
   ], "MWh per month");
-  bars("chart-bench", PLAN.bench.map(function (r) { return r.label.replace(" schemes", "").replace(" two-buyer", " 2-b"); }), [
+  bars("chart-bench", PLAN.bench.map(function (r) { return r.label.replace(" cases", "").replace("Hot-humid buyer pairs", "Humid pairs"); }), [
     { color: "#B7AA9C", values: PLAN.bench.map(function (r) { return r.fixed; }) },
     { color: "#5E5048", values: PLAN.bench.map(function (r) { return r.persistence; }) },
     { color: "#F7931E", values: PLAN.bench.map(function (r) { return r.plan; }) }
@@ -1658,8 +1711,8 @@ function renderUpcoming() {
       r.notice.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) +
       '</td><td class="num"><span class="badge' + urg + '">' + (closed ? "window closed" : days) + "</span></td><td>" + status +
       '</td><td class="num">' + est + '</td><td class="num">' +
-      (p ? '<button class="btn sm" data-preview="' + key + '">Preview</button> ' : "") +
-      (p && !p.approved ? '<button class="btn sm" data-approve="' + key + '">Approve</button> ' : "") +
+      (p ? (p.approved ? '<button class="btn sm" data-preview="' + key + '">Preview</button> ' : '<button class="btn sm" data-review="' + key + '">Review</button> ') : "") +
+      (p && !p.approved ? '<button class="btn sm" data-review="' + key + '">Approve</button> ' : "") +
       (p && p.approved && !p.noticed ? '<button class="btn sm" data-notice="' + key + '">Mark sent</button> ' : "") +
       (closed && !p ? "" : '<button class="btn sm" data-prep="' + ri + '">' + (p ? "Open" : "Check " + CHEV_R) + "</button>") + "</td></tr>";
   });
@@ -1669,12 +1722,8 @@ function renderUpcoming() {
       ": past the 120-day notice window, so " + (closedSkipped.length > 1 ? "these months" : "this month") + " can no longer be allocated here.</span></div></td></tr>";
   }
   document.getElementById("runway-table").innerHTML = rows;
-  document.querySelectorAll("#runway-table [data-approve]").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      PREPARED[btn.dataset.approve].approved = true;
-      try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {}
-      renderUpcoming();
-    });
+  document.querySelectorAll("#runway-table [data-review]").forEach(function (btn) {
+    btn.addEventListener("click", function () { openReview(btn.dataset.review); });
   });
   document.querySelectorAll("#runway-table [data-notice]").forEach(function (btn) {
     btn.addEventListener("click", function () {
@@ -1698,6 +1747,43 @@ function renderUpcoming() {
   renderRoute(r0, days0);
   renderHome();
 
+}
+
+/* ---------- split review: see the details before approving ---------- */
+function openReview(key) {
+  var d = noticeData(key), box = document.getElementById("split-review");
+  if (!d || !box) return;
+  var nd = d.notice.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  var rows = d.pp.parts.map(function (q) {
+    var b = BUYERS.filter(function (x) { return x.name === q.name; })[0] || {};
+    return '<div class="rv-row"><span class="dot" style="background:' + (q.color || "var(--grey)") + '"></span><b>' + esc(q.name) + "</b>" +
+      '<span class="n">' + fmt(q.est, 0) + " MWh est &middot; " + esc(b.email || "no email") + "</span>" +
+      '<span class="s">' + q.pct.toFixed(1) + "%</span></div>";
+  }).join("");
+  var approved = !!d.pp.approved;
+  box.hidden = false;
+  box.innerHTML =
+    '<div class="rv-head"><b>Review the split &middot; ' + d.label + '</b><span class="muted">notice ' + nd + " &middot; status " + d.st + '</span><button class="btn sm" id="rv-close" style="margin-left:auto">Close</button></div>' +
+    '<div class="rv-sum"><span class="rv-chip">Estimate <b>' + fmt(d.pp.total, 0) + ' MWh</b></span>' +
+    '<span class="rv-chip">Hold-back <b>' + (d.pp.hb * 100).toFixed(0) + "%</b> via NEDA</span>" +
+    '<span class="rv-chip">Buyers <b>' + d.pp.parts.length + "</b></span>" +
+    '<span class="rv-chip">Shares sum <b>' + d.pp.parts.reduce(function (a, q) { return a + q.pct; }, 0).toFixed(1) + "%</b></span></div>" +
+    '<div class="rv-rows">' + rows + "</div>" +
+    '<div class="rv-foot">' +
+    (approved
+      ? '<span class="badge">Approved</span><button class="btn" id="rv-preview">Preview the notices</button>'
+      : '<button class="btn primary" id="rv-approve">Approve the split</button><span class="muted" style="font-size:12.5px">Notices unlock after approval</span>') +
+    "</div>";
+  document.getElementById("rv-close").addEventListener("click", function () { box.hidden = true; box.innerHTML = ""; });
+  var ap = document.getElementById("rv-approve");
+  if (ap) ap.addEventListener("click", function () {
+    PREPARED[key].approved = true;
+    try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {}
+    openReview(key); renderUpcoming();
+  });
+  var pv = document.getElementById("rv-preview");
+  if (pv) pv.addEventListener("click", function () { openNotices(key); });
+  box.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 /* ---------- notice preview: what each buyer will receive ---------- */
@@ -1762,7 +1848,7 @@ function noticePdfUrl(d, q, mail) {
 }
 function openNotices(key) {
   var d = noticeData(key), box = document.getElementById("notice-preview");
-  if (!d) return;
+  if (!d || !d.pp.approved) return;
   box.hidden = false;
   box.innerHTML = '<div class="mb-head"><b>Notices &middot; ' + d.label + '</b><span class="muted">' + d.parts.length + " drafts &middot; " + d.st +
     " &middot; nothing is sent from here</span><button class=\"btn sm\" id=\"mb-close\">Close</button></div>" +
@@ -1810,6 +1896,167 @@ function monthState(r) {
   var p = PREPARED[r.y + "-" + String(r.m + 1).padStart(2, "0")];
   return !p ? "Unchecked" : (!p.approved ? "Estimate" : (!p.noticed ? "Ready" : "Sent"));
 }
+/* ---------- home line chart: solar given away, fixed split vs WattWise ---------- */
+var GA_CUR = null, GA_VARS = null, GA_VI = 0;
+function gaActive() { return (GA_VARS && GA_VARS[GA_VI]) || (typeof PLAN !== "undefined" && PLAN && PLAN.settlement); }
+function renderKept(v) {
+  var last = v.months.length - 1;
+  var keptMonth = v.fixed[last] - v.plan[last];
+  var lo = fmt(Math.min(v.income_gain_rm[0], v.income_gain_rm[1])), hi = fmt(Math.max(v.income_gain_rm[0], v.income_gain_rm[1]));
+  var keptYear = v.kept_mwh, yrSub = "solar matched or sold through NEDA instead of given away", worthSub = "at 20 to 30 sen/kWh; the CREAM price is private";
+  var E = (!v.illustrative && typeof PLAN !== "undefined" && PLAN.elmina) || null;
+  if (E) {
+    /* same basis as the pitch deck: median of the real buyer pairs, at the Elmina size */
+    keptYear = E.kept_mwh; lo = fmt(E.gain_rm_by_price_sen["30"]); hi = fmt(E.gain_rm_by_price_sen["20"]);
+    yrSub = "typical buyer pair at Elmina size (median of 407 real pairs)"; worthSub = "extra income vs a fixed split, at 20 to 30 sen/kWh";
+  }
+  var tag = v.illustrative ? "(modelled · illustrative)" : "(modelled)";
+  document.getElementById("home-kept").innerHTML =
+    '<div class="kept"><div class="lab">' + v.months[last] + ' &middot; kept that month</div>' +
+    '<div class="val">' + fmt(keptMonth) + ' <small>MWh</small></div>' +
+    '<div class="sub">a fixed split gave away ' + fmt(v.fixed[last]) + ' MWh, WattWise ' + fmt(v.plan[last]) + ' MWh <span class="mod">' + tag + '</span></div></div>' +
+    '<div class="kept"><div class="lab">Kept this year</div>' +
+    '<div class="val">' + fmt(keptYear) + ' <small>MWh</small></div>' +
+    '<div class="sub">' + yrSub + ' <span class="mod">' + tag + '</span></div></div>' +
+    '<div class="kept"><div class="lab">Worth a year</div>' +
+    '<div class="val">RM ' + lo + ' <small>to ' + hi + '</small></div>' +
+    '<div class="sub">' + worthSub + ' <span class="mod">' + tag + '</span></div></div>';
+}
+function wireGaToggle() {
+  var bar = document.getElementById("ga-yr"); if (!bar) return;
+  if (!GA_VARS || GA_VARS.length < 2) { bar.style.display = "none"; return; }
+  bar.style.display = "inline-flex";
+  function paint() {
+    var v = GA_VARS[GA_VI];
+    var lab = document.getElementById("ga-vl");
+    lab.textContent = v.label + (v.illustrative ? " · illustrative" : "");
+    lab.title = v.basis || "";
+    document.getElementById("ga-prev").disabled = GA_VI === 0;
+    document.getElementById("ga-next").disabled = GA_VI === GA_VARS.length - 1;
+    var note = document.getElementById("ga-note");
+    note.style.display = v.illustrative && v.note ? "block" : "none";
+    note.innerHTML = v.note ? v.note + ' <span class="mod">(no meter information exists for this year)</span>' : "";
+  }
+  function go(d) {
+    GA_VI = Math.max(0, Math.min(GA_VARS.length - 1, GA_VI + d));
+    paint();
+    renderKept(GA_VARS[GA_VI]);
+    renderHomeGA(GA_VARS[GA_VI]);
+  }
+  document.getElementById("ga-prev").addEventListener("click", function () { go(-1); });
+  document.getElementById("ga-next").addEventListener("click", function () { go(1); });
+  paint();
+}
+function renderHomeGA(sm) {
+  var el = document.getElementById("home-ga"); if (!el || !sm) return;
+  var pop = document.getElementById("ga-pop");
+  var old = el.querySelector("svg"); if (old) old.remove();
+  if (pop) pop.style.display = "none";
+  GA_CUR = null;
+  var W = Math.max(280, el.clientWidth || 640), H = 190, L = 34, R = 12, T = 12, B = 26;
+  var mx = Math.max.apply(null, sm.fixed) * 1.08;
+  var pitch = (W - L - R) / (sm.months.length - 1);
+  var X = function (i) { return L + pitch * i; };
+  var Y = function (v) { return T + (H - T - B) * (1 - v / mx); };
+  var path = function (a) { return a.map(function (v, i) { return (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(v).toFixed(1); }).join(" "); };
+  var s = '<svg viewBox="0 0 ' + W + " " + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Solar given away each month, fixed split in grey, WattWise in orange. Tap a month for details.">';
+  s += '<rect class="ga-band" id="ga-band" x="0" y="' + T + '" width="0" height="' + (H - T - B) + '"/>';
+  [0, 0.5, 1].forEach(function (t) {
+    var v = mx * t, y = Y(v);
+    s += '<line class="ga-grid" x1="' + L + '" y1="' + y.toFixed(1) + '" x2="' + (W - R) + '" y2="' + y.toFixed(1) + '"/>';
+    s += '<text class="ga-ylab" x="' + (L - 6) + '" y="' + (y + 3.5).toFixed(1) + '" text-anchor="end">' + Math.round(v) + "</text>";
+  });
+  s += '<path class="ga-fix" d="' + path(sm.fixed) + '"/>';
+  s += '<path class="ga-plan" d="' + path(sm.plan) + '"/>';
+  var every = W < 460 ? 2 : 1;
+  sm.months.forEach(function (m, i) {
+    if (i % every === 0 || i === sm.months.length - 1) s += '<text class="ga-xlab" data-i="' + i + '" x="' + X(i).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + m.slice(0, 1) + "</text>";
+  });
+  sm.months.forEach(function (m, i) {
+    s += '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(sm.plan[i]).toFixed(1) + '" r="3" fill="var(--amber)"><title>' + m + ": WattWise gave away " + fmt(sm.plan[i]) + " MWh, a fixed split " + fmt(sm.fixed[i]) + " MWh</title></circle>";
+  });
+  s += '<text class="ga-ylab" x="' + (W - R) + '" y="' + (T + 2) + '" text-anchor="end">MWh given away</text>';
+  sm.months.forEach(function (m, i) {
+    var x0 = Math.max(L - pitch / 2, X(i) - pitch / 2), x1 = Math.min(W - R + pitch / 2, X(i) + pitch / 2);
+    s += '<rect class="ga-hit" data-i="' + i + '" role="button" tabindex="0" aria-label="' + m + ': how much WattWise kept" x="' + x0.toFixed(1) + '" y="0" width="' + (x1 - x0).toFixed(1) + '" height="' + H + '"/>';
+  });
+  el.insertAdjacentHTML("afterbegin", s + "</svg>");
+  var band = document.getElementById("ga-band");
+  function showPop(i) {
+    var kept = sm.fixed[i] - sm.plan[i];
+    var pct = sm.fixed[i] >= 0.5 ? Math.round((1 - sm.plan[i] / sm.fixed[i]) * 100) : null;
+    var html = '<div class="m">' + sm.months[i] + (sm.illustrative ? " (illustrative)" : "") + "</div>";
+    if (kept >= 0.5) {
+      html += '<div class="k">WattWise kept ' + fmt(kept) + " MWh</div>";
+      html += '<div class="p">' + (pct != null ? pct + "% less given away than the fixed split" : "less given away than the fixed split") + "</div>";
+    } else {
+      html += '<div class="k">Nothing given away</div><div class="p">both splits matched solar to use</div>';
+    }
+    html += '<div class="d">fixed split ' + fmt(sm.fixed[i]) + " MWh &middot; WattWise " + fmt(sm.plan[i]) + " MWh</div>";
+    if (sm.monthly_gain_rm) {
+      var a30 = sm.monthly_gain_rm["30"][i], a20 = sm.monthly_gain_rm["20"][i];
+      var rmLo = Math.min(a30, a20), rmHi = Math.max(a30, a20);
+      html += '<div class="d">worth RM ' + (rmLo < 0 ? "-" + fmt(Math.abs(rmLo)) : fmt(rmLo)) + " to " + fmt(rmHi) + " this month &middot; CREAM price 20 to 30 sen</div>";
+    }
+    pop.innerHTML = html;
+    pop.style.display = "block";
+    band.setAttribute("x", (X(i) - pitch / 2).toFixed(1));
+    band.setAttribute("width", pitch.toFixed(1));
+    el.querySelectorAll(".ga-xlab").forEach(function (t) { t.classList.toggle("on", +t.dataset.i === i); });
+    requestAnimationFrame(function () {
+      var wNow = el.clientWidth || W, xi = X(i) * (wNow / W);
+      var half = (pop.offsetWidth || 220) / 2;
+      var left = Math.max(half + 2, Math.min(wNow - half - 2, xi));
+      var topY = Math.min(Y(sm.fixed[i]), Y(sm.plan[i])) - 10;
+      pop.style.left = left + "px";
+      if (topY - pop.offsetHeight >= T) {
+        pop.style.top = topY + "px";
+        pop.style.transform = "translate(-50%,-100%)";
+      } else if (Math.max(Y(sm.fixed[i]), Y(sm.plan[i])) + 12 + pop.offsetHeight < H - 4) {
+        pop.style.top = (Math.max(Y(sm.fixed[i]), Y(sm.plan[i])) + 12) + "px";
+        pop.style.transform = "translate(-50%,0)";
+      } else {
+        pop.style.top = (T + 2) + "px";
+        pop.style.transform = "translate(-50%,0)";
+      }
+      pop.style.visibility = "visible";
+    });
+  }
+  function hidePop() {
+    GA_CUR = null;
+    pop.style.display = "none";
+    pop.style.visibility = "hidden";
+    band.setAttribute("width", "0");
+    el.querySelectorAll(".ga-xlab").forEach(function (t) { t.classList.remove("on"); });
+  }
+  el.querySelectorAll(".ga-hit").forEach(function (r) {
+    r.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      var i = +r.dataset.i;
+      if (GA_CUR === i) { hidePop(); return; }
+      GA_CUR = i; showPop(i);
+    });
+    r.addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); r.click(); }
+    });
+  });
+  if (!renderHomeGA.bound) {
+    renderHomeGA.bound = true;
+    document.addEventListener("click", function (ev) {
+      if (!ev.target.closest || !ev.target.closest("#home-ga")) {
+        var p2 = document.getElementById("ga-pop");
+        if (p2 && p2.style.display === "block") {
+          p2.style.display = "none";
+          p2.style.visibility = "hidden";
+          var b2 = document.getElementById("ga-band"); if (b2) b2.setAttribute("width", "0");
+          document.querySelectorAll("#home-ga .ga-xlab.on").forEach(function (t) { t.classList.remove("on"); });
+          GA_CUR = null;
+        }
+      }
+    });
+  }
+}
+
 function renderHome() {
   if (!PLAN || !document.getElementById("home-todo")) return;
   var now = new Date(); now.setHours(0, 0, 0, 0);
@@ -1821,6 +2068,9 @@ function renderHome() {
   document.getElementById("home-lede").innerHTML = nextOpen
     ? "Next notice: " + MONTHS[nextOpen.r.m] + " " + nextOpen.r.y + " is " + nextOpen.st + ", notice due " + dfmt(nextOpen.r.notice) + " (" + nextOpen.days + " days). Each month is sent 120 days before it starts <span class=\"cite\">(Energy Commission, 2025)</span>."
     : "Every month inside the 120-day window has been sent.";
+  // savings strip + chart: what WattWise kept from being given away (modelled replay year)
+  renderKept(gaActive());
+  renderHomeGA(gaActive());
   // notice line: today to +120 days
   var line = '<span class="today" aria-hidden="true"></span><span class="end" aria-hidden="true"></span><span class="cap l">Today, ' + dfmt(now) + '</span><span class="cap r">+120 days</span>';
   open.filter(function (x) { return x.days <= 120; }).forEach(function (x) {
@@ -1863,7 +2113,7 @@ function renderHome() {
     b.addEventListener("click", function () {
       var r = RUNWAY[+b.dataset.ri], k = r.y + "-" + String(r.m + 1).padStart(2, "0");
       if (b.dataset.act === "Unchecked") { goto("engine"); document.getElementById("engine-month").value = b.dataset.ri; renderEngine(); return; }
-      if (b.dataset.act === "Estimate") PREPARED[k].approved = true;
+      if (b.dataset.act === "Estimate") { goto("upcoming"); openReview(k); return; }
       if (b.dataset.act === "Ready") PREPARED[k].noticed = true;
       try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {}
       renderUpcoming();
@@ -1901,7 +2151,7 @@ function renderRoute(r, days) {
   window.__routeAt = at;
   var c = {
     Unchecked: ["Estimate " + MONTHS[r.m] + " " + r.y, "Open the engine for this month. Each buyer is estimated from the same month last year, then you prepare the row.", '<button class="btn primary" id="rt-go">Open the estimate</button>'],
-    Estimate: ["Approve the split", "The estimate is prepared. The scheme admin checks the shares, then it becomes Ready.", '<button class="btn primary" id="rt-approve">Approve</button><button class="btn" id="rt-preview" style="margin-top:8px;width:100%">Preview the notices</button>'],
+    Estimate: ["Approve the split", "The estimate is prepared. Review the shares in the panel below, then the scheme admin approves it.", '<button class="btn primary" id="rt-review">Review the split</button>'],
     Ready: ["Send by " + nd, "Approved. Send each buyer's notice; SDP files with the Energy Commission. Then mark this month as Sent.", '<button class="btn" id="rt-preview" style="margin-bottom:8px;width:100%">Preview the notices</button><button class="btn primary" id="rt-sent">Mark sent</button>'],
     Sent: ["Nothing due for " + MONTHS[r.m], "Notices are out. This month settles on real meters in " + MONTHS[r.m] + " " + r.y + ".", ""]
   }[st];
@@ -1914,8 +2164,8 @@ function renderRoute(r, days) {
   else box.querySelector(".stn.here i") && (box.querySelector(".stn.here i").style.animation = "none");
   var go = document.getElementById("rt-go");
   if (go) go.addEventListener("click", function () { goto("engine"); document.getElementById("engine-month").value = RUNWAY.indexOf(r); renderEngine(); });
-  var ap = document.getElementById("rt-approve");
-  if (ap) ap.addEventListener("click", function () { PREPARED[key].approved = true; try { localStorage.setItem("ww_prepared", JSON.stringify(PREPARED)); } catch (e) {} renderUpcoming(); });
+  var ap = document.getElementById("rt-review");
+  if (ap) ap.addEventListener("click", function () { openReview(key); });
   var pv = document.getElementById("rt-preview");
   if (pv) pv.addEventListener("click", function () { openNotices(key); });
   var sn = document.getElementById("rt-sent");
@@ -2070,7 +2320,7 @@ function allocMail(i, bi, parts) {
 function renderEvidence() {
   var two = PLAN.bench[1];
   document.getElementById("ev-kpis").innerHTML =
-    card("Schemes replayed", '<div class="big">' + fmt(two.n) + "</div>", "two-buyer, " + PLAN.bench[0].n + " real buildings") +
+    card("Buyer pairs replayed", '<div class="big">' + fmt(two.n) + "</div>", "two-buyer, " + PLAN.bench[0].n + " real buildings") +
     card("Plan wins vs fixed", '<div class="big good">' + two.win_vs_fixed_pct + "%</div>") +
     card("Plan wins vs persistence", '<div class="big good">' + two.win_vs_persistence_pct + "%</div>") +
     card("Income gain vs persistence", '<div class="big">RM' + two.gain_vs_persistence_rm_mwh[0] + " to " + two.gain_vs_persistence_rm_mwh[1] + "</div>", "per MWh, median");
@@ -2089,13 +2339,20 @@ function renderEvidence() {
   });
   document.getElementById("schemes-table").innerHTML = srows;
   document.getElementById("sources").innerHTML =
-    "Consumption: BDG2 (Miller et al., 2020), " + PLAN.bench[0].n + " buildings, 2016 to 2017. Solar: PVGIS 5.2 at Elmina. Settlement: 02 Scheduler Module/replay.py, CREAM 9.10(e). Prices: CREAM price assumed at 15 to 30 sen/kWh (the real price is private); NEDA sale at 8 sen/kWh, no access charge (CREAM 9.7).";
+    "Consumption: BDG2 (Miller et al., 2020), " + PLAN.bench[0].n + " buildings, 2016 to 2017. Solar: PVGIS 5.2 at Elmina. Settlement: 02 Scheduler Module/replay.py, CREAM 9.10(e). Prices: CREAM price assumed at 20 to 30 sen/kWh (the real price is private; 15 sen is below the 17 sen NEDA break-even); NEDA sale at 8 sen/kWh, no access charge (CREAM 9.7).";
 }
 
 /* ---------- boot ---------- */
 buildRunway();
 fetch("data/plan.json").then(function (r) { return r.json(); }).then(function (d) {
   PLAN = d;
+  fetch("data/settlement-variants.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (sv) {
+    GA_VARS = sv && sv.variants && sv.variants.length ? sv.variants : null;
+    GA_VI = 0;
+    wireGaToggle();
+    renderKept(gaActive());
+    renderHomeGA(gaActive());
+  }).catch(function () {});
   document.getElementById("sm2-prev").addEventListener("click", function () { if (SM2_I > 0) { SM2_I--; document.getElementById("home-panel").style.display = "none"; renderSitemap(); } });
 document.getElementById("sm2-next").addEventListener("click", function () { if (SM2_I < 4) { SM2_I++; document.getElementById("home-panel").style.display = "none"; renderSitemap(); } });
 if (!READINGS) loadReadings(parseReadings(demoReadings()), true); // demo dataset auto-loads; upload stays available for real CSVs
@@ -2108,7 +2365,7 @@ buildHouses(); renderHomeowners(); renderBuyersTbl(); renderOverview(); renderEn
 });
 var __narrowMap = window.matchMedia("(max-width: 860px)").matches;
 window.addEventListener("resize", function () {
-  if (PLAN) drawCharts();
+  if (PLAN) { drawCharts(); if (gaActive()) renderHomeGA(gaActive()); }
   var n = window.matchMedia("(max-width: 860px)").matches;
   if (n !== __narrowMap) { __narrowMap = n; if (HOUSES.length) renderSitemap(); }
 });

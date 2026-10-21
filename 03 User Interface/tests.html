@@ -7,7 +7,7 @@
 <title>WattWise · Testing suite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200..900&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #FFFFFF; --panel: #FFFFFF; --border: #ECE2D6; --border2: #DCCFBF;
@@ -15,7 +15,7 @@
     --green: #15120F; --green-ink: #A3410F; --green-bg: #FFF4E2;
     --amber: #F7931E; --accent: #F7931E; --sun: #F9B915; --coral: #EA6B3D; --peach: #FDE6BF; --peach2: #FFF4E2;
     --blue-bg: #FFF4E2; --blue-ink: #6B2C07;
-    --f: "Archivo", "Segoe UI", system-ui, sans-serif;
+    --f: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; }
   body { font: 15px/1.55 var(--f); background: var(--bg); color: var(--text); font-variant-numeric: tabular-nums; }
@@ -1075,7 +1075,7 @@ document.querySelectorAll("[data-go]").forEach(function (el) {
 // ---------- re-run the replay in the browser (replay.js, a port of replay.py) ----------
 (function () {
   var CHECK = [
-    ["n_buildings", "Real buildings in the benchmark"], ["two_n", "Two-buyer schemes"],
+    ["n_buildings", "Real buildings in the benchmark"], ["two_n", "Buyer pairs"],
     ["two_fixed", "Median given away, fixed split"], ["two_copy", "Median given away, copy last year"], ["two_plan", "Median given away, WattWise"],
     ["two_less_fixed", "WattWise gives away less than fixed"], ["two_less_copy", "WattWise gives away less than copy last year"],
     ["hot2_fixed", "Texas site, fixed split"], ["hot2_plan", "Texas site, WattWise"],

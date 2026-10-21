@@ -23,43 +23,43 @@ colors:
   ink-hover: "#3A2F27"
 typography:
   display:
-    fontFamily: "Archivo, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Source Sans 3, Segoe UI, system-ui, sans-serif"
     fontSize: "34px"
     fontWeight: 850
     lineHeight: 1.02
     letterSpacing: "-0.005em"
     fontVariation: "'wdth' 125"
   headline:
-    fontFamily: "Archivo, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Source Sans 3, Segoe UI, system-ui, sans-serif"
     fontSize: "30px"
     fontWeight: 850
     lineHeight: 1.02
     letterSpacing: "-0.005em"
     fontVariation: "'wdth' 125"
   figure:
-    fontFamily: "Archivo, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Source Sans 3, Segoe UI, system-ui, sans-serif"
     fontSize: "26px"
     fontWeight: 850
     fontVariation: "'wdth' 118"
     fontFeature: "'tnum'"
   title:
-    fontFamily: "Archivo, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Source Sans 3, Segoe UI, system-ui, sans-serif"
     fontSize: "14.5px"
     fontWeight: 850
     letterSpacing: "0.02em"
     fontVariation: "'wdth' 112"
   body:
-    fontFamily: "Archivo, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Source Sans 3, Segoe UI, system-ui, sans-serif"
     fontSize: "14.5px"
     fontWeight: 400
     lineHeight: 1.45
     fontFeature: "'tnum'"
   station:
-    fontFamily: "Archivo, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Source Sans 3, Segoe UI, system-ui, sans-serif"
     fontSize: "14px"
     fontWeight: 800
   label:
-    fontFamily: "Archivo, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Source Sans 3, Segoe UI, system-ui, sans-serif"
     fontSize: "12px"
     fontWeight: 700
     letterSpacing: "0.05em"
@@ -172,7 +172,7 @@ components:
 
 Every month rides one line. The system draws the product's loop (Read, Estimate, Allocate, Send, Settle) the way a city transit map draws a route: a thick rounded line, ringed stations, one "you are here" marker with a halo, and a terminus. The operator console and the judges' evidence console share the same line; the console plots a month's route, the evidence pages plot claim, test, result and end at a verdict station.
 
-The ground is white, warm and quiet: a peach rail and peach callouts, warm taupe hairlines, ink-black type. Colour is spent on the line itself. Line amber is the travelled track and the filled station; coral and sun appear where the line runs as a gradient (start to end) and at the end station. Headings are wide, heavy capitals set in Archivo at expanded width; everything the operator reads or operates is Archivo at normal width with tabular figures. Density is operational: 44px targets, 52px table rows, numbers carry the argument.
+The ground is white, warm and quiet: a peach rail and peach callouts, warm taupe hairlines, ink-black type. Colour is spent on the line itself. Line amber is the travelled track and the filled station; coral and sun appear where the line runs as a gradient (start to end) and at the end station. Headings are heavy capitals set in Source Sans 3; everything the operator reads or operates is Source Sans 3 at normal width with tabular figures. Density is operational: 44px targets, 52px table rows, numbers carry the argument.
 
 The world rejects the grey sidebar dashboard of identical cards. Cards exist, but the page's structure is a line and a register, not a grid of tiles.
 
@@ -221,8 +221,8 @@ A warm, single-hue world: amber line on white, ink type, peach tints for everyth
 
 ## Typography
 
-**Display Font:** Archivo at 125% width (with Segoe UI, system-ui)
-**Body Font:** Archivo at 100% width (with Segoe UI, system-ui)
+**Display Font:** Source Sans 3 800 (with Segoe UI, system-ui)
+**Body Font:** Source Sans 3 400-600 (with Segoe UI, system-ui)
 **Label/Mono Font:** Consolas (with Courier New) for code, file previews and paths only
 
 **Character:** One variable family stretched to do two jobs: expanded heavy capitals read like station signage, normal width reads like a timetable.
@@ -313,7 +313,7 @@ A 45 degree repeating stripe of line amber and hatch light (6px bands on the tra
 ### Do:
 - **Do** draw process as a line with stations: 10px rounded line, 44px rings, amber up to the current station.
 - **Do** mark "you are here" with a 5px ink ring and an 8px peach halo, and the end of a line with a sun-filled station.
-- **Do** set headings in Archivo 850 uppercase at 112–125% width, and everything operable at normal width.
+- **Do** set headings in Source Sans 3 800 uppercase, and everything operable at normal width.
 - **Do** make every control a 44px-tall pill with a 2px ink border.
 - **Do** colour text rust (#A3410F) when it must be coloured.
 - **Do** hatch held back energy in amber and hatch light at 45 degrees.

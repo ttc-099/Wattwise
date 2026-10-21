@@ -117,7 +117,7 @@
   "kept_mwh": 425.28,
   "income_gain_rm": [
    38631,
-   77477
+   64528
   ]
  },
  "elmina": {
@@ -308,7 +308,7 @@
    "kept_for_residents_mwh": 443,
    "plan_income_gain_rm": [
     24557,
-    76025
+    60406
    ]
   },
   {
@@ -323,13 +323,13 @@
    "kept_for_residents_mwh": 132,
    "plan_income_gain_rm": [
     5961,
-    21848
+    16124
    ]
   }
  ],
  "bench": [
   {
-   "label": "Single-buyer schemes",
+   "label": "One-buyer cases",
    "n": 821,
    "fixed": 5.98,
    "persistence": 1.49,
@@ -338,11 +338,11 @@
    "win_vs_persistence_pct": 77.2,
    "gain_vs_persistence_rm_mwh": [
     -1.57,
-    1.11
+    0.13
    ]
   },
   {
-   "label": "Two-buyer schemes",
+   "label": "Buyer pairs",
    "n": 407,
    "fixed": 6.05,
    "persistence": 1.95,
@@ -351,11 +351,11 @@
    "win_vs_persistence_pct": 83.3,
    "gain_vs_persistence_rm_mwh": [
     -1.39,
-    1.24
+    0.29
    ]
   },
   {
-   "label": "Hot-humid two-buyer",
+   "label": "Hot-humid buyer pairs",
    "n": 42,
    "fixed": 3.83,
    "persistence": 1.28,
@@ -364,14 +364,14 @@
    "win_vs_persistence_pct": 90.5,
    "gain_vs_persistence_rm_mwh": [
     -1.52,
-    1.12
+    0.28
    ]
   }
  ],
  "sources": {
   "settlement": "02 Scheduler Module/replay.py: the real two-buyer scheme closest to the median result (Bull_education_Sebastian + Bull_education_Stewart), scaled to the Elmina size, PVGIS rooftop solar at Elmina, each month filed 120 days ahead (CREAM 9.10(e)), against a fixed annual split.",
   "bench": "Building Data Genome Project 2 (Miller et al., 2020), real monthly electricity 2016-2017; PVGIS 5.2 rooftop solar at Elmina",
-  "prices": "CREAM price assumed at 15-30 sen/kWh; not public (CREAM 6.16)",
+  "prices": "CREAM price assumed at 20-30 sen/kWh (15 sen is below the 17 sen NEDA break-even); not public (CREAM 6.16)",
   "neda": "held-back energy sold via NEDA at 8 sen/kWh, no access charge (CREAM 9.7, 13.2); its green attributes go to the Single Buyer (12.3)",
   "homes": "illustrative 5 kWp per roof"
  }

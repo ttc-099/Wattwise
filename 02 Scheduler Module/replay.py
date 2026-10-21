@@ -370,13 +370,13 @@ def ui_plan(r):
         return {"label": label, "n": x["n"], "fixed": x["given_away_median_pct"]["fixed"],
                 "persistence": x["given_away_median_pct"]["copy_last_year"], "plan": x["given_away_median_pct"]["plan"],
                 "win_vs_fixed_pct": x["plan_gives_away_less_than_fixed_pct"], "win_vs_persistence_pct": x["plan_gives_away_less_than_copy_pct"],
-                "gain_vs_persistence_rm_mwh": [g["30"], g["15"]]}
+                "gain_vs_persistence_rm_mwh": [g["30"], g["20"]]}
 
     def mix(s, key):
         g = s["gain_rm_by_price_sen"]
         return {"key": key, "buyers": s["buyers"], "scheme_kwp": s["scheme_kwp"], "homes_illustrative": s["roofs_illustrative"],
                 "given_away_pct_fixed": s["given_away_pct"]["fixed"], "given_away_pct_plan": s["given_away_pct"]["plan"],
-                "kept_for_residents_mwh": s["kept_mwh"], "plan_income_gain_rm": [min(g.values()), max(g.values())]}
+                "kept_for_residents_mwh": s["kept_mwh"], "plan_income_gain_rm": [g["30"], g["20"]]}
 
     core = e["core"]
     return {
@@ -397,17 +397,17 @@ def ui_plan(r):
                        "plan": {"given_away_mwh": ex["totals_mwh"]["plan"]["given"], "pct": ex["totals_mwh"]["plan"]["given_pct"],
                                 "delivered": ex["totals_mwh"]["plan"]["used"], "neda": ex["totals_mwh"]["plan"]["neda"]}},
             "kept_mwh": ex["kept_mwh"],
-            "income_gain_rm": [min(ex["gain_rm_by_price_sen"].values()), max(ex["gain_rm_by_price_sen"].values())],
+            "income_gain_rm": [ex["gain_rm_by_price_sen"]["30"], ex["gain_rm_by_price_sen"]["20"]],
         },
         "elmina": {k: core[k] for k in ("kept_mwh", "gain_rm_by_price_sen", "paid_for_pct", "given_away_pct", "basis")},
         "facts": facts(r),
         "buyer_mix": [mix(core, "core"), mix(e["innovation_park_alone"], "innovation_park_alone")],
-        "bench": [benchrow("Single-buyer schemes", b["one_buyer"]), benchrow("Two-buyer schemes", b["two_buyer"]),
-                  benchrow("Hot-humid two-buyer", b["hot_humid_two_buyer"])],
+        "bench": [benchrow("One-buyer cases", b["one_buyer"]), benchrow("Buyer pairs", b["two_buyer"]),
+                  benchrow("Hot-humid buyer pairs", b["hot_humid_two_buyer"])],
         "sources": {
             "settlement": "02 Scheduler Module/replay.py: the real two-buyer scheme closest to the median result (%s), scaled to the Elmina size, PVGIS rooftop solar at Elmina, each month filed 120 days ahead (CREAM 9.10(e)), against a fixed annual split." % " + ".join(ex["buildings"]),
             "bench": "Building Data Genome Project 2 (Miller et al., 2020), real monthly electricity 2016-2017; PVGIS 5.2 rooftop solar at Elmina",
-            "prices": "CREAM price assumed at 15-30 sen/kWh; not public (CREAM 6.16)",
+            "prices": "CREAM price assumed at 20-30 sen/kWh (15 sen is below the 17 sen NEDA break-even); not public (CREAM 6.16)",
             "neda": "held-back energy sold via NEDA at 8 sen/kWh, no access charge (CREAM 9.7, 13.2); its green attributes go to the Single Buyer (12.3)",
             "homes": "illustrative 5 kWp per roof",
         },
@@ -455,7 +455,7 @@ def main():
     b, c = r["benchmark"], r["elmina"]["core"]
     print("buildings %d, one-buyer %d, two-buyer %d" % (b["buildings"], b["one_buyer"]["n"], b["two_buyer"]["n"]))
     print("two-buyer median given away: fixed %(fixed)s%%, copy last year %(copy_last_year)s%%, WattWise %(plan)s%%" % b["two_buyer"]["given_away_median_pct"])
-    print("Elmina size: kept %s MWh a year, extra income RM%s (30 sen) to RM%s (15 sen)" % (c["kept_mwh"], c["gain_rm_by_price_sen"]["30"], c["gain_rm_by_price_sen"]["15"]))
+    print("Elmina size: kept %s MWh a year, extra income RM%s (30 sen) to RM%s (20 sen)" % (c["kept_mwh"], c["gain_rm_by_price_sen"]["30"], c["gain_rm_by_price_sen"]["20"]))
 
 
 if __name__ == "__main__":

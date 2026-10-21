@@ -1,0 +1,209 @@
+{
+ "generated_by": "scripts/gen_settlement_variants.py, importing 02 Scheduler Module/replay.py",
+ "variants": [
+  {
+   "key": "y2017",
+   "label": "2017",
+   "basis": "the real two-buyer scheme closest to the 407-scheme medians, scaled to the Elmina size",
+   "buildings": [
+    "Bull_education_Sebastian",
+    "Bull_education_Stewart"
+   ],
+   "months": [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+   ],
+   "fixed": [
+    67.01,
+    141.71,
+    119.44,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    6.54,
+    16.36,
+    79.98,
+    0.0,
+    126.21
+   ],
+   "plan": [
+    4.66,
+    60.66,
+    41.88,
+    0.78,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    15.41,
+    0.0,
+    8.58
+   ],
+   "neda": [
+    83.96,
+    83.97,
+    78.03,
+    25.8,
+    13.89,
+    13.85,
+    14.55,
+    55.86,
+    62.54,
+    75.42,
+    42.67,
+    133.72
+   ],
+   "kept_mwh": 425.28,
+   "income_gain_rm": [
+    38631,
+    64528
+   ],
+   "monthly_gain_rm": {
+    "30": [
+     7790,
+     13402,
+     13124,
+     -3585,
+     -1806,
+     -1801,
+     -1892,
+     -5300,
+     -3225,
+     9566,
+     -5550,
+     17902
+    ],
+    "20": [
+     9951,
+     13693,
+     13171,
+     -928,
+     -417,
+     -416,
+     -437,
+     -368,
+     1394,
+     10651,
+     -1282,
+     19512
+    ]
+   },
+   "illustrative": false,
+   "note": ""
+  },
+  {
+   "key": "y2016",
+   "label": "2016",
+   "basis": "same real scheme, 2016 meters and 2016 solar; illustrative",
+   "buildings": [
+    "Bull_education_Sebastian",
+    "Bull_education_Stewart"
+   ],
+   "months": [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+   ],
+   "fixed": [
+    160.29,
+    83.97,
+    95.84,
+    47.24,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.12,
+    2.39,
+    0.0,
+    60.61
+   ],
+   "plan": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "neda": [
+    160.29,
+    83.97,
+    95.84,
+    46.29,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    60.61
+   ],
+   "kept_mwh": 450.46,
+   "income_gain_rm": [
+    77031,
+    76684
+   ],
+   "monthly_gain_rm": {
+    "30": [
+     27249,
+     14275,
+     16293,
+     8154,
+     0,
+     0,
+     0,
+     0,
+     39,
+     717,
+     0,
+     10304
+    ],
+    "20": [
+     27249,
+     14275,
+     16293,
+     8059,
+     0,
+     0,
+     0,
+     0,
+     26,
+     478,
+     0,
+     10304
+    ]
+   },
+   "illustrative": true,
+   "note": "Illustrative year: no meter history exists before 2016, so the WattWise line for 2016 assumes perfect forecasts (the oracle allocation)."
+  }
+ ]
+}

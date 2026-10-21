@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WattWise · savings</title>
+<style>
+  /* ---- base: one centered column, nothing left-shifted ---- */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #FFFFFF;
+    color: #15120F;
+    font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.5;
+  }
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 28px 20px 48px;
+  }
+
+  /* ---- header ---- */
+  header { text-align: center; margin-bottom: 30px; }
+  .brand {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .brand strong { color: #A3410F; }
+  .chip {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 12px;
+    padding: 4px 12px;
+    border: 1px solid #D8CCBC;
+    border-radius: 999px;
+    color: #5E5048;
+    background: #FFFFFF;
+  }
+
+  /* ---- hero: the savings readout ---- */
+  .hero {
+    text-align: center;
+    background: #FFFFFF;
+    border: 1px solid #E7DCCB;
+    border-radius: 16px;
+    padding: 30px 20px 26px;
+    margin-bottom: 26px;
+  }
+  .hero .label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #5E5048;
+    margin-bottom: 8px;
+  }
+  .hero .big {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #A3410F;
+  }
+  .hero .big small { font-size: 22px; font-weight: 600; color: #5E5048; }
+  .hero .sub { margin-top: 10px; font-size: 15px; color: #15120F; }
+  .hero .note { margin-top: 8px; font-size: 12px; color: #66707F; }
+  .hero .reset {
+    margin-top: 14px;
+    display: none;
+    font-size: 13px;
+    color: #A3410F;
+    background: #FFFFFF;
+    border: 1px solid #F0C9A0;
+    border-radius: 8px;
+    padding: 8px 16px;
+    min-height: 44px;
+    cursor: pointer;
+  }
+
+  /* ---- month chart ---- */
+  .chart-card {
+    background: #FFFFFF;
+    border: 1px solid #E7DCCB;
+    border-radius: 16px;
+    padding: 22px 18px 16px;
+    margin-bottom: 26px;
+  }
+  .chart-card h2 {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .chart-card .hint {
+    font-size: 12px;
+    color: #66707F;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .chart { display: flex; align-items: flex-end; gap: 4px; }
+  .mcol {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 6px 0 4px;
+    min-height: 44px;
+    cursor: pointer;
+  }
+  .mcol.on { border-color: #F0C9A0; background: #FFF9F0; }
+  .bars { display: flex; align-items: flex-end; gap: 3px; height: 110px; width: 100%; justify-content: center; }
+  .bfix, .bplan { width: 12px; border-radius: 3px 3px 0 0; }
+  .bfix { background: #C9BEB2; }
+  .bplan { background: #F7931E; }
+  .mlabel { font-size: 12px; color: #5E5048; }
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #5E5048;
+    flex-wrap: wrap;
+  }
+  .legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+
+  /* ---- long-run stats ---- */
+  .stats { display: flex; gap: 14px; flex-wrap: wrap; }
+  .stat {
+    flex: 1 1 220px;
+    background: #FFFFFF;
+    border: 1px solid #E7DCCB;
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .stat .v { font-size: 30px; font-weight: 700; color: #15120F; }
+  .stat .v strong { color: #A3410F; }
+  .stat .t { font-size: 13px; margin-top: 6px; color: #15120F; }
+  .stat .m { font-size: 12px; margin-top: 4px; color: #66707F; }
+
+  /* ---- footer ---- */
+  footer { text-align: center; margin-top: 34px; }
+  .links a {
+    color: #A3410F;
+    font-size: 14px;
+    text-decoration: none;
+    border: 1px solid #F0C9A0;
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: inline-block;
+    margin: 4px 6px;
+    min-height: 44px;
+  }
+  .prov { font-size: 12px; color: #66707F; margin-top: 16px; }
+
+  @media (max-width: 560px) {
+    .hero .big { font-size: 44px; }
+    .bfix, .bplan { width: 8px; }
+    .bars { gap: 2px; height: 80px; }
+    .chart { gap: 2px; }
+    .chart-card { padding: 22px 10px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="brand">Watt<strong>Wise</strong></div>
+    <span class="chip">City of Elmina · modelled</span>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="label" id="heroLabel">Solar kept this year</div>
+    <div class="big" id="heroBig">…</div>
+    <div class="sub" id="heroSub"></div>
+    <div class="note" id="heroNote"></div>
+    <button class="reset" id="resetBtn" type="button">Show the whole year</button>
+  </section>
+
+  <section class="chart-card">
+    <h2>Given away, month by month</h2>
+    <div class="hint">Tap a month to see what WattWise kept that month</div>
+    <div class="chart" id="chart" role="group" aria-label="Solar given away each month, fixed split versus WattWise"></div>
+    <div class="legend">
+      <span><span class="sw" style="background:#C9BEB2"></span>Fixed split</span>
+      <span><span class="sw" style="background:#F7931E"></span>WattWise</span>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="v" id="stat1">…</div>
+      <div class="t">MWh a year kept from being given away, Elmina size</div>
+      <div class="m">modelled from 407 real buyer pairs</div>
+    </div>
+    <div class="stat">
+      <div class="v" id="stat2">…</div>
+      <div class="t">more income per roof, every year</div>
+      <div class="m">modelled · the CREAM price is private</div>
+    </div>
+    <div class="stat">
+      <div class="v" id="stat3">…</div>
+      <div class="t">of buyer pairs give away less than a fixed split</div>
+      <div class="m">measured on real meters</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="links">
+      <a href="admin.html">Operator app</a>
+      <a href="tests.html">Testing suite</a>
+    </div>
+    <div class="prov">Real meters: 821 buildings (BDG2) · rooftop solar: PVGIS at Elmina · every number re-runnable</div>
+  </footer>
+
+</div>
+
+<script>
+var PLAN = null;          // fetched data/plan.json, the only source of numbers
+var selected = null;      // null = whole year, else month index 0-11
+
+// ---- format helpers: numbers come from plan.json, only shaped here ----
+function fmt(n) { return Math.round(n).toLocaleString("en-MY"); }
+
+// ---- hero: whole year, or one tapped month ----
+function renderHero() {
+  var s = PLAN.settlement;
+  var label = document.getElementById("heroLabel");
+  var big = document.getElementById("heroBig");
+  var sub = document.getElementById("heroSub");
+  var note = document.getElementById("heroNote");
+  var reset = document.getElementById("resetBtn");
+  if (selected === null) {
+    label.textContent = "Solar kept this year";
+    var E = PLAN.elmina;   // same basis as the pitch deck: median real buyer pair at Elmina size
+    big.innerHTML = fmt(E.kept_mwh) + " <small>MWh</small>";
+    var lo = fmt(E.gain_rm_by_price_sen["30"]);
+    var hi = fmt(E.gain_rm_by_price_sen["20"]);
+    sub.textContent = "worth RM " + lo + " to " + hi + " a year, sold or matched instead of given away";
+    note.textContent = "modelled · typical buyer pair at Elmina size · 20 to 30 sen/kWh, the CREAM price is private";
+    reset.style.display = "none";
+  } else {
+    var m = selected;
+    var kept = s.fixed[m] - s.plan[m];
+    label.textContent = s.months[m] + ": solar kept that month";
+    big.innerHTML = fmt(kept) + " <small>MWh</small>";
+    sub.textContent = "a fixed split gave away " + fmt(s.fixed[m]) +
+      " MWh, WattWise gave away " + fmt(s.plan[m]) +
+      " MWh and sold " + fmt(s.neda[m]) + " MWh of hold-back through NEDA";
+    note.textContent = "modelled · replay of a real pair of buyers";
+    reset.style.display = "inline-block";
+  }
+}
+
+// ---- chart: one column per month, two bars each ----
+function renderChart() {
+  var s = PLAN.settlement;
+  var maxv = Math.max.apply(null, s.fixed);
+  var chart = document.getElementById("chart");
+  chart.innerHTML = "";
+  s.months.forEach(function (name, i) {
+    var col = document.createElement("button");
+    col.type = "button";
+    col.className = "mcol" + (selected === i ? " on" : "");
+    col.setAttribute("aria-pressed", selected === i ? "true" : "false");
+    col.setAttribute("aria-label", name + ": fixed split gave away " +
+      fmt(s.fixed[i]) + " MWh, WattWise " + fmt(s.plan[i]) + " MWh");
+    var bars = document.createElement("div");
+    bars.className = "bars";
+    var bf = document.createElement("div");
+    bf.className = "bfix";
+    bf.style.height = Math.max(4, (s.fixed[i] / maxv) * 100) + "px";
+    var bp = document.createElement("div");
+    bp.className = "bplan";
+    bp.style.height = Math.max(4, (s.plan[i] / maxv) * 100) + "px";
+    bars.appendChild(bf);
+    bars.appendChild(bp);
+    var lab = document.createElement("div");
+    lab.className = "mlabel";
+    lab.textContent = name.slice(0, 1);
+    col.appendChild(bars);
+    col.appendChild(lab);
+    col.addEventListener("click", function () {
+      selected = (selected === i) ? null : i;
+      renderHero();
+      renderChart();
+    });
+    chart.appendChild(col);
+  });
+}
+
+// ---- stats strip: verbatim strings from the facts block ----
+function renderStats() {
+  var f = PLAN.facts;
+  document.getElementById("stat1").textContent = f.el_kept;
+  document.getElementById("stat2").textContent = f.el_roof_30 + " to " + f.el_roof_20;
+  document.getElementById("stat3").textContent = f.two_less_fixed;
+}
+
+document.getElementById("resetBtn").addEventListener("click", function () {
+  selected = null;
+  renderHero();
+  renderChart();
+});
+
+// ---- boot: auto-load, first render is fully populated ----
+fetch("data/plan.json").then(function (r) { return r.json(); }).then(function (d) {
+  PLAN = d;
+  renderHero();
+  renderChart();
+  renderStats();
+});
+</script>
+</body>
+</html>
