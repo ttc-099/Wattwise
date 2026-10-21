@@ -65,7 +65,7 @@ Honest limits: the extra income shrinks as the CREAM price rises, and above abou
 | ![Appendix B](screenshots/testing-3-appendix-b-money.png) **Appendix B.** The money, step by step, at the assumed price band. | ![Watch the replay run](screenshots/testing-4-watch-the-replay-run.png) **Watch the replay run.** Step one real scheme through the code month by month: the lit lines of `replay.py`, the numbers going in, and a graph of each step. |
 | ![All schemes](screenshots/testing-5-all-schemes-median.png) **All schemes.** The last step adds up every real scheme into the headline median. | |
 
-Appendix A tests fixed vs WattWise across the 407 two-buyer schemes (with one shown month by month at Elmina size), B the income, C whether a scheme can be built 20% larger, and D dynamic splitting against fixed and copy-last-year across the 821 buildings.
+Every appendix has a **Test it yourself** panel: paste your own buyers' monthly use (Appendix A), or choose the number of houses, buyers, CREAM price, hold-back and scheme size (B, C, D), and the replay runs on your inputs in the browser. Appendix A tests fixed vs WattWise across the 407 two-buyer schemes (with one shown month by month at Elmina size), B the income, C whether a scheme can be built 20% larger, and D dynamic splitting against fixed and copy-last-year across the 821 buildings.
 
 ## Repository layout
 

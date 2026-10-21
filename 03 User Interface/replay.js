@@ -257,6 +257,60 @@ var WWReplay = (function () {
              scaled: sum(rawPlan) > 1 - P.holdBack, fixed: settle(fixedSh), plan: settle(planSh), price: price, P: P };
   }
 
+  // ---------- interactive testers (testing suite): any group size, price, hold-back, scheme size, or your own buyers
+  function withOpts(opts) {
+    var P = {}, k;
+    for (k in DEFAULTS) P[k] = DEFAULTS[k];
+    for (k in (opts || {})) P[k] = opts[k];
+    return P;
+  }
+  function prepare(inp) {
+    if (inp._prep) return inp._prep;
+    var good = {}, bySite = {};
+    Object.keys(inp.use).sort().forEach(function (b) { var v = eligible(inp.use[b]); if (v !== null && inp.meta[b]) good[b] = v; });
+    Object.keys(good).sort().forEach(function (b) { (bySite[inp.meta[b].site_id] = bySite[inp.meta[b].site_id] || []).push(b); });
+    inp._prep = { good: good, bySite: bySite };
+    return inp._prep;
+  }
+  // medians over real schemes of n buyers (same-site buildings in id order); opts: price (RM/kWh), ratio, holdBack, neda, cac
+  function benchN(inp, n, opts, sites) {
+    var P = withOpts(opts), prep = prepare(inp), price = P.price || 0.25, ratio = P.ratio || 1.0;
+    P.prices = P.priceList || [price]; P.oversize = P.ratioList || (ratio === 1.0 ? [] : [ratio]);
+    var groups = [];
+    Object.keys(prep.bySite).sort().forEach(function (site) {
+      if (sites && sites.indexOf(site) < 0) return;
+      var bs = prep.bySite[site];
+      for (var i = 0; i + n <= bs.length; i += n) groups.push(bs.slice(i, i + n));
+    });
+    if (!groups.length) return null;
+    var scores = groups.map(function (g) { return score(g.map(function (b) { return prep.good[b]; }), inp.pv, P); });
+    var out = summarise(scores, P), key = priceKey(price);
+    out.price_key = key;
+    out.gain_fixed = out.plan_gain_vs_fixed_rm_per_mwh_median[key];
+    out.gain_copy = out.plan_gain_vs_copy_rm_per_mwh_median[key];
+    out.income_fixed = out.fixed_income_rm_per_mwh_median[key];
+    out.earns_more_pct = out.plan_earns_more_than_fixed_pct[key];
+    out.n_groups = groups.length;
+    out.oversize_result = ratio === 1.0 ? null : out.oversize[String(ratio)];
+    out.prices = P.prices;
+    return out;
+  }
+  // a scheme built from the user's own buyers: loadsMWh[b] = 24 monthly MWh (Jan 2016 .. Dec 2017)
+  function customScheme(loadsMWh, pv, opts) {
+    var P = withOpts(opts), price = P.price || 0.25, ratio = P.ratio || 1.0;
+    var loads = loadsMWh.map(function (u) { return u.map(function (v) { return v * 1000; }); });
+    var rs = runScheme(loads, pv, ratio, P), kwp = rs[0], res = rs[1], months = [];
+    for (var i = 0; i < 12; i++) {
+      var t = 12 + i;
+      months.push({ month: MON[i], solar: res.fixed[0][i].solar, fixed_given: res.fixed[0][i].given, plan_given: res.plan[0][i].given, copy_given: res.copy[0][i].given,
+        plan_neda: res.plan[0][i].neda, plan_shares: res.plan[0][i].shares,
+        estimates: loads.map(function (u) { return estimate(u, t, P)[0]; }), actual: loads.map(function (u) { return u[t]; }) });
+    }
+    var money = {};
+    ["fixed", "copy", "plan"].forEach(function (p) { money[p] = revenue(res[p][1], price, P); });
+    return { P: P, kwp: kwp, res: res, months: months, money: money, price: price };
+  }
+
   // ---------- run everything
   function build(inp, opts) {
     var P = {}, k;
@@ -327,6 +381,6 @@ var WWReplay = (function () {
     return f;
   }
 
-  return { load: load, build: build, facts: facts, exampleYear: exampleYear, trace: trace, scaleLoads: scaleLoads, revenue: revenue, fmt: pyFixed, DEFAULTS: DEFAULTS, MON: MON };
+  return { load: load, build: build, benchN: benchN, customScheme: customScheme, prepare: prepare, estimate: estimate, facts: facts, exampleYear: exampleYear, trace: trace, scaleLoads: scaleLoads, revenue: revenue, fmt: pyFixed, DEFAULTS: DEFAULTS, MON: MON };
 })();
 if (typeof module !== "undefined") module.exports = WWReplay;
