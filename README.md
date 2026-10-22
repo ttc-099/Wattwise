@@ -2,11 +2,16 @@
 
 WattWise is software that tells Sime Darby Property (SDP) how to share its residents' rooftop solar between the buildings that buy it, four months ahead. It is Team Promax's entry to the Sime Darby Hackathon 2026, "Township of Tomorrow".
 
-The pitch deck is in this folder: [WattWise Pitch Deck.pdf](WattWise%20Pitch%20Deck.pdf) (editable: [WattWise Pitch Deck (final).pptx](WattWise%20Pitch%20Deck%20%28final%29.pptx)).
+## Start here
 
-**Live demo:** [wattwise-promax.netlify.app](https://wattwise-promax.netlify.app) (operator app and testing suite, demo data only).
+| | |
+|---|---|
+| **Live demo** | [wattwise-promax.netlify.app](https://wattwise-promax.netlify.app): the operator app and the testing suite (demo data only) |
+| **Pitch deck** | [WattWise Pitch Deck.pdf](00%20Documents/WattWise%20Pitch%20Deck.pdf) (editable: [.pptx](00%20Documents/WattWise%20Pitch%20Deck%20%28final%29.pptx)) |
+| **Check our numbers** | the [testing suite](https://wattwise-promax.netlify.app/tests.html): Appendices A to D, each with a "Test it yourself" panel and a button that re-runs the replay in your browser |
+| **Re-run from the code** | `python replay.py` in `02 Scheduler Module` (standard Python, about a second) |
 
-![Landing page](screenshots/0-landing.png)
+![Landing page](00%20Documents/screenshots/0-landing.png)
 
 ## The problem
 
@@ -28,7 +33,7 @@ Replayed on real meter readings from 821 buildings, a fixed yearly split gives a
 
 ## Results
 
-One command rebuilds every number below, on the deck and on both web pages: `python replay.py` in `02 Scheduler Module` (standard Python, about a second; `--check` confirms the committed results match). Judges without Python can press **Re-run the replay** in Appendix A of the testing suite: the same rules, ported line for line to `03 User Interface/replay.js`, run in the browser on the same inputs and check every quoted figure. Inputs are public and committed: real monthly electricity from the Building Data Genome Project 2 and rooftop solar at Elmina from PVGIS. How each figure is derived: [docs/evidence-provenance.md](../docs/evidence-provenance.md).
+One command rebuilds every number below, on the deck and on both web pages: `python replay.py` in `02 Scheduler Module` (standard Python, about a second; `--check` confirms the committed results match). Judges without Python can press **Re-run the replay** in Appendix A of the testing suite: the same rules, ported line for line to `03 User Interface/replay.js`, run in the browser on the same inputs and check every quoted figure. Inputs are public and committed: real monthly electricity from the Building Data Genome Project 2 and rooftop solar at Elmina from PVGIS. How each figure is derived: [docs/evidence-provenance.md](docs/evidence-provenance.md).
 
 | Result | Figure | Basis |
 |---|---|---|
@@ -38,7 +43,7 @@ One command rebuilds every number below, on the deck and on both web pages: `pyt
 | Gives away less than copy-last-year | 83.3% of two-buyer schemes (77.2% one-buyer) | measured |
 | Scheme built 1.2x larger | WattWise gives away 2.17%, below a fixed split's 6.05% today; no worse in 94.6% of schemes | measured |
 | Estimate error | median month 7.9%; a buyer's worst month 22.4% (median) | measured |
-| Elmina size (9,409 MWh a year, 6,840 kWp, 1,368 roofs) | 443 MWh a year kept from being given away | benchmark medians applied to the assumed size |
+| Elmina size (9,409 MWh a year, 6,840 kWp, 1,368 roofs) | 443 MWh a year kept from being given away, about 328 tonnes of CO₂e at 0.740 tCO₂e/MWh (Energy Commission, 2026) | benchmark medians applied to the assumed size |
 | Extra scheme income, Elmina size | RM24,600 to RM60,400 a year at 30 to 20 sen/kWh; RM18 to RM44 per roof | modelled; the real CREAM price is private, and below 17 sen NEDA beats selling to a buyer |
 | Floor case: Innovation Park alone | RM6,000 to RM16,100 a year at 30 to 20 sen/kWh | modelled |
 | SDP's 6,000-roof pilot target (41,265 MWh a year, 2 buyers assumed) | RM108k to RM265k a year, 1.4% to 6.6% of scheme income after the access charge | modelled; before roof-lease payments, costs and tax. The number of roofs signed up is not public |
@@ -51,9 +56,9 @@ Honest limits: the extra income shrinks as the CREAM price rises, and above abou
 
 | | |
 |---|---|
-| ![Home](screenshots/prototype-1-home.png) **Home.** What the admin has to do next, and the notice deadline. | ![Allocations](screenshots/prototype-2-allocations.png) **Allocations.** Each month on a five-step line, with its 120-day notice deadline. |
-| ![Engine](screenshots/prototype-3-estimation-engine.png) **Engine.** Same month last year times trend, per buyer, with the hold-back. | ![Notice preview](screenshots/prototype-4-notice-preview.png) **Notice preview.** The email and PDF each buyer would receive, shown before anything is sent. |
-| ![Settlements](screenshots/prototype-5-settlements.png) **Settlements.** A month allocated against what was used. | ![Homes map](screenshots/prototype-6-homes-map.png) **Homes.** CREAM homes on the neighbourhood plan; click one to see its modelled solar. |
+| ![Home](00%20Documents/screenshots/prototype-1-home.png) **Home.** What the admin has to do next, and the notice deadline. | ![Allocations](00%20Documents/screenshots/prototype-2-allocations.png) **Allocations.** Each month on a five-step line, with its 120-day notice deadline. |
+| ![Engine](00%20Documents/screenshots/prototype-3-estimation-engine.png) **Engine.** Same month last year times trend, per buyer, with the hold-back. | ![Notice preview](00%20Documents/screenshots/prototype-4-notice-preview.png) **Notice preview.** The email and PDF each buyer would receive, shown before anything is sent. |
+| ![Settlements](00%20Documents/screenshots/prototype-5-settlements.png) **Settlements.** A month allocated against what was used. | ![Homes map](00%20Documents/screenshots/prototype-6-homes-map.png) **Homes.** CREAM homes on the neighbourhood plan; click one to see its modelled solar. |
 
 ## The testing suite (for judges)
 
@@ -61,15 +66,15 @@ Honest limits: the extra income shrinks as the CREAM price rises, and above abou
 
 | | |
 |---|---|
-| ![Home](screenshots/testing-1-home.png) **Start here.** The headline result and the four appendices. | ![How the estimate works](screenshots/testing-2-how-the-estimate-works.png) **How the estimate works.** A live worked example: estimate, share, hold-back, settle. |
-| ![Appendix B](screenshots/testing-3-appendix-b-money.png) **Appendix B.** The money, step by step, at the assumed price band. | ![Watch the replay run](screenshots/testing-4-watch-the-replay-run.png) **Watch the replay run.** Step one real scheme through the code month by month: the lit lines of `replay.py`, the numbers going in, and a graph of each step. |
-| ![All schemes](screenshots/testing-5-all-schemes-median.png) **All schemes.** The last step adds up every real scheme into the headline median. | |
+| ![Home](00%20Documents/screenshots/testing-1-home.png) **Start here.** The headline result and the four appendices. | ![How the estimate works](00%20Documents/screenshots/testing-2-how-the-estimate-works.png) **How the estimate works.** A live worked example: estimate, share, hold-back, settle. |
+| ![Appendix B](00%20Documents/screenshots/testing-3-appendix-b-money.png) **Appendix B.** The money, step by step, at the assumed price band. | ![Watch the replay run](00%20Documents/screenshots/testing-4-watch-the-replay-run.png) **Watch the replay run.** Step one real scheme through the code month by month: the lit lines of `replay.py`, the numbers going in, and a graph of each step. |
+| ![All schemes](00%20Documents/screenshots/testing-5-all-schemes-median.png) **All schemes.** The last step adds up every real scheme into the headline median. | |
 
 Every appendix has a **Test it yourself** panel: paste your own buyers' monthly use (Appendix A), or choose the number of houses, buyers, CREAM price, hold-back and scheme size (B, C, D), and the replay runs on your inputs in the browser. Appendix A tests fixed vs WattWise across the 407 two-buyer schemes (with one shown month by month at Elmina size), B the income, C whether a scheme can be built 20% larger, and D dynamic splitting against fixed and copy-last-year across the 821 buildings.
 
 ## Repository layout
 
-- `00 Documents/`: this README, the pitch deck, screenshots, and the documentation log
+- `00 Documents/`: the pitch deck (PDF and editable PPTX), the screenshots used here, and the documentation log
 - `01 Prediction Module/`, `04 Physical Kit/`: earlier building-side experiments, not part of WattWise
 - `02 Scheduler Module/`: `replay.py` (every number), `build_inputs.py`, the committed inputs in `data/` and the results in `results/`
 - `03 User Interface/`: `admin.html` (prototype), `tests.html` (testing suite), `PRODUCT.md` and `DESIGN.md`
