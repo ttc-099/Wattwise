@@ -348,11 +348,11 @@ var WWReplay = (function () {
     var f = { n_buildings: comma(b.buildings), n_sites: String(b.sites), hold_back: pc(r.rules.hold_back * 100, 0), pvgis_yield: comma(pyRound(r.rules.pvgis_kwh_per_kwp_year)) };
     [["one", b.one_buyer], ["two", b.two_buyer], ["hot1", b.hot_humid_one_buyer], ["hot2", b.hot_humid_two_buyer]].forEach(function (q) {
       var k = q[0], x = q[1], g = x.given_away_median_pct;
-      f[k + "_n"] = comma(x.n); f[k + "_fixed"] = pc(g.fixed); f[k + "_copy"] = pc(g.copy_last_year); f[k + "_plan"] = pc(g.plan);
+      f[k + "_n"] = comma(x.n); f[k + "_cut"] = pc((g.fixed - g.plan) / g.fixed * 100, 0); f[k + "_fixed"] = pc(g.fixed); f[k + "_copy"] = pc(g.copy_last_year); f[k + "_plan"] = pc(g.plan);
       f[k + "_fixed_p90"] = pc(x.given_away_p90_pct.fixed); f[k + "_plan_p90"] = pc(x.given_away_p90_pct.plan);
       f[k + "_less_fixed"] = pc(x.plan_gives_away_less_than_fixed_pct, 1); f[k + "_less_copy"] = pc(x.plan_gives_away_less_than_copy_pct, 1);
       f[k + "_earns_15"] = pc(x.plan_earns_more_than_fixed_pct["15"], 1); f[k + "_earns_20"] = pc(x.plan_earns_more_than_fixed_pct["20"], 1); f[k + "_earns_30"] = pc(x.plan_earns_more_than_fixed_pct["30"], 1);
-      f[k + "_gain_15"] = rmx(x.plan_gain_vs_fixed_rm_per_mwh_median["15"]); f[k + "_gain_30"] = rmx(x.plan_gain_vs_fixed_rm_per_mwh_median["30"]);
+      f[k + "_gain_20"] = rmx(x.plan_gain_vs_fixed_rm_per_mwh_median["20"]); f[k + "_gain_15"] = rmx(x.plan_gain_vs_fixed_rm_per_mwh_median["15"]); f[k + "_gain_30"] = rmx(x.plan_gain_vs_fixed_rm_per_mwh_median["30"]);
       f[k + "_gcopy_15"] = rmx(x.plan_gain_vs_copy_rm_per_mwh_median["15"]); f[k + "_gcopy_30"] = rmx(x.plan_gain_vs_copy_rm_per_mwh_median["30"]);
       f[k + "_err_med"] = pc(x.estimate_error_pct.median_month, 1); f[k + "_err_worst"] = pc(x.estimate_error_pct.worst_month_median, 1);
       r.P.oversize.forEach(function (ratio) {
@@ -370,6 +370,9 @@ var WWReplay = (function () {
     var sc = e.scale, rk = function (x) { return "RM" + pyRound(x / 1000) + "k"; }, rmm = function (x) { return "RM" + pyFixed(x / 1e6, 1) + "M"; };
     f.sc_roofs = comma(sc.roofs); f.sc_mwh = comma(sc.solar_mwh); f.sc_kwp = comma(sc.scheme_kwp);
     ["15", "20", "25", "30"].forEach(function (p) { f["sc_gain_" + p] = rk(sc.gain_rm_by_price_sen[p]); f["sc_inc_" + p] = rmm(sc.fixed_split_income_rm_by_price_sen[p]); f["sc_pct_" + p] = pc(sc.gain_pct_of_income_by_price_sen[p], 1); });
+    // grid emission factor, Peninsular Malaysia 2024 (provisional), tCO2e/MWh: Energy Commission (2026); same constant as GEF_TCO2_PER_MWH in replay.py
+    var GEF = 0.740, scKept = sc.solar_mwh * (b.two_buyer.given_away_median_pct.fixed - b.two_buyer.given_away_median_pct.plan) / 100;
+    f.gef = pyFixed(GEF, 3); f.el_co2 = comma(pyRound(core.kept_mwh * GEF)); f.sc_kept = comma(pyRound(scKept)); f.sc_co2 = comma(pyRound(scKept * GEF));
     f.two_o12_neda = pc(b.two_buyer.oversize["1.2"].extra_solar_to_neda_pct, 0);
     var t = ex.totals_mwh;
     f.ex_buildings = ex.buildings.join(" and "); f.ex_kwp = comma(ex.scheme_kwp); f.ex_solar = comma1(t.fixed.solar);
