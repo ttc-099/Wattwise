@@ -417,7 +417,7 @@
       <button class="apx" data-go="a">
         <span class="tag" aria-label="Appendix A">A</span>
         <span><div class="q">Does it really reduce solar giveaway?</div>
-        <div class="d">Fixed split vs WattWise across <span data-v="two_n">407</span> real two-buyer schemes, and one of them month by month at Elmina's size.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        <div class="d">Fixed split vs WattWise across <span data-v="two_n">407</span> real two-buyer schemes, and one of them month by month, scaled to the 1,368-roof Elmina example.</div></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
       </button>
       <button class="apx" data-go="b">
         <span class="tag" aria-label="Appendix B">B</span>
@@ -529,7 +529,7 @@
           <div class="calc-out" id="hw-settle" aria-live="polite"></div>
         </div>
         <div class="hw-bar settle" id="hw-settle-bar" aria-hidden="true"></div>
-        <p class="note">Illustrative numbers. In the replay, a real two-buyer scheme at Elmina's size gave away <span data-v="ex_fixed">557.3</span> MWh in a year under a fixed split and <span data-v="ex_plan">132.0</span> MWh under WattWise; <a href="#" data-go="a">Appendix A</a> shows every month. Each settled month also feeds the next estimate: new readings arrive and the basis moves forward a month.</p>
+        <p class="note">Illustrative numbers. In the replay, a real two-buyer scheme, scaled to the 1,368-roof Elmina example, gave away <span data-v="ex_fixed">557.3</span> MWh in a year under a fixed split and <span data-v="ex_plan">132.0</span> MWh under WattWise; <a href="#" data-go="a">Appendix A</a> shows every month. Each settled month also feeds the next estimate: new readings arrive and the basis moves forward a month.</p>
       </div>
     </section>
 
@@ -566,7 +566,7 @@
     <div class="ctr">
       <div class="row"><b>CLAIM</b><span>WattWise gives away less solar than a fixed split.</span></div>
       <div class="row"><b>TEST</b><span>Replay 2017 for all <span data-v="two_n">407</span> real two-buyer schemes under a fixed split and under WattWise: same buyers, same solar <span class="cite">(Miller et al., 2020; WattWise, 2026)</span>. Below, the scheme closest to the median result, scaled to Elmina's size, every month.</span></div>
-      <div class="row"><b>RESULT</b><span>Median give-away falls from <span data-v="two_fixed">6.05%</span> to <span data-v="two_plan">1.34%</span> of the year's solar. At Elmina's size (<span data-v="el_mwh">9,409</span> MWh a year) that is <span data-v="el_kept">443</span> MWh a year no longer given away <span class="mod">(modelled)</span>. At the Peninsular grid's <span data-v="gef">0.740</span> tCO&#8322;e/MWh <span class="cite">(Energy Commission, 2026)</span> that is about <span data-v="el_co2">328</span> tonnes of CO&#8322;e a year, or about <span data-v="sc_co2">1,438</span> tonnes at the 6,000-roof target (<span data-v="sc_kept">1,944</span> MWh a year kept).</span></div>
+      <div class="row"><b>RESULT</b><span>Median give-away falls from <span data-v="two_fixed">6.05%</span> to <span data-v="two_plan">1.34%</span> of the year's solar. For the 1,368-roof Elmina example (<span data-v="el_mwh">9,409</span> MWh a year, 2 assumed buyers) that is <span data-v="el_kept">443</span> MWh a year no longer given away <span class="mod">(modelled)</span>. At the Peninsular grid's <span data-v="gef">0.740</span> tCO&#8322;e/MWh <span class="cite">(Energy Commission, 2026)</span> that is about <span data-v="el_co2">328</span> tonnes of CO&#8322;e a year, or about <span data-v="sc_co2">1,438</span> tonnes at the 6,000-roof target (<span data-v="sc_kept">1,944</span> MWh a year kept).</span></div>
       <div class="row verdict-row"><b>VERDICT</b><span>PASS &middot; WattWise gave away less than a fixed split in <span data-v="two_less_fixed">99.8%</span> of real two-buyer schemes.</span></div>
     </div>
     <h2>Median share of the year's solar given away</h2>
@@ -628,8 +628,8 @@
     <p class="note">The CREAM price is private, so every RM figure is modelled at an assumed 15, 20, 25 and 30 sen/kWh. Each figure is revenue(WattWise) &minus; revenue(fixed split) for the same year, where revenue = used kWh &times; price + NEDA kWh &times; 8 sen &minus; 9 sen &times; (solar &minus; NEDA kWh) <span class="cite">(Energy Commission, 2025, clauses 9.7, 9.9 and 13.2)</span>.</p>
     <div class="ctr">
       <div class="row"><b>CLAIM</b><span>WattWise adds to the scheme's income, which is SDP's as the aggregator. What homeowners earn from leasing their roofs is SDP's private deal <span class="cite">(Sime Darby Property, 2025)</span>.</span></div>
-      <div class="row"><b>TEST</b><span>Take the median extra income per MWh of solar across the <span data-v="two_n">407</span> real two-buyer schemes, apply it to Elmina's size (<span data-v="el_mwh">9,409</span> MWh a year), then divide across <span data-v="el_roofs">1,368</span> illustrative roofs.</span></div>
-      <div class="row"><b>RESULT</b><span>At the 20 to 30 sen price band: <span data-v="el_gain_30">RM24,600</span> (at 30 sen) to <span data-v="el_gain_20">RM60,400</span> (at 20 sen) a year at Elmina's modelled size, <span data-v="el_roof_30">RM18</span> to <span data-v="el_roof_20">RM44</span> per roof <span class="mod">(modelled)</span>; <span data-v="sc_gain_30">RM108k</span> to <span data-v="sc_gain_20">RM265k</span> at 6,000 roofs. WattWise earned more than a fixed split in <span data-v="two_earns_20">95.3%</span> of schemes at 20 sen, and <span data-v="two_earns_30">70.5%</span> at 30 sen.</span></div>
+      <div class="row"><b>TEST</b><span>Take the median extra income per MWh of solar across the <span data-v="two_n">407</span> real two-buyer schemes, apply it to the 1,368-roof Elmina example (<span data-v="el_mwh">9,409</span> MWh a year, 2 assumed buyers), then divide across <span data-v="el_roofs">1,368</span> illustrative roofs.</span></div>
+      <div class="row"><b>RESULT</b><span>At the 20 to 30 sen price band: <span data-v="el_gain_30">RM24,600</span> (at 30 sen) to <span data-v="el_gain_20">RM60,400</span> (at 20 sen) a year for the 1,368-roof Elmina example (2 assumed buyers), <span data-v="el_roof_30">RM18</span> to <span data-v="el_roof_20">RM44</span> per roof <span class="mod">(modelled)</span>; <span data-v="sc_gain_30">RM108k</span> to <span data-v="sc_gain_20">RM265k</span> at 6,000 roofs. WattWise earned more than a fixed split in <span data-v="two_earns_20">95.3%</span> of schemes at 20 sen, and <span data-v="two_earns_30">70.5%</span> at 30 sen.</span></div>
       <div class="row verdict-row"><b>VERDICT</b><span>PASS, WITH CAVEATS &middot; real but modest per roof, and smaller the higher the CREAM price. Lease terms are negotiated, not set by this tool.</span></div>
     </div>
     <div class="card">
@@ -637,7 +637,7 @@
       <table>
         <tr><th>Step</th><th class="num">Value</th><th>Basis</th></tr>
         <tr><td>Extra income per MWh</td><td class="num"><span data-v="two_gain_30">RM2.61</span>&ndash;<span data-v="two_gain_20">RM6.42</span></td><td>median of <span data-v="two_n">407</span> real two-buyer schemes, at 30 and 20 sen; the same rate applies to any amount of solar</td></tr>
-        <tr><td>Elmina size</td><td class="num"><span data-v="el_mwh">9,409</span> MWh/yr</td><td>assumed use: Innovation Park 2,626 + Lakeside Mall 6,783 MWh <span class="mod">(assumption)</span></td></tr>
+        <tr><td>Elmina example (1,368 roofs)</td><td class="num"><span data-v="el_mwh">9,409</span> MWh/yr</td><td>assumed use: Innovation Park 2,626 + Lakeside Mall 6,783 MWh <span class="mod">(assumption)</span></td></tr>
         <tr><td>At 15 sen/kWh <span class="mod">(below the 17 sen break-even)</span></td><td class="num"><span data-v="el_gain_15">RM76,000</span>/yr</td><td rowspan="4">scheme income, WattWise minus fixed split</td></tr>
         <tr><td>At 20 sen/kWh</td><td class="num"><span data-v="el_gain_20">RM60,400</span>/yr</td></tr>
         <tr><td>At 25 sen/kWh</td><td class="num"><span data-v="el_gain_25">RM41,900</span>/yr</td></tr>
@@ -658,7 +658,7 @@
       </table></div>
       <p class="note">Below 17 sen (8 sen NEDA + 9 sen access charge) selling to a buyer is worth less than NEDA, which is why the table starts at 20 sen; at 15 sen the gain would be <span data-v="sc_gain_15">RM333k</span> on <span data-v="sc_inc_15">RM2.1M</span>, but 15 sen is an unlikely contract price. The gain also depends on SDP using a fixed yearly split today; against simply copying last year's month it is about <span data-v="two_gcopy_15">RM1.24</span> per MWh at 15 sen and <span data-v="two_gcopy_30">-RM1.39</span> at 30 sen.</p>
     </div>
-    <p class="note">No Elmina meter data is public, so these are benchmark medians applied to Elmina's assumed size, not measurements at Elmina. Lakeside Mall is a second buyer in our model only. Innovation Park is the announced buyer <span class="cite">(The Malaysian Reserve, 2025)</span>.</p>
+    <p class="note">No Elmina meter data is public, so these are benchmark medians applied to the assumed 1,368-roof Elmina example, not measurements at Elmina. Lakeside Mall is a second buyer in our model only. Innovation Park is the announced buyer <span class="cite">(The Malaysian Reserve, 2025)</span>.</p>
   </div>
 
   <!-- C: room for bigger schemes -->
@@ -994,7 +994,7 @@ function cdMonthlySteps(kind) {
       "Add the twelve months up: the fixed split gave away " + F.ex_fixed + " MWh, WattWise " + F.ex_plan + ". Across all " + F.two_n + " real two-buyer schemes the median fell from " + F.two_fixed + " to " + F.two_plan + "."]);
   } else {
     steps.push(["results", LN.res[0], LN.res[1], "Year total \u00b7 " + F.ex_kept + " MWh kept \u00b7 " + F.ex_neda + " MWh held back and sold via NEDA",
-      "The example kept " + F.ex_kept + " MWh from being given away and sold " + F.ex_neda + " MWh via NEDA. At Elmina's size the median scheme earns " + F.el_gain_30 + " to " + F.el_gain_15 + " a year more than a fixed split."]);
+      "The example kept " + F.ex_kept + " MWh from being given away and sold " + F.ex_neda + " MWh via NEDA. For the 1,368-roof Elmina example (2 assumed buyers) the median scheme earns " + F.el_gain_30 + " to " + F.el_gain_15 + " a year more than a fixed split."]);
   }
   return steps;
 }
@@ -1092,7 +1092,7 @@ document.querySelectorAll("[data-go]").forEach(function (el) {
     ["two_less_fixed", "WattWise gives away less than fixed"], ["two_less_copy", "WattWise gives away less than copy last year"],
     ["hot2_fixed", "Texas site, fixed split"], ["hot2_plan", "Texas site, WattWise"],
     ["two_o12_plan", "WattWise at 1.2x scheme size"], ["two_o12_nw", "1.2x no worse than fixed today"],
-    ["el_kept", "Elmina size: MWh a year kept"], ["el_gain_30", "Elmina size: extra income at 30 sen"], ["el_gain_15", "Elmina size: extra income at 15 sen"],
+    ["el_kept", "Elmina example: MWh a year kept"], ["el_gain_30", "Elmina example: extra income at 30 sen"], ["el_gain_15", "Elmina example: extra income at 15 sen"],
     ["ip_gain_30", "Innovation Park alone at 30 sen"], ["ip_gain_15", "Innovation Park alone at 15 sen"],
     ["two_err_med", "Estimate error, median month"], ["two_err_worst", "Estimate error, worst month"],
     ["ex_fixed", "Example year: given away, fixed (MWh)"], ["ex_plan", "Example year: given away, WattWise (MWh)"], ["ex_neda", "Example year: sold via NEDA (MWh)"]
@@ -1134,7 +1134,7 @@ document.querySelectorAll("[data-go]").forEach(function (el) {
     $("rr-try").innerHTML =
       "<div><b>" + WWReplay.fmt(two.given_away_median_pct.fixed, 2) + "% → " + WWReplay.fmt(two.given_away_median_pct.plan, 2) + "%</b><span>median given away, fixed → WattWise</span></div>" +
       "<div><b>" + two.plan_gives_away_less_than_fixed_pct + "%</b><span>of schemes give away less than fixed</span></div>" +
-      "<div><b>" + rm(g) + "</b><span>extra a year at Elmina size, at " + pr + " sen</span></div>" +
+      "<div><b>" + rm(g) + "</b><span>extra a year for the Elmina example, at " + pr + " sen</span></div>" +
       "<div><b>RM" + perRoof + "</b><span>per roof a year</span></div>" +
       "<div><b>" + two.plan_earns_more_than_fixed_pct[pr] + "%</b><span>of schemes earn more than fixed at " + pr + " sen</span></div>";
   }

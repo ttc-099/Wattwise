@@ -194,7 +194,7 @@
   <section class="stats">
     <div class="stat">
       <div class="v" id="stat1">…</div>
-      <div class="t">MWh a year kept from being given away, Elmina size</div>
+      <div class="t">MWh a year kept from being given away, for the 1,368-roof Elmina example (2 assumed buyers)</div>
       <div class="m">modelled from 407 real buyer pairs</div>
     </div>
     <div class="stat">
@@ -236,12 +236,12 @@ function renderHero() {
   var reset = document.getElementById("resetBtn");
   if (selected === null) {
     label.textContent = "Solar kept this year";
-    var E = PLAN.elmina;   // same basis as the pitch deck: median real buyer pair at Elmina size
+    var E = PLAN.elmina;   // same basis as the pitch deck: median real buyer pair, scaled to the 1,368-roof Elmina example
     big.innerHTML = fmt(E.kept_mwh) + " <small>MWh</small>";
     var lo = fmt(E.gain_rm_by_price_sen["30"]);
     var hi = fmt(E.gain_rm_by_price_sen["20"]);
     sub.textContent = "worth RM " + lo + " to " + hi + " a year, sold or matched instead of given away";
-    note.textContent = "modelled · typical buyer pair at Elmina size · 20 to 30 sen/kWh, the CREAM price is private";
+    note.textContent = "modelled · typical buyer pair, 1,368-roof Elmina example (2 assumed buyers) · 20 to 30 sen/kWh, the CREAM price is private";
     reset.style.display = "none";
   } else {
     var m = selected;

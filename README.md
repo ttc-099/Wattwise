@@ -43,8 +43,8 @@ One command rebuilds every number below, on the deck and on both web pages: `pyt
 | Gives away less than copy-last-year | 83.3% of two-buyer schemes (77.2% one-buyer) | measured |
 | Scheme built 1.2x larger | WattWise gives away 2.17%, below a fixed split's 6.05% today; no worse in 94.6% of schemes | measured |
 | Estimate error | median month 7.9%; a buyer's worst month 22.4% (median) | measured |
-| Elmina size (9,409 MWh a year, 6,840 kWp, 1,368 roofs) | 443 MWh a year kept from being given away, about 328 tonnes of CO₂e at 0.740 tCO₂e/MWh (Energy Commission, 2026) | benchmark medians applied to the assumed size |
-| Extra scheme income, Elmina size | RM24,600 to RM60,400 a year at 30 to 20 sen/kWh; RM18 to RM44 per roof | modelled; the real CREAM price is private, and below 17 sen NEDA beats selling to a buyer |
+| Elmina example (9,409 MWh a year, 6,840 kWp, 1,368 roofs; 2 assumed buyers: Innovation Park and Lakeside Mall) | 443 MWh a year kept from being given away, about 328 tonnes of CO₂e at 0.740 tCO₂e/MWh (Energy Commission, 2026) | benchmark medians applied to the assumed size |
+| Extra scheme income, Elmina example | RM24,600 to RM60,400 a year at 30 to 20 sen/kWh; RM18 to RM44 per roof | modelled; the real CREAM price is private, and below 17 sen NEDA beats selling to a buyer |
 | Floor case: Innovation Park alone | RM6,000 to RM16,100 a year at 30 to 20 sen/kWh | modelled |
 | SDP's 6,000-roof pilot target (41,265 MWh a year, 2 buyers assumed) | RM108k to RM265k a year, 1.4% to 6.6% of scheme income after the access charge | modelled; before roof-lease payments, costs and tax. The number of roofs signed up is not public |
 
@@ -70,7 +70,7 @@ Honest limits: the extra income shrinks as the CREAM price rises, and above abou
 | ![Appendix B](00%20Documents/screenshots/testing-3-appendix-b-money.png) **Appendix B.** The money, step by step, at the assumed price band. | ![Watch the replay run](00%20Documents/screenshots/testing-4-watch-the-replay-run.png) **Watch the replay run.** Step one real scheme through the code month by month: the lit lines of `replay.py`, the numbers going in, and a graph of each step. |
 | ![All schemes](00%20Documents/screenshots/testing-5-all-schemes-median.png) **All schemes.** The last step adds up every real scheme into the headline median. | |
 
-Every appendix has a **Test it yourself** panel: paste your own buyers' monthly use (Appendix A), or choose the number of houses, buyers, CREAM price, hold-back and scheme size (B, C, D), and the replay runs on your inputs in the browser. Appendix A tests fixed vs WattWise across the 407 two-buyer schemes (with one shown month by month at Elmina size), B the income, C whether a scheme can be built 20% larger, and D dynamic splitting against fixed and copy-last-year across the 821 buildings.
+Every appendix has a **Test it yourself** panel: paste your own buyers' monthly use (Appendix A), or choose the number of houses, buyers, CREAM price, hold-back and scheme size (B, C, D), and the replay runs on your inputs in the browser. Appendix A tests fixed vs WattWise across the 407 two-buyer schemes (with one shown month by month, scaled to the 1,368-roof Elmina example), B the income, C whether a scheme can be built 20% larger, and D dynamic splitting against fixed and copy-last-year across the 821 buildings.
 
 ## Repository layout
 

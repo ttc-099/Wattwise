@@ -53,7 +53,7 @@ for sen, target in (("30", ex["gain_rm_by_price_sen"]["30"]), ("20", ex["gain_rm
 
 v2017 = {
     "key": "y2017", "label": "2017",
-    "basis": "the real two-buyer scheme closest to the 407-scheme medians, scaled to the Elmina size",
+    "basis": "the real two-buyer scheme closest to the 407-scheme medians, scaled to the 1,368-roof Elmina example",
     "buildings": ex_ids,
     "months": [m["month"] for m in mon],
     "fixed": [m["given_away_fixed_mwh"] for m in mon],

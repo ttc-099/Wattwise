@@ -216,7 +216,7 @@ def summarise(scores):
 
 # ---------------------------------------------------------------- Elmina
 def example_year(loads, label_ids, pv):
-    """One real scheme, scaled to the Elmina size, month by month."""
+    """One real scheme, scaled to the 1,368-roof Elmina example, month by month."""
     total = sum(mwh for _, mwh in ELMINA_BUYERS) * 1000
     k = total / sum(sum(u[:12]) for u in loads)
     ls = [[v * k for v in u] for u in loads]
@@ -410,7 +410,7 @@ def ui_plan(r):
         "bench": [benchrow("One-buyer cases", b["one_buyer"]), benchrow("Buyer pairs", b["two_buyer"]),
                   benchrow("Hot-humid buyer pairs", b["hot_humid_two_buyer"])],
         "sources": {
-            "settlement": "02 Scheduler Module/replay.py: the real two-buyer scheme closest to the median result (%s), scaled to the Elmina size, PVGIS rooftop solar at Elmina, each month filed 120 days ahead (CREAM 9.10(e)), against a fixed annual split." % " + ".join(ex["buildings"]),
+            "settlement": "02 Scheduler Module/replay.py: the real two-buyer scheme closest to the median result (%s), scaled to the 1,368-roof Elmina example, PVGIS rooftop solar at Elmina, each month filed 120 days ahead (CREAM 9.10(e)), against a fixed annual split." % " + ".join(ex["buildings"]),
             "bench": "Building Data Genome Project 2 (Miller et al., 2020), real monthly electricity 2016-2017; PVGIS 5.2 rooftop solar at Elmina",
             "prices": "CREAM price assumed at 20-30 sen/kWh (15 sen is below the 17 sen NEDA break-even); not public (CREAM 6.16)",
             "neda": "held-back energy sold via NEDA at 8 sen/kWh, no access charge (CREAM 9.7, 13.2); its green attributes go to the Single Buyer (12.3)",
@@ -460,7 +460,7 @@ def main():
     b, c = r["benchmark"], r["elmina"]["core"]
     print("buildings %d, one-buyer %d, two-buyer %d" % (b["buildings"], b["one_buyer"]["n"], b["two_buyer"]["n"]))
     print("two-buyer median given away: fixed %(fixed)s%%, copy last year %(copy_last_year)s%%, WattWise %(plan)s%%" % b["two_buyer"]["given_away_median_pct"])
-    print("Elmina size: kept %s MWh a year, extra income RM%s (30 sen) to RM%s (20 sen)" % (c["kept_mwh"], c["gain_rm_by_price_sen"]["30"], c["gain_rm_by_price_sen"]["20"]))
+    print("Elmina example (1,368 roofs): kept %s MWh a year, extra income RM%s (30 sen) to RM%s (20 sen)" % (c["kept_mwh"], c["gain_rm_by_price_sen"]["30"], c["gain_rm_by_price_sen"]["20"]))
 
 
 if __name__ == "__main__":

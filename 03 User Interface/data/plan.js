@@ -382,7 +382,7 @@ window.PLAN_DATA = {
   }
  ],
  "sources": {
-  "settlement": "02 Scheduler Module/replay.py: the real two-buyer scheme closest to the median result (Bull_education_Sebastian + Bull_education_Stewart), scaled to the Elmina size, PVGIS rooftop solar at Elmina, each month filed 120 days ahead (CREAM 9.10(e)), against a fixed annual split.",
+  "settlement": "02 Scheduler Module/replay.py: the real two-buyer scheme closest to the median result (Bull_education_Sebastian + Bull_education_Stewart), scaled to the 1,368-roof Elmina example, PVGIS rooftop solar at Elmina, each month filed 120 days ahead (CREAM 9.10(e)), against a fixed annual split.",
   "bench": "Building Data Genome Project 2 (Miller et al., 2020), real monthly electricity 2016-2017; PVGIS 5.2 rooftop solar at Elmina",
   "prices": "CREAM price assumed at 20-30 sen/kWh (15 sen is below the 17 sen NEDA break-even); not public (CREAM 6.16)",
   "neda": "held-back energy sold via NEDA at 8 sen/kWh, no access charge (CREAM 9.7, 13.2); its green attributes go to the Single Buyer (12.3)",

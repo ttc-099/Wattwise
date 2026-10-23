@@ -1906,9 +1906,9 @@ function renderKept(v) {
   var keptYear = v.kept_mwh, yrSub = "solar matched or sold through NEDA instead of given away", worthSub = "at 20 to 30 sen/kWh; the CREAM price is private";
   var E = (!v.illustrative && typeof PLAN !== "undefined" && PLAN.elmina) || null;
   if (E) {
-    /* same basis as the pitch deck: median of the real buyer pairs, at the Elmina size */
+    /* same basis as the pitch deck: median of the real buyer pairs, for the 1,368-roof Elmina example */
     keptYear = E.kept_mwh; lo = fmt(E.gain_rm_by_price_sen["30"]); hi = fmt(E.gain_rm_by_price_sen["20"]);
-    yrSub = "typical buyer pair at Elmina size (median of 407 real pairs)"; worthSub = "extra income vs a fixed split, at 20 to 30 sen/kWh";
+    yrSub = "typical buyer pair, scaled to the 1,368-roof Elmina example, 2 assumed buyers (median of 407 real pairs)"; worthSub = "extra income vs a fixed split, at 20 to 30 sen/kWh";
   }
   var tag = v.illustrative ? "(modelled · illustrative)" : "(modelled)";
   document.getElementById("home-kept").innerHTML =
