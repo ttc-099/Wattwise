@@ -7,7 +7,7 @@ WattWise is software that tells Sime Darby Property (SDP) how to share its resid
 | | |
 |---|---|
 | **Live demo** | [wattwise-promax.netlify.app](https://wattwise-promax.netlify.app): the operator app and the testing suite (demo data only) |
-| **Pitch deck** | [WattWise Pitch Deck.pdf](00%20Documents/WattWise%20Pitch%20Deck.pdf) (editable: [.pptx](00%20Documents/WattWise%20Pitch%20Deck%20%28final%29.pptx)) |
+| **Pitch deck** | [WattWise Pitch Deck.pdf](00%20Documents/WattWise%20Pitch%20Deck.pdf) (editable: [.pptx](00%20Documents/WattWise%20Pitch%20Deck%20%28final%29_final.pptx)) |
 | **Check our numbers** | the [testing suite](https://wattwise-promax.netlify.app/tests.html): Appendices A to D, each with a "Test it yourself" panel and a button that re-runs the replay in your browser |
 | **Re-run from the code** | `python replay.py` in `02 Scheduler Module` (standard Python, about a second) |
 
